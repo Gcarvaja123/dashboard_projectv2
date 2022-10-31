@@ -1,0 +1,640 @@
+body {
+  font-family: "Lato", sans-serif;
+  background-color: #ededed;
+
+
+}
+
+.navbar-vertical.navbar-expand-xs{
+  height: 100%;
+}
+
+
+.grid-container {
+  display: grid;
+  /*grid-template-columns: auto auto auto;*/
+  gap: 10px;
+  padding: 15px;
+}
+
+#Brocales tablinkbrocales {
+  display: block;
+}
+
+.sidenav a {
+  padding: 6px 6px 6px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.main {
+  margin-left: 200px; /* Same as the width of the sidenav */
+}
+
+
+
+
+
+
+table, th, td {
+            background-color: white;
+            //border:solid 1px #CCC;
+            padding:1px 3px;
+            font:14px Tahoma;
+        }
+        th,td {
+            font-weight:bold;
+            background-color: white;
+            text-align: center;
+        }
+
+table {
+  border-spacing: 1;
+  border-collapse: collapse;
+  border-radius:6px; 
+  overflow-y: scroll;
+}
+
+.tabla{
+  overflow-y: scroll;
+}
+
+
+
+.form {
+  width: 400px;
+  height: 300px;
+}
+
+.Asistencia{
+  margin-left: 33px;
+  width: 90%;
+  background-color: white;
+}
+
+
+
+
+.formasistencia{
+  margin-left: 33px;
+}
+.selectasistencia{
+  margin-left: 33px;
+}
+
+#Asistencia > h2 {
+  margin-left: 33px
+}
+
+.selectmonth {
+  margin-left: 33px;
+}
+
+#chart-1{
+  width: 500 px;
+}
+
+#gridbrocales {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+#gridplanmatriz1 {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.grid-item {
+  text-align: center;
+}
+
+#gridbrocales table{
+  width: 100%;
+}
+
+
+.tablinkbrocalsub6, .tablinkbrocalsub7, .btnn {
+  background-color: #2bbb9a;
+  border-color: #4cae4c;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  margin-left: 15px;
+  color: #fff;
+}
+
+.btnn{
+  background-color: #2bbb9a;
+}
+
+.btnn:hover {
+  background-color:#008a6c;
+}
+.tablinkbrocalsub6:hover {
+  background-color:#008a6c;
+}
+.tablinkbrocalsub7:hover {
+  background-color:#008a6c;
+}
+
+#Brocales {
+  padding: 10px;
+}
+
+button{
+  background-color: #2bbb9a;
+  border-color: #4cae4c;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  margin-left: 15px;
+  color: #fff;
+  margin-top: 5px;
+}
+
+
+#Modalasistencia .modal-dialog{
+  width: 1400px;
+  max-width: 100%;
+  height: 1000px;
+}
+
+#Modalfiles .modal-dialog{
+  width: 1400px;
+  max-width: 100%;
+}
+
+#Modalmatriz .modal-dialog{
+  width: 1400px;
+  max-width: 100%;
+  height: 1000px;
+}
+
+#Modalbrocales .modal-dialog{
+  width: 1400px;
+  max-width: 100%;
+  height: 1000px;
+}
+
+
+.navbar-vertical.navbar-expand-xs {
+    display: block;
+    position: fixed;    
+    width: 100%;
+    height: 100%;
+    max-width: 10.625rem!important;
+    overflow-y: auto;
+    padding: 0;
+    box-shadow: none;
+    margin-top: 1rem!important;
+    margin-bottom: 1rem!important;
+}
+
+.ms-3{
+  margin-left: 0px;
+}
+
+
+.border-radius-xl {
+    border-radius: 0.75rem;
+}
+
+.sidenav-header {
+    height: 78px;
+    width: 140px;
+    margin-left: 15px;
+    margin-top: 10px;
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Codelco_logo.svg/320px-Codelco_logo.svg.png");
+    background-size: 140px 78px;
+}
+
+.sidenav-footer {
+  background-image: url("/imagenes/miesvec.png");
+  height: 78px;
+  width: 140px;
+  margin-left: 15px;
+  position: absolute;
+  bottom: 0;
+  background-size: 140px 78px;
+
+}
+
+.horizontal2{
+  margin-top: 40px;
+}
+
+#startDate{
+  margin-left: 10px;
+}
+
+
+.selectmonths {
+  width: 100%;
+  min-width: 15px;
+  max-width: 150px;
+  border: 1px solid var(--select-border);
+  border-radius: 0.25em;
+  padding: 0.25em 0.5em;
+  font-size: 1.25rem;
+  cursor: pointer;
+  line-height: 1.1;
+  background-color: #fff;
+  background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+}
+
+.grapheader, .graphfooter {
+  height: 50px;
+  background-color: white;
+}
+
+.grapheader div {
+  font-size: 20px;
+  text-align: left;
+  padding: 10px 30px;
+
+}
+
+.matrizheader {
+  height: 50px;
+  background-color: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+#acondicionado{
+  border-radius: 10px;
+}
+.graphfooter:hover{
+  background-color:#ededed;
+}
+
+.graphfooter div{
+  text-align: right;
+  padding: 15px 30px;
+  display: inline-block;
+  margin-left: 600px;
+
+}
+
+.matriz{
+  border-radius: 10px;
+}
+.graphsub6{
+  border-radius: 10px;
+}
+.graphsub7{
+  border-radius: 10px;
+}
+
+.graphr{
+  color: black;
+}
+
+hr{
+  margin: 0px;
+}
+
+.grapheader{
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.graphfooter{
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.bi{
+  text-align: right;
+}
+
+.selectmonths {
+  margin-left: 30px;
+  display: inline-block;
+}
+
+
+.btnn{
+  display: inline-block;
+}
+
+#gridplanmatriz1{
+  width: 99%;
+  margin-top: 20px;
+  background-color: white;
+  border-radius: 10px;
+  height: 450px;
+}
+
+/*------------------------------------------------------ Dashboard --------------------------------------------------------------------*/
+
+#planmatrizgrid{
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 10px;
+}
+
+#planmatrizgrid  div{
+  background-color: white;
+  height: 300px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+#planmatrizgrid1 {
+  display: grid;
+  grid-template-columns: 30% auto;
+  gap : 10px;
+}
+#planmatrizgrid1  div{
+  background-color: white;
+  text-align: center;
+  border-radius: 10px;
+}
+
+#brocalesgrid{
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 10px;
+}
+
+#brocalesgrid div{
+  background-color: white;
+  text-align: center;
+  border-radius: 10px;
+}
+
+#asistenciagrid {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  grid-template-rows: auto auto;
+}
+
+#asistenciagrid div{
+  background-color: white;
+  height: 200px;
+  text-align: center;
+  border-radius: 6px;
+}
+
+#asistenciagrid2{
+  display: grid;
+  grid-template-columns: 65% auto;
+}
+
+#asistenciagrid2 table, th, td{
+  font: 12px;
+}
+
+#contentdiariosub5{
+  background-color: white;
+  border-radius: 10px;
+  padding-top: 6px;
+}
+
+.bodydiariosub5 div{
+  height: 300px;
+}
+.bodydiariosub5{
+  display: grid;
+  grid-template-columns: auto 40%;
+}
+
+#contentdiariosub6{
+  background-color: white;
+  border-radius: 10px;
+  padding-top: 6px;
+}
+
+.bodydiariosub6 div{
+  height: 300px;
+}
+.bodydiariosub6{
+  display: grid;
+  grid-template-columns: auto 40%;
+}
+
+#brocalesdiarios h2{
+  text-align: center;
+}
+
+#brocaldiariogrid1 {
+  display: grid;
+  grid-template-columns: auto 40%;
+}
+#brocaldiariogrid2 {
+  display: grid;
+  grid-template-columns: auto 40%;
+}
+
+#asistenciagrid2 .grafico{
+  background-color: white;
+  height: 200px;
+  text-align: center;
+  border-radius: 6px;
+}
+
+#asistenciagrid2 .tabla{
+  background-color: white;
+  height: 475px;
+  text-align: center;
+  border-radius: 6px;
+}
+
+
+#asistenciagrid21 {
+  display: grid;
+  grid-template-rows: auto auto;
+  padding: 0px;
+}
+
+#asistenciagrid21 div{
+  border-radius: 10px;
+  
+}
+
+#brocalesubicaciones {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  grid-template-rows: auto auto auto;
+
+}
+
+#matrizbrocales{
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  text-align: center;
+}
+
+#matrizbrocales div{
+  border-radius: 10px;
+}
+
+
+
+#gridbrocales{
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+
+
+
+#startDate {
+  width: 150px;
+
+}
+
+.main{
+  padding-top: 17px;
+}
+
+#startDate{
+  padding-left: 20px;
+}
+
+.prueba{
+  height: 300px;
+  width: 400px;
+  background-color: white;
+}
+
+#chart-matriz2{
+  padding-left: 6px;
+}
+
+
+.graphsub2{
+  border-radius: 10px;
+}
+
+.bodydiariosub5 h1 {
+  text-align: left;
+  font-size: 16px;
+  padding-left: 10px;
+}
+
+.bodydiariosub6 h1{
+  text-align: left;
+  font-size: 16px;
+  padding-left: 10px;
+}
+
+#Disciplinagrid{
+  display: grid;
+  grid-template-columns: auto;
+}
+
+#tablevimo{
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+
+}
+
+#tablevimo div{
+  background-color: white;
+  border-radius: 10px;
+  height: 300px;
+}
+
+#Disciplinagrid div{
+  border-radius: 10px;
+}
+
+#Disciplinaubicaciones {
+  display: grid;
+  
+}
+
+#grid-disciplina{
+  display: grid;
+  grid-template-columns: 13% auto;
+}
+
+#timer-test{
+  display: grid;
+  grid-template-rows: auto auto;
+}
+
+#timer-test div{
+  background-color: white;
+}
+
+.buttonstimer {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.buttoninnasistance {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.vimo th{
+  text-align: center;
+
+}
+
+.geek {
+            border: 1px solid black;
+            width: 400px;
+            background-color: green;
+            border-radius: 4px;
+            height: 20px;
+            color: white;
+        }
+
+#asistenciagrid21 div{
+  background-color: white;
+}
+
+#asistenciagrid2 .tabla{
+  height: 540px;
+}
