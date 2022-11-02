@@ -11,7 +11,7 @@ var opts = {
     }
 }
 const Op = Sequelize.Op;
-var sequelize = new Sequelize('trabajo','admin','xvkgmdwe135', {
+var sequelize = new Sequelize('trabajo','admin','Xvkgmdwe135', {
   host: 'dashboarddb.cbqwyeck8ajg.us-east-2.rds.amazonaws.com',
   dialect: 'mysql',
   port : 3306,
