@@ -62,7 +62,7 @@ module.exports = {
   },
 
   getinicio2 : function(req, res, next){
-    return res.render('inicio')
+    return res.render('dashboard')
   },
   getdashboard : function(req, res, next){
     
