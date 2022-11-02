@@ -61,6 +61,9 @@ module.exports = {
     return res.render('login');
   },
 
+  getinicio2 : function(req, res, next){
+    return res.render('inicio')
+  },
   getdashboard : function(req, res, next){
     
     /*modelo.disciplina.findAll({
