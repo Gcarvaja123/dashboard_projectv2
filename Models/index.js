@@ -11,9 +11,10 @@ var opts = {
     }
 }
 const Op = Sequelize.Op;
-var sequelize = new Sequelize('trabajo','root','xvkgmdwe135', {
-  host: 'localhost',
+var sequelize = new Sequelize('trabajo','admin','xvkgmdwe135', {
+  host: 'dashboarddb.cbqwyeck8ajg.us-east-2.rds.amazonaws.com',
   dialect: 'mysql',
+  port : 3306,
   operatorsAliases: Op, // use Sequelize.Op
   pool: {
     max: 5,
