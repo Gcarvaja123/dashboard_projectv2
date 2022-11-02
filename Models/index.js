@@ -11,11 +11,11 @@ var opts = {
     }
 }
 const Op = Sequelize.Op;
-var sequelize = new Sequelize('trabajo','admin','xvkgmdwe135', {
+var sequelize = new Sequelize('trabajo','admin','Xvkgmdwe135', {
   host: 'dashboarddb.cbqwyeck8ajg.us-east-2.rds.amazonaws.com',
   dialect: 'mysql',
   username : 'admin',
-  password : "xvkgmdwe135",
+  password : "Xvkgmdwe135",
   port : 3306,
   operatorsAliases: Op, // use Sequelize.Op
   pool: {
@@ -33,6 +33,7 @@ fs
     })
     .forEach(function(file) {
         var model = sequelize.import(path.join(__dirname, file));
+        //const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes)
         db[model.name] = model;
     });
 
