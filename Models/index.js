@@ -15,7 +15,7 @@ var sequelize = new Sequelize('trabajo','admin','xvkgmdwe135', {
   host: 'dashboarddb.cbqwyeck8ajg.us-east-2.rds.amazonaws.com',
   dialect: 'mysql',
   username : 'admin',
-  password : "xvkgmdwe135"
+  password : "xvkgmdwe135",
   port : 3306,
   operatorsAliases: Op, // use Sequelize.Op
   pool: {
