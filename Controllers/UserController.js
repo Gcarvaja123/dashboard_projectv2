@@ -57,6 +57,10 @@ function leerExcelMatriz(ruta){
 
 module.exports = {
 
+  getDashboardtest : function(req, res, next){
+    return res.render('dashboardtest');
+  },
+
   getLogin : function(req, res, next){
     return res.render('login');
   },

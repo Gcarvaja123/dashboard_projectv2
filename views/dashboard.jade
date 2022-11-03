@@ -47,9 +47,11 @@ html
                 button.btnn(type='button' data-bs-dismiss='modal') Cerrar
                 button.btnn(name="probando3" value="probando4") Aceptar
     //.sidenav 
-    aside#sidenav-main.sidenav.navbar.navbar-vertical.navbar-expand-xs.border-0.border-radius-xl.my-3.fixed-start.ms-3.bg-gradient-dark.ps.bg-white
-    
+    .sidenav
       .sidenav-header
+
+        .image
+          img.imagen(src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Codelco_logo.svg/320px-Codelco_logo.svg.png" alt='User Image')
       #sidenav-collapse-main.navbar-collapse.w-auto.ps
         ul.navbar-nav
           li.nav-item
@@ -57,17 +59,24 @@ html
           li.nav-item
             a.tablink(onclick="openActivity(event,'Asistencia')") Asistencia
           li.nav-item
-            a.tablink(onclick="openActivity(event,'Planmatriz')") Plan matriz
+            a.tablink(onclick="openActivity(event,'Planmatriz')") Plan matriz 
           li.nav-item
             a.tablink(onclick="openActivity(event,'Brocales')") Servicio y limpieza brocales
           li.nav-item
             a.tablink(onclick="openActivity(event,'Disciplina')") Disciplina operacional
-          li.nav-item
-            button.btnn(type='button' data-bs-toggle='modal' data-bs-target='#Modalfiles') Ingresar archivos
-          p
-          li.nav-item
-            input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
       .sidenav-footer
+        .image
+          .img.imagen2
+    .main-header
+      ul.navbar-nav
+        li.nav-item
+          input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
+        li.nav-item
+          button.btnn(type='button' data-bs-toggle='modal' data-bs-target='#Modalfiles') Ingresar archivos
+      ul.navbar-nav.ml-auto
+        
+        li.nav-item.d-none.d-sm-inline-block
+          a.nav-link(href='usuario.jade') Ingresar
 
     .main
 

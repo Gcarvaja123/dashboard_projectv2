@@ -12,7 +12,8 @@ const fss = require("fs");
 
 
 
-router.get('/', controllers.UserController.getdashboard);
+router.get('/', controllers.UserController.getDashboardtest);
+//router.get('/', controllers.UserController.getdashboard);
 router.get('/copia', controllers.UserController.getSistemanuevocopia);
 //router.get('/',controllers.UserController.getIndex);
 //router.get('/data', controllers.UserController.getPrueba);
