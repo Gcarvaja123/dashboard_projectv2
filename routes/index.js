@@ -12,7 +12,7 @@ const fss = require("fs");
 
 
 
-router.get('/', controllers.UserController.getDashboardtest);
+router.get('/', controllers.UserController.getdashboard);
 //router.get('/', controllers.UserController.getdashboard);
 router.get('/copia', controllers.UserController.getSistemanuevocopia);
 //router.get('/',controllers.UserController.getIndex);
@@ -23,7 +23,7 @@ router.get('/vistaprueba2', controllers.UserController.getPrueba2);
 router.get('/nuevorequisito', controllers.UserController.getNuevorequisito);
 router.post('/nuevorequisito', controllers.UserController.postNuevorequisito);
 router.get('/dashboard', controllers.UserController.getdashboard);
-router.post('/dashboard', controllers.UserController.postSistemanuevo);
+router.post('/dashboard', controllers.UserController.postIngreso);
 router.get('/prueba', controllers.UserController.getprueba);
 router.get('/login', controllers.UserController.getLogin);
 
