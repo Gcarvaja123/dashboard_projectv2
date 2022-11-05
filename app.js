@@ -6,8 +6,60 @@ var modelo = require('./Models');
 var bodyParser = require('body-parser');
 require("date-format-lite");
 var upload_2 = require("express-fileupload");
+const session = require('express-session')
+
 app.use(upload_2());
 
+var flash = require('connect-flash');
+
+var passport = require('passport');
+require('./passport/passport')(passport);
+const cookieParser = require('cookie-parser');
+
+//const PassportLocal = require('passport-local').Strategy
+
+
+app.use(cookieParser());
+app.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized : false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+
+
+/*app.use(cookieParser('MiKey'));
+
+app.use(session({
+	secret : "MiKey",
+	resave : true,
+	saveUninitialized :true
+}))
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new PassportLocal(username, password, done){
+
+	if(username == "hola" && password == "1234"){
+		return done(null, {id:1, name:'Cody'});
+	}
+	done(null, false)
+});
+ 
+
+passport.serializeUser(Function(user, done){
+	done(null,user.id);
+});
+
+passport.deserializerUser(Function(id, done){
+	done(null, {id:1, name:'Cody'});	
+})*/
 
 
 

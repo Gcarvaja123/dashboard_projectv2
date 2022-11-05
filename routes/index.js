@@ -8,7 +8,10 @@ const reader = require('xlsx');
 const fss = require("fs");
 
 
-
+var passport = require('passport');
+var AuthMiddleware = require ('.././middleware/auth');
+var cookieParser = require('cookie-parser');
+var cookieSession = require('cookie-session');
 
 
 
@@ -25,7 +28,12 @@ router.post('/nuevorequisito', controllers.UserController.postNuevorequisito);
 router.get('/dashboard', controllers.UserController.getdashboard);
 router.post('/dashboard', controllers.UserController.postIngreso);
 router.get('/prueba', controllers.UserController.getprueba);
-router.get('/login', controllers.UserController.getLogin);
+router.get('/login',  controllers.UserController.getLogin);
+router.post('/login', passport.authenticate('local',{
+	successRedirect : 'dashboard',
+	failureRedirect : 'login',
+	failureFlash : true
+}))
 
 
 

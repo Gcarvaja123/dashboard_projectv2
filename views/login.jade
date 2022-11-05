@@ -1,34 +1,28 @@
 doctype html
 html
   head
-    script(type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
-    script(type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js')
-    link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css' integrity='sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx' crossorigin='anonymous')
-    link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css')
-    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js' integrity='sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa' crossorigin='anonymous')
-    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
-    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+    
     link(rel='stylesheet' type='text/css' href='/css/login.css')
   body
-    // Main Content
-    .container-fluid
-      .row.main-content.bg-success.text-center
-        .col-md-4.text-center.company__info
-          span.company__logo
-            h2
-              span.fa.fa-android
-          h4.company_title Your Company Logo
-        .col-md-8.col-xs-12.col-sm-12.login_form
-          .container-fluid
-            .row
-              p
-              h2 Log In
-            .row
-              form.form-group(control='')
-                .row
-                  input#username.form__input(type='text' name='username' placeholder='Username')
-                .row
-                  // <span class="fa fa-lock"></span>
-                  input#password.form__input(type='password' name='password' placeholder='Password')
-                .row
-                  input.btn(type='submit' value='Submit')
+
+    
+    .container-login100
+      .wrap-login100.p-t-85.p-b-20
+        form.login100-form.validate-form(action='/login' method='post' enctype='multipart/form-data')
+          span.login100-form-title.p-b-70
+            | Welcome
+          span.login100-form-avatar
+            img.imagen()
+          .wrap-input100.validate-input.m-t-85.m-b-35(data-validate='Enter username')
+            input.input100(type='text' name='username' placeholder='Email' )
+          .wrap-input100.validate-input.m-b-50(data-validate='Enter password')
+            input.input100(type='password' name='password'  placeholder='Contraseña')
+          .container-login100-form-btn
+            button.login100-form-btn
+              | Ingresar
+          ul.login-more.p-t-190
+            li.m-b-8
+              span.txt1
+                | Forgot
+              a.txt2(href='#')
+                | Username / Password?

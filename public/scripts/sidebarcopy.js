@@ -53,6 +53,12 @@ var app = angular.module('myApp', ['zingchart-angularjs']);
 
 
 app.controller("myControllerAsistencia", function($scope,$filter){
+  $scope.username = ""; 
+  if (local_user != "notlogged"){
+    $scope.username = local_user.nombre
+  }
+  
+  
   $scope.isCollapsed = false;
 
   var vimos_visited = [];

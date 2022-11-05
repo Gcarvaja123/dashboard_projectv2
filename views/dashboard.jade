@@ -18,6 +18,8 @@ html
       local_data_matriz = !{JSON.stringify(totalmatriz)};
       local_data_disciplina = !{JSON.stringify(totaldisciplina)};
       local_data_puertas = !{JSON.stringify(totalpuertas)};
+      local_user = !{JSON.stringify(user)};
+      
   
   body(ng-app='myApp' ng-controller="myControllerAsistencia")
     #Modalfiles.modal.fade( aria-labelledby='Modalfiles' )
@@ -70,12 +72,16 @@ html
       ul.navbar-nav
         li.nav-item
           input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
-        li.nav-item
-          button.btnn(type='button' data-bs-toggle='modal' data-bs-target='#Modalfiles') Ingresar archivos
+        if user!= undefined
+          li.nav-item
+            button.btnn(type='button' data-bs-toggle='modal' data-bs-target='#Modalfiles') Ingresar archivos
       ul.navbar-nav.ml-auto
         
         li.nav-item.d-none.d-sm-inline-block
-          a.nav-link(href='usuario.jade') Ingresar
+          if user != 'notlogged'
+            a.nav-link() {{username}}
+          else 
+            a.nav-link(href='login' ) Ingresar
 
     .main
 

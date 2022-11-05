@@ -86,13 +86,27 @@ module.exports = {
           }).then(function(rows_matriz){
             modelo.puertas.findAll({
             }).then(function(rows_puertas){
-              return res.render("dashboard", {
-                totaldisciplina : rows_disciplina,
-                totalasistencias : rows_asistencia,
-                totalbrocales : rows_brocales,
-                totalmatriz : rows_matriz,
-                totalpuertas : rows_puertas
-              })
+              if(req.user != undefined){
+                console.log("aca estoy")
+                return res.render("dashboard", {
+                  totaldisciplina : rows_disciplina,
+                  totalasistencias : rows_asistencia,
+                  totalbrocales : rows_brocales,
+                  totalmatriz : rows_matriz,
+                  totalpuertas : rows_puertas,
+                  user : req.user
+                })
+              }
+              else{
+                return res.render("dashboard", {
+                  totaldisciplina : rows_disciplina,
+                  totalasistencias : rows_asistencia,
+                  totalbrocales : rows_brocales,
+                  totalmatriz : rows_matriz,
+                  totalpuertas : rows_puertas,
+                  user : "notlogged"
+                })
+              }
             })
           });
         })
@@ -323,13 +337,22 @@ module.exports = {
                 Turno = datos[a][keys[4]]
               }
 
-              await modelo.asistencia.create({
-                Sector : Sector,
-                Nombre : Nombre,
-                Rut : Rut,
-                Cargo : Cargo,
-                Turno : Turno,
-                Fechaingreso : Fechaingreso
+              await modelo.asistencia.findAll({
+                where : {
+                  Fechaingreso : Fechaingreso,
+                  Nombre : Nombre,
+                }
+              }).then(async function(rows){
+                if(rows.length==0){
+                  await modelo.asistencia.create({
+                    Sector : Sector,
+                    Nombre : Nombre,
+                    Rut : Rut,
+                    Cargo : Cargo,
+                    Turno : Turno,
+                    Fechaingreso : Fechaingreso
+                  })
+                }
               })
             } 
           }
