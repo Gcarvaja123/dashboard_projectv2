@@ -19,6 +19,7 @@ html
       local_data_disciplina = !{JSON.stringify(totaldisciplina)};
       local_data_puertas = !{JSON.stringify(totalpuertas)};
       local_user = !{JSON.stringify(user)};
+      local_data_usuarios = !{JSON.stringify(totalusuarios)};
       
   
   body(ng-app='myApp' ng-controller="myControllerAsistencia")
@@ -47,7 +48,31 @@ html
 
               .modal-footer
                 button.btnn(type='button' data-bs-dismiss='modal') Cerrar
-                button.btnn(name="probando3" value="probando4") Aceptar 
+                button.btnn(name="probando3" value="probando4") Aceptar
+    #Modalfilesuser.modal.fade( aria-labelledby='Modalfiles' )
+        form.formasistencias(action='/crearusuario' method='post' enctype='multipart/form-data')
+          .modal-dialog
+            .modal-content
+              .modal-header
+                h5#exampleModalLabel.modal-title Creacion de usuario
+                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+              .modal-body
+                .container
+                  .mb-3
+                    label() Ingresar nombre usuario
+                    input#formFileMultiple.form-control(type='text' ng-model="name1" ng-change = "checkuser()" name="Usuario" multiple='')
+                  .mb-3
+                    label() Ingresar contraseña
+                    input#formFileMultiple.form-control(type="password" ng-model="pass1" ng-change = "checkpassword()" name="Contrasena" multiple='')
+                  .mb-3
+                    label() Ingresar contraseña nuevamente
+                    input#formFileMultiple.form-control(type="password" ng-model="pass2" ng-change = "checkpassword()" name="ConfirmarContraseña" multiple='')
+                  {{msg}}
+
+
+              .modal-footer
+                button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                button.btnn(name="probando3" ng-model="aceptuser" ng-disabled='userbutton' value="probando4") Aceptar  
     .sidenav
       .sidenav-header
 
@@ -79,8 +104,12 @@ html
         
         li.nav-item.d-none.d-sm-inline-block
           if user != 'notlogged'
-            a.nav-link() {{username}}
-          else 
+            li.nav-item
+              button.btnn(type='button' data-bs-toggle='modal' data-bs-target='#Modalfilesuser') Crear usuario
+            li.nav-item.d-none.d-sm-inline-block
+              a.nav-link() {{username}}
+            
+          else
             a.nav-link(href='login' ) Ingresar
 
     .main

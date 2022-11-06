@@ -53,6 +53,7 @@ var app = angular.module('myApp', ['zingchart-angularjs']);
 
 
 app.controller("myControllerAsistencia", function($scope,$filter){
+  $scope.userbutton = true
   $scope.username = ""; 
   if (local_user != "notlogged"){
     $scope.username = local_user.nombre
@@ -107,7 +108,15 @@ app.controller("myControllerAsistencia", function($scope,$filter){
   $scope.fecha_universa = fecha;
   $scope.fecha_universal  = angular.copy($scope.fecha_universa);
 
-  
+  $scope.nombresusuarios = [];
+
+  for(a=0 ; a < local_data_usuarios.length; a++){
+    if($scope.nombresusuarios.indexOf(local_data_usuarios[a].Usuario) == -1){
+      $scope.nombresusuarios.push(local_data_usuarios[a].Usuario)
+    }
+  }
+
+
   $scope.fechahoy = fecha;
   for(c=0; c < local_data_asistencia.length ; c++){
     if($scope.nombre_sectores_array.indexOf(local_data_asistencia[c].Sector) == -1 && local_data_asistencia[c].Fechaingreso == fecha){
@@ -2342,6 +2351,40 @@ app.controller("myControllerAsistencia", function($scope,$filter){
     }
   }
 
+  $scope.checkpassword = function(){
+    if(angular.equals($scope.pass1, $scope.pass2)){
+      $scope.msg= "";
+      $scope.userbutton = false
+    }
+    else{
+      $scope.msg= "Contraseñas no son iguales";
+      $scope.userbutton = true
+    }
+  }
+
+  $scope.checkuser = function(){
+
+    if($scope.name1 == ""){
+      $scope.userbutton = true
+    }
+    else{
+      $scope.userbutton = false
+    }
+
+    if($scope.nombresusuarios.indexOf($scope.name1) != -1){
+      $scope.msg = "Usuario ya existe"
+    }
+    else{
+      $scope.msg = ""
+    }
+
+    if($scope.name1.split("").length<4){
+      $scope.msg = "Nombre usuario debe contener mas de 4 caracteres"
+    }
+    else{
+      $scope.msg = ""
+    }
+  }
   
 
 

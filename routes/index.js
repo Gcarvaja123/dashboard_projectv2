@@ -35,6 +35,8 @@ router.post('/login', passport.authenticate('local',{
 	failureFlash : true
 }))
 
+router.post("/crearusuario", controllers.UserController.postCrearusuario)
+
 
 
 

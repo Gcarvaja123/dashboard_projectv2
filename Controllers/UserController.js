@@ -86,27 +86,33 @@ module.exports = {
           }).then(function(rows_matriz){
             modelo.puertas.findAll({
             }).then(function(rows_puertas){
-              if(req.user != undefined){
-                console.log("aca estoy")
-                return res.render("dashboard", {
-                  totaldisciplina : rows_disciplina,
-                  totalasistencias : rows_asistencia,
-                  totalbrocales : rows_brocales,
-                  totalmatriz : rows_matriz,
-                  totalpuertas : rows_puertas,
-                  user : req.user
-                })
-              }
-              else{
-                return res.render("dashboard", {
-                  totaldisciplina : rows_disciplina,
-                  totalasistencias : rows_asistencia,
-                  totalbrocales : rows_brocales,
-                  totalmatriz : rows_matriz,
-                  totalpuertas : rows_puertas,
-                  user : "notlogged"
-                })
-              }
+              modelo.usuario.findAll({
+              }).then(function(rows_usuarios){
+                if(req.user != undefined){
+                  console.log("aca estoy")
+                  return res.render("dashboard", {
+                    totaldisciplina : rows_disciplina,
+                    totalasistencias : rows_asistencia,
+                    totalbrocales : rows_brocales,
+                    totalmatriz : rows_matriz,
+                    totalpuertas : rows_puertas,
+                    totalusuarios : rows_usuarios,
+                    user : req.user
+                  })
+                }
+                else{
+                  return res.render("dashboard", {
+                    totaldisciplina : rows_disciplina,
+                    totalasistencias : rows_asistencia,
+                    totalbrocales : rows_brocales,
+                    totalmatriz : rows_matriz,
+                    totalpuertas : rows_puertas,
+                    totalusuarios : rows_usuarios,
+                    user : "notlogged"
+                  })
+                }
+              })
+              
             })
           });
         })
@@ -177,7 +183,6 @@ module.exports = {
     console.log("asistencia nueva");
 
   },
-
 
 
   postSistemanuevo : async(req,res,next)=>{
@@ -928,6 +933,15 @@ module.exports = {
     });*/
   },
     
+  postCrearusuario : function(req, res, next){
+    modelo.usuario.create({
+      Usuario : req.body.Usuario,
+      Contraseña : req.body.Contrasena,
+      Rango : "admin"
+    })
+
+    res.redirect("dashboard")
+  },
 
 	getPrueba : function (req, res ,next){
     modelo.gantt_tasks.findAll({
