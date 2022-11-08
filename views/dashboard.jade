@@ -97,7 +97,7 @@ html
       ul.navbar-nav
         li.nav-item
           input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
-        if user!= undefined
+        if user!= 'notlogged'
           li.nav-item
             button.btnn(type='button' data-bs-toggle='modal' data-bs-target='#Modalfiles') Ingresar archivos
       ul.navbar-nav.ml-auto

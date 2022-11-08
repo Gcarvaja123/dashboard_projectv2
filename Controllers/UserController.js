@@ -425,18 +425,6 @@ module.exports = {
             const savePath = path.join(__dirname,"../",'public','uploads',file.name);
             await file.mv(savePath);
             var datos = leerExcelBrocales(file.name);
-
-            /*modelo.brocales.findAll({
-              where : {
-                Sub : 7
-              }
-            }).then(function(rows){
-              console.log(rows.length)
-            })*/
-                //console.log(datos);
-                //var date = new Date(Math.round((datos[2]["__EMPTY"] - (25567 + 1)) * 86400 * 1000));
-                //var converted_date = date.toISOString().split('T')[0];
-                //console.log(converted_date);
             var Fecha = "";
             var Turno = "";
             var Ubicacion = "";
@@ -499,8 +487,14 @@ module.exports = {
               if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-4]] != undefined){
                 Actividad = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-4]];
               }
+              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-4]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                 Actividad = "";
+              }
               if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-2]] != undefined){
-                  Observaciones = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-2]];
+                Observaciones = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-2]];
+              }
+              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-2]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                 Observaciones = "";
               }
               if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] != undefined){
                   Sub = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]];
@@ -541,19 +535,6 @@ module.exports = {
           const savePath = path.join(__dirname,"../",'public','uploads',file.name);
           await file.mv(savePath);
           var datos = leerExcelBrocales(file.name);
-
-          /*modelo.brocales.findAll({
-            where : {
-              Sub : 7
-            }
-          }).then(function(rows){
-            console.log(rows.length)
-          })*/
-              //console.log(datos);
-              //var date = new Date(Math.round((datos[2]["__EMPTY"] - (25567 + 1)) * 86400 * 1000));
-              //var converted_date = date.toISOString().split('T')[0];
-              //console.log(converted_date);
-          console.log(datos)
           var Fecha = "";
           var Turno = "";
           var Ubicacion = "";
