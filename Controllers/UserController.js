@@ -97,7 +97,8 @@ module.exports = {
                     totalmatriz : rows_matriz,
                     totalpuertas : rows_puertas,
                     totalusuarios : rows_usuarios,
-                    user : req.user
+                    user : req.user,
+                    authmessage : req.flash('authmessage')
                   })
                 }
                 else{
@@ -108,7 +109,8 @@ module.exports = {
                     totalmatriz : rows_matriz,
                     totalpuertas : rows_puertas,
                     totalusuarios : rows_usuarios,
-                    user : "notlogged"
+                    user : "notlogged",
+                    authmessage : req.flash('authmessage')
                   })
                 }
               })

@@ -53,6 +53,8 @@ var app = angular.module('myApp', ['zingchart-angularjs']);
 
 
 app.controller("myControllerAsistencia", function($scope,$filter){
+
+  $scope.authmessagestr = local_authmessage[0]
   $scope.userbutton = true
   $scope.username = ""; 
   if (local_user != "notlogged"){
@@ -66,6 +68,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
 
   var dic_vimos = {}
   var vimos_array = [];
+  var vimos_array_total = [];
 
 
   for(a=0; a < local_data_puertas.length; a++){
@@ -73,21 +76,36 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       vimos_visited.push(local_data_puertas[a].Identificacion);
       var dic_vimos = {}
       dic_vimos.Identificacion = local_data_puertas[a].Identificacion;
-      dic_vimos.Estado = local_data_puertas[a].Estado;
+      $scope.identificacion = local_data_puertas[a].Estado
+      $scope.str = angular.copy($scope.identificacion);
+      var result = $scope.str.charAt(0).toUpperCase() + $scope.str.slice(1).toLowerCase();
+      dic_vimos.Estado = result
+      dic_vimos.Ubicacion = local_data_puertas[a].Ubicacion
+      dic_vimos.Fecharevision = local_data_puertas[a].Fecharevision
+      dic_vimos.Tipomantencion = local_data_puertas[a].Tipomantencion
+
       vimos_array.push(dic_vimos);
+
     }
     else{
-      vimos_array[vimos_visited.indexOf(local_data_puertas[a].Identificacion)].Estado = local_data_puertas[a].Estado;
+      var result = local_data_puertas[a].Estado.charAt(0).toUpperCase() + local_data_puertas[a].Estado.slice(1).toLowerCase();
+      vimos_array[vimos_visited.indexOf(local_data_puertas[a].Identificacion)].Estado = result
+      vimos_array[vimos_visited.indexOf(local_data_puertas[a].Identificacion)].Fecharevision = local_data_puertas[a].Fecharevision
+      vimos_array[vimos_visited.indexOf(local_data_puertas[a].Identificacion)].Tipomantencion = local_data_puertas[a].Tipomantencion
     }
   }
 
-  console.log(vimos_array)
 
   $scope.vimoarray1 = vimos_array.slice(0,20)
   $scope.vimoarray2 = vimos_array.slice(20,40)
   $scope.vimoarray3 = vimos_array.slice(40,60);
   $scope.vimoarray4 = vimos_array.slice(60,80)
   $scope.vimoarray5 = vimos_array.slice(80,vimos_array.length)
+
+  $scope.vimostotal = vimos_array;
+
+  $scope.headers = Object.keys($scope.vimostotal[0]);
+  console.log($scope.headers)
 
 
 
@@ -455,8 +473,8 @@ app.controller("myControllerAsistencia", function($scope,$filter){
   $scope.myJsonAnualsub6 = Chart_creator(meses,datos_x_sub6,deseados_x_sub6, "Limpieza de brocales Sub 6");
 
 
-  $scope.myJsonBarBrocalessub5 = bar_brocales(deseados_x_sub5, datos_x_sub5,["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"], 20);
-  $scope.myJsonBarBrocalessub6 = bar_brocales(deseados_x_sub6, datos_x_sub6,["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"], 20);
+  $scope.myJsonBarBrocalessub5 = bar_brocales(deseados_x_sub5, datos_x_sub5,["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], 20, "5");
+  $scope.myJsonBarBrocalessub6 = bar_brocales(deseados_x_sub6, datos_x_sub6,["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], 20, "6");
 
   $scope.typebrocal5 = "anual";
   $scope.typebrocal6 = "anual";
@@ -1073,7 +1091,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
         array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
       }
 
-      $scope.myJsonBarBrocalessub5 = bar_brocales(datos_x_deseados, datos_x_dias_sub5,array_dias ,5)
+      $scope.myJsonBarBrocalessub5 = bar_brocales(datos_x_deseados, datos_x_dias_sub5,array_dias ,5, "5")
 
       //------------------------------------------------------------------------------------------//
       Completados_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -1215,7 +1233,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       */
       $scope.myJsonAnualsub5 = Chart_creator(meses,datos_x_sub5, deseados_x_sub5, "Limpieza de brocales Sub 5");
 
-      $scope.myJsonBarBrocalessub5 = bar_brocales(deseados_x_sub5, datos_x_sub5 , ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"] ,20)
+      $scope.myJsonBarBrocalessub5 = bar_brocales(deseados_x_sub5, datos_x_sub5 , ["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"] ,20, "5")
 
       Completados_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
       Faltantes_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -1342,7 +1360,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       if(getDays(parseInt(fecha.split("-")[2]), parseInt(fecha.split("-")[1])) == 31){
         array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
       }
-      $scope.myJsonBarBrocalessub6 = bar_brocales(datos_x_deseados, datos_x_dias_sub6,array_dias ,5)
+      $scope.myJsonBarBrocalessub6 = bar_brocales(datos_x_deseados, datos_x_dias_sub6,array_dias ,5, "6")
 
       Completados_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
       Faltantes_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -1492,7 +1510,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
         }
       }
       $scope.myJsonAnualsub6 = Chart_creator(meses,datos_x_sub6,deseados_x_sub6, "Limpieza de brocales Sub 6");
-      $scope.myJsonBarBrocalessub6 = bar_brocales(deseados_x_sub6, datos_x_sub6 , ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"] ,20)
+      $scope.myJsonBarBrocalessub6 = bar_brocales(deseados_x_sub6, datos_x_sub6 , ["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"] ,20, "6")
 
 
       Completados_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -3730,11 +3748,14 @@ function bar_vimo(realizado, nombre){
   return grafico
 }
 
-function bar_brocales(deseados, realizado, x_values, tamaño){
+function bar_brocales(deseados, realizado, x_values, tamaño, sub){
   grafico = {};
 
   grafico = {
     type: 'bar',
+    "title": {
+      "text": "Limpieza de brocales sub "+sub
+    },
     plot: {
       barWidth: tamaño,
     },

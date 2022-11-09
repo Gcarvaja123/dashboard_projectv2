@@ -39,7 +39,7 @@ module.exports = function(passport){
 				}
 			}
 			else{
-				return done(null, false, req.flash('authmessage', 'Email o Password incorrecto.'));
+				return done(null, false, req.flash('authmessage', 'Usuario o contraseña incorrecta'));
 			}
 		})
 		
