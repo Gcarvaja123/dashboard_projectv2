@@ -2270,7 +2270,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
     fecha = $scope.fecha_universal;
     var llegada = "";
     for(a=0; a<local_data_disciplina.length; a++){
-      if(local_data_disciplina[a].Area == name  ){
+      if(local_data_disciplina[a].Area == name && array_week.indexOf(local_data_disciplina[a].Fecha)!=-1 ){
         fecha_split = local_data_disciplina[a].Fecha.split("-")
         fecha_invertida = fecha_split[2]+"-"+fecha_split[1]+"-"+fecha_split[0];
         llegada = local_data_disciplina[a].Llegada_Instalacion
@@ -2288,6 +2288,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
 
     var hora_llegada = parseInt(llegada.split(":")[0])-1;
 
+    console.log("hora llegada es : "+hora_llegada.toString())
     var Epoch_Inicio = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+hora_llegada.toString()+":00:00"))*1000
     var Epoch_Final = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"17:00:00"))*1000
 

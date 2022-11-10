@@ -840,7 +840,51 @@ module.exports = {
       else if (datos_1[d] == "Disciplina"){
         if (req.files["Disciplina"].length !=undefined){
           for (e=0; e<req.files["Disciplina"].length ; e++){
-            JoinDisciplina(req.files["Disciplina"]);
+            //JoinDisciplina(req.files["Disciplina"]);
+            file = req.files["Disciplina"][e];
+            const savePath = path.join(__dirname,"../",'public','uploads',file.name);
+            await file.mv(savePath);
+            //[0,1,2,3,4,5,6,7,8,9,10,11,12,13]
+            var datos_aux = leerExcelDisciplina(file.name, [0,1,2,3,4,5,6,7,8,9,10,11,12,13])
+            var datos = datos_aux[0];
+            //console.log(datos);
+            for(a=0; a<datos.length; a++){
+              for(b=1; b < 6 ; b++){
+                llaves = Object.keys(datos[a][b]);
+                var date = ExcelDateToJSDate(datos[a][b][llaves[2]]);
+                var converted_date = date.toISOString().split('T')[0];
+                Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
+                
+                var meta;
+                for(c=6; c< datos[a].length; c++){
+                  if(datos[a][c][llaves[5]] == "META"){
+                    meta = datos[a][c][llaves[6]];
+                    break
+                  }
+                }
+                await modelo.disciplina.create({
+                  Area : datos_aux[1][a],
+                  //Area : datos[a][b][llaves[0]],
+                  Dia : datos[a][b][llaves[1]],
+                  Fecha : Fecha,
+                  Llegada_Instalacion : convertToHHMM(datos[a][b][llaves[3]]*24).toString(),
+                  Salida_Instalacion : convertToHHMM(datos[a][b][llaves[4]]*24).toString(),
+                  Inicio_Act_Am : convertToHHMM(datos[a][b][llaves[5]]*24).toString(),
+                  Termino_Act_Am : convertToHHMM(datos[a][b][llaves[6]]*24).toString(),
+                  Almuerzo : convertToHHMM(datos[a][b][llaves[7]]*24).toString(),
+                  Inicio_Act_Pm : convertToHHMM(datos[a][b][llaves[8]]*24).toString(),
+                  Termino_Act_Pm : convertToHHMM(datos[a][b][llaves[9]]*24).toString(),
+                  Tiempo_Instalacion : convertToHHMM(datos[a][b]["__EMPTY_8"]*24).toString(),
+                  Traslado_Postura : convertToHHMM(datos[a][b]["__EMPTY_9"]*24).toString(),
+                  Tiempo_Disponible_Am : convertToHHMM(datos[a][b]["__EMPTY_10"]*24).toString(),
+                  Traslado_Colacion : convertToHHMM(datos[a][b]["__EMPTY_11"]*24).toString(),
+                  Almuerzo_2 : convertToHHMM(datos[a][b]["__EMPTY_12"]*24).toString(),
+                  Tiempo_Disponible_Pm : convertToHHMM(datos[a][b]["__EMPTY_13"]*24).toString(),
+                  //Tiempo_Disponible_Pm : minTommss(datos[a][b]["__EMPTY_13"]*24).toString(),
+                  Meta : convertToHHMM(meta*24).toString()
+                })
+              }
+            }
           }
         }
         else{
