@@ -39,12 +39,19 @@ html
                   .mb-3
                     label.form-label(for='formFileMultiple') Plan matriz
                     input#formFileMultiple.form-control(type='file' name="Matriz" multiple='')
-                  .mb-3
-                    label.form-label(for='formFileMultiple') Servicio y limpieza brocales
-                    input#formFileMultiple.form-control(type='file' name="Brocales" multiple='')
+                  .mb-3.brocalesitems
+                    .item1
+                      label.form-label(for='formFileMultiple') Servicio y limpieza brocales sub 5
+                      input#formFileMultiple.form-control(type='file' name="Brocales" multiple='')
+                    .item2
+                      label.form-label(for='formFileMultiple') Servicio y limpieza brocales sub 6
+                      input#formFileMultiple.form-control(type='file' name="Brocales" multiple='')
                   .mb-3
                     label.form-label(for='formFileMultiple') Disciplina operacional
                     input#formFileMultiple.form-control(type='file' name="Disciplina" multiple='')
+                  .mb-3
+                    label.form-label(for='formFileMultiple') Equipos y camionetas
+                    input#formFileMultiple.form-control(type='file' name="Equipos" multiple='')
 
 
               .modal-footer

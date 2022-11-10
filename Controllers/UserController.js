@@ -759,7 +759,6 @@ module.exports = {
           var datos = leerExcelMatriz(file.name);
           //let keys = Object.keys(datos[0]);
           var area ="";
-          console.log(datos);
           //if(file.name.split(" ")[0].toString() == "Puertas"){
           if(file.name.toString().includes("Consolidado")){
             for(a=1; a< Object.keys(datos).length ; a++){
@@ -891,6 +890,84 @@ module.exports = {
               }
             }
         }
+      }
+      else if (datos_1[d] == "Equipos"){
+        if (req.files["Equipos"].length !=undefined){
+          for (e=0; e<req.files["Disciplina"].length ; e++){
+
+          }
+        }
+        else{
+          file = req.files["Equipos"];
+          const savePath = path.join(__dirname,"../",'public','uploads',file.name);
+          await file.mv(savePath);
+          var datos = leerExcel(file.name);
+          //console.log(datos[4]["CONTRATO"])
+          //console.log(datos[5]["CONTRATO"])
+          for(a=0; a < datos.length ; a++){
+            var equipo="";
+            var patente="";
+            var cartola="";
+            var ultimamantencionkms="";
+            var proxmantkms="";
+            var kmactual="";
+            var semaforo="";
+            var estadoactual="";
+            fecha1="";
+            if(datos[a]["ULTIMA MANTENCION FECHA"]!=undefined && datos[a]["ULTIMA MANTENCION FECHA"].length>5 ){
+              var date1 = ExcelDateToJSDate(datos[a]["ULTIMA MANTENCION FECHA"]);
+              var converted_date1 = date1.toISOString().split('T')[0];
+              fecha1 = converted_date1.split("-")[2]+"-"+converted_date1.split("-")[1]+"-"+converted_date1.split("-")[0]
+            }
+            fecha2="";
+            if(datos[a]["FECHA CHEQUEO DE GASES"]!=undefined && datos[a]["ULTIMA MANTENCION FECHA"].length>5){
+              var date2 = ExcelDateToJSDate(datos[a]["FECHA CHEQUEO DE GASES"]);
+              var converted_date2 = date2.toISOString().split('T')[0];
+              fecha2 = converted_date2.split("-")[2]+"-"+converted_date2.split("-")[1]+"-"+converted_date2.split("-")[0]
+            }
+            if(datos[a]["EQUIPO"]!=undefined){
+              equipo = datos[a]["EQUIPO"];
+            }
+            if(datos[a]["PATENTE"]!=undefined){
+              patente = datos[a]["PATENTE"];
+            }
+            if(datos[a]["CARTOLA"]!=undefined){
+              cartola = datos[a]["CARTOLA"];
+            }
+            if(datos[a]["ULTIMA MANTENCION KMS"]!=undefined){
+              var str = datos[a]["ULTIMA MANTENCION KMS"].split(" ");
+              ultimamantencionkms = str[0]+" "+str[1];
+            }
+            if(datos[a]["PROXIMA MANT. KMS"]!=undefined){
+              proxmantkms = datos[a]["PROXIMA MANT. KMS"]
+            }
+            if(datos[a]["KILOMETRAJE ACTUAL"]!=undefined){
+              kmactual = datos[a]["KILOMETRAJE ACTUAL"];
+            }
+            if(datos[a]["SEMAFORO"]!=undefined){
+              semaforo = datos[a]["SEMAFORO"];
+            }
+            if(datos[a]["ESTADO ACTUAL"]!=undefined){
+              estadoactual = datos[a]["ESTADO ACTUAL"];
+            }
+            await modelo.equipos.create({
+              Equipo : equipo,
+              Patente : patente,
+              Cartola : cartola,
+              Ultimamantencion : fecha1,
+              Ultimokms : ultimamantencionkms,
+              Proximakms : proxmantkms,
+              Kilometrajeactual : kmactual,
+              Semaforo : semaforo,
+              Estado : estadoactual,
+              Fechagas : fecha2
+            })
+            
+          }
+        }
+
+
+
       }
          
     }
