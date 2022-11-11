@@ -24,6 +24,7 @@ html
       local_authmessage = !{JSON.stringify(authmessage)};
       local_data_usuarios = !{JSON.stringify(totalusuarios)};
       local_data_sap = !{JSON.stringify(totalsap)};
+      local_data_equipo = !{JSON.stringify(totalequipos)};
       
   
   body(ng-app='myApp' ng-controller="myControllerAsistencia")
@@ -479,8 +480,8 @@ html
             #matriz4(zingchart='' zc-json='myMatrizPuertas' zc-width='100%' zc-height='300px' visibility="hidden" )
 
         p
-        select.selectasistencia.form-selectfilter( ng-model='columns' ng-init='columns="Identificacion"' ng-options='e for e in headers' )
-        input.form-controlfilter( type='text' ng-model='searchtxt[columns]' placeholder='Ingresar valor a filtrar')
+        select.selectasistencia.form-selectfilter( ng-model='columnsa' ng-init='columnsa="Identificacion"' ng-options='e for e in headers' )
+        input.form-controlfilter( type='text' ng-model='searchtxt[columnsa]' placeholder='Ingresar valor a filtrar')
         p
 
         #tablecompletedvimo.grid-container
@@ -515,12 +516,6 @@ html
                             label {{vimos.Tipomantencion}}
                           td
                             label {{vimos.Estado}}  
-
-
-
-
-        
-
 
       #Brocales.w3-container.w3-border.activity(style='display:none')
         //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")    
@@ -593,6 +588,67 @@ html
         #calendariobrocales.grid-container
           //#myChart
           #chart51(zingchart='' zc-json='myJsonCalendarBrocales' zc-width='100%' zc-height='400px' visibility="hidden" )
+        p
+        select.selectequipo.form-selectfilterequipo( ng-model='columns' ng-init='columns="Equipo"' ng-options='e for e in headersequipo' )
+        input.form-controlfilter( type='text' ng-model='searchtxtx[columns]' placeholder='Ingresar valor a filtrar')
+        p
+        #tableequipos.grid-container
+          div.tabla.item1
+            table.Asistencia.table.caption-top
+                      thead
+                        tr
+                          th(data-type="text")
+                            | Equipo
+                            span.resize-handle
+                          th(data-type='text')
+                            | Patente
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Cartola
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Ult. Mant.
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Ult. Mant. kms
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Prox. Mant. kms
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Km actual
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Semaforo
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Est. actual
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Fecha Cheq. gas
+                            span.resize-handle
+                      tbody
+                        tr(ng-repeat="equipo in equipostotal|filter:searchtxtx")
+                          td
+                            label {{equipo.Equipo}} 
+                          td
+                            label {{equipo.Patente}} 
+                          td
+                            label {{equipo.Cartola}}
+                          td
+                            label {{equipo.Ultimamantencion}}
+                          td
+                            label {{equipo.Ultimokms}}
+                          td
+                            label {{equipo.Proximakms}}
+                          td
+                            label {{equipo.Kilometrajeactual}}
+                          td
+                            label {{equipo.Semaforo}}
+                          td
+                            label {{equipo.Estado}}
+                          td
+                            label {{equipo.Fechagas}}
 
         
         //#Bargraphbrocales.grid-container

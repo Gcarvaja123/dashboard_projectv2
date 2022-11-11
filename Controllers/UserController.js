@@ -103,33 +103,38 @@ module.exports = {
               }).then(function(rows_usuarios){
                 modelo.vimosap.findAll({                  
                 }).then(function(rows_vimosap){
-                  if(req.user != undefined){
-                    console.log("aca estoy")
-                    return res.render("dashboard", {
-                      totaldisciplina : rows_disciplina,
-                      totalasistencias : rows_asistencia,
-                      totalbrocales : rows_brocales,
-                      totalmatriz : rows_matriz,
-                      totalpuertas : rows_puertas,
-                      totalusuarios : rows_usuarios,
-                      user : req.user,
-                      totalsap : rows_vimosap,
-                      authmessage : req.flash('authmessage')
-                    })
-                  }
-                  else{
-                    return res.render("dashboard", {
-                      totaldisciplina : rows_disciplina,
-                      totalasistencias : rows_asistencia,
-                      totalbrocales : rows_brocales,
-                      totalmatriz : rows_matriz,
-                      totalpuertas : rows_puertas,
-                      totalusuarios : rows_usuarios,
-                      totalsap : rows_vimosap,
-                      user : "notlogged",
-                      authmessage : req.flash('authmessage')
-                    })
-                  }
+                  modelo.equipos.findAll({  
+                  }).then(function(rows_equipos){
+                    if(req.user != undefined){
+                      console.log("aca estoy")
+                      return res.render("dashboard", {
+                        totaldisciplina : rows_disciplina,
+                        totalasistencias : rows_asistencia,
+                        totalbrocales : rows_brocales,
+                        totalmatriz : rows_matriz,
+                        totalpuertas : rows_puertas,
+                        totalusuarios : rows_usuarios,
+                        totalequipos : rows_equipos,
+                        user : req.user,
+                        totalsap : rows_vimosap,
+                        authmessage : req.flash('authmessage')
+                      })
+                    }
+                    else{
+                      return res.render("dashboard", {
+                        totaldisciplina : rows_disciplina,
+                        totalasistencias : rows_asistencia,
+                        totalbrocales : rows_brocales,
+                        totalmatriz : rows_matriz,
+                        totalpuertas : rows_puertas,
+                        totalusuarios : rows_usuarios,
+                        totalequipos : rows_equipos,
+                        totalsap : rows_vimosap,
+                        user : "notlogged",
+                        authmessage : req.flash('authmessage')
+                      })
+                    }
+                  })                 
                 })            
               })
               

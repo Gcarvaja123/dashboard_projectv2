@@ -134,7 +134,14 @@ app.controller("myControllerAsistencia", function($scope,$filter){
   $scope.vimostotal = vimos_array;
 
   $scope.headers = Object.keys($scope.vimostotal[0]);
-  console.log($scope.headers)
+
+  $scope.equipostotal=[];
+  for(a=0; a< local_data_equipo.length; a++){
+    $scope.equipostotal.push(local_data_equipo[a])
+  }
+  
+
+  $scope.headersequipo = Object.keys($scope.equipostotal[0])
 
 
 
