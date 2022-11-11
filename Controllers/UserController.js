@@ -335,7 +335,6 @@ module.exports = {
             const savePath = path.join(__dirname,"../",'public','uploads',file.name);
             await file.mv(savePath);
             var datos = leerExcel(file.name);
-            console.log(datos);
             var Sector ="";
             var Nombre = "";
             var Rut = "";
@@ -389,7 +388,6 @@ module.exports = {
           const savePath = path.join(__dirname,"../",'public','uploads',file.name);
           await file.mv(savePath);
           var datos = leerExcel(file.name);
-          console.log(datos);
           var Sector ="";
           var Nombre = "";
           var Rut = "";
@@ -727,16 +725,35 @@ module.exports = {
 
               var fecha = "";
               for (a = 1 ; a < Object.keys(datos).length ; a++ ){
+
                 let keys = Object.keys(datos[a]);
+                console.log(keys)
                 if(keys.length < 4){
                   //Hacemos cositas
-                  if(keys.length == 3 ){
+                  if(keys.length == 3 && Number.isInteger(datos[a][keys[0]])){
                     var date = ExcelDateToJSDate(datos[a][keys[0]] )
                     var converted_date = date.toISOString().split('T')[0];
 
                     fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
                   }
-                  if(datos[a][keys[keys.length-1]].toString() == datos[a][keys[keys.length-2]].toString() ){
+                  if(keys.length==1){
+                    await modelo.planmatriz.create({
+                      Fecha : fecha,
+                      Programado : datos[a][keys[keys.length-1]].toString(),
+                      Observaciones : observacion
+                    })
+                  }
+
+                  else if(keys.length == 3 && Number.isInteger(datos[a][keys[0]])==false ){
+                    await modelo.planmatriz.create({
+                      Fecha : fecha,
+                      Programado : datos[a][keys[keys.length-3]].toString(),
+                      Realizado : datos[a][keys[keys.length-2]].toString(),
+                      Observaciones : datos[a][keys[keys.length-1]].toString(),
+                      Area : area
+                    })
+                  }
+                  else if(datos[a][keys[keys.length-1]].toString() == datos[a][keys[keys.length-2]].toString() ){
                     modelo.planmatriz.create({
                       Fecha : fecha,
                       Programado : datos[a][keys[keys.length-2]].toString(),
@@ -752,6 +769,19 @@ module.exports = {
                       Area : area
                     })
                   }
+                }
+                if(keys.length == 4 && area!="Ventilación"){
+                  var date = ExcelDateToJSDate(datos[a][keys[0]])
+                  //var date = new Date(Math.round((datos[a][keys[0]] - (25567 + 1)) * 86400 * 1000));
+                  var converted_date = date.toISOString().split('T')[0];
+                  fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
+                  await modelo.planmatriz.create({
+                      Fecha : fecha,
+                      Programado : datos[a][keys[keys.length-3]].toString(),
+                      Realizado : datos[a][keys[keys.length-2]].toString(),
+                      Observaciones : datos[a][keys[keys.length-1]].toString(),
+                      Area : area
+                  })
                 }
               }
             }
@@ -814,11 +844,12 @@ module.exports = {
             var observacion = "";
             for (a = 1 ; a < Object.keys(datos).length ; a++ ){
               let keys = Object.keys(datos[a]);
-              console.log(keys)
+              console.log(datos[a])
               if(keys.length < 4){
                 //Hacemos cositas
-                if(keys.length == 3 ){
-                  var date = new Date(Math.round((datos[a][keys[0]] - (25567 + 1)) * 86400 * 1000));
+                if(keys.length == 3 && Number.isInteger(datos[a][keys[0]])){
+                  var date = ExcelDateToJSDate(datos[a][keys[0]])
+                  //var date = new Date(Math.round((datos[a][keys[0]] - (25567 + 1)) * 86400 * 1000));
                   var converted_date = date.toISOString().split('T')[0];
 
                   fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
@@ -829,6 +860,16 @@ module.exports = {
                     Fecha : fecha,
                     Programado : datos[a][keys[keys.length-1]].toString(),
                     Observaciones : observacion
+                  })
+                }
+
+                else if(keys.length == 3 && Number.isInteger(datos[a][keys[0]])==false ){
+                  await modelo.planmatriz.create({
+                    Fecha : fecha,
+                    Programado : datos[a][keys[keys.length-3]].toString(),
+                    Realizado : datos[a][keys[keys.length-2]].toString(),
+                    Observaciones : datos[a][keys[keys.length-1]].toString(),
+                    Area : area
                   })
                 }
 
@@ -849,6 +890,20 @@ module.exports = {
                     Area : area
                   })
                 }
+              }
+
+              if(keys.length == 4 && area!="Ventilación"){
+                var date = ExcelDateToJSDate(datos[a][keys[0]])
+                //var date = new Date(Math.round((datos[a][keys[0]] - (25567 + 1)) * 86400 * 1000));
+                var converted_date = date.toISOString().split('T')[0];
+                fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
+                await modelo.planmatriz.create({
+                    Fecha : fecha,
+                    Programado : datos[a][keys[keys.length-3]].toString(),
+                    Realizado : datos[a][keys[keys.length-2]].toString(),
+                    Observaciones : datos[a][keys[keys.length-1]].toString(),
+                    Area : area
+                })
               }
             }
           }
@@ -1031,7 +1086,32 @@ module.exports = {
       else if (datos_1[d] == "Matrizsap"){
         if (req.files["Matrizsap"].length !=undefined){
           for (e=0; e<req.files["Matrizsap"].length ; e++){
-
+            file = req.files["Matrizsap"][e];
+            const savePath = path.join(__dirname,"../",'public','uploads',file.name);
+            await file.mv(savePath);
+            var datos = leerExcelSap(file.name)[0];
+            var mes = leerExcelSap(file.name)[1];
+            for(a=1; a < datos.length ; a++){
+              var numpuerta ="";
+              var ut ="";
+              var arearesponsable ="";
+              var prioridad ="";
+              var nivel ="";
+              var plan ="";
+              var orden ="";
+              if(datos[a]["__EMPTY_7"] != undefined){
+                await modelo.vimosap.create({
+                  Numpuerta : datos[a]["__EMPTY_1"],
+                  Ut : datos[a]["__EMPTY_2"],
+                  Arearesponsable : datos[a]["__EMPTY_3"],
+                  Prioridad : datos[a]["__EMPTY_4"],
+                  Nivel : datos[a]["__EMPTY_5"],
+                  Plan : datos[a]["__EMPTY_6"],
+                  Orden : datos[a]["__EMPTY_7"],
+                  Mes : mes
+                })
+              }
+            }
           }
         }
         else{
@@ -1060,12 +1140,6 @@ module.exports = {
                 Mes : mes
               })
             }
-
-
-
-
-
-
           }
 
 
