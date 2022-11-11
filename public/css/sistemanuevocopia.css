@@ -730,9 +730,9 @@ hr{
 
 #tablecompletedvimo .tabla{
   background-color: white;
-  height: 475px;
   text-align: center;
   border-radius: 6px;
+  width: 100%;
 }
 
 .form-controlfilter{
@@ -773,10 +773,43 @@ hr{
   display: flex;
 
 }
-.item1{
+.brocalesitems .item1{
   width: 50%;
 }
-.item2{
+.brocalesitems .item2{
   margin-left: 30px;
+  width: 50%;
+}
+
+.matrizitems{
+  flex-direction: row;
+  display: flex;
+}
+
+.matrizitems .item1{
+  width: 50%;
+}
+
+.matrizitems .item2{
+  margin-left: 30px;
+  width: 50%;
+}
+
+
+.nav-item #menu_item1{
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+
+.nav-link:focus, .nav-link:hover {
+  color: #c2c7d0; 
+}
+
+.formulariocreacion .form-group{
+  padding-bottom: 20px;
+}
+
+.formulariocreacion .form-control{
   width: 50%;
 }

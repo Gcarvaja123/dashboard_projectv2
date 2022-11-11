@@ -3,6 +3,35 @@ var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggl
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl)
 })
+
+
+document.addEventListener("DOMContentLoaded", function(){
+  document.querySelectorAll('.sidebar .nav-link').forEach(function(element){
+    
+    element.addEventListener('click', function (e) {
+
+      let nextEl = element.nextElementSibling;
+      let parentEl  = element.parentElement;  
+
+        if(nextEl) {
+            e.preventDefault(); 
+            let mycollapse = new bootstrap.Collapse(nextEl);
+            
+            if(nextEl.classList.contains('show')){
+              mycollapse.hide();
+            } else {
+                mycollapse.show();
+                // find other submenus with class=show
+                var opened_submenu = parentEl.parentElement.querySelector('.submenu.show');
+                // if it exists, then close all of them
+                if(opened_submenu){
+                  new bootstrap.Collapse(opened_submenu);
+                }
+            }
+        }
+    }); // addEventListener
+  }) // forEach
+});
 function openActivity(evt, actividad) {
   var i, x, tablinks;
   x = document.getElementsByClassName("activity");
@@ -294,13 +323,21 @@ app.controller("myControllerAsistencia", function($scope,$filter){
     Anual_puertas[parseInt(local_data_puertas[a].Fecharevision.split("-")[1])-1]+=1;
   }
 
-  $scope.myMatrizPuertas = bar_planmatriz(meses, [0,0,0,0,0,0,0,0,0,0,0,0], Anual_puertas, "Puertas Vimo")
+
+  array_total_mes_vimo = [0,0,0,0,0,0,0,0,0,0,0,0]
+  for(a=0; a <local_data_sap.length; a++){
+    var result = local_data_sap[a].Mes.charAt(0).toUpperCase() + local_data_sap[a].Mes.slice(1).toLowerCase();
+    nummes = parseInt(obtenerMes(result))-1
+    array_total_mes_vimo[nummes]+=1;
+  }
+
+  $scope.myMatrizPuertas = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], array_total_mes_vimo , Anual_puertas, "Puertas Vimo")
 
 
 
-  $scope.myMatrizAire = bar_planmatriz(meses, total_deseadas_aire, Anual_aire, "Aire Acondicionado");
-  $scope.myMatrizColectores = bar_planmatriz(meses, total_deseadas_polvo, Anual_polvo, "Colectores de polvo");
-  $scope.myMatrizVentilacion = bar_planmatriz(meses, total_deseadas_ventilacion, Anual_ventilacion, "Ventilación");
+  $scope.myMatrizAire = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], total_deseadas_aire, Anual_aire, "Aire Acondicionado");
+  $scope.myMatrizColectores = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], total_deseadas_polvo, Anual_polvo, "Colectores de polvo");
+  $scope.myMatrizVentilacion = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], total_deseadas_ventilacion, Anual_ventilacion, "Ventilación");
   //$scope.myMatrizAire = Chart_creator(meses, Anual_aire, 0, "Plan matriz anual Aire Acondicionado")
   //$scope.myMatrizColectores = Chart_creator(meses, Anual_polvo, 0, "Plan matriz anual Colectores de Polvo")
   //$scope.myMatrizVentilacion = Chart_creator(meses, Anual_ventilacion, 0, "Plan matriz anual Ventilación")
@@ -698,7 +735,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       }
       var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
       //$scope.myMatrizAire = Chart_creator(meses, anual_aire, 0, "Plan matriz anual Aire Acondicionado")
-      $scope.myMatrizAire = bar_planmatriz(meses, anual_aire_deseados, anual_aire_completados, "Aire Acondicionado")
+      $scope.myMatrizAire = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], anual_aire_deseados, anual_aire_completados, "Aire Acondicionado")
     }
   }
 
@@ -744,7 +781,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       }
       var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
       //$scope.myMatrizAire = Chart_creator(meses, anual_aire, 0, "Plan matriz anual Aire Acondicionado")
-      $scope.myMatrizColectores = bar_planmatriz(meses, anual_polvo_deseados, anual_polvo_completados, "Colectores de Polvo")
+      $scope.myMatrizColectores = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], anual_polvo_deseados, anual_polvo_completados, "Colectores de Polvo")
     }
   }
 
@@ -788,7 +825,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
         }      
       }
       var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-      $scope.myMatrizVentilacion = bar_planmatriz(meses, anual_ventilacion_deseados, anual_ventilacion_completados, "Ventilación")
+      $scope.myMatrizVentilacion = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], anual_ventilacion_deseados, anual_ventilacion_completados, "Ventilación")
     }
   }
   $scope.changepuertas = function(name){
@@ -821,8 +858,14 @@ app.controller("myControllerAsistencia", function($scope,$filter){
           anual_vimo_completados[parseInt(local_data_puertas[a].Fecharevision.split("-")[1])-1]+=1;
         }
       }
+      array_total_mes_vimo = [0,0,0,0,0,0,0,0,0,0,0,0]
+      for(a=0; a <local_data_sap.length; a++){
+        var result = local_data_sap[a].Mes.charAt(0).toUpperCase() + local_data_sap[a].Mes.slice(1).toLowerCase();
+        nummes = parseInt(obtenerMes(result))-1
+        array_total_mes_vimo[nummes]+=1;
+      }
       var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-      $scope.myMatrizPuertas = bar_planmatriz(meses, [0,0,0,0,0,0,0,0,0,0,0,0], anual_vimo_completados, "Puertas Vimo")
+      $scope.myMatrizPuertas = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], array_total_mes_vimo, anual_vimo_completados, "Puertas Vimo")
 
     }
 
@@ -1929,7 +1972,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       }
       var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
       //$scope.myMatrizAire = Chart_creator(meses, anual_aire, 0, "Plan matriz anual Aire Acondicionado")
-      $scope.myMatrizAire = bar_planmatriz(meses, anual_aire_deseados, anual_aire_completados, "Aire Acondicionado")
+      $scope.myMatrizAire = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], anual_aire_deseados, anual_aire_completados, "Aire Acondicionado")
     }
 
 
@@ -1957,7 +2000,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       }
       var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
       //$scope.myMatrizAire = Chart_creator(meses, anual_aire, 0, "Plan matriz anual Aire Acondicionado")
-      $scope.myMatrizColectores = bar_planmatriz(meses, anual_polvo_deseados, anual_polvo_completados, "Colectores de Polvo")
+      $scope.myMatrizColectores = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], anual_polvo_deseados, anual_polvo_completados, "Colectores de Polvo")
     }
 
 
@@ -1985,7 +2028,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       }
       var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
       //$scope.myMatrizAire = Chart_creator(meses, anual_aire, 0, "Plan matriz anual Aire Acondicionado")
-      $scope.myMatrizVentilacion = bar_planmatriz(meses, anual_ventilacion_deseados, anual_ventilacion_completados, "Ventilacion")
+      $scope.myMatrizVentilacion = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], anual_ventilacion_deseados, anual_ventilacion_completados, "Ventilacion")
     }
 
 
@@ -2015,8 +2058,14 @@ app.controller("myControllerAsistencia", function($scope,$filter){
           anual_vimo_completados[parseInt(local_data_puertas[a].Fecharevision.split("-")[1])-1]+=1;
         }
       }
+      array_total_mes_vimo = [0,0,0,0,0,0,0,0,0,0,0,0]
+      for(a=0; a <local_data_sap.length; a++){
+        var result = local_data_sap[a].Mes.charAt(0).toUpperCase() + local_data_sap[a].Mes.slice(1).toLowerCase();
+        nummes = parseInt(obtenerMes(result))-1
+        array_total_mes_vimo[nummes]+=1;
+      }
       var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-      $scope.myMatrizPuertas = bar_planmatriz(meses, [0,0,0,0,0,0,0,0,0,0,0,0], anual_vimo_completados, "Puertas Vimo")
+      $scope.myMatrizPuertas = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], array_total_mes_vimo, anual_vimo_completados, "Puertas Vimo")
 
     }
 

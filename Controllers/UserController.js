@@ -11,12 +11,25 @@ var finished = false;
 
 function leerExcel(ruta){
   
+  
   const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
   const workbooksheet = workbook.SheetNames;
   const sheet  = workbooksheet[0];
   const dataExcel = reader.utils.sheet_to_json(workbook.Sheets[sheet]);
   return dataExcel;
 }
+
+function leerExcelSap(ruta){
+  var array=[];
+  const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
+  const workbooksheet = workbook.SheetNames;
+  const sheet  = workbooksheet[0];
+  const dataExcel = reader.utils.sheet_to_json(workbook.Sheets[sheet]);
+  array.push(dataExcel)
+  array.push(sheet)
+  return array;
+}
+
 
 function leerExcelDisciplina(ruta, archivos){
   const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
@@ -88,31 +101,36 @@ module.exports = {
             }).then(function(rows_puertas){
               modelo.usuario.findAll({
               }).then(function(rows_usuarios){
-                if(req.user != undefined){
-                  console.log("aca estoy")
-                  return res.render("dashboard", {
-                    totaldisciplina : rows_disciplina,
-                    totalasistencias : rows_asistencia,
-                    totalbrocales : rows_brocales,
-                    totalmatriz : rows_matriz,
-                    totalpuertas : rows_puertas,
-                    totalusuarios : rows_usuarios,
-                    user : req.user,
-                    authmessage : req.flash('authmessage')
-                  })
-                }
-                else{
-                  return res.render("dashboard", {
-                    totaldisciplina : rows_disciplina,
-                    totalasistencias : rows_asistencia,
-                    totalbrocales : rows_brocales,
-                    totalmatriz : rows_matriz,
-                    totalpuertas : rows_puertas,
-                    totalusuarios : rows_usuarios,
-                    user : "notlogged",
-                    authmessage : req.flash('authmessage')
-                  })
-                }
+                modelo.vimosap.findAll({                  
+                }).then(function(rows_vimosap){
+                  if(req.user != undefined){
+                    console.log("aca estoy")
+                    return res.render("dashboard", {
+                      totaldisciplina : rows_disciplina,
+                      totalasistencias : rows_asistencia,
+                      totalbrocales : rows_brocales,
+                      totalmatriz : rows_matriz,
+                      totalpuertas : rows_puertas,
+                      totalusuarios : rows_usuarios,
+                      user : req.user,
+                      totalsap : rows_vimosap,
+                      authmessage : req.flash('authmessage')
+                    })
+                  }
+                  else{
+                    return res.render("dashboard", {
+                      totaldisciplina : rows_disciplina,
+                      totalasistencias : rows_asistencia,
+                      totalbrocales : rows_brocales,
+                      totalmatriz : rows_matriz,
+                      totalpuertas : rows_puertas,
+                      totalusuarios : rows_usuarios,
+                      totalsap : rows_vimosap,
+                      user : "notlogged",
+                      authmessage : req.flash('authmessage')
+                    })
+                  }
+                })            
               })
               
             })
@@ -664,44 +682,36 @@ module.exports = {
             var datos = leerExcel(file.name);
             let keys = Object.keys(datos[0]);
             var area ="";
-            //if(file.name.split(" ")[0].toString() == "Puertas"){
             if(file.name.toString().includes("Consolidado")){
-              console.log(datos);
-              /*for(a=0; a < Object.keys(datos).length ; a++){
-                let keys = Object.keys(datos[a]);
-                var fecha1 ="";
-                var fecha2 ="";
-                if(keys.length > 1){
-
-                  if(parseInt(keys[keys.length-1].toString().split("/")[1]) < 10 || parseInt(keys[keys.length-1].toString().split("/")[0]) < 10){
-                    if(parseInt(keys[keys.length-1].toString().split("/")[1]) < 10){
-                      fecha2 = "0"+keys[keys.length-1].toString().split("/")[1];
-                    }
-                    else{
-                      fecha2 = keys[keys.length-1].toString().split("/")[1]
-                    }
-                    if(parseInt(keys[keys.length-1].toString().split("/")[0]) < 10){
-                      fecha1 = "0"+keys[keys.length-1].toString().split("/")[0];
-                    }
-                    else{
-                      fecha1 = keys[keys.length-1].toString().split("/")[0];
-                    }
-                  }
-
-                  fecha = fecha2+"-"+fecha1+"-"+keys[keys.length-1].toString().split("/")[2];
-
-
-                  modelo.puertas.create({
-                    Npuerta : datos[a][keys[0]],
-                    Area : datos[a][keys[1]],
-                    Tipo : datos[a][keys[2]],
-                    Nivel : datos[a][keys[3]],
-                    Ubicacion : datos[a][keys[4]],
-                    Fecha : fecha,
-                    Tiempo : datos[a][keys[5]],
-                  })
+              for(a=1; a< Object.keys(datos).length ; a++){
+                var date = ExcelDateToJSDate(datos[a]["__EMPTY_2"])
+                var converted_date = date.toISOString().split('T')[0];
+                fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
+                var Solicitante = "";
+                var Tipomantencion = "";
+                var Estado = "";
+                if(datos[a]["__EMPTY_6"] != undefined){
+                  Solicitante = datos[a]["__EMPTY_6"]
                 }
-              }*/
+
+                if(datos[a]["__EMPTY_3"] != undefined){
+                  Tipomantencion = datos[a]["__EMPTY_3"]
+                }
+
+                if(datos[a]["__EMPTY_7"] != undefined){
+                  Estado = datos[a]["__EMPTY_7"]
+                }
+
+                await modelo.puertas.create({
+                  Identificacion : datos[a]["__EMPTY"],
+                  Ubicacion : datos[a]["__EMPTY_1"],
+                  Fecharevision : fecha,
+                  Tipomantencion : Tipomantencion,
+                  Detalles : datos[a]["__EMPTY_4"],
+                  Solicitante : Solicitante,
+                  Estado : Estado
+                })
+              }
             }
             else{
               if (keys[0].toString().includes("AIRE")){
@@ -722,11 +732,9 @@ module.exports = {
                   //Hacemos cositas
                   if(keys.length == 3 ){
                     var date = ExcelDateToJSDate(datos[a][keys[0]] )
-                    //var date = new Date(Math.round((datos[a][keys[0]] - (25567 + 1)) * 86400 * 1000));
                     var converted_date = date.toISOString().split('T')[0];
 
                     fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
-                    //fecha = converted_date;  
                   }
                   if(datos[a][keys[keys.length-1]].toString() == datos[a][keys[keys.length-2]].toString() ){
                     modelo.planmatriz.create({
@@ -751,15 +759,13 @@ module.exports = {
         }
         else{
           //Solo un archivo.
-          //Joinplanmatriz(req.files["Matriz"]);
           file = req.files["Matriz"]
           const savePath = path.join(__dirname,"../",'public','uploads',file.name);
           await file.mv(savePath);
-          //var datos = leerExcel(file.name);
           var datos = leerExcelMatriz(file.name);
-          //let keys = Object.keys(datos[0]);
           var area ="";
-          //if(file.name.split(" ")[0].toString() == "Puertas"){
+          let keys = Object.keys(datos[0]);
+
           if(file.name.toString().includes("Consolidado")){
             for(a=1; a< Object.keys(datos).length ; a++){
               var date = ExcelDateToJSDate(datos[a]["__EMPTY_2"])
@@ -805,8 +811,10 @@ module.exports = {
             }
 
             var fecha = "";
+            var observacion = "";
             for (a = 1 ; a < Object.keys(datos).length ; a++ ){
               let keys = Object.keys(datos[a]);
+              console.log(keys)
               if(keys.length < 4){
                 //Hacemos cositas
                 if(keys.length == 3 ){
@@ -816,7 +824,15 @@ module.exports = {
                   fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
                   //fecha = converted_date;  
                 }
-                if(datos[a][keys[keys.length-1]].toString() == datos[a][keys[keys.length-2]].toString() ){
+                if(keys.length==1){
+                  await modelo.planmatriz.create({
+                    Fecha : fecha,
+                    Programado : datos[a][keys[keys.length-1]].toString(),
+                    Observaciones : observacion
+                  })
+                }
+
+                else if(datos[a][keys[keys.length-1]].toString() == datos[a][keys[keys.length-2]].toString() ){
                   await modelo.planmatriz.create({
                     Fecha : fecha,
                     Programado : datos[a][keys[keys.length-2]].toString(),
@@ -825,6 +841,7 @@ module.exports = {
                   })
                 }
                 else{
+                  observacion = datos[a][keys[keys.length-1]].toString();
                   await modelo.planmatriz.create({
                     Fecha : fecha,
                     Programado : datos[a][keys[keys.length-2]].toString(),
@@ -937,7 +954,7 @@ module.exports = {
       }
       else if (datos_1[d] == "Equipos"){
         if (req.files["Equipos"].length !=undefined){
-          for (e=0; e<req.files["Disciplina"].length ; e++){
+          for (e=0; e<req.files["Equipo"].length ; e++){
 
           }
         }
@@ -1009,8 +1026,49 @@ module.exports = {
             
           }
         }
+      }
+      else if (datos_1[d] == "Matrizsap"){
+        if (req.files["Matrizsap"].length !=undefined){
+          for (e=0; e<req.files["Matrizsap"].length ; e++){
+
+          }
+        }
+        else{
+          file = req.files["Matrizsap"];
+          const savePath = path.join(__dirname,"../",'public','uploads',file.name);
+          await file.mv(savePath);
+          var datos = leerExcelSap(file.name)[0];
+          var mes = leerExcelSap(file.name)[1];
+          for(a=1; a < datos.length ; a++){
+            var numpuerta ="";
+            var ut ="";
+            var arearesponsable ="";
+            var prioridad ="";
+            var nivel ="";
+            var plan ="";
+            var orden ="";
+            if(datos[a]["__EMPTY_7"] != undefined){
+              await modelo.vimosap.create({
+                Numpuerta : datos[a]["__EMPTY_1"],
+                Ut : datos[a]["__EMPTY_2"],
+                Arearesponsable : datos[a]["__EMPTY_3"],
+                Prioridad : datos[a]["__EMPTY_4"],
+                Nivel : datos[a]["__EMPTY_5"],
+                Plan : datos[a]["__EMPTY_6"],
+                Orden : datos[a]["__EMPTY_7"],
+                Mes : mes
+              })
+            }
 
 
+
+
+
+
+          }
+
+
+        }
 
       }
          
