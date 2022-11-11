@@ -905,11 +905,12 @@ module.exports = {
           }
         }
         else{
-            //JoinDisciplina(req.files["Disciplina"]);
+
+
+
             file = req.files["Disciplina"];
             const savePath = path.join(__dirname,"../",'public','uploads',file.name);
             await file.mv(savePath);
-            //[0,1,2,3,4,5,6,7,8,9,10,11,12,13]
             var datos_aux = leerExcelDisciplina(file.name, [0,1,2,3,4,5,6,7,8,9,10,11,12,13])
             var datos = datos_aux[0];
             //console.log(datos);
@@ -928,7 +929,7 @@ module.exports = {
                   }
                 }
                 await modelo.disciplina.create({
-                  Area : datos_aux[1][a],
+                  Area : datos_aux[1][a].replace(/\s+/g,' ').trim().toUpperCase(),
                   //Area : datos[a][b][llaves[0]],
                   Dia : datos[a][b][llaves[1]],
                   Fecha : Fecha,

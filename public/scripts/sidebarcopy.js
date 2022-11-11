@@ -2257,7 +2257,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
     // fecha == local_data_disciplina[a].Fecha
     // array_week.indexOf(local_data_disciplina[a].Fecha)!=-1
     for(a=0; a<local_data_disciplina.length; a++){
-      if(local_data_disciplina[a].Area == "TTE 6 "  ){
+      if(local_data_disciplina[a].Area == "SUB 6" && array_week.indexOf(local_data_disciplina[a].Fecha)!=-1  ){
         fecha_split = local_data_disciplina[a].Fecha.split("-")
         fecha_invertida = fecha_split[2]+"-"+fecha_split[1]+"-"+fecha_split[0];
         values_1[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Llegada_Instalacion.split(":")[1])*60+Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"08:00:00")))*1000;
@@ -2323,6 +2323,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
         fecha_split = local_data_disciplina[a].Fecha.split("-")
         fecha_invertida = fecha_split[2]+"-"+fecha_split[1]+"-"+fecha_split[0];
         llegada = local_data_disciplina[a].Llegada_Instalacion
+        console.log(llegada)
         var hora_llegada = parseInt(llegada.split(":")[0]);
         values_1[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Llegada_Instalacion.split(":")[1])*60+Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+hora_llegada.toString()+":00:00")))*1000;
         values_2[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Tiempo_Instalacion.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Instalacion.split(":")[1]))*60*1000
