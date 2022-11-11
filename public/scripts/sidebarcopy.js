@@ -189,7 +189,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       }
     } 
   }
-  $scope.myJsonpieasistencia1 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("SUB-5")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("SUB-5")], "SUB 5");
+  /*$scope.myJsonpieasistencia1 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("SUB-5")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("SUB-5")], "SUB 5");
   $scope.myJsonpieasistencia2 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("PIPA NORTE QT PACIFICO SUPERIOR")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("PIPA NORTE QT PACIFICO SUPERIOR")], "PIPA NORTE");
   $scope.myJsonpieasistencia3 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("TTE 6 ACARREO ")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("TTE 6 ACARREO ")],"TTE 6 ACARREO " );
   $scope.myJsonpieasistencia4 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("DIABLO REGIMIENTO ")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("DIABLO REGIMIENTO ")], "DIABLO REGIMIENTO ");
@@ -199,7 +199,35 @@ app.controller("myControllerAsistencia", function($scope,$filter){
   $scope.myJsonpieasistencia8 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("OP-20/21")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("OP-20/21")],"OP-20/21" );
   $scope.myJsonpieasistencia9 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("CHANCADO PRIMARIO COLON")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("CHANCADO PRIMARIO COLON")], "CHANCADO PRIMARIO COLON");
   $scope.myJsonpieasistencia10 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("AGUAS CONTACTO MINA TURNOS 4X4")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("AGUAS CONTACTO MINA TURNOS 4X4")], "ACCU TURNOS");
-  
+  */
+  $scope.myJsonpieasistencia1 = Pie_creator($scope.total_trabajadores_array[0], $scope.asistencia_total_trabajadores_array[0], $scope.nombre_sectores_array[0]);
+  $scope.myJsonpieasistencia2 = Pie_creator($scope.total_trabajadores_array[1], $scope.asistencia_total_trabajadores_array[1], $scope.nombre_sectores_array[1]);
+  $scope.myJsonpieasistencia3 = Pie_creator($scope.total_trabajadores_array[2], $scope.asistencia_total_trabajadores_array[2], $scope.nombre_sectores_array[2]);
+  $scope.myJsonpieasistencia4 = Pie_creator($scope.total_trabajadores_array[3], $scope.asistencia_total_trabajadores_array[3], $scope.nombre_sectores_array[3]);
+  $scope.myJsonpieasistencia5 = Pie_creator($scope.total_trabajadores_array[4], $scope.asistencia_total_trabajadores_array[4], $scope.nombre_sectores_array[4]);
+  $scope.myJsonpieasistencia6 = Pie_creator($scope.total_trabajadores_array[5], $scope.asistencia_total_trabajadores_array[5], $scope.nombre_sectores_array[5]);
+  $scope.myJsonpieasistencia7 = Pie_creator($scope.total_trabajadores_array[6], $scope.asistencia_total_trabajadores_array[6], $scope.nombre_sectores_array[6]);
+  $scope.myJsonpieasistencia8 = Pie_creator($scope.total_trabajadores_array[7], $scope.asistencia_total_trabajadores_array[7], $scope.nombre_sectores_array[7]);
+  $scope.myJsonpieasistencia9 = Pie_creator($scope.total_trabajadores_array[8], $scope.asistencia_total_trabajadores_array[8], $scope.nombre_sectores_array[8]);
+  $scope.myJsonpieasistencia10 = Pie_creator($scope.total_trabajadores_array[9], $scope.asistencia_total_trabajadores_array[9], $scope.nombre_sectores_array[9]);
+  $scope.myJsonpieasistencia11 = Pie_creator($scope.total_trabajadores_array[10], $scope.asistencia_total_trabajadores_array[10], $scope.nombre_sectores_array[10]);
+  $scope.myJsonpieasistencia12 = Pie_creator($scope.total_trabajadores_array[11], $scope.asistencia_total_trabajadores_array[11], $scope.nombre_sectores_array[11]);
+  $scope.myJsonpieasistencia13 = Pie_creator($scope.total_trabajadores_array[12], $scope.asistencia_total_trabajadores_array[12], $scope.nombre_sectores_array[12]);
+  $scope.myJsonpieasistencia14 = Pie_creator($scope.total_trabajadores_array[13], $scope.asistencia_total_trabajadores_array[13], $scope.nombre_sectores_array[13]);
+  $scope.myJsonpieasistencia15 = Pie_creator($scope.total_trabajadores_array[14], $scope.asistencia_total_trabajadores_array[14], $scope.nombre_sectores_array[14]);
+  $scope.myJsonpieasistencia16 = Pie_creator($scope.total_trabajadores_array[15], $scope.asistencia_total_trabajadores_array[15], $scope.nombre_sectores_array[15]);
+  $scope.myJsonpieasistencia17 = Pie_creator($scope.total_trabajadores_array[16], $scope.asistencia_total_trabajadores_array[16], $scope.nombre_sectores_array[16]);
+  $scope.myJsonpieasistencia18 = Pie_creator($scope.total_trabajadores_array[17], $scope.asistencia_total_trabajadores_array[17], $scope.nombre_sectores_array[17]);
+    $scope.myJsonpieasistencia19 = Pie_creator($scope.total_trabajadores_array[18], $scope.asistencia_total_trabajadores_array[18], $scope.nombre_sectores_array[18]);
+    $scope.myJsonpieasistencia20 = Pie_creator($scope.total_trabajadores_array[19], $scope.asistencia_total_trabajadores_array[19], $scope.nombre_sectores_array[19]);
+    $scope.myJsonpieasistencia21 = Pie_creator($scope.total_trabajadores_array[20], $scope.asistencia_total_trabajadores_array[20], $scope.nombre_sectores_array[20]);
+    $scope.myJsonpieasistencia22 = Pie_creator($scope.total_trabajadores_array[21], $scope.asistencia_total_trabajadores_array[21], $scope.nombre_sectores_array[21]);
+    $scope.myJsonpieasistencia23 = Pie_creator($scope.total_trabajadores_array[22], $scope.asistencia_total_trabajadores_array[22], $scope.nombre_sectores_array[22]);
+    $scope.myJsonpieasistencia24 = Pie_creator($scope.total_trabajadores_array[23], $scope.asistencia_total_trabajadores_array[23], $scope.nombre_sectores_array[23]);
+    $scope.myJsonpieasistencia25 = Pie_creator($scope.total_trabajadores_array[24], $scope.asistencia_total_trabajadores_array[24], $scope.nombre_sectores_array[24]);
+
+
+
   var sector_visited = ["SUB-5","PIPA NORTE QT PACIFICO SUPERIOR", "TTE 6 ACARREO ", "DIABLO REGIMIENTO ", "SUB 6 RENO", "TENIENTE 7 ACARREO", "LA JUNTA", "OP-20/21", "CHANCADO PRIMARIO COLON", "AGUAS CONTACTO MINA TURNOS 4X4"];
   /*var asistencia_A = [];
   var asistencia_B = [];

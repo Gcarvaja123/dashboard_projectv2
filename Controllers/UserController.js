@@ -822,6 +822,7 @@ module.exports = {
                 Estado = datos[a]["__EMPTY_7"]
               }
 
+              
               await modelo.puertas.create({
                 Identificacion : datos[a]["__EMPTY"],
                 Ubicacion : datos[a]["__EMPTY_1"],
