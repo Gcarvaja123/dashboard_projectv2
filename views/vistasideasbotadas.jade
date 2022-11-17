@@ -1,3 +1,26 @@
+#Modalfilesuser.modal.fade( aria-labelledby='Modalfiles' )
+        form.formasistencias(action='/crearusuario' method='post' enctype='multipart/form-data')
+          .modal-dialog
+            .modal-content
+              .modal-header
+                h5#exampleModalLabel.modal-title Creacion de usuario
+                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+              .modal-body
+                .container
+                  .mb-3
+                    label() Ingresar nombre usuario
+                    input#formFileMultiple.form-control(type='text' ng-model="name1" ng-change = "checkuser()" name="Usuario" multiple='')
+                  .mb-3
+                    label() Ingresar contraseña
+                    input#formFileMultiple.form-control(type="password" ng-model="pass1" ng-change = "checkpassword()" name="Contrasena" multiple='')
+                  .mb-3
+                    label() Ingresar contraseña nuevamente
+                    input#formFileMultiple.form-control(type="password" ng-model="pass2" ng-change = "checkpassword()" name="ConfirmarContraseña" multiple='')
+                  {{msg}}
+              .modal-footer
+                button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                button.btnn(name="probando3" ng-model="aceptuser" ng-disabled='userbutton' value="probando4") Aceptar
+
 #tablevimo.grid-container
           div
             
@@ -103,3 +126,34 @@
             //  #chart9(zingchart='' zc-json='myJsonpieasistencia9' zc-width='100%' zc-height='210px')
             //div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="modalasistencia('AGUAS CONTACTO MINA TURNOS 4X4')" type='button' data-bs-toggle='modal' data-bs-target='#Modalasistencia') 
             //  #chart10(zingchart='' zc-json='myJsonpieasistencia10' zc-width='100%' zc-height='210px')
+
+
+
+
+
+file = req.files["Matrizsap"];
+          const savePath = path.join(__dirname,"../",'public','uploads',file.name);
+          await file.mv(savePath);
+          var datos = leerExcelSap(file.name)[0];
+          var mes = leerExcelSap(file.name)[1];
+          for(a=1; a < datos.length ; a++){
+            var numpuerta ="";
+            var ut ="";
+            var arearesponsable ="";
+            var prioridad ="";
+            var nivel ="";
+            var plan ="";
+            var orden ="";
+            if(datos[a]["__EMPTY_7"] != undefined){
+              await modelo.vimosap.create({
+                Numpuerta : datos[a]["__EMPTY_1"],
+                Ut : datos[a]["__EMPTY_2"],
+                Arearesponsable : datos[a]["__EMPTY_3"],
+                Prioridad : datos[a]["__EMPTY_4"],
+                Nivel : datos[a]["__EMPTY_5"],
+                Plan : datos[a]["__EMPTY_6"],
+                Orden : datos[a]["__EMPTY_7"],
+                Mes : mes
+              })
+            }
+          }

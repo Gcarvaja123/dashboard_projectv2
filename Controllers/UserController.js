@@ -1,4 +1,4 @@
-
+ 
 var modelo = require('.././Models');
 let googlesheet = require('.././spreadsheet')
 const xlsx = require("xlsx");
@@ -117,7 +117,10 @@ module.exports = {
                         totalequipos : rows_equipos,
                         user : req.user,
                         totalsap : rows_vimosap,
-                        authmessage : req.flash('authmessage')
+                        authmessage : req.flash('authmessage'),
+                        info: req.flash('info'),
+                        error : req.flash('error'),
+                        ingreso : req.flash('ingreso'),
                       })
                     }
                     else{
@@ -131,7 +134,10 @@ module.exports = {
                         totalequipos : rows_equipos,
                         totalsap : rows_vimosap,
                         user : "notlogged",
-                        authmessage : req.flash('authmessage')
+                        info: req.flash('info'),
+                        authmessage : req.flash('authmessage'),
+                        error : req.flash('error'),
+                        ingreso : req.flash('ingreso')
                       })
                     }
                   })                 
@@ -1021,72 +1027,80 @@ module.exports = {
           }
         }
         else{
-          file = req.files["Equipos"];
-          const savePath = path.join(__dirname,"../",'public','uploads',file.name);
-          await file.mv(savePath);
-          var datos = leerExcel(file.name);
-          //console.log(datos[4]["CONTRATO"])
-          //console.log(datos[5]["CONTRATO"])
-          for(a=0; a < datos.length ; a++){
-            var equipo="";
-            var patente="";
-            var cartola="";
-            var ultimamantencionkms="";
-            var proxmantkms="";
-            var kmactual="";
-            var semaforo="";
-            var estadoactual="";
-            fecha1="";
-            if(datos[a]["ULTIMA MANTENCION FECHA"]!=undefined && datos[a]["ULTIMA MANTENCION FECHA"].length>5 ){
-              var date1 = ExcelDateToJSDate(datos[a]["ULTIMA MANTENCION FECHA"]);
-              var converted_date1 = date1.toISOString().split('T')[0];
-              fecha1 = converted_date1.split("-")[2]+"-"+converted_date1.split("-")[1]+"-"+converted_date1.split("-")[0]
+          try{
+            file = req.files["Equipos"];
+            const savePath = path.join(__dirname,"../",'public','uploads',file.name);
+            await file.mv(savePath);
+            var datos = leerExcel(file.name);
+            //console.log(datos[4]["CONTRATO"])
+            //console.log(datos[5]["CONTRATO"])
+            for(a=0; a < datos.length ; a++){
+              var equipo="";
+              var patente="";
+              var cartola="";
+              var ultimamantencionkms="";
+              var proxmantkms="";
+              var kmactual="";
+              var semaforo="";
+              var estadoactual="";
+              fecha1="";
+              if(datos[a]["ULTIMA MANTENCION FECHA"]!=undefined && datos[a]["ULTIMA MANTENCION FECHA"].length>5 ){
+                var date1 = ExcelDateToJSDate(datos[a]["ULTIMA MANTENCION FECHA"]);
+                var converted_date1 = date1.toISOString().split('T')[0];
+                fecha1 = converted_date1.split("-")[2]+"-"+converted_date1.split("-")[1]+"-"+converted_date1.split("-")[0]
+              }
+              fecha2="";
+              if(datos[a]["FECHA CHEQUEO DE GASES"]!=undefined && datos[a]["ULTIMA MANTENCION FECHA"].length>5){
+                var date2 = ExcelDateToJSDate(datos[a]["FECHA CHEQUEO DE GASES"]);
+                var converted_date2 = date2.toISOString().split('T')[0];
+                fecha2 = converted_date2.split("-")[2]+"-"+converted_date2.split("-")[1]+"-"+converted_date2.split("-")[0]
+              }
+              if(datos[a]["EQUIPO"]!=undefined){
+                equipo = datos[a]["EQUIPO"];
+              }
+              if(datos[a]["PATENTE"]!=undefined){
+                patente = datos[a]["PATENTE"];
+              }
+              if(datos[a]["CARTOLA"]!=undefined){
+                cartola = datos[a]["CARTOLA"];
+              }
+              if(datos[a]["ULTIMA MANTENCION KMS"]!=undefined){
+                var str = datos[a]["ULTIMA MANTENCION KMS"].split(" ");
+                ultimamantencionkms = str[0]+" "+str[1];
+              }
+              if(datos[a]["PROXIMA MANT. KMS"]!=undefined){
+                proxmantkms = datos[a]["PROXIMA MANT. KMS"]
+              }
+              if(datos[a]["KILOMETRAJE ACTUAL"]!=undefined){
+                kmactual = datos[a]["KILOMETRAJE ACTUAL"];
+              }
+              if(datos[a]["SEMAFORO"]!=undefined){
+                semaforo = datos[a]["SEMAFORO"];
+              }
+              if(datos[a]["ESTADO ACTUAL"]!=undefined){
+                estadoactual = datos[a]["ESTADO ACTUAL"];
+              }
+              /*await modelo.equipos.create({
+                Equipo : equipo,
+                Patente : patente,
+                Cartola : cartola,
+                Ultimamantencion : fecha1,
+                Ultimokms : ultimamantencionkms,
+                Proximakms : proxmantkms,
+                Kilometrajeactual : kmactual,
+                Semaforo : semaforo,
+                Estado : estadoactual,
+                Fechagas : fecha2
+              })*/
+              
             }
-            fecha2="";
-            if(datos[a]["FECHA CHEQUEO DE GASES"]!=undefined && datos[a]["ULTIMA MANTENCION FECHA"].length>5){
-              var date2 = ExcelDateToJSDate(datos[a]["FECHA CHEQUEO DE GASES"]);
-              var converted_date2 = date2.toISOString().split('T')[0];
-              fecha2 = converted_date2.split("-")[2]+"-"+converted_date2.split("-")[1]+"-"+converted_date2.split("-")[0]
-            }
-            if(datos[a]["EQUIPO"]!=undefined){
-              equipo = datos[a]["EQUIPO"];
-            }
-            if(datos[a]["PATENTE"]!=undefined){
-              patente = datos[a]["PATENTE"];
-            }
-            if(datos[a]["CARTOLA"]!=undefined){
-              cartola = datos[a]["CARTOLA"];
-            }
-            if(datos[a]["ULTIMA MANTENCION KMS"]!=undefined){
-              var str = datos[a]["ULTIMA MANTENCION KMS"].split(" ");
-              ultimamantencionkms = str[0]+" "+str[1];
-            }
-            if(datos[a]["PROXIMA MANT. KMS"]!=undefined){
-              proxmantkms = datos[a]["PROXIMA MANT. KMS"]
-            }
-            if(datos[a]["KILOMETRAJE ACTUAL"]!=undefined){
-              kmactual = datos[a]["KILOMETRAJE ACTUAL"];
-            }
-            if(datos[a]["SEMAFORO"]!=undefined){
-              semaforo = datos[a]["SEMAFORO"];
-            }
-            if(datos[a]["ESTADO ACTUAL"]!=undefined){
-              estadoactual = datos[a]["ESTADO ACTUAL"];
-            }
-            await modelo.equipos.create({
-              Equipo : equipo,
-              Patente : patente,
-              Cartola : cartola,
-              Ultimamantencion : fecha1,
-              Ultimokms : ultimamantencionkms,
-              Proximakms : proxmantkms,
-              Kilometrajeactual : kmactual,
-              Semaforo : semaforo,
-              Estado : estadoactual,
-              Fechagas : fecha2
-            })
-            
+          }catch(err){
+            console.error(err);
+            req.flash('error', file.name.toString());
+            req.flash('error', "mas errores")
+
           }
+          
         }
       }
       else if (datos_1[d] == "Matrizsap"){
@@ -1121,6 +1135,7 @@ module.exports = {
           }
         }
         else{
+
           file = req.files["Matrizsap"];
           const savePath = path.join(__dirname,"../",'public','uploads',file.name);
           await file.mv(savePath);
@@ -1155,6 +1170,7 @@ module.exports = {
          
     }
     //res.send({redirect :'/dashboard'})
+    req.flash('ingreso', 'Archivos ingreados')
     await res.redirect("dashboard");
     /*modelo.disciplina.findAll({
     }).then(function(rows_disciplina){
@@ -1176,12 +1192,37 @@ module.exports = {
     });*/
   },
     
-  postCrearusuario : function(req, res, next){
-    modelo.usuario.create({
-      Usuario : req.body.Usuario,
-      Contraseña : req.body.Contrasena,
-      Rango : "admin"
+  postCrearusuario : async (req, res, next)=>{
+    await modelo.usuario.findAll({
+      where:
+      {
+        Usuario : req.body.Usuario
+      }
+    }).then(async function(rows_usuarios){
+      if(rows_usuarios.length ==0){
+        await modelo.usuario.findAll({
+          where:{
+            Contraseña : req.body.Contrasena
+          }
+        }).then(async function(rows_usuario2){
+          if(rows_usuario2.length==0){
+            await modelo.usuario.create({
+              Usuario : req.body.Usuario,
+              Contraseña : req.body.Contrasena,
+              Rango : req.body.gridRadios
+            })
+            req.flash('info', 'Se ha registrado correctamente');
+          }
+          else{
+            req.flash('info', 'Usuario o Contraseña ya existen');
+          }
+        })
+      }
+      else{
+        req.flash('info', 'Usuario o Contraseña ya existen');
+      }
     })
+    
 
     res.redirect("dashboard")
   },

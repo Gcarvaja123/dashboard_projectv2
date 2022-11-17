@@ -83,6 +83,8 @@ var app = angular.module('myApp', ['zingchart-angularjs']);
 
 app.controller("myControllerAsistencia", function($scope,$filter){
 
+
+
   $scope.authmessagestr = local_authmessage[0]
   $scope.userbutton = true
   $scope.username = ""; 
@@ -2488,6 +2490,19 @@ app.controller("myControllerAsistencia", function($scope,$filter){
     else{
       $scope.msg = ""
     }
+  }
+  $scope.EstadoArchivos = ""
+  if(local_error.length!=0){
+    $scope.Estado  =  "Se encontraron errores en los siguientes archivos :"
+    for(a=0 ; a < local_error.length; a++){
+      $scope.EstadoArchivos+= "-"
+      $scope.EstadoArchivos += local_error[a]
+      $scope.EstadoArchivos += "\n"
+    }
+  }
+  else{
+    $scope.Estado = "Archivos ingresados correctamente"
+
   }
   
 

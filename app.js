@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 require("date-format-lite");
 var upload_2 = require("express-fileupload");
 const session = require('express-session')
-
 app.use(upload_2());
 
 var flash = require('connect-flash');

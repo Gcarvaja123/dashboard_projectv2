@@ -25,6 +25,9 @@ html
       local_data_usuarios = !{JSON.stringify(totalusuarios)};
       local_data_sap = !{JSON.stringify(totalsap)};
       local_data_equipo = !{JSON.stringify(totalequipos)};
+      local_info = !{JSON.stringify(info)};
+      local_error = !{JSON.stringify(error)}
+      local_ingreso = !{JSON.stringify(ingreso)}
       
   
   body(ng-app='myApp' ng-controller="myControllerAsistencia")
@@ -65,28 +68,7 @@ html
               .modal-footer
                 button.btnn(type='button' data-bs-dismiss='modal') Cerrar
                 button.btnn(name="probando3" value="probando4") Aceptar
-    #Modalfilesuser.modal.fade( aria-labelledby='Modalfiles' )
-        form.formasistencias(action='/crearusuario' method='post' enctype='multipart/form-data')
-          .modal-dialog
-            .modal-content
-              .modal-header
-                h5#exampleModalLabel.modal-title Creacion de usuario
-                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
-              .modal-body
-                .container
-                  .mb-3
-                    label() Ingresar nombre usuario
-                    input#formFileMultiple.form-control(type='text' ng-model="name1" ng-change = "checkuser()" name="Usuario" multiple='')
-                  .mb-3
-                    label() Ingresar contraseña
-                    input#formFileMultiple.form-control(type="password" ng-model="pass1" ng-change = "checkpassword()" name="Contrasena" multiple='')
-                  .mb-3
-                    label() Ingresar contraseña nuevamente
-                    input#formFileMultiple.form-control(type="password" ng-model="pass2" ng-change = "checkpassword()" name="ConfirmarContraseña" multiple='')
-                  {{msg}}
-              .modal-footer
-                button.btnn(type='button' data-bs-dismiss='modal') Cerrar
-                button.btnn(name="probando3" ng-model="aceptuser" ng-disabled='userbutton' value="probando4") Aceptar
+    
 
     #Modallogin.modal.fade( aria-labelledby='Modallogin' )
       form.formasistencias(action='/login' method='post' enctype='multipart/form-data')
@@ -105,6 +87,22 @@ html
                     input#formFileMultiple.form-control(type='password' name='password'  placeholder='Contraseña')
                   if authmessage!=""
                     {{authmessagestr}}
+              .modal-footer
+                button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                button.btnn(name="probando3" value="probando4") Aceptar
+    #ModalInformacion.modal.fade( aria-labelledby='Modallogin' )
+      form.formasistencias
+          .modal-dialog
+            .modal-content
+              .modal-header
+                h5#exampleModalLabel.modal-title Información del ingreso de archivos
+                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+              .modal-body
+                .container
+                  p
+                  span {{Estado}}
+                  p
+                  span(style='white-space: pre;') {{EstadoArchivos}}
               .modal-footer
                 button.btnn(type='button' data-bs-dismiss='modal') Cerrar
                 button.btnn(name="probando3" value="probando4") Aceptar
@@ -151,8 +149,7 @@ html
         
         li.nav-item.d-none.d-sm-inline-block
           if user != 'notlogged'
-            li.nav-item
-              button.btnn(type='button' data-bs-toggle='modal' data-bs-target='#Modalfilesuser') Crear usuario
+            
             li.nav-item.d-none.d-sm-inline-block
               a.nav-link() {{username}}
             
@@ -479,7 +476,7 @@ html
             p
             #matriz4(zingchart='' zc-json='myMatrizPuertas' zc-width='100%' zc-height='300px' visibility="hidden" )
 
-        p
+        p 
         select.selectasistencia.form-selectfilter( ng-model='columnsa' ng-init='columnsa="Identificacion"' ng-options='e for e in headers' )
         input.form-controlfilter( type='text' ng-model='searchtxt[columnsa]' placeholder='Ingresar valor a filtrar')
         p
@@ -680,42 +677,50 @@ html
               div
                 #chart55(zingchart='' zc-json='myJsonTest' zc-width='100%' zc-height='440px' visibility="hidden")
       #Creacion.w3-container.w3-border.activity(style='display:none')
-        form.formulariocreacion
+        form.formulariocreacion(action='/crearusuario' method='post' enctype='multipart/form-data')
           .form-group.row
             label.col-sm-2.col-form-label(for='inputEmail3') Nombre usuario
             .col-sm-10
-              input#inputEmail3.form-control(type='email' placeholder='Ingresar usuario')
+              input#inputEmail3.form-control(type='text' name= "Usuario" placeholder='Ingresar usuario')
           .form-group.row
             label.col-sm-2.col-form-label(for='inputPassword3') Contraseña
             .col-sm-10
-              input#inputPassword3.form-control(type='password' placeholder='Ingrese contraseña')
+              input#inputPassword3.form-control(ng-model="pass1" ng-change = "checkpassword()" name="Contrasena" type='password' placeholder='Ingrese contraseña')
           .form-group.row
             label.col-sm-2.col-form-label(for='inputPassword3') Confirmar contraseña
             .col-sm-10
-              input#inputPassword3.form-control(type='password' placeholder='Reingresar contraseña')
+              input#inputPassword3.form-control(ng-model="pass2" ng-change = "checkpassword()" name="ContrasenaRepeticion" type='password' placeholder='Reingresar contraseña')
+              p
+              {{msg}}
           fieldset.form-group
             .row
               legend.col-form-label.col-sm-2.pt-0 Roles
               .col-sm-10
                 .form-check
-                  input#gridRadios1.form-check-input(type='radio' name='gridRadios' value='option1' checked='')
+                  input#gridRadios1.form-check-input(type='radio' name='gridRadios' value='Visualizacion' checked='')
                   label.form-check-label(for='gridRadios1')
                     | Rol 1 (Visualización de información)
                 .form-check
-                  input#gridRadios2.form-check-input(type='radio' name='gridRadios' value='option2')
+                  input#gridRadios2.form-check-input(type='radio' name='gridRadios' value='Modificacion')
                   label.form-check-label(for='gridRadios2')
                     | Rol 2 (Ingreso información y modificación)
                 .form-check.disabled
-                  input#gridRadios3.form-check-input(type='radio' name='gridRadios' value='option3' )
+                  input#gridRadios3.form-check-input(type='radio' name='gridRadios' value='Reportes' )
                   label.form-check-label(for='gridRadios3')
                     | Rol 3 (Crea reportes)
           .form-group.row
             .col-sm-10
-              button.btn.btn-primary(type='submit') Ingresar
+              button.btn.btn-primary(type='submit') Crear
   script(type='text/javascript' src='/scripts/sidebarcopy.js')
   script.
     if(local_authmessage!=""){
       document.getElementById("loginbutton").click();
     }
-    
+    if(local_ingreso.length !=0){
+      var myModal = new bootstrap.Modal(document.getElementById('ModalInformacion'), {
+        keyboard: false
+      })
+      myModal.toggle()
+      
+    }
     
