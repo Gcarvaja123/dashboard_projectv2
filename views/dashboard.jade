@@ -3,6 +3,7 @@ html
   head
     script(type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
     script(type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js')
+    script(type='text/javascript' src='https://unpkg.com/@popperjs/core@2')
     link(rel='stylesheet' type='text/css' href='/css/sidevar.css')
     link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css' integrity='sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx' crossorigin='anonymous')
     link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css')
@@ -40,16 +41,30 @@ html
                 button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
               .modal-body
                 .container
-                  .mb-3
-                    label.form-label(for='formFileMultiple') Asistencia
-                    input#formFileMultiple.form-control(type='file' name="Asistencia" multiple='')
                   .mb-3.matrizitems
                     .item1
                       label.form-label(for='formFileMultiple') Plan matriz
-                      input#formFileMultiple.form-control(type='file' name="Matriz" multiple='')
+                      .planexample
+                        input#formFileMultiple.form-control(type='file' name="Matriz" multiple='')
+                        button.btn.btn-secondary.planbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverplan'  data-bs-content=' ')
+                          i.bi.bi-card-image
+                        button.btn.btn-secondary.vimobutton(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popovervimo'  data-bs-content=' ')
+                          i.bi.bi-card-image
+
                     .item2
                       label.form-label(for='formFileMultiple') P. Vimo SAP
-                      input#formFileMultiple.form-control(type='file' name="Matrizsap" multiple='')  
+                      .sapexample
+                        input#formFileMultiple.form-control(type='file' name="Matrizsap" multiple='')
+                        button.btn.btn-secondary.sapbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoversap'  data-bs-content=' ')
+                          i.bi.bi-card-image
+                  .mb-3
+                    .item1
+                      label.form-label(for='formFileMultiple') Asistencia
+                      .asistenciaexample
+                        input#formFileMultiple.form-control(type='file' name="Asistencia" multiple='')
+                        button.btn.btn-secondary.asistenciabutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverasistencia'  data-bs-content=' ')
+                          i.bi.bi-card-image
+                  
                   .mb-3.brocalesitems
                     .item1
                       label.form-label(for='formFileMultiple') Servicio y limpieza brocales sub 5
@@ -59,10 +74,16 @@ html
                       input#formFileMultiple.form-control(type='file' name="Brocales" multiple='')
                   .mb-3
                     label.form-label(for='formFileMultiple') Disciplina operacional
-                    input#formFileMultiple.form-control(type='file' name="Disciplina" multiple='')
+                    .disciplinaexample
+                      input#formFileMultiple.form-control(type='file' name="Disciplina" multiple='')
+                      button.btn.btn-secondary.disciplinabutton(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popoverdisciplina'  data-bs-content=' ')
+                          i.bi.bi-card-image
                   .mb-3
                     label.form-label(for='formFileMultiple') Equipos y camionetas
-                    input#formFileMultiple.form-control(type='file' name="Equipos" multiple='')
+                    .equiposexample
+                      input#formFileMultiple.form-control(type='file' name="Equipos" multiple='')
+                      button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                          i.bi.bi-card-image
 
 
               .modal-footer
@@ -142,6 +163,7 @@ html
       ul.navbar-nav
         li.nav-item
           input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
+          button.btnn(type='button' data-bs-toggle='modal' data-bs-target='#Modalfiles') Ingresar archivos
         if user!= 'notlogged'
           li.nav-item
             button.btnn(type='button' data-bs-toggle='modal' data-bs-target='#Modalfiles') Ingresar archivos

@@ -829,6 +829,37 @@ hr{
 }
 
 
+.asistenciaexample{
+  flex-direction: row;
+  display: flex;
+}
+
+.equiposexample{
+  flex-direction: row;
+  display: flex;
+}
+
+.disciplinaexample{
+  flex-direction: row;
+  display: flex;
+}
+
+.sapexample{
+  flex-direction: row;
+  display: flex;
+}
+
+.planexample{
+  flex-direction: row;
+  display: flex;
+}
+
+
+.asistenciabutton {
+  margin-top: 0px;
+  width: 40px;
+}
+
 .nav-item #menu_item1{
   margin-left: 0px;
   padding-left: 0px;
@@ -845,4 +876,127 @@ hr{
 
 .formulariocreacion .form-control{
   width: 50%;
+}
+
+
+.custom-popoverasistencia {
+  --bs-popover-max-width: 1200px;
+  --bs-popover-border-color: var(--bs-primary);
+  --bs-popover-header-bg: var(--bs-primary);
+  --bs-popover-header-color: var(--bs-white);
+  --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: .5rem;
+  --bs-popover-width:  200px;
+  background-image: url("/imagenes/asistencia_example.png");
+  background-repeat: no-repeat;
+}
+
+.custom-popoverasistencia .popover-body{
+  width: 1008px;
+  height:822px;
+}
+
+.custom-popoverequipos {
+  --bs-popover-max-width: 1500px;
+  --bs-popover-border-color: var(--bs-primary);
+  --bs-popover-header-bg: var(--bs-primary);
+  --bs-popover-header-color: var(--bs-white);
+  --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: .5rem;
+  --bs-popover-width:  200px;
+  background-image: url("/imagenes/equipos_example.png");
+  background-repeat: no-repeat;
+}
+
+.custom-popoverequipos .popover-body{
+  width: 1326px;
+  height:819px;
+}
+
+.custom-popoverdisciplina {
+  --bs-popover-max-width: 1700px;
+  --bs-popover-border-color: var(--bs-primary);
+  --bs-popover-header-bg: var(--bs-primary);
+  --bs-popover-header-color: var(--bs-white);
+  --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: .5rem;
+  --bs-popover-width:  200px;
+  background-image: url("/imagenes/disciplina_example.png");
+  background-repeat: no-repeat;
+}
+
+.custom-popoverdisciplina .popover-body{
+  width: 1545px;
+  height: 822px;
+}
+
+.custom-popoversap {
+  --bs-popover-max-width: 1700px;
+  --bs-popover-border-color: var(--bs-primary);
+  --bs-popover-header-bg: var(--bs-primary);
+  --bs-popover-header-color: var(--bs-white);
+  --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: .5rem;
+  --bs-popover-width:  200px;
+  background-image: url("/imagenes/sap_example.png");
+  background-repeat: no-repeat;
+}
+
+.custom-popoversap .popover-body{
+  width: 683px;
+  height: 817px;
+}
+
+.equiposbutton{
+  margin-top: 0px;
+}
+
+.disciplinabutton{
+  margin-top: 0px;
+}
+
+.sapbutton{
+  margin-top: 0px;
+}
+
+.planbutton{
+  margin-top: 0px;
+}
+
+.vimobutton{
+  margin-top: 0px;
+}
+
+.custom-popoverplan {
+  --bs-popover-max-width: 1700px;
+  --bs-popover-border-color: var(--bs-primary);
+  --bs-popover-header-bg: var(--bs-primary);
+  --bs-popover-header-color: var(--bs-white);
+  --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: .5rem;
+  --bs-popover-width:  200px;
+  background-image: url("/imagenes/plan_example.png");
+  background-repeat: no-repeat;
+}
+
+.custom-popoverplan .popover-body{
+  width: 817px;
+  height: 852px;
+}
+
+.custom-popovervimo {
+  --bs-popover-max-width: 1700px;
+  --bs-popover-border-color: var(--bs-primary);
+  --bs-popover-header-bg: var(--bs-primary);
+  --bs-popover-header-color: var(--bs-white);
+  --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: .5rem;
+  --bs-popover-width:  200px;
+  background-image: url("/imagenes/consolidado_example.png");
+  background-repeat: no-repeat;
+}
+
+.custom-popovervimo .popover-body{
+  width: 892px;
+  height: 612px;
 }

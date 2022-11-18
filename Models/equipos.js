@@ -19,6 +19,7 @@ module.exports = function(sequelize,DataTypes){
 		    	Semaforo: Sequelize.TEXT,
 		    	Estado: Sequelize.TEXT,
 		    	Fechagas: Sequelize.TEXT,
+		    	Idingreso : Sequelize.TEXT
 			},{
 				tableName: 'equipos',
 				freezeTableName: true,
