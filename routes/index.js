@@ -23,8 +23,6 @@ router.get('/copia', controllers.UserController.getSistemanuevocopia);
 router.get('/ingreso_datos', controllers.UserController.getIngreso);
 router.post('/ingreso_datos', controllers.UserController.postIngreso);
 router.get('/vistaprueba2', controllers.UserController.getPrueba2);
-router.get('/nuevorequisito', controllers.UserController.getNuevorequisito);
-router.post('/nuevorequisito', controllers.UserController.postNuevorequisito);
 router.get('/dashboard', controllers.UserController.getdashboard);
 router.post('/dashboard', controllers.UserController.postIngreso);
 router.get('/prueba', controllers.UserController.getprueba);

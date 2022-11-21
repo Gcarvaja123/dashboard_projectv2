@@ -15,6 +15,7 @@ module.exports = function(sequelize,DataTypes){
 				Turno : Sequelize.TEXT,
 				Sector : Sequelize.TEXT,
 				Fechaingreso : Sequelize.TEXT,
+				Idingreso : Sequelize.TEXT
 			},{
 				tableName: 'asistencia',
 				freezeTableName: true,

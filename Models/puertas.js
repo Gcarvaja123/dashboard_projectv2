@@ -15,7 +15,8 @@ module.exports = function(sequelize,DataTypes){
 				Tipomantencion : Sequelize.TEXT,
 				Detalles : Sequelize.TEXT,
 				Solicitante : Sequelize.TEXT,
-				Estado : Sequelize.TEXT
+				Estado : Sequelize.TEXT,
+				Idingreso : Sequelize.TEXT
 			},{
 				tableName: 'puertas',
 				freezeTableName: true,

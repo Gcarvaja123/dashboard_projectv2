@@ -16,7 +16,8 @@ module.exports = function(sequelize,DataTypes){
 				Nivel : Sequelize.TEXT,
 				Plan : Sequelize.TEXT,
 				Orden : Sequelize.TEXT,
-				Mes : Sequelize.TEXT
+				Mes : Sequelize.TEXT,
+				Idingreso : Sequelize.TEXT
 			},{
 				tableName: 'vimosap',
 				freezeTableName: true,

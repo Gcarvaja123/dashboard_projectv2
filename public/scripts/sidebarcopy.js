@@ -85,7 +85,7 @@ var app = angular.module('myApp', ['zingchart-angularjs']);
 app.controller("myControllerAsistencia", function($scope,$filter){
 
 
-
+  $scope.archivoseliminar = []
   $scope.authmessagestr = local_authmessage[0]
   $scope.userbutton = true
   $scope.username = ""; 
@@ -101,6 +101,9 @@ app.controller("myControllerAsistencia", function($scope,$filter){
   var dic_vimos = {}
   var vimos_array = [];
   var vimos_array_total = [];
+
+
+  $scope.archivostotal = local_data_archivos
 
 
   for(a=0; a < local_data_puertas.length; a++){
@@ -144,7 +147,10 @@ app.controller("myControllerAsistencia", function($scope,$filter){
   }
   
 
-  $scope.headersequipo = Object.keys($scope.equipostotal[0])
+  if($scope.equipostotal.length>0){
+    $scope.headersequipo = Object.keys($scope.equipostotal[0])
+  }
+  
 
 
 
@@ -311,11 +317,11 @@ app.controller("myControllerAsistencia", function($scope,$filter){
     if(local_data_matriz[d].Area == "Aire Acondicionado"){
       if(local_data_matriz[d].Fecha == $scope.dateselected){
         total_array[0]+=1;
-        if(local_data_matriz[d].Observaciones == null){
+        if(local_data_matriz[d].Observaciones == ""){
           completed_array[0]+=1;
         }
       }
-      if(local_data_matriz[d].Observaciones == null){
+      if(local_data_matriz[d].Observaciones == ""){
         mes = ObtenerMes_2(parseInt(local_data_matriz[d].Fecha.split("-")[1]));
         Anual_aire[meses.indexOf(mes)]+=1;
       }
@@ -325,11 +331,11 @@ app.controller("myControllerAsistencia", function($scope,$filter){
     if(local_data_matriz[d].Area == "Colectores de polvo" ){
       if(local_data_matriz[d].Fecha == $scope.dateselected){
         total_array[1]+=1;
-        if(local_data_matriz[d].Observaciones == null){
+        if(local_data_matriz[d].Observaciones == ""){
           completed_array[1]+=1;
         }
       }
-      if(local_data_matriz[d].Observaciones == null){
+      if(local_data_matriz[d].Observaciones == ""){
         mes = ObtenerMes_2(parseInt(local_data_matriz[d].Fecha.split("-")[1]));
         Anual_polvo[meses.indexOf(mes)]+=1;
       }
@@ -338,20 +344,34 @@ app.controller("myControllerAsistencia", function($scope,$filter){
     if(local_data_matriz[d].Area == "Ventilación" ){
       if(local_data_matriz[d].Fecha == $scope.dateselected){
         total_array[2]+=1;
-        if(local_data_matriz[d].Observaciones == null){
+        if(local_data_matriz[d].Observaciones == ""){
           completed_array[2]+=1;
         }
       }
-      if(local_data_matriz[d].Observaciones == null){
+      if(local_data_matriz[d].Observaciones == ""){
         mes = ObtenerMes_2(parseInt(local_data_matriz[d].Fecha.split("-")[1]));
         Anual_ventilacion[meses.indexOf(mes)]+=1;
       }
       total_deseadas_ventilacion[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1; 
     }
 
+    /*
+    var anual_ventilacion_deseados=[0,0,0,0,0,0,0,0,0,0,0,0];
+      var anual_ventilacion_completados = [0,0,0,0,0,0,0,0,0,0,0,0];
+      for(a=0; a<local_data_matriz.length; a++){
+        if(local_data_matriz[a].Area=="Ventilación"  && fecha.split("-")[2] == local_data_matriz[a].Fecha.split("-")[2]){
+          anual_ventilacion_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
+          if(local_data_matriz[a].Observaciones==""){
+            anual_ventilacion_completados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
+          }
+        }      
+      }
+    */
+
+
     if(local_data_matriz[d].Area == "Aire Acondicionado"){
       total_deseadas[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1;
-      if(local_data_matriz[d].Observaciones == null){
+      if(local_data_matriz[d].Observaciones == ""){
         total_completadas[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1;
       }
     }
@@ -753,7 +773,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       for(a=0; a < local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Aire Acondicionado" && local_data_matriz[a].Fecha.split("-")[1] == fecha.split("-")[1] && local_data_matriz[a].Fecha.split("-")[2] == fecha.split("-")[2] ){
           datos_x_aire_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
-          if(local_data_matriz[a].Observaciones==null){
+          if(local_data_matriz[a].Observaciones==""){
             datos_x_aire_completados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
           }
         }
@@ -766,7 +786,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       for(a=0; a<local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Aire Acondicionado"  && fecha.split("-")[2] == local_data_matriz[a].Fecha.split("-")[2]){
           anual_aire_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
-          if(local_data_matriz[a].Observaciones==null){
+          if(local_data_matriz[a].Observaciones==""){
             anual_aire_completados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
           }
         }      
@@ -799,7 +819,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       for(a=0; a < local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Colectores de polvo" && local_data_matriz[a].Fecha.split("-")[1] == fecha.split("-")[1] && local_data_matriz[a].Fecha.split("-")[2] == fecha.split("-")[2] ){
           datos_x_polvo_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
-          if(local_data_matriz[a].Observaciones==null){
+          if(local_data_matriz[a].Observaciones==""){
             datos_x_polvo_completados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
           }
         }
@@ -812,7 +832,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       for(a=0; a<local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Colectores de polvo"  && fecha.split("-")[2] == local_data_matriz[a].Fecha.split("-")[2]){
           anual_polvo_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
-          if(local_data_matriz[a].Observaciones==null){
+          if(local_data_matriz[a].Observaciones==""){
             anual_polvo_completados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
           }
         }      
@@ -844,7 +864,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       for(a=0; a < local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Ventilación" && local_data_matriz[a].Fecha.split("-")[1] == fecha.split("-")[1] && local_data_matriz[a].Fecha.split("-")[2] == fecha.split("-")[2] ){
           datos_x_ventilacion_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
-          if(local_data_matriz[a].Observaciones==null){
+          if(local_data_matriz[a].Observaciones==""){
             datos_x_ventilacion_completados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
           }
         }
@@ -857,7 +877,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       for(a=0; a<local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Ventilación"  && fecha.split("-")[2] == local_data_matriz[a].Fecha.split("-")[2]){
           anual_ventilacion_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
-          if(local_data_matriz[a].Observaciones==null){
+          if(local_data_matriz[a].Observaciones==""){
             anual_ventilacion_completados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
           }
         }      
@@ -1990,7 +2010,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       for(a=0; a < local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Aire Acondicionado" && local_data_matriz[a].Fecha.split("-")[1] == fecha.split("-")[1] && local_data_matriz[a].Fecha.split("-")[2] == fecha.split("-")[2] ){
           datos_x_aire_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
-          if(local_data_matriz[a].Observaciones==null){
+          if(local_data_matriz[a].Observaciones==""){
             datos_x_aire_completados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
           }
         }
@@ -2003,7 +2023,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       for(a=0; a<local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Aire Acondicionado"  && fecha.split("-")[2] == local_data_matriz[a].Fecha.split("-")[2]){
           anual_aire_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
-          if(local_data_matriz[a].Observaciones==null){
+          if(local_data_matriz[a].Observaciones==""){
             anual_aire_completados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
           }
         }      
@@ -2018,7 +2038,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       for(a=0; a < local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Colectores de polvo" && local_data_matriz[a].Fecha.split("-")[1] == fecha.split("-")[1] && local_data_matriz[a].Fecha.split("-")[2] == fecha.split("-")[2] ){
           datos_x_polvo_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
-          if(local_data_matriz[a].Observaciones==null){
+          if(local_data_matriz[a].Observaciones==""){
             datos_x_polvo_completados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
           }
         }
@@ -2031,7 +2051,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       for(a=0; a<local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Colectores de polvo"  && fecha.split("-")[2] == local_data_matriz[a].Fecha.split("-")[2]){
           anual_polvo_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
-          if(local_data_matriz[a].Observaciones==null){
+          if(local_data_matriz[a].Observaciones==""){
             anual_polvo_completados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
           }
         }      
@@ -2046,7 +2066,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       for(a=0; a < local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Ventilación" && local_data_matriz[a].Fecha.split("-")[1] == fecha.split("-")[1] && local_data_matriz[a].Fecha.split("-")[2] == fecha.split("-")[2] ){
           datos_x_ventilacion_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
-          if(local_data_matriz[a].Observaciones==null){
+          if(local_data_matriz[a].Observaciones==""){
             datos_x_ventilacion_completados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
           }
         }
@@ -2059,7 +2079,7 @@ app.controller("myControllerAsistencia", function($scope,$filter){
       for(a=0; a<local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Ventilación"  && fecha.split("-")[2] == local_data_matriz[a].Fecha.split("-")[2]){
           anual_ventilacion_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
-          if(local_data_matriz[a].Observaciones==null){
+          if(local_data_matriz[a].Observaciones==""){
             anual_ventilacion_completados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
           }
         }      
@@ -2505,9 +2525,34 @@ app.controller("myControllerAsistencia", function($scope,$filter){
     $scope.Estado = "Archivos ingresados correctamente"
 
   }
+
+  $scope.changearchivos = function(index){
+    var nombre_tabla = $scope.archivostotal[index].Tabla;
+    var Idingreso = $scope.archivostotal[index].Idingreso;
+    
+    if (nombre_tabla == "asistencia"){
+      $scope.Totalasistenciaarchivos =[]
+      for(a=0; a < local_data_asistencia.length; a++){
+        if(local_data_asistencia[a].Idingreso == Idingreso){
+          $scope.Totalasistenciaarchivos.push(local_data_asistencia[a])
+        }
+      }
+
+      var myModala = new bootstrap.Modal(document.getElementById('ModalAsistenciaar'), {
+          keyboard: false
+      })
+      myModala.toggle()
+      
+    }
+  }
+  $scope.deletearchivos = function(index){
+    var nombre_tabla = $scope.archivostotal[index].Tabla;
+    var Idingreso = $scope.archivostotal[index].Idingreso;
+    $scope.archivoseliminar.push($scope.archivostotal[index])
+    $scope.archivostotal.splice(index,1)
+
+  }
   
-
-
 
 })
 

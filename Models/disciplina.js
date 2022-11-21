@@ -25,7 +25,8 @@ module.exports = function(sequelize,DataTypes){
 				Traslado_Colacion : Sequelize.TEXT,
 				Almuerzo_2 : Sequelize.TEXT,
 				Tiempo_Disponible_Pm : Sequelize.TEXT,
-				Meta : Sequelize.TEXT
+				Meta : Sequelize.TEXT,
+				Idingreso : Sequelize.TEXT
 
 			},{
 				tableName: 'disciplina',

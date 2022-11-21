@@ -21,7 +21,8 @@ module.exports = function(sequelize,DataTypes){
 				Dotacion : Sequelize.TEXT,
 				Horai : Sequelize.TEXT,
 				Horaf : Sequelize.TEXT,
-				Uniqueid : Sequelize.TEXT
+				Uniqueid : Sequelize.TEXT,
+				Idingreso : Sequelize.TEXT
 			},{
 				tableName: 'brocales',
 				freezeTableName: true,

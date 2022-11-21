@@ -26,6 +26,7 @@ html
       local_data_usuarios = !{JSON.stringify(totalusuarios)};
       local_data_sap = !{JSON.stringify(totalsap)};
       local_data_equipo = !{JSON.stringify(totalequipos)};
+      local_data_archivos = !{JSON.stringify(totalarchivos)};
       local_info = !{JSON.stringify(info)};
       local_error = !{JSON.stringify(error)}
       local_ingreso = !{JSON.stringify(ingreso)}
@@ -68,10 +69,16 @@ html
                   .mb-3.brocalesitems
                     .item1
                       label.form-label(for='formFileMultiple') Servicio y limpieza brocales sub 5
-                      input#formFileMultiple.form-control(type='file' name="Brocales" multiple='')
+                      .sub5example
+                        input#formFileMultiple.form-control(type='file' name="Brocales5" multiple='')
+                        button.btn.btn-secondary.sub5button(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popoversub5'  data-bs-content=' ')
+                          i.bi.bi-card-image
                     .item2
                       label.form-label(for='formFileMultiple') Servicio y limpieza brocales sub 6
-                      input#formFileMultiple.form-control(type='file' name="Brocales" multiple='')
+                      .sub6example
+                        input#formFileMultiple.form-control(type='file' name="Brocales6" multiple='')
+                        button.btn.btn-secondary.sub6button(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoversub6'  data-bs-content=' ')
+                          i.bi.bi-card-image
                   .mb-3
                     label.form-label(for='formFileMultiple') Disciplina operacional
                     .disciplinaexample
@@ -127,6 +134,48 @@ html
               .modal-footer
                 button.btnn(type='button' data-bs-dismiss='modal') Cerrar
                 button.btnn(name="probando3" value="probando4") Aceptar
+    #ModalAsistenciaar.modal.fade(aria-labelledby='Modalasistenciaar')
+      .modal-dialog
+        .modal-content
+          #tableasistenciaar.grid-container
+              div.tabla.item1
+                table.Asistenciaar.table.caption-top
+                          thead
+                            tr
+                              th(data-type="text")
+                                | Sector
+                                span.resize-handle
+                              th(data-type='text')
+                                | Nombre
+                                span.resize-handle
+                              th(data-type='text-long')
+                                | Rut
+                                span.resize-handle
+                              th(data-type='text-long')
+                                | Cargo
+                                span.resize-handle
+                              th(data-type='text-long')
+                                | Turno
+                                span.resize-handle
+                              th(data-type='text-long')
+                                | Fecha ingreso
+                                span.resize-handle
+                          tbody
+                            tr(ng-repeat="asistencia in Totalasistenciaarchivos")
+                              td
+                                label {{asistencia.Sector}} 
+                              td
+                                label {{asistencia.Nombre}} 
+                              td
+                                label {{asistencia.Rut}}
+                              td
+                                label {{asistencia.Cargo}}
+                              td
+                                label {{asistencia.Turno}}
+                              td
+                                label {{asistencia.Fechaingreso}}
+
+
     .sidenav
       .sidenav-header
 
@@ -154,6 +203,8 @@ html
                 a.nav-link.tablink() Reporte
               li
                 a.nak-link.tablink(onclick="openActivity(event,'Creacion')") Creacion
+              li
+                a.nak-link.tablink(onclick="openActivity(event,'Archivos')") Archivos
             
 
       .sidenav-footer
@@ -733,6 +784,83 @@ html
           .form-group.row
             .col-sm-10
               button.btn.btn-primary(type='submit') Crear
+      #Archivos.w3-container.w3-border.activity(style='display:none')
+        p
+        p
+        #tablearchivos
+          .headertable Archivos ingresados
+          p
+          div.tabla.item1
+            table.Asistencia.table.caption-top
+              thead
+                tr
+                  th(data-type="text")
+                    | Fecha de ingreso
+                    span.resize-handle
+                  th(data-type='text')
+                    | Información ingresada
+                    span.resize-handle
+                  th(data-type='text-long')
+                    | Nombre archivo
+                    span.resize-handle
+                  th(data-type='text-long')
+                    | Ver detalles
+                    span.resize-handle
+                  th(data-type='text-long')
+                    | Eliminar
+                    span.resize-handle
+              tbody
+                tr(ng-repeat="archivo in archivostotal")
+                  td
+                    label {{archivo.Fechaingreso}} 
+                  td
+                    label {{archivo.Infoingresada}}
+                  td
+                    label {{archivo.Nombrearchivo}}
+                  td
+                    button.btn.btn-secondary.archivobutton(type='button' ng-click="changearchivos($index)" )
+                      i.bi.bi-card-text
+                  td
+                    button.btn.btn-secondary.archivodelete(type='button' ng-click="deletearchivos($index)" )
+                      i.bi.bi-trash3
+        p
+        p
+        #tablearchivos
+          .headertable Archivos para eliminar
+          p
+          div.tabla.item1
+            table.Asistencia.table.caption-top
+              thead
+                tr
+                  th(data-type="text")
+                    | Fecha de ingreso
+                    span.resize-handle
+                  th(data-type='text')
+                    | Información ingresada
+                    span.resize-handle
+                  th(data-type='text-long')
+                    | Nombre archivo
+                    span.resize-handle
+                  th(data-type='text-long')
+                    | Ver detalles
+                    span.resize-handle
+                  th(data-type='text-long')
+                    | Eliminar
+                    span.resize-handle
+              tbody
+                tr(ng-repeat="archivo in archivoseliminar")
+                  td
+                    label {{archivo.Fechaingreso}} 
+                  td
+                    label {{archivo.Infoingresada}}
+                  td
+                    label {{archivo.Nombrearchivo}}
+                  td
+                    button.btn.btn-secondary.archivobutton(type='button' ng-click="changearchivos($index)" )
+                      i.bi.bi-card-text
+                  td
+                    button.btn.btn-secondary.archivodelete(type='button' ng-click="deletearchivos($index)" )
+                      i.bi.bi-trash3
   script(type='text/javascript' src='/scripts/sidebarcopy.js')
   script.
     if(local_authmessage!=""){
@@ -743,6 +871,4 @@ html
         keyboard: false
       })
       myModal.toggle()
-      
     }
-    

@@ -2,26 +2,25 @@
 var Sequelize = require('sequelize');
 module.exports = function(sequelize,DataTypes){
 
-	var planmatriz=sequelize.define('planmatriz',{
+	var archivos=sequelize.define('archivos',{
 				Id : {
 		        	type: Sequelize.INTEGER,
 		        	primaryKey: true,
 		        	allowNull: false,
 		        	autoIncrement:true
 		    	},
-		    	Fecha: Sequelize.TEXT,
-				Programado : Sequelize.TEXT,
-				Realizado : Sequelize.TEXT,
-				Observaciones : Sequelize.TEXT,
-				Area : Sequelize.TEXT,
-				Idingreso : Sequelize.TEXT
+		    	Tabla: Sequelize.TEXT,
+				Idingreso : Sequelize.TEXT,
+				Fechaingreso : Sequelize.TEXT,
+				Infoingresada : Sequelize.TEXT,
+				Nombrearchivo : Sequelize.TEXT
 			},{
-				tableName: 'planmatriz',
+				tableName: 'archivos',
 				freezeTableName: true,
     			timestamps: false
 			
 			});
-	return planmatriz;
+	return archivos;
 
 
 };
