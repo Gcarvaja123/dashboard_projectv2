@@ -1799,6 +1799,67 @@ module.exports = {
     req.flash('ingreso', 'Archivos ingreados')
     await res.redirect("dashboard");
   },
+
+  postDeleteFiles : async(req,res,next)=>{
+    for(a=0 ; a < req.body.length; a++){
+      if(req.body[a].Tabla == "asistencia"){
+        await modelo.asistencia.destroy({
+          where : {
+            Idingreso : req.body[a].Idingreso
+          }
+        })
+      }
+      else if(req.body[a].Tabla == "brocales"){
+        await modelo.brocales.destroy({
+          where : {
+            Idingreso : req.body[a].Idingreso
+          }
+        })
+      }
+      else if(req.body[a].Tabla == "disciplina"){
+        await modelo.disciplina.destroy({
+          where : {
+            Idingreso : req.body[a].Idingreso
+          }
+        })
+      }
+      else if(req.body[a].Tabla == "equipos"){
+        await modelo.equipos.destroy({
+          where : {
+            Idingreso : req.body[a].Idingreso
+          }
+        })
+      }
+      else if(req.body[a].Tabla == "planmatriz"){
+        await modelo.planmatriz.destroy({
+          where : {
+            Idingreso : req.body[a].Idingreso
+          }
+        })
+      }
+      else if(req.body[a].Tabla == "puertas"){
+        await modelo.puertas.destroy({
+          where : {
+            Idingreso : req.body[a].Idingreso
+          }
+        })
+      }
+      else if(req.body[a].Tabla == "vimosap"){
+        await modelo.vimosap.destroy({
+          where : {
+            Idingreso : req.body[a].Idingreso
+          }
+        })
+      }
+
+
+      await modelo.archivos.destroy({
+        where : {
+          Idingreso : req.body[a].Idingreso 
+        }
+      })
+    }
+  },
     
   postCrearusuario : async (req, res, next)=>{
     await modelo.usuario.findAll({

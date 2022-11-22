@@ -34,6 +34,7 @@ router.post('/login', passport.authenticate('local',{
 }))
 
 router.post("/crearusuario", controllers.UserController.postCrearusuario)
+router.post("/delete", controllers.UserController.postDeleteFiles)
 
 
 

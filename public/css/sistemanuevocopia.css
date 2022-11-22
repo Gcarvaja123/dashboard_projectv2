@@ -127,7 +127,7 @@ table {
   overflow-y: scroll;
 }
 
-.tabla{
+.tabla, .tabla2{
   overflow-y: scroll;
 }
 
@@ -291,11 +291,65 @@ button{
   width: 1400px;
 }
 
-
-
 #ModalAsistenciaar .grid-container{
   padding: 0px
 }
+
+#ModalPlanificacionvimo .modal-dialog{
+  max-width: 1400px;
+  width: 1400px;
+}
+
+#ModalPlanificacionvimo .grid-container{
+  padding: 0px
+}
+
+#Modalequipos .modal-dialog{
+  max-width: 1400px;
+  width: 1400px;
+}
+
+#Modalequipos .grid-container{
+  padding: 0px
+}
+
+#Modaldisciplina .modal-dialog{
+  max-width: 1400px;
+  width: 1400px;
+}
+
+#Modaldisciplina .grid-container{
+  padding: 0px
+}
+
+#Modalbrocales .modal-dialog{
+  max-width: 1400px;
+  width: 1400px;
+}
+
+#Modalbrocales .grid-container{
+  padding: 0px
+}
+
+#Modalvimo .modal-dialog{
+  max-width: 1400px;
+  width: 1400px;
+}
+
+#Modalvimo .grid-container{
+  padding: 0px
+}
+
+#Modalmatriz .modal-dialog{
+  max-width: 1400px;
+  width: 1400px;
+}
+
+#Modalmatriz .grid-container{
+  padding: 0px
+}
+
+
 
 
 .navbar-vertical.navbar-expand-xs {
@@ -770,7 +824,38 @@ hr{
   height: 450px;
 }
 
+#tablearchivos .tabla2{
+  background-color: white;
+  text-align: center;
+  border-radius: 6px;
+  width: 90%;
+  height: 200px;
+}
+
+
 table.Asistenciaar td{
+  font-size: 12px;
+}
+table.planificacionvimo td{
+  font-size: 12px;
+}
+
+table.equipo td{
+  font-size: 12px;
+}
+
+table.disciplina td{
+  font-size: 12px;
+}
+
+table.brocales td{
+  font-size: 12px;
+}
+
+table.vimo td{
+  font-size: 12px;
+}
+table.matriz td{
   font-size: 12px;
 }
 

@@ -82,7 +82,7 @@ var app = angular.module('myApp', ['zingchart-angularjs']);
 
 
 
-app.controller("myControllerAsistencia", function($scope,$filter){
+app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
 
   $scope.archivoseliminar = []
@@ -2525,10 +2525,129 @@ app.controller("myControllerAsistencia", function($scope,$filter){
     $scope.Estado = "Archivos ingresados correctamente"
 
   }
-
   $scope.changearchivos = function(index){
+
     var nombre_tabla = $scope.archivostotal[index].Tabla;
     var Idingreso = $scope.archivostotal[index].Idingreso;
+    console.log(Idingreso)
+    
+    if (nombre_tabla == "asistencia"){
+      $scope.Totalasistenciaarchivos =[]
+      for(a=0; a < local_data_asistencia.length; a++){
+        if(local_data_asistencia[a].Idingreso == Idingreso){
+          $scope.Totalasistenciaarchivos.push(local_data_asistencia[a])
+        }
+      }
+
+      var myModala = new bootstrap.Modal(document.getElementById('ModalAsistenciaar'), {
+          keyboard: false
+      })
+      myModala.toggle()
+      
+    }
+
+    else if(nombre_tabla == "vimosap"){
+      $scope.Totalplanificacion =[]
+      for(a=0; a < local_data_sap.length; a++){
+        if(local_data_sap[a].Idingreso == Idingreso){
+          $scope.Totalplanificacion.push(local_data_sap[a])
+        }
+      }
+
+      var myModala = new bootstrap.Modal(document.getElementById('ModalPlanificacionvimo'), {
+          keyboard: false
+      })
+      myModala.toggle()
+    }
+
+    else if (nombre_tabla=="equipos"){
+      $scope.Totalequipos =[]
+      for(a=0; a < local_data_equipo.length; a++){
+        if(local_data_equipo[a].Idingreso == Idingreso){
+          $scope.Totalequipos.push(local_data_equipo[a])
+        }
+      }
+
+      var myModala = new bootstrap.Modal(document.getElementById('Modalequipos'), {
+          keyboard: false
+      })
+      myModala.toggle()
+    }
+
+    else if (nombre_tabla == "disciplina"){
+      $scope.Totaldisciplina =[]
+      for(a=0; a < local_data_disciplina.length; a++){
+        if(local_data_disciplina[a].Idingreso == Idingreso){
+          $scope.Totaldisciplina.push(local_data_disciplina[a])
+        }
+      }
+
+      var myModala = new bootstrap.Modal(document.getElementById('Modaldisciplina'), {
+          keyboard: false
+      })
+      myModala.toggle()
+    }
+    else if (nombre_tabla == "brocales"){
+      $scope.Totalbrocales =[]
+      for(a=0; a < local_data_brocales.length; a++){
+        if(local_data_brocales[a].Idingreso == Idingreso){
+          $scope.Totalbrocales.push(local_data_brocales[a])
+        }
+      }
+
+      var myModala = new bootstrap.Modal(document.getElementById('Modalbrocales'), {
+          keyboard: false
+      })
+      myModala.toggle()
+    }
+    else if (nombre_tabla == "planmatriz"){
+      $scope.Totalmatrices =[]
+      for(a=0; a < local_data_matriz.length; a++){
+        if(local_data_matriz[a].Idingreso == Idingreso){
+          $scope.Totalmatrices.push(local_data_matriz[a])
+        }
+      }
+
+      var myModala = new bootstrap.Modal(document.getElementById('Modalmatriz'), {
+          keyboard: false
+      })
+      myModala.toggle()
+    }
+    else if (nombre_tabla == "puertas"){
+      $scope.Totalvimo =[]
+      for(a=0; a < local_data_puertas.length; a++){
+        if(local_data_puertas[a].Idingreso == Idingreso){
+          $scope.Totalvimo.push(local_data_puertas[a])
+        }
+      }
+
+      var myModala = new bootstrap.Modal(document.getElementById('Modalvimo'), {
+          keyboard: false
+      })
+      myModala.toggle()
+    }
+
+
+
+
+  }
+
+  $scope.SendDelete = function(){
+    $scope.Archivoseliminados = {"hola" : "esto es coso"}
+    console.log("hola en angular")
+    $http({
+            method : 'POST',
+            url : '/delete',
+            data : JSON.stringify($scope.archivoseliminar)
+        })
+    $scope.archivoseliminar = []
+
+
+
+  }
+  $scope.changearchivosdel = function(index){
+    var nombre_tabla = $scope.archivoseliminar[index].Tabla;
+    var Idingreso = $scope.archivoseliminar[index].Idingreso;
     
     if (nombre_tabla == "asistencia"){
       $scope.Totalasistenciaarchivos =[]
@@ -2552,6 +2671,12 @@ app.controller("myControllerAsistencia", function($scope,$filter){
     $scope.archivostotal.splice(index,1)
 
   }
+  $scope.deletearchivosdel = function(index){
+    $scope.archivostotal.push($scope.archivoseliminar[index])
+    $scope.archivoseliminar.splice(index,1)
+
+  }
+
   
 
 })

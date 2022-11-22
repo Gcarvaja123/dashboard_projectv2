@@ -174,6 +174,348 @@ html
                                 label {{asistencia.Turno}}
                               td
                                 label {{asistencia.Fechaingreso}}
+    #ModalPlanificacionvimo.modal.fade(aria-labelledby='Modalplafinicacionvimo')
+      .modal-dialog
+        .modal-content
+          #tableasistenciaar.grid-container
+              div.tabla.item1
+                table.planificacionvimo.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | N° Puerta
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ut
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Area Resp.
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Prioridad
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Nivel
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Plan
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Orden
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Mes
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="plani in Totalplanificacion")
+                      td
+                        label {{plani.Numpuerta}}
+                      td
+                        label {{plani.Ut}}
+                      td
+                        label {{plani.Arearesponsable}}
+                      td
+                        label {{plani.Prioridad}}
+                      td
+                        label {{plani.Nivel}}
+                      td
+                        label {{plani.Plan}}
+                      td
+                        label {{plani.Orden}}
+                      td
+                        label {{plani.Mes}}  
+    #Modalequipos.modal.fade(aria-labelledby='Modalplafinicacionvimo')
+      .modal-dialog
+        .modal-content
+          #tableequipo.grid-container
+              div.tabla.item1
+                table.equipo.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Equipo
+                        span.resize-handle
+                      th(data-type='text')
+                        | Patente
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Cartola
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Ult. Mant.
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Ult. Mant. kms
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Prox. Mant. kms
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Km actual
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Semaforo
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Est. actual
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Fecha Cheq. gas
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="equipo in Totalequipos")
+                      td
+                        label {{equipo.Equipo}} 
+                      td
+                        label {{equipo.Patente}} 
+                      td
+                        label {{equipo.Cartola}}
+                      td
+                        label {{equipo.Ultimamantencion}}
+                      td
+                        label {{equipo.Ultimokms}}
+                      td
+                        label {{equipo.Proximakms}}
+                      td
+                        label {{equipo.Kilometrajeactual}}
+                      td
+                        label {{equipo.Semaforo}}
+                      td
+                        label {{equipo.Estado}}
+                      td
+                        label {{equipo.Fechagas}}
+    #Modaldisciplina.modal.fade(aria-labelledby='Modaldisciplina')
+      .modal-dialog
+        .modal-content
+          #tabledisciplina.grid-container
+              div.tabla.item1
+                table.disciplina.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Area
+                        span.resize-handle
+                      th(data-type='text')
+                        | Dia
+                        span.resize-handle
+                      th(data-type='text')
+                        | Fecha
+                        span.resize-handle
+                      th(data-type='text')
+                        | Lleg. inst.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Sal. inst.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Inicio Act Am.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Térm. Act. Am.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Almuerzo
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ini. Act. Pm
+                        span.resize-handle
+                      th(data-type='text')
+                        | Term. Act. Pm
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tiem. Inst.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tras. Post.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tiem. Disp. Am
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tras. Col.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tiem. Disp. Pm
+                        span.resize-handle
+                      th(data-type='text')
+                        | Almuerzo
+                        span.resize-handle
+                      th(data-type='text')
+                        | 
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="disciplina in Totaldisciplina")
+                      td
+                        label {{disciplina.Area}}
+                      td
+                        label {{disciplina.Dia}}
+                      td
+                        label {{disciplina.Fecha}}
+                      td
+                        label {{disciplina.Llegada_Instalacion}}
+                      td
+                        label {{disciplina.Salida_Instalacion}}
+                      td
+                        label {{disciplina.Inicio_Act_Am}}
+                      td
+                        label {{disciplina.Termino_Act_Am}}
+                      td
+                        label {{disciplina.Almuerzo}}
+                      td
+                        label {{disciplina.Inicio_Act_Pm}}
+                      td
+                        label {{disciplina.Termino_Act_Pm}}
+                      td
+                        label {{disciplina.Tiempo_Instalacion}}
+                      td
+                        label {{disciplina.Traslado_Postura}}
+                      td
+                        label {{disciplina.Tiempo_Disponible_Am}}
+                      td
+                        label {{disciplina.Traslado_Colacion}}
+                      td
+                        label {{disciplina.Tiempo_Disponible_Pm}}
+                      td
+                        label {{disciplina.Almuerzo_2}}
+    #Modalbrocales.modal.fade(aria-labelledby='Modalbrocales')
+      .modal-dialog
+        .modal-content
+          #tablebrocales.grid-container
+              div.tabla.item1
+                table.brocales.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Fecha
+                        span.resize-handle
+                      th(data-type='text')
+                        | Turno
+                        span.resize-handle
+                      th(data-type='text')
+                        | Act.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ubicacion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Cantidad
+                        span.resize-handle
+                      th(data-type='text')
+                        | Demanda
+                        span.resize-handle
+                      th(data-type='text')
+                        | Sub
+                        span.resize-handle
+                      th(data-type='text')
+                        | Dotacion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Hora ini.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Hora fin.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Observaciones
+                  tbody
+                    tr(ng-repeat="brocal in Totalbrocales")
+                      td
+                        label {{brocal.Fecha}}
+                      td
+                        label {{brocal.Turno}}
+                      td
+                        label {{brocal.Actividad}}
+                      td
+                        label {{brocal.Ubicacion}}
+                      td
+                        label {{brocal.Cantidad}}
+                      td
+                        label {{brocal.Demanda}}
+                      td
+                        label {{brocal.Sub}}
+                      td
+                        label {{brocal.Dotacion}}
+                      td
+                        label {{brocal.Horai}}
+                      td
+                        label {{brocal.Horaf}}
+                      td
+                        label {{brocal.Observaciones}}
+    #Modalmatriz.modal.fade(aria-labelledby='Modalbrocales')
+      .modal-dialog
+        .modal-content
+          #tablematriz.grid-container
+              div.tabla.item1
+                table.matriz.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Fecha
+                        span.resize-handle
+                      th(data-type='text')
+                        | Programado
+                        span.resize-handle
+                      th(data-type='text')
+                        | Realizado
+                        span.resize-handle
+                      th(data-type='text')
+                        | Observaciones
+                        span.resize-handle
+                      th(data-type='text')
+                        | Area
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="matriz in Totalmatrices")
+                      td
+                        label {{matriz.Fecha}}
+                      td
+                        label {{matriz.Programado}}
+                      td
+                        label {{matriz.Realizado}}
+                      td
+                        label {{matriz.Observaciones}}
+                      td
+                        label {{matriz.Area}}
+    #Modalvimo.modal.fade(aria-labelledby='Modalbrocales')
+      .modal-dialog
+        .modal-content
+          #tablevimo.grid-container
+              div.tabla.item1
+                table.vimo.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Identificacion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ubicacion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Fecha revisión
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tipo Mantencion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Detalles
+                        span.resize-handle
+                      th(data-type='text')
+                        | Estado
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="vimo in Totalvimo")
+                      td
+                        label {{vimo.Identificacion}}
+                      td
+                        label {{vimo.Ubicacion}}
+                      td
+                        label {{vimo.Fecharevision}}
+                      td
+                        label {{vimo.Tipomantencion}}
+                      td
+                        label {{vimo.Detalles}}
+                      td
+                        label {{vimo.Estado}}
 
 
     .sidenav
@@ -828,7 +1170,7 @@ html
         #tablearchivos
           .headertable Archivos para eliminar
           p
-          div.tabla.item1
+          div.tabla2.item1
             table.Asistencia.table.caption-top
               thead
                 tr
@@ -856,11 +1198,12 @@ html
                   td
                     label {{archivo.Nombrearchivo}}
                   td
-                    button.btn.btn-secondary.archivobutton(type='button' ng-click="changearchivos($index)" )
+                    button.btn.btn-secondary.archivobutton(type='button' ng-click="changearchivosdel($index)" )
                       i.bi.bi-card-text
                   td
-                    button.btn.btn-secondary.archivodelete(type='button' ng-click="deletearchivos($index)" )
+                    button.btn.btn-secondary.archivodelete(type='button' ng-click="deletearchivosdel($index)" )
                       i.bi.bi-trash3
+        button.btnn(name="probando3" value="probando4" ng-click="SendDelete()") Enviar Datos
   script(type='text/javascript' src='/scripts/sidebarcopy.js')
   script.
     if(local_authmessage!=""){
