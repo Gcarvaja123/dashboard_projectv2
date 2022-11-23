@@ -836,6 +836,13 @@ hr{
 table.Asistenciaar td{
   font-size: 12px;
 }
+table.Asistenciaarmod td{
+  font-size: 12px;
+}
+
+#tableasistenciaarmod.grid-container{
+  height: 700px;
+}
 table.planificacionvimo td{
   font-size: 12px;
 }
@@ -1187,3 +1194,9 @@ table.matriz td{
   height: 816px;
 }
 
+.modasistenciabutton {
+  --bs-btn-padding-x: 0.6rem;
+  --bs-btn-padding-y: 0.1rem;
+  margin-left: 0px;
+  margin-top: 0px;
+}

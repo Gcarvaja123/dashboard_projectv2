@@ -528,7 +528,7 @@ html
           li.nav-item
             a.tablink.w3-red(onclick="openActivity(event,'Dashboard')") Panel
           li.nav-item
-            a.tablink(onclick="openActivity(event,'Asistencia')") Asistencia
+            a.tablink(ng-model="unaprueba" onclick="openActivity(event,'Asistencia')" ng-click="deleteall()") Asistencia
           li.nav-item
             a.tablink(onclick="openActivity(event,'Planmatriz')") Plan matriz 
           li.nav-item
@@ -540,7 +540,7 @@ html
               i.bi.small.bi-caret-down-fill
             ul#menu_item1.submenu.collapse(data-bs-parent='#nav_accordion')
               li
-                a.nav-link.tablink() Modificación
+                a.nav-link.tablink(onclick="openActivity(event,'Modificacion')" ) Modificación
               li
                 a.nav-link.tablink() Reporte
               li
@@ -1204,6 +1204,100 @@ html
                     button.btn.btn-secondary.archivodelete(type='button' ng-click="deletearchivosdel($index)" )
                       i.bi.bi-trash3
         button.btnn(name="probando3" value="probando4" ng-click="SendDelete()") Enviar Datos
+      #Modificacion.w3-container.w3-border.activity(style='display:none')
+        select.selectasistencia.form-selectfilter(ng-model="myVar")
+          option(value='Asistencia')
+            | Asistencia
+          option(value='Brocales')
+            | Brocales
+          option(value='Planmatriz') 
+            | Plan matriz
+          option(value='Disciplina') 
+            | Disciplina Operacional
+        div(ng-switch='myVar')
+          div(ng-switch-when='Asistencia')
+            h1 Asistencia
+            #Modalmodasistencia.modal.fade( aria-labelledby='Modallogin' )
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    h5#exampleModalLabel.modal-title Modificación de datos
+                    button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                  .modal-body
+                    .container
+                      .mb-3
+                        label() Sector
+                        input#formFileMultiple.form-control(ng-model="sectortrabajador" type='text')
+                      .mb-3
+                        label() Nombre trabajador
+                        input#formFileMultiple.form-control(ng-model="nombretrabajador" type='text')
+                      .mb-3
+                        label() Rut trabajador
+                        input#formFileMultiple.form-control(ng-model="ruttrabajador" type='text')
+                      .mb-3
+                        label() Cargo trabajador
+                        input#formFileMultiple.form-control(ng-model="cargotrabajador" type='text')
+                      .mb-3
+                        label() Turno trabajador
+                        input#formFileMultiple.form-control(ng-model="turnotrabajador" type='text')
+                  .modal-footer
+                    button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                    button.btnn(name="probando3" value="probando4") Aceptar
+            select.selectasistencia.form-selectfilter( ng-model='columnasist' ng-init='columnasist="Sector"' ng-options='e for e in headersasist' )
+            input.form-controlfilter( type='text' ng-model='searchtxt[columnasist]' placeholder='Ingresar valor a filtrar')
+            #tableasistenciaarmod.grid-container
+              div.tabla.item1
+                table.Asistenciaarmod.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Sector
+                        span.resize-handle
+                      th(data-type='text')
+                        | Nombre
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Rut
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Cargo
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Turno
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Fecha ingreso
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Modificar
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="asistencia in Totalasistenciaarchivosmod|filter:searchtxt")
+                      td
+                        label {{asistencia.Sector}} 
+                      td
+                        label {{asistencia.Nombre}} 
+                      td
+                        label {{asistencia.Rut}}
+                      td
+                        label {{asistencia.Cargo}}
+                      td
+                        label {{asistencia.Turno}}
+                      td
+                        label {{asistencia.Fechaingreso}}
+                      td
+                        button.btn.btn-secondary.modasistenciabutton(type='button' ng-click="modificarasistencia(Totalasistenciaarchivosmod.indexOf(asistencia))" )
+                          i.bi.bi-card-text
+
+          div(ng-switch-when='Brocales')
+            h1 Brocales
+          div(ng-switch-when='Planmatriz')
+            h1 Plan matriz
+          div(ng-switch-when='Disciplina')
+            h1 Disciplina Operacional
+          div(ng-switch-default='')
+            p Seleccionar area del cual quiere modificar los datos
+
   script(type='text/javascript' src='/scripts/sidebarcopy.js')
   script.
     if(local_authmessage!=""){

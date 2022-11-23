@@ -152,7 +152,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   }
   
 
-
+  $scope.headersmodificacion = ["Asistencia", "Brocales", "Plan matriz", "Disciplina","P. Vimos", "Equipos", "Plan. P. Vimos" ]
 
 
   //$scope.myJsonTest = mixed_creator_test();
@@ -745,6 +745,50 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
   $scope.dateselected = new Date()
   $scope.myJsonTest = line_chart(array_values, name_visited)
+
+
+  //------------------------------------------------------MODIFICACION DE DATOS---------------------------------------------------------//
+
+  $scope.Totalasistenciaarchivosmod = [];
+
+
+
+  for(a=0; a < local_data_asistencia.length; a++){
+
+    $scope.Totalasistenciaarchivosmod.push(local_data_asistencia[a])
+  }
+
+
+  $scope.headersasist = Object.keys($scope.Totalasistenciaarchivosmod[0])
+
+  $scope.deleteall =function(){
+    $scope.Totalasistenciaarchivosmod = [];
+  }
+
+  $scope.modificarasistencia = function(index){
+    $scope.nombretrabajador=$scope.Totalasistenciaarchivosmod[index].Nombre
+    $scope.ruttrabajador = $scope.Totalasistenciaarchivosmod[index].Rut
+    $scope.sectortrabajador= $scope.Totalasistenciaarchivosmod[index].Sector
+    $scope.cargotrabajador= $scope.Totalasistenciaarchivosmod[index].Cargo
+    $scope.turnotrabajador = $scope.Totalasistenciaarchivosmod[index].Turno
+    var myModala = new bootstrap.Modal(document.getElementById('Modalmodasistencia'), {
+      keyboard: false
+    })
+    myModala.toggle()
+
+
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
 
 
 
