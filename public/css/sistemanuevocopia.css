@@ -840,6 +840,10 @@ table.Asistenciaarmod td{
   font-size: 12px;
 }
 
+table.matrizaarmod td{
+  font-size: 12px;
+}
+
 #tableasistenciaarmod.grid-container{
   height: 700px;
 }
@@ -1199,4 +1203,56 @@ table.matriz td{
   --bs-btn-padding-y: 0.1rem;
   margin-left: 0px;
   margin-top: 0px;
+}
+
+.modbrocalesbutton{
+  --bs-btn-padding-x: 0.6rem;
+  --bs-btn-padding-y: 0.1rem;
+  margin-left: 0px;
+  margin-top: 0px;
+}
+
+.modmatrizbutton{
+  --bs-btn-padding-x: 0.6rem;
+  --bs-btn-padding-y: 0.1rem;
+  margin-left: 0px;
+  margin-top: 0px;
+}
+.moddisciplinabutton{
+  --bs-btn-padding-x: 0.6rem;
+  --bs-btn-padding-y: 0.1rem;
+  margin-left: 0px;
+  margin-top: 0px;
+}
+.modequipobutton{
+  --bs-btn-padding-x: 0.6rem;
+  --bs-btn-padding-y: 0.1rem;
+  margin-left: 0px;
+  margin-top: 0px;
+}
+
+.modvimobutton{
+  --bs-btn-padding-x: 0.6rem;
+  --bs-btn-padding-y: 0.1rem;
+  margin-left: 0px;
+  margin-top: 0px;
+}
+.modsapbutton{
+  --bs-btn-padding-x: 0.6rem;
+  --bs-btn-padding-y: 0.1rem;
+  margin-left: 0px;
+  margin-top: 0px;
+}
+
+
+#Modalmodbrocal.modal{
+  --bs-modal-width: 1000px;
+}
+
+#tablevimomod.grid-container{
+  height: 700px;
+}
+
+#tablesapar.grid-container{
+  height: 700px;
 }

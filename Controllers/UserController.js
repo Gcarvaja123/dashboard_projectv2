@@ -1005,16 +1005,27 @@ module.exports = {
                     Estado = datos[a]["__EMPTY_7"]
                   }
 
-                  await modelo.puertas.create({
-                    Identificacion : datos[a]["__EMPTY"],
-                    Ubicacion : datos[a]["__EMPTY_1"],
-                    Fecharevision : fecha,
-                    Tipomantencion : Tipomantencion,
-                    Detalles : datos[a]["__EMPTY_4"],
-                    Solicitante : Solicitante,
-                    Estado : Estado,
-                    Idingreso : random_id_matriz_multiple
+                  await modelo.puertas.findAll({
+                    where:{
+                      Identificacion : datos[a]["__EMPTY"],
+                      Fecharevision : fecha
+                    }
+                  }).then(async function(rows_copias){
+                    if(rows_copias.length==0){
+                      await modelo.puertas.create({
+                        Identificacion : datos[a]["__EMPTY"],
+                        Ubicacion : datos[a]["__EMPTY_1"],
+                        Fecharevision : fecha,
+                        Tipomantencion : Tipomantencion,
+                        Detalles : datos[a]["__EMPTY_4"],
+                        Solicitante : Solicitante,
+                        Estado : Estado,
+                        Idingreso : random_id_matriz_multiple
+                      })
+                    }
+                  
                   })
+                  
                 }
               }
               else{
@@ -1032,13 +1043,16 @@ module.exports = {
                 for (a = 1 ; a < Object.keys(datos).length ; a++ ){
 
                   let keys = Object.keys(datos[a]);
+                  console.log(datos[a])
                   console.log(keys)
+                  
                   if(keys.length < 4){
                     if(datos[a][Object.keys(datos[0])[0]]!= undefined && Number.isInteger(datos[a][Object.keys(datos[0])[0]])){
                       var date = ExcelDateToJSDate(datos[a][keys[0]] )
                       var converted_date = date.toISOString().split('T')[0];
                       fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
                     }
+                    console.log(fecha)
                     if(keys.length==1 || (datos[a]["__EMPTY_1"] == undefined && datos[a]["__EMPTY_2"] == undefined)){
                       await modelo.planmatriz.create({
                         Fecha : fecha,
@@ -1137,16 +1151,26 @@ module.exports = {
                 if(datos[a]["__EMPTY_7"] != undefined){
                   Estado = datos[a]["__EMPTY_7"]
                 }                
-                await modelo.puertas.create({
-                  Identificacion : datos[a]["__EMPTY"],
-                  Ubicacion : datos[a]["__EMPTY_1"],
-                  Fecharevision : fecha,
-                  Tipomantencion : Tipomantencion,
-                  Detalles : datos[a]["__EMPTY_4"],
-                  Solicitante : Solicitante,
-                  Estado : Estado,
-                  Idingreso : random_id_matriz_single
-                })
+                await modelo.puertas.findAll({
+                  where:{
+                    Identificacion : datos[a]["__EMPTY"],
+                    Fecharevision : fecha
+                  }
+                  }).then(async function(rows_copias){
+                    if(rows_copias.length==0){
+                      await modelo.puertas.create({
+                        Identificacion : datos[a]["__EMPTY"],
+                        Ubicacion : datos[a]["__EMPTY_1"],
+                        Fecharevision : fecha,
+                        Tipomantencion : Tipomantencion,
+                        Detalles : datos[a]["__EMPTY_4"],
+                        Solicitante : Solicitante,
+                        Estado : Estado,
+                        Idingreso : random_id_matriz_single
+                      })
+                    }
+                  
+                  })
               }
             }
             else{
@@ -1163,6 +1187,7 @@ module.exports = {
               var fecha = "";
               var observacion = "";
               for (a = 1 ; a < Object.keys(datos).length ; a++ ){
+
                 let keys = Object.keys(datos[a]);
                 if(keys.length < 4){
                   //Hacemos cositas
@@ -1894,6 +1919,34 @@ module.exports = {
     
 
     res.redirect("dashboard")
+  },
+
+  postModAsist : async(req, res, next)=>{
+    console.log(req.body)
+  },
+
+  postModBrocal : async(req, res , next)=>{
+    console.log(req.body)
+  },
+
+  postModMatriz : async(req, res, next)=>{
+    console.log(req.body)
+  },
+
+  postModDisciplina : async(req, res, next) =>{
+    console.log(req.body)
+  },
+
+  postModEquipo : async(req, res, next)=>{
+    console.log(req.body)
+  },
+
+  postModPuerta : async(req, res, next)=>{
+    console.log(req.body)
+  },
+
+  postModSap : async(req, res, next)=>{
+    console.log(req.body)
   },
 
 	getPrueba : function (req, res ,next){

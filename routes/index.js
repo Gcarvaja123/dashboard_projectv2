@@ -35,6 +35,13 @@ router.post('/login', passport.authenticate('local',{
 
 router.post("/crearusuario", controllers.UserController.postCrearusuario)
 router.post("/delete", controllers.UserController.postDeleteFiles)
+router.post("/modasist", controllers.UserController.postModAsist)
+router.post("/modbrocal", controllers.UserController.postModBrocal)
+router.post("/modmatriz", controllers.UserController.postModMatriz)
+router.post("/moddisciplina", controllers.UserController.postModDisciplina)
+router.post("/modequipo", controllers.UserController.postModEquipo)
+router.post("/modpuerta", controllers.UserController.postModPuerta)
+router.post("/modsap", controllers.UserController.postModSap)
 
 
 

@@ -317,11 +317,11 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     if(local_data_matriz[d].Area == "Aire Acondicionado"){
       if(local_data_matriz[d].Fecha == $scope.dateselected){
         total_array[0]+=1;
-        if(local_data_matriz[d].Observaciones == ""){
+        if(local_data_matriz[d].Observaciones == null){
           completed_array[0]+=1;
         }
       }
-      if(local_data_matriz[d].Observaciones == ""){
+      if(local_data_matriz[d].Observaciones == null){
         mes = ObtenerMes_2(parseInt(local_data_matriz[d].Fecha.split("-")[1]));
         Anual_aire[meses.indexOf(mes)]+=1;
       }
@@ -331,11 +331,11 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     if(local_data_matriz[d].Area == "Colectores de polvo" ){
       if(local_data_matriz[d].Fecha == $scope.dateselected){
         total_array[1]+=1;
-        if(local_data_matriz[d].Observaciones == ""){
+        if(local_data_matriz[d].Observaciones == null){
           completed_array[1]+=1;
         }
       }
-      if(local_data_matriz[d].Observaciones == ""){
+      if(local_data_matriz[d].Observaciones == null){
         mes = ObtenerMes_2(parseInt(local_data_matriz[d].Fecha.split("-")[1]));
         Anual_polvo[meses.indexOf(mes)]+=1;
       }
@@ -344,11 +344,11 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     if(local_data_matriz[d].Area == "Ventilación" ){
       if(local_data_matriz[d].Fecha == $scope.dateselected){
         total_array[2]+=1;
-        if(local_data_matriz[d].Observaciones == ""){
+        if(local_data_matriz[d].Observaciones == null){
           completed_array[2]+=1;
         }
       }
-      if(local_data_matriz[d].Observaciones == ""){
+      if(local_data_matriz[d].Observaciones == null){
         mes = ObtenerMes_2(parseInt(local_data_matriz[d].Fecha.split("-")[1]));
         Anual_ventilacion[meses.indexOf(mes)]+=1;
       }
@@ -371,7 +371,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
     if(local_data_matriz[d].Area == "Aire Acondicionado"){
       total_deseadas[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1;
-      if(local_data_matriz[d].Observaciones == ""){
+      if(local_data_matriz[d].Observaciones == null){
         total_completadas[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1;
       }
     }
@@ -750,34 +750,347 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   //------------------------------------------------------MODIFICACION DE DATOS---------------------------------------------------------//
 
   $scope.Totalasistenciaarchivosmod = [];
+  $scope.Totalbrocalesmod = [];
+  $scope.Totalmatrizarchivosmod = [];
+  $scope.Totaldisciplinamod = []
+  $scope.Totalequiposmod = []
+  $scope.Totalvimomod = []
+  $scope.Totalsapmod = []
 
 
 
   for(a=0; a < local_data_asistencia.length; a++){
-
     $scope.Totalasistenciaarchivosmod.push(local_data_asistencia[a])
   }
 
+  for(a=0; a < local_data_brocales.length; a++){
+    $scope.Totalbrocalesmod.push(local_data_brocales[a])
+  }
+
+  for(a=0; a < local_data_matriz.length; a++){
+    $scope.Totalmatrizarchivosmod.push(local_data_matriz[a])
+  }
+
+  for(a=0; a < local_data_disciplina.length; a++){
+    $scope.Totaldisciplinamod.push(local_data_disciplina[a])
+  }
+
+  for(a=0; a < local_data_equipo.length ; a++){
+    $scope.Totalequiposmod.push(local_data_equipo[a])
+  }
+
+  for(a=0; a < local_data_puertas.length ; a++){
+    $scope.Totalvimomod.push(local_data_puertas[a])
+  }
+
+  for(a=0; a < local_data_sap.length ; a++){
+    $scope.Totalsapmod.push(local_data_sap[a])
+  }
+
+  $scope.asistenciavalue = {};
+  $scope.brocalesvalue = {};
+  $scope.matrizvalue = {};
+  $scope.disciplinavalue = {};
+  $scope.equipovalue = {};
+  $scope.sapvalue = {};
+  $scope.puertasvalue = {};
 
   $scope.headersasist = Object.keys($scope.Totalasistenciaarchivosmod[0])
+  $scope.headersbroc = Object.keys(local_data_brocales[0])
+  $scope.headermatriz = Object.keys(local_data_matriz[0])
+  $scope.headerdisciplina = Object.keys(local_data_disciplina[0])
+  $scope.headerequipo = Object.keys(local_data_equipo[0])
+  $scope.headervimo = Object.keys(local_data_puertas[0])
+  $scope.headersap = Object.keys(local_data_sap[0])
 
   $scope.deleteall =function(){
     $scope.Totalasistenciaarchivosmod = [];
+    $scope.Totalbrocalesmod = []
   }
 
+  //---------------------------------------ASISTENCIA-------------------------------------------------
+
   $scope.modificarasistencia = function(index){
-    $scope.nombretrabajador=$scope.Totalasistenciaarchivosmod[index].Nombre
-    $scope.ruttrabajador = $scope.Totalasistenciaarchivosmod[index].Rut
-    $scope.sectortrabajador= $scope.Totalasistenciaarchivosmod[index].Sector
-    $scope.cargotrabajador= $scope.Totalasistenciaarchivosmod[index].Cargo
-    $scope.turnotrabajador = $scope.Totalasistenciaarchivosmod[index].Turno
+    $scope.indice = index
+    $scope.asistenciavalue.id = $scope.Totalasistenciaarchivosmod[index].Id
+    $scope.asistenciavalue.nombre=$scope.Totalasistenciaarchivosmod[index].Nombre
+    $scope.asistenciavalue.rut = $scope.Totalasistenciaarchivosmod[index].Rut
+    $scope.asistenciavalue.sector= $scope.Totalasistenciaarchivosmod[index].Sector
+    $scope.asistenciavalue.cargo= $scope.Totalasistenciaarchivosmod[index].Cargo
+    $scope.asistenciavalue.turno = $scope.Totalasistenciaarchivosmod[index].Turno
     var myModala = new bootstrap.Modal(document.getElementById('Modalmodasistencia'), {
       keyboard: false
     })
     myModala.toggle()
+  }
+  //$scope.archivoseliminadosasist ={}
+  
+  $scope.postmodasistencia = function(){
+    /*$scope.archivoseliminadosasist.Id = $scope.asistenciavalue.id
+    $scope.archivoseliminadosasist.Nombre = $scope.asistenciavalue.nombre
+    $scope.archivoseliminadosasist.Rut = $scope.asistenciavalue.rut
+    $scope.archivoseliminadosasist.Sector =$scope.asistenciavalue.sector
+    $scope.archivoseliminadosasist.Cargo =$scope.asistenciavalue.cargo
+    $scope.archivoseliminadosasist.Turno =$scope.asistenciavalue.turno
+    */
+    $scope.Totalasistenciaarchivosmod[$scope.indice].Nombre = $scope.asistenciavalue.nombre
+    $scope.Totalasistenciaarchivosmod[$scope.indice].Rut = $scope.asistenciavalue.rut
+    $scope.Totalasistenciaarchivosmod[$scope.indice].Sector =  $scope.asistenciavalue.sector
+    $scope.Totalasistenciaarchivosmod[$scope.indice].Cargo = $scope.asistenciavalue.cargo
+    $scope.Totalasistenciaarchivosmod[$scope.indice].Turno = $scope.asistenciavalue.turno
 
+
+    $http({
+            method : 'POST',
+            url : '/modasist',
+            data : JSON.stringify($scope.Totalasistenciaarchivosmod[$scope.indice])
+    }).then(function onSuccess(response) {
+        console.log(response);
+    })
+    .catch(function onError(error) {
+        console.log(error);         
+    });
 
   }
+
+  //-----------------------------------------BROCALES--------------------------------------------------------
+
+
+  $scope.modificarbrocales = function(index){
+    $scope.indicebrocal = index
+    $scope.brocalesvalue.fecha = $scope.Totalbrocalesmod[index].Fecha
+    $scope.brocalesvalue.turno = $scope.Totalbrocalesmod[index].Turno
+    $scope.brocalesvalue.actividad = $scope.Totalbrocalesmod[index].Actividad
+    $scope.brocalesvalue.ubicacion = $scope.Totalbrocalesmod[index].Ubicacion
+    $scope.brocalesvalue.cantidad = $scope.Totalbrocalesmod[index].Cantidad
+    $scope.brocalesvalue.demanda = $scope.Totalbrocalesmod[index].Demanda
+    $scope.brocalesvalue.dotacion = $scope.Totalbrocalesmod[index].Dotacion
+    $scope.brocalesvalue.horai = $scope.Totalbrocalesmod[index].Horai
+    $scope.brocalesvalue.horaf = $scope.Totalbrocalesmod[index].Horaf
+    $scope.brocalesvalue.sub = $scope.Totalbrocalesmod[index].Sub  
+    $scope.brocalesvalue.observacion = $scope.Totalbrocalesmod[index].Observaciones
+    var myModala = new bootstrap.Modal(document.getElementById('Modalmodbrocal'), {
+      keyboard: false
+    })
+    myModala.toggle()
+  }
+
+  $scope.postmodbrocales = function(){
+    $scope.Totalbrocalesmod[$scope.indicebrocal].Fecha = $scope.brocalesvalue.fecha
+    $scope.Totalbrocalesmod[$scope.indicebrocal].Turno = $scope.brocalesvalue.turno
+    $scope.Totalbrocalesmod[$scope.indicebrocal].Actividad = $scope.brocalesvalue.actividad
+    $scope.Totalbrocalesmod[$scope.indicebrocal].Ubicacion = $scope.brocalesvalue.ubicacion
+    $scope.Totalbrocalesmod[$scope.indicebrocal].Cantidad = $scope.brocalesvalue.cantidad
+    $scope.Totalbrocalesmod[$scope.indicebrocal].Demanda = $scope.brocalesvalue.demanda
+    $scope.Totalbrocalesmod[$scope.indicebrocal].Dotacion = $scope.brocalesvalue.dotacion
+    $scope.Totalbrocalesmod[$scope.indicebrocal].Horai=$scope.brocalesvalue.horai
+    $scope.Totalbrocalesmod[$scope.indicebrocal].Horaf=$scope.brocalesvalue.horaf
+    $scope.Totalbrocalesmod[$scope.indicebrocal].Sub =$scope.brocalesvalue.sub
+    $scope.Totalbrocalesmod[$scope.indicebrocal].Observaciones = $scope.brocalesvalue.observacion
+    $http({
+            method : 'POST',
+            url : '/modbrocal',
+            data : JSON.stringify($scope.Totalbrocalesmod[$scope.indicebrocal])
+    })
+
+  }
+  //------------------------------------------------PLAN MATRIZ----------------------------------------------------------
+  $scope.modificarmatriz = function(index){
+    $scope.indicematriz = index
+    $scope.matrizvalue.fecha = $scope.Totalmatrizarchivosmod[index].Fecha
+    $scope.matrizvalue.programado = $scope.Totalmatrizarchivosmod[index].Programado
+    $scope.matrizvalue.realizado = $scope.Totalmatrizarchivosmod[index].Realizado
+    $scope.matrizvalue.observaciones = $scope.Totalmatrizarchivosmod[index].Observaciones
+    $scope.matrizvalue.area = $scope.Totalmatrizarchivosmod[index].Area
+    var myModala = new bootstrap.Modal(document.getElementById('Modalmodplanmatriz'), {
+      keyboard: false
+    })
+    myModala.toggle()
+  }
+
+  $scope.postmodmatriz = function(){
+    $scope.Totalmatrizarchivosmod[$scope.indicematriz].Fecha=$scope.matrizvalue.fecha
+    $scope.Totalmatrizarchivosmod[$scope.indicematriz].Programado=$scope.matrizvalue.programado
+    $scope.Totalmatrizarchivosmod[$scope.indicematriz].Realizado=$scope.matrizvalue.realizado
+    $scope.Totalmatrizarchivosmod[$scope.indicematriz].Observaciones=$scope.matrizvalue.observaciones
+    $scope.Totalmatrizarchivosmod[$scope.indicematriz].Area=$scope.matrizvalue.area
+    $http({
+            method : 'POST',
+            url : '/modmatriz',
+            data : JSON.stringify($scope.Totalmatrizarchivosmod[$scope.indicematriz])
+    })
+
+  }
+
+  //---------------------------------------------DISCIPLINA----------------------------------------------------------------
+
+  $scope.modificardisciplina = function(index){
+    $scope.indicedisciplina = index
+    $scope.disciplinavalue.area = $scope.Totaldisciplinamod[index].Area
+    $scope.disciplinavalue.dia = $scope.Totaldisciplinamod[index].Dia
+    $scope.disciplinavalue.fechad = $scope.Totaldisciplinamod[index].Fecha
+    $scope.disciplinavalue.llegadainstalacion = $scope.Totaldisciplinamod[index].Llegada_Instalacion
+    $scope.disciplinavalue.salidainstalacion = $scope.Totaldisciplinamod[index].Salida_Instalacion
+    $scope.disciplinavalue.inicioactam = $scope.Totaldisciplinamod[index].Inicio_Act_Am
+    $scope.disciplinavalue.terminoactam = $scope.Totaldisciplinamod[index].Termino_Act_Am
+    $scope.disciplinavalue.almuerzo = $scope.Totaldisciplinamod[index].Almuerzo
+    $scope.disciplinavalue.inicioactpm = $scope.Totaldisciplinamod[index].Inicio_Act_Pm
+    $scope.disciplinavalue.terminoactpm = $scope.Totaldisciplinamod[index].Termino_Act_Pm
+    $scope.disciplinavalue.tiempoinstalacion = $scope.Totaldisciplinamod[index].Tiempo_Instalacion
+    $scope.disciplinavalue.trasladopostura = $scope.Totaldisciplinamod[index].Traslado_Postura
+    $scope.disciplinavalue.tiempodispam = $scope.Totaldisciplinamod[index].Tiempo_Disponible_Am
+    $scope.disciplinavalue.trasladocolacion = $scope.Totaldisciplinamod[index].Traslado_Colacion
+    $scope.disciplinavalue.tiempodisponiblepm = $scope.Totaldisciplinamod[index].Tiempo_Disponible_Pm
+    $scope.disciplinavalue.almuerzo2 = $scope.Totaldisciplinamod[index].Almuerzo_2
+    $scope.disciplinavalue.meta = $scope.Totaldisciplinamod[index].Meta
+    var myModala = new bootstrap.Modal(document.getElementById('Modalmoddisciplina'), {
+      keyboard: false
+    })
+    myModala.toggle()
+  }
+
+  $scope.postmoddisciplina = function(){
+    $scope.Totaldisciplinamod[$scope.indicedisciplina].Area=$scope.disciplinavalue.area
+    $scope.Totaldisciplinamod[$scope.indicedisciplina].Dia=$scope.disciplinavalue.dia
+    $scope.Totaldisciplinamod[$scope.indicedisciplina].Fecha=$scope.disciplinavalue.fechad
+    $scope.Totaldisciplinamod[$scope.indicedisciplina].Llegada_Instalacion=$scope.disciplinavalue.llegadainstalacion
+    $scope.Totaldisciplinamod[$scope.indicedisciplina].Salida_Instalacion=$scope.disciplinavalue.salidainstalacion
+    $scope.Totaldisciplinamod[$scope.indicedisciplina].Inicio_Act_Am=$scope.disciplinavalue.inicioactam
+    $scope.Totaldisciplinamod[$scope.indicedisciplina].Termino_Act_Am=$scope.disciplinavalue.terminoactam
+    $scope.Totaldisciplinamod[$scope.indicedisciplina].Almuerzo=$scope.disciplinavalue.almuerzo
+    $scope.Totaldisciplinamod[$scope.indicedisciplina].Inicio_Act_Pm=$scope.disciplinavalue.inicioactpm
+    $scope.Totaldisciplinamod[$scope.indicedisciplina].Termino_Act_Pm=$scope.disciplinavalue.terminoactpm
+    $scope.Totaldisciplinamod[$scope.indicedisciplina].Tiempo_Instalacion=$scope.disciplinavalue.tiempoinstalacion
+    $scope.Totaldisciplinamod[$scope.indicedisciplina].Traslado_Postura=$scope.disciplinavalue.trasladopostura
+    $scope.Totaldisciplinamod[$scope.indicedisciplina].Tiempo_Disponible_Am=$scope.disciplinavalue.tiempodispam
+    $scope.Totaldisciplinamod[$scope.indicedisciplina].Traslado_Colacion=$scope.disciplinavalue.trasladocolacion
+    $scope.Totaldisciplinamod[$scope.indicedisciplina].Tiempo_Disponible_Pm=$scope.disciplinavalue.tiempodisponiblepm
+    $scope.Totaldisciplinamod[$scope.indicedisciplina].Almuerzo_2=$scope.disciplinavalue.almuerzo2
+    $scope.Totaldisciplinamod[$scope.indicedisciplina].Meta=$scope.disciplinavalue.meta
+    $http({
+            method : 'POST',
+            url : '/moddisciplina',
+            data : JSON.stringify($scope.Totaldisciplinamod[$scope.indicedisciplina])
+    })
+  }
+
+  //-------------------------------------------EQUIPOS---------------------------------------------------------------------
+
+
+  $scope.modificarequipo = function(index){
+    $scope.indiceequipo = index
+    $scope.equipovalue.equipo = $scope.Totalequiposmod[index].Equipo
+    $scope.equipovalue.patente = $scope.Totalequiposmod[index].Patente
+    $scope.equipovalue.cartola = $scope.Totalequiposmod[index].Cartola
+    $scope.equipovalue.ultimamantencion = $scope.Totalequiposmod[index].Ultimamantencion
+    $scope.equipovalue.ultimokms = $scope.Totalequiposmod[index].Ultimokms
+    $scope.equipovalue.proximakms = $scope.Totalequiposmod[index].Proximakms
+    $scope.equipovalue.kmactual = $scope.Totalequiposmod[index].Kilometrajeactual
+    $scope.equipovalue.semaforo = $scope.Totalequiposmod[index].Semaforo
+    $scope.equipovalue.estado = $scope.Totalequiposmod[index].Estado
+    $scope.equipovalue.fechagas = $scope.Totalequiposmod[index].Fechagas
+    var myModala = new bootstrap.Modal(document.getElementById('Modalmodequipos'), {
+      keyboard: false
+    })
+    myModala.toggle()
+  }
+
+  $scope.postmodequipo = function(){
+    $scope.Totalequiposmod[$scope.indiceequipo].Equipo=$scope.equipovalue.equipo
+    $scope.Totalequiposmod[$scope.indiceequipo].Patente=$scope.equipovalue.patente
+    $scope.Totalequiposmod[$scope.indiceequipo].Cartola=$scope.equipovalue.cartola
+    $scope.Totalequiposmod[$scope.indiceequipo].Ultimamantencion=$scope.equipovalue.ultimamantencion
+    $scope.Totalequiposmod[$scope.indiceequipo].Ultimokms=$scope.equipovalue.ultimokms
+    $scope.Totalequiposmod[$scope.indiceequipo].Proximakms=$scope.equipovalue.proximakms
+    $scope.Totalequiposmod[$scope.indiceequipo].Kilometrajeactual=$scope.equipovalue.kmactual
+    $scope.Totalequiposmod[$scope.indiceequipo].Semaforo=$scope.equipovalue.semaforo
+    $scope.Totalequiposmod[$scope.indiceequipo].Estado=$scope.equipovalue.estado
+    $scope.Totalequiposmod[$scope.indiceequipo].Fechagas=$scope.equipovalue.fechagas
+    $http({
+            method : 'POST',
+            url : '/modequipo',
+            data : JSON.stringify($scope.Totalequiposmod[$scope.indiceequipo])
+    })
+
+  }
+
+
+  //--------------------------------------------------Planificacion vimo--------------------------------------
+
+
+  $scope.modificarvimo = function(index){
+    $scope.indicepuerta = index
+    $scope.puertasvalue.identificacion = $scope.Totalvimomod[index].Identificacion
+    $scope.puertasvalue.ubicacion = $scope.Totalvimomod[index].Ubicacion
+    $scope.puertasvalue.fecharevision = $scope.Totalvimomod[index].Fecharevision
+    $scope.puertasvalue.tipomantencion = $scope.Totalvimomod[index].Tipomantencion
+    $scope.puertasvalue.detalles = $scope.Totalvimomod[index].Detalles
+    $scope.puertasvalue.solicitante = $scope.Totalvimomod[index].Solicitante
+    $scope.puertasvalue.estado = $scope.Totalvimomod[index].Estado
+    var myModala = new bootstrap.Modal(document.getElementById('Modalpuertasvimo'), {
+      keyboard: false
+    })
+    myModala.toggle()
+  }
+
+  $scope.postmodpuerta = function(){
+    $scope.Totalvimomod[$scope.indicepuerta].Identificacion=$scope.puertasvalue.identificacion
+    $scope.Totalvimomod[$scope.indicepuerta].Ubicacion=$scope.puertasvalue.ubicacion
+    $scope.Totalvimomod[$scope.indicepuerta].Fecharevision=$scope.puertasvalue.fecharevision
+    $scope.Totalvimomod[$scope.indicepuerta].Tipomantencion=$scope.puertasvalue.tipomantencion
+    $scope.Totalvimomod[$scope.indicepuerta].Detalles=$scope.puertasvalue.detalles
+    $scope.Totalvimomod[$scope.indicepuerta].Solicitante=$scope.puertasvalue.solicitante
+    $scope.Totalvimomod[$scope.indicepuerta].Estado=$scope.puertasvalue.estado
+
+    $http({
+            method : 'POST',
+            url : '/modpuerta',
+            data : JSON.stringify($scope.Totalvimomod[$scope.indicepuerta])
+    })
+
+  }
+
+
+
+  //-------------------------------------SAP-----------------------------------------------
+
+
+  $scope.modificarsap = function(index){
+    $scope.indicesap = index
+    $scope.sapvalue.npuerta = $scope.Totalsapmod[index].Numpuerta
+    $scope.sapvalue.ut = $scope.Totalsapmod[index].Ut
+    $scope.sapvalue.arearesponsable = $scope.Totalsapmod[index].Arearesponsable
+    $scope.sapvalue.prioridad = $scope.Totalsapmod[index].Prioridad
+    $scope.sapvalue.nivel = $scope.Totalsapmod[index].Nivel
+    $scope.sapvalue.plan= $scope.Totalsapmod[index].Plan
+    $scope.sapvalue.orden = $scope.Totalsapmod[index].Orden
+    $scope.sapvalue.mes = $scope.Totalsapmod[index].Mes
+    var myModala = new bootstrap.Modal(document.getElementById('Modalsap'), {
+      keyboard: false
+    })
+    myModala.toggle()
+  }
+
+  $scope.postmodsap = function(){
+    $scope.Totalsapmod[$scope.indicesap].Numpuerta=$scope.sapvalue.npuerta
+    $scope.Totalsapmod[$scope.indicesap].Ut=$scope.sapvalue.ut
+    $scope.Totalsapmod[$scope.indicesap].Arearesponsable=$scope.sapvalue.arearesponsable 
+    $scope.Totalsapmod[$scope.indicesap].Prioridad=$scope.sapvalue.prioridad
+    $scope.Totalsapmod[$scope.indicesap].Nivel=$scope.sapvalue.nivel 
+    $scope.Totalsapmod[$scope.indicesap].Plan=$scope.sapvalue.plan
+    $scope.Totalsapmod[$scope.indicesap].Orden=$scope.sapvalue.orden
+    $scope.Totalsapmod[$scope.indicesap].Mes=$scope.sapvalue.mes
+    $http({
+            method : 'POST',
+            url : '/modsap',
+            data : JSON.stringify($scope.Totalsapmod[$scope.indicesap])
+    })
+
+  }
+
+
+
+
 
   //--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -817,7 +1130,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       for(a=0; a < local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Aire Acondicionado" && local_data_matriz[a].Fecha.split("-")[1] == fecha.split("-")[1] && local_data_matriz[a].Fecha.split("-")[2] == fecha.split("-")[2] ){
           datos_x_aire_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
-          if(local_data_matriz[a].Observaciones==""){
+          if(local_data_matriz[a].Observaciones==null){
             datos_x_aire_completados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
           }
         }
@@ -830,7 +1143,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       for(a=0; a<local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Aire Acondicionado"  && fecha.split("-")[2] == local_data_matriz[a].Fecha.split("-")[2]){
           anual_aire_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
-          if(local_data_matriz[a].Observaciones==""){
+          if(local_data_matriz[a].Observaciones==null){
             anual_aire_completados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
           }
         }      
@@ -863,7 +1176,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       for(a=0; a < local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Colectores de polvo" && local_data_matriz[a].Fecha.split("-")[1] == fecha.split("-")[1] && local_data_matriz[a].Fecha.split("-")[2] == fecha.split("-")[2] ){
           datos_x_polvo_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
-          if(local_data_matriz[a].Observaciones==""){
+          if(local_data_matriz[a].Observaciones==null){
             datos_x_polvo_completados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
           }
         }
@@ -876,7 +1189,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       for(a=0; a<local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Colectores de polvo"  && fecha.split("-")[2] == local_data_matriz[a].Fecha.split("-")[2]){
           anual_polvo_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
-          if(local_data_matriz[a].Observaciones==""){
+          if(local_data_matriz[a].Observaciones==null){
             anual_polvo_completados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
           }
         }      
@@ -908,7 +1221,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       for(a=0; a < local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Ventilación" && local_data_matriz[a].Fecha.split("-")[1] == fecha.split("-")[1] && local_data_matriz[a].Fecha.split("-")[2] == fecha.split("-")[2] ){
           datos_x_ventilacion_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
-          if(local_data_matriz[a].Observaciones==""){
+          if(local_data_matriz[a].Observaciones==null){
             datos_x_ventilacion_completados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
           }
         }
@@ -921,7 +1234,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       for(a=0; a<local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Ventilación"  && fecha.split("-")[2] == local_data_matriz[a].Fecha.split("-")[2]){
           anual_ventilacion_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
-          if(local_data_matriz[a].Observaciones==""){
+          if(local_data_matriz[a].Observaciones==null){
             anual_ventilacion_completados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
           }
         }      
@@ -2054,7 +2367,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       for(a=0; a < local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Aire Acondicionado" && local_data_matriz[a].Fecha.split("-")[1] == fecha.split("-")[1] && local_data_matriz[a].Fecha.split("-")[2] == fecha.split("-")[2] ){
           datos_x_aire_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
-          if(local_data_matriz[a].Observaciones==""){
+          if(local_data_matriz[a].Observaciones==null){
             datos_x_aire_completados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
           }
         }
@@ -2067,7 +2380,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       for(a=0; a<local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Aire Acondicionado"  && fecha.split("-")[2] == local_data_matriz[a].Fecha.split("-")[2]){
           anual_aire_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
-          if(local_data_matriz[a].Observaciones==""){
+          if(local_data_matriz[a].Observaciones==null){
             anual_aire_completados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
           }
         }      
@@ -2082,7 +2395,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       for(a=0; a < local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Colectores de polvo" && local_data_matriz[a].Fecha.split("-")[1] == fecha.split("-")[1] && local_data_matriz[a].Fecha.split("-")[2] == fecha.split("-")[2] ){
           datos_x_polvo_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
-          if(local_data_matriz[a].Observaciones==""){
+          if(local_data_matriz[a].Observaciones==null){
             datos_x_polvo_completados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
           }
         }
@@ -2095,7 +2408,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       for(a=0; a<local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Colectores de polvo"  && fecha.split("-")[2] == local_data_matriz[a].Fecha.split("-")[2]){
           anual_polvo_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
-          if(local_data_matriz[a].Observaciones==""){
+          if(local_data_matriz[a].Observaciones==null){
             anual_polvo_completados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
           }
         }      
@@ -2110,7 +2423,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       for(a=0; a < local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Ventilación" && local_data_matriz[a].Fecha.split("-")[1] == fecha.split("-")[1] && local_data_matriz[a].Fecha.split("-")[2] == fecha.split("-")[2] ){
           datos_x_ventilacion_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
-          if(local_data_matriz[a].Observaciones==""){
+          if(local_data_matriz[a].Observaciones==null){
             datos_x_ventilacion_completados[parseInt(local_data_matriz[a].Fecha.split("-")[0])-1]+=1;
           }
         }
@@ -2123,7 +2436,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       for(a=0; a<local_data_matriz.length; a++){
         if(local_data_matriz[a].Area=="Ventilación"  && fecha.split("-")[2] == local_data_matriz[a].Fecha.split("-")[2]){
           anual_ventilacion_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
-          if(local_data_matriz[a].Observaciones==""){
+          if(local_data_matriz[a].Observaciones==null){
             anual_ventilacion_completados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
           }
         }      
@@ -2678,7 +2991,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
   $scope.SendDelete = function(){
     $scope.Archivoseliminados = {"hola" : "esto es coso"}
-    console.log("hola en angular")
+    console.log($scope.archivoseliminar)
     $http({
             method : 'POST',
             url : '/delete',
