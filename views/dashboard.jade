@@ -1976,7 +1976,7 @@ html
           p
           select.selectsitio.form-selectfilter( ng-model='columnsitio' ng-init='columnsitio="Fecha"' ng-options='e for e in headersitio' ng-change="Cambiositio()" )
           p
-          div.grid-container
+          #lineasistenciareport.grid-container
             #chart100(zingchart='' zc-json='myJsonAsistenciaReport' zc-width='100%' zc-height='300px')
 
           #gridbrocalesreport.grid-container
@@ -2002,6 +2002,8 @@ html
               #chart109(zingchart='' zc-json='myJsonMatrizreport3' zc-width='100%' zc-height='300px')
             div
               #chart110(zingchart='' zc-json='myJsonMatrizreport4' zc-width='100%' zc-height='300px')
+          div.grid-container
+            #chart111(zingchart='' zc-json='myJsonDisciplinareport' zc-width='100%' zc-height='300px')
 
 
 

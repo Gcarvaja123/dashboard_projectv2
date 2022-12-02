@@ -2606,12 +2606,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       suma = 0;
       for(b=0; b < array_values[a].length; b++){
         suma+= array_values[a][b];
-        if(meta[a] == "0:0"){
-          array_values[a][b] = 0;
-        }
-        else{
-          array_values[a][b] = Math.round(parseFloat(array_values[a][b]/(parseInt(meta[a].split(":")[0])*60 + parseInt(meta[a].split(":")[1]) ))*100);
-        }
+        
+        array_values[a][b] = Math.round(parseFloat(array_values[a][b]/(parseInt(meta[a].split(":")[0])*60 + parseInt(meta[a].split(":")[1]) ))*100);
+        
         //array_float[a][b] = parseFloat(array_values[a][b]/(meta[a].split(":")[0]*60 + meta[a].split(":")[1]*6 ))*100;
       }
       array_suma_meta.push(suma);
@@ -2752,7 +2749,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
     var hora_llegada = parseInt(llegada.split(":")[0])-1;
 
-    console.log("hora llegada es : "+hora_llegada.toString())
     var Epoch_Inicio = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+hora_llegada.toString()+":00:00"))*1000
     var Epoch_Final = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"17:00:00"))*1000
 
@@ -3055,7 +3051,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
     const mapfechas_aux = todasfechas.map(x => x.toISOString().split('T')[0])
     const mapfechas = mapfechas_aux.map(x => x.split("-")[2]+"-"+x.split("-")[1]+"-"+x.split("-")[0])
-    console.log(mapfechas)
+
+    
 
     for(a=0 ; a < local_data_asistencia.length; a++){
       fecha_asistencia = new Date(local_data_asistencia[a].Fechaingreso.split("-")[2].toString()+"-"+local_data_asistencia[a].Fechaingreso.split("-")[1].toString()+"-"+local_data_asistencia[a].Fechaingreso.split("-")[0].toString()+" "+"23:00:00")
@@ -3263,7 +3260,73 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     $scope.myJsonMatrizreport4 = bar_puertas_report(contando_revision, contando_operativo)
 
 
+    //---------------------------------------------------DISCIPLINA OPERACIONAL---------------------------------------------------
+    var contando_feriados = [];
+    var array_suma_meta =[];
+    var array_values = [];
+    var name_visited = [];
+    for (a=0; a<local_data_disciplina.length; a++){
+      fecha_disciplina = new Date(local_data_disciplina[a].Fecha.split("-")[2].toString()+"-"+local_data_disciplina[a].Fecha.split("-")[1].toString()+"-"+local_data_disciplina[a].Fecha.split("-")[0].toString()+" "+"23:00:00")
+      if(fecha_disciplina.getTime() >= Fechaaux1.getTime() && fecha_disciplina.getTime() <= Fechaaux2.getTime()){
+        if(name_visited.indexOf(local_data_disciplina[a].Area) == -1){
+          name_visited.push(local_data_disciplina[a].Area);
+          meta.push(local_data_disciplina[a].Meta)
+          contando_feriados.push(0)
+          var aux_arr = []
+          for(b=0; b <mapfechas.length; b++){
+            aux_arr.push(0)
+          }
+          aux_arr[mapfechas.indexOf(local_data_disciplina[a].Fecha)] = parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[[1]]) + parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[1])
+          if(aux_arr[mapfechas.indexOf(local_data_disciplina[a].Fecha)]==NaN){
+            aux_arr[mapfechas.indexOf(local_data_disciplina[a].Fecha)] = 0;
+          }
+          
+          array_values.push(aux_arr);
 
+        }
+        else{
+          array_values[name_visited.indexOf(local_data_disciplina[a].Area)][mapfechas.indexOf(local_data_disciplina[a].Fecha)] = parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[[1]]) + parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[1])
+          //array_float[name_visited.indexOf(local_data_disciplina[a].Area)][array_week.indexOf(local_data_disciplina[a].Fecha)] = parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[[1]]) + parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[1])
+          if(local_data_disciplina[a].Meta != "0:0"){
+            meta[name_visited.indexOf(local_data_disciplina[a].Area)] = local_data_disciplina[a].Meta
+          }
+        }
+
+        if(local_data_disciplina[a].Meta != "0:0"){
+          contando_feriados[name_visited.indexOf(local_data_disciplina[a].Area)]+=1
+        }
+        
+
+      }
+    }
+
+    console.log(array_values)
+    console.log(contando_feriados)
+    
+    for(a=0; a < array_values.length; a++){
+      suma = 0;
+      for(b=0; b < array_values[a].length; b++){
+        suma+= array_values[a][b];
+        
+        array_values[a][b] = Math.round(parseFloat(array_values[a][b]/(parseInt(meta[a].split(":")[0])*60 + parseInt(meta[a].split(":")[1]) ))*100);
+        
+        //array_float[a][b] = parseFloat(array_values[a][b]/(meta[a].split(":")[0]*60 + meta[a].split(":")[1]*6 ))*100;
+      }
+      array_suma_meta.push(suma);
+    }
+
+    for(a=0; a<array_suma_meta.length; a++){
+
+      array_suma_meta[a] = Math.round((parseFloat(array_suma_meta[a]/((parseInt(meta[a].split(':')[0])*60 + parseInt(meta[a].split(':')[1]))*(contando_feriados[a])))*100).toFixed(8))
+    }
+
+    console.log(array_suma_meta)
+
+
+    //Bullet_creator([array_values[0][week_day],array_values[1][week_day], array_values[2][week_day], array_values[3][week_day], array_values[4][week_day], array_values[5][week_day], array_values[6][week_day], array_values[7][week_day], array_values[8][week_day], array_values[9][week_day], array_values[10][week_day], array_values[11][week_day], array_values[12][week_day], array_values[13][week_day]], [100,100,100,100, 100, 100, 100,100,100,100,100,100,100,100], [name_visited[0], name_visited[1], name_visited[2], name_visited[3], name_visited[4], name_visited[5], name_visited[6], name_visited[7], name_visited[8], name_visited[9], name_visited[10], name_visited[11], name_visited[12], name_visited[13]])
+
+
+    $scope.myJsonDisciplinareport = Bullet_creator([array_suma_meta[0], array_suma_meta[1], array_suma_meta[2], array_suma_meta[3], array_suma_meta[4], array_suma_meta[5], array_suma_meta[6], array_suma_meta[7], array_suma_meta[8], array_suma_meta[9], array_suma_meta[10], array_suma_meta[11], array_suma_meta[12], array_suma_meta[13]], [100,100,100,100, 100, 100, 100,100,100,100,100,100,100,100], [name_visited[0], name_visited[1], name_visited[2], name_visited[3], name_visited[4], name_visited[5], name_visited[6], name_visited[7], name_visited[8], name_visited[9], name_visited[10], name_visited[11], name_visited[12], name_visited[13]])
 
   }
 
