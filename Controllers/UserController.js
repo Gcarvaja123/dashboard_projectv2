@@ -645,6 +645,7 @@ module.exports = {
             }
           }catch(err){
             req.flash('error', file.name.toString());
+            console.log(err)
             await modelo.brocales.destroy({
               where : {
                 Idingreso : random_id_brocales5_single
@@ -831,6 +832,7 @@ module.exports = {
             var id = "";
             var random_id_brocales6_single = guid()
             var demandaiszero = true
+            var nadaqueagregar = false
             await modelo.archivos.create({
               Tabla : "brocales",
               Idingreso : random_id_brocales6_single,
@@ -906,7 +908,11 @@ module.exports = {
               /*if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] != undefined){
                   Sub = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]];
               }*/
-              if(Object.keys(datos[a]).length > 1 && demandaiszero != true){
+              /*if(datos[a]["__EMPTY"] == undefined && datos[a]["__EMPTY_1"] == undefined &&datos[a]["__EMPTY_2"] == undefined && datos[a]["__EMPTY_3"] == undefined && datos[a]["__EMPTY_4"] == undefined datos[a]["__EMPTY_5"] == undefined ){
+                nadaqueagregar = true
+              }*/
+
+              if(Object.keys(datos[a]).length > 1 && demandaiszero != true ){
                 await modelo.brocales.findAll({
                   where : {
                     Fecha : Fecha,
@@ -930,10 +936,10 @@ module.exports = {
                         Horaf : Horaf,
                         Uniqueid : id,
                         Idingreso : random_id_brocales6_single
-                    })
-                    if (Demanda == 0){
+                    })     
+                  }
+                  if (Demanda == 0 ){
                       demandaiszero = true
-                    }
                   }
                 })
               }
@@ -1273,7 +1279,7 @@ module.exports = {
                   var converted_date = date.toISOString().split('T')[0];
                   Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
                   
-                  var meta;
+                  var meta=0;
                   for(c=6; c< datos[a].length; c++){
                     if(datos[a][c][llaves[5]] == "META"){
                       meta = datos[a][c][llaves[6]];
@@ -1333,6 +1339,7 @@ module.exports = {
                 Infoingresada : "Tiempos de la disciplina operacional",
                 Nombrearchivo : file.name.toString()
               })
+
               await file.mv(savePath);
               var datos_aux = leerExcelDisciplina(file.name, [0,1,2,3,4,5,6,7,8,9,10,11,12,13])
               var datos = datos_aux[0];
@@ -1343,7 +1350,7 @@ module.exports = {
                   var converted_date = date.toISOString().split('T')[0];
                   Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
                   
-                  var meta;
+                  var meta=0;
                   for(c=6; c< datos[a].length; c++){
                     if(datos[a][c][llaves[5]] == "META"){
                       meta = datos[a][c][llaves[6]];

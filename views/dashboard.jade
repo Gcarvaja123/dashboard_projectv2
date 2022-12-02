@@ -542,7 +542,7 @@ html
               li
                 a.nav-link.tablink(onclick="openActivity(event,'Modificacion')" ) Modificación
               li
-                a.nav-link.tablink() Reporte
+                a.nav-link.tablink(onclick="openActivity(event,'Reporte')" ) Reporte
               li
                 a.nak-link.tablink(onclick="openActivity(event,'Creacion')") Creacion
               li
@@ -1928,6 +1928,83 @@ html
 
           div(ng-switch-default='')
             p Seleccionar area del cual quiere modificar los datos
+      #Reporte.w3-container.w3-border.activity(style='display:none')
+
+        .timeritems
+          .item1fecha
+            label.form-label(for='formFileMultiple') Fecha inicio
+            input#startDatestart.form-control(ng-model="dateselectedstart" type='date' )
+          .item2fecha
+            label.form-label(for='formFileMultiple') Fecha termino
+            input#startDateend.form-control(ng-model="dateselectedfinish" type='date' )
+        .buttonreport
+          button.btnn(type='button' ng-click="CreateReport()") Crear Reporte
+        p
+        #divinvisible
+          #tableasistenciarreport.grid-container
+                div.tabla.item1
+                  table.vimo.table.caption-top
+                    thead
+                      tr
+                        th(data-type="text")
+                          | Nombre
+                          span.resize-handle
+                        th(data-type='text')
+                          | Rut
+                          span.resize-handle
+                        th(data-type='text')
+                          | Total dias posibles
+                          span.resize-handle
+                        th(data-type='text')
+                          | Faltas
+                          span.resize-handle
+                        th(data-type='text')
+                          | Rendimiento
+                          span.resize-handle
+                      tbody
+                        tr(ng-repeat="asistencia in Totalreporteasistencia")
+                          td
+                            label {{asistencia.Nombre}}
+                          td
+                            label {{asistencia.Rut}}
+                          td
+                            label {{asistencia.Totaldias}}
+                          td
+                            label {{asistencia.Falta}}
+                          td
+                            progress#progressbar(value='{{asistencia.Rendimiento}}' max='100')
+          p
+          select.selectsitio.form-selectfilter( ng-model='columnsitio' ng-init='columnsitio="Fecha"' ng-options='e for e in headersitio' ng-change="Cambiositio()" )
+          p
+          div.grid-container
+            #chart100(zingchart='' zc-json='myJsonAsistenciaReport' zc-width='100%' zc-height='300px')
+
+          #gridbrocalesreport.grid-container
+            div
+              #chart101(zingchart='' zc-json='myJsonBrocalesreport1' zc-width='100%' zc-height='300px')
+            div
+              #chart102(zingchart='' zc-json='myJsonBrocalesreport2' zc-width='100%' zc-height='300px')
+            div
+              #chart103(zingchart='' zc-json='myJsonBrocalesreportbar' zc-width='100%' zc-height='300px')
+          #gridbrocalesreport2.grid-container
+            div
+              #chart104(zingchart='' zc-json='myJsonBrocalesreport1v2' zc-width='100%' zc-height='300px')
+            div
+              #chart105(zingchart='' zc-json='myJsonBrocalesreport2v2' zc-width='100%' zc-height='300px')
+            div
+              #chart106(zingchart='' zc-json='myJsonBrocalesreportbarv2' zc-width='100%' zc-height='300px')
+          #gridmatrizreport.grid-container
+            div
+              #chart107(zingchart='' zc-json='myJsonMatrizreport1' zc-width='100%' zc-height='300px')
+            div
+              #chart108(zingchart='' zc-json='myJsonMatrizreport2' zc-width='100%' zc-height='300px')
+            div
+              #chart109(zingchart='' zc-json='myJsonMatrizreport3' zc-width='100%' zc-height='300px')
+            div
+              #chart110(zingchart='' zc-json='myJsonMatrizreport4' zc-width='100%' zc-height='300px')
+
+
+
 
   script(type='text/javascript' src='/scripts/sidebarcopy.js')
   script.

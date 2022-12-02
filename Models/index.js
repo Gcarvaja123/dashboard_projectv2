@@ -1,4 +1,3 @@
-
 "use strict";
 
 var fs        = require("fs");
@@ -11,11 +10,11 @@ var opts = {
     }
 }
 const Op = Sequelize.Op;
-var sequelize = new Sequelize('trabajo','admin','Xvkgmdwe135', {
-  host: 'dashboarddb.cbqwyeck8ajg.us-east-2.rds.amazonaws.com',
+var sequelize = new Sequelize('trabajo','root','xvkgmdwe135', {
+  host: 'localhost',
   dialect: 'mysql',
-  username : 'admin',
-  password : "Xvkgmdwe135",
+  username : 'root',
+  password : "xvkgmdwe135",
   port : 3306,
   operatorsAliases: Op, // use Sequelize.Op
   pool: {
@@ -32,8 +31,8 @@ fs
         return (file.indexOf(".") !== 0) && (file !== "index.js");
     })
     .forEach(function(file) {
-        //var model = sequelize.import(path.join(__dirname, file));
         const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes)
+        //var model = sequelize.import(path.join(__dirname, file));
         db[model.name] = model;
     });
 

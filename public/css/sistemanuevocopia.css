@@ -659,6 +659,34 @@ hr{
   text-align: center;
 }
 
+#gridbrocalesreport {
+  display: grid;
+  grid-template-columns: 23% 23% auto;
+
+}
+
+#gridbrocalesreport div{
+  border-radius: 10px;
+}
+
+#gridbrocalesreport2 {
+  display: grid;
+  grid-template-columns: 23% 23% auto;
+}
+
+#gridmatrizreport div{
+  border-radius: 10px;
+}
+
+#gridmatrizreport{
+  display: grid;
+  grid-template-columns: 23% 23% 23% auto;
+}
+
+#gridbrocalesreport2 div{
+  border-radius: 10px;
+}
+
 #matrizbrocales div{
   border-radius: 10px;
 }
@@ -670,6 +698,9 @@ hr{
   grid-template-columns: auto auto;
 }
 
+#divinvisible{
+  display: none;
+}
 
 
 
@@ -757,6 +788,10 @@ hr{
   align-items: center;
   justify-content: center;
   display: flex;
+}
+
+.buttonreport{
+  text-align: center;
 }
 
 .buttoninnasistance {
@@ -959,6 +994,7 @@ table.matriz td{
   width: 50%;
 }
 
+
 .matrizitems{
   flex-direction: row;
   display: flex;
@@ -1007,6 +1043,14 @@ table.matriz td{
 .sub6example{
   flex-direction: row;
   display: flex;
+}
+
+.timeritems{
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
 }
 
 
@@ -1256,3 +1300,24 @@ table.matriz td{
 #tablesapar.grid-container{
   height: 700px;
 }
+
+#tableasistenciarreport.grid-container{
+  height: 700px;
+}
+
+.timeritems{
+  text-align: center;
+}
+
+.timeritems{
+  text-align: center;
+}
+
+.timeritems .item1fecha{
+  padding-right: 30px;
+}
+
+.timeritems .item2fecha{
+  padding-left: 30px;
+}
+

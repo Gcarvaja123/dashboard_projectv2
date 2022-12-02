@@ -2568,7 +2568,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
         week_day=a;
       }
     }
-
+    var contando_feriados = [];
     var array_suma_meta =[];
     var array_values = [];
     for (a=0; a<local_data_disciplina.length; a++){
@@ -2576,6 +2576,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
         if(name_visited.indexOf(local_data_disciplina[a].Area) == -1){
           name_visited.push(local_data_disciplina[a].Area);
           meta.push(local_data_disciplina[a].Meta)
+          contando_feriados.push(0)
           var aux_arr = [0,0,0,0,0];
           aux_arr[array_week.indexOf(local_data_disciplina[a].Fecha)] = parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[[1]]) + parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[1])
           if(aux_arr[array_week.indexOf(local_data_disciplina[a].Fecha)]==NaN){
@@ -2588,23 +2589,37 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
         else{
           array_values[name_visited.indexOf(local_data_disciplina[a].Area)][array_week.indexOf(local_data_disciplina[a].Fecha)] = parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[[1]]) + parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[1])
           //array_float[name_visited.indexOf(local_data_disciplina[a].Area)][array_week.indexOf(local_data_disciplina[a].Fecha)] = parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[[1]]) + parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[1])
+          if(local_data_disciplina[a].Meta != "0:0"){
+            meta[name_visited.indexOf(local_data_disciplina[a].Area)] = local_data_disciplina[a].Meta
+          }
         }
+
+        if(local_data_disciplina[a].Meta == "0:0"){
+          contando_feriados[name_visited.indexOf(local_data_disciplina[a].Area)]+=1
+        }
+        
 
       }
     }
-      
+    
     for(a=0; a < array_values.length; a++){
       suma = 0;
       for(b=0; b < array_values[a].length; b++){
         suma+= array_values[a][b];
-        array_values[a][b] = Math.round(parseFloat(array_values[a][b]/(parseInt(meta[a].split(":")[0])*60 + parseInt(meta[a].split(":")[1]) ))*100);
+        if(meta[a] == "0:0"){
+          array_values[a][b] = 0;
+        }
+        else{
+          array_values[a][b] = Math.round(parseFloat(array_values[a][b]/(parseInt(meta[a].split(":")[0])*60 + parseInt(meta[a].split(":")[1]) ))*100);
+        }
         //array_float[a][b] = parseFloat(array_values[a][b]/(meta[a].split(":")[0]*60 + meta[a].split(":")[1]*6 ))*100;
       }
       array_suma_meta.push(suma);
     }
 
     for(a=0; a<array_suma_meta.length; a++){
-      array_suma_meta[a] = Math.round((parseFloat(array_suma_meta[a]/((parseInt(meta[a].split(':')[0])*60 + parseInt(meta[a].split(':')[1]))*5))*100).toFixed(8))
+
+      array_suma_meta[a] = Math.round((parseFloat(array_suma_meta[a]/((parseInt(meta[a].split(':')[0])*60 + parseInt(meta[a].split(':')[1]))*(5-contando_feriados[a])))*100).toFixed(8))
     }
 
     var meta_semanal = [];
@@ -2641,19 +2656,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
 
 
-    //$scope.dateselected = $scope.dateselected.getTime()
-
-    /*
-    [Tiempo llegada instalacion,
-    tiempo en instalancion,
-    traslado a postura,
-    tiempo disponible am, 
-    traslado colacion,
-    almuerzo,
-    tiempo disponible pm]
-    */
-
-    //[0,0,0,0,0]
     var values_1=[0];
     var values_2=[0];
     var values_3=[0];
@@ -2663,14 +2665,11 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     var values_7=[0];
 
     
-    /*nueva_fecha = new Date($scope.dateselected.getTime() - $scope.dateselected.getTimezoneOffset()*60000);*/
     converted_date = nueva_fecha.toISOString().split('T')[0];
     fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
 
 
-    //console.log(array_week)
-    // fecha == local_data_disciplina[a].Fecha
-    // array_week.indexOf(local_data_disciplina[a].Fecha)!=-1
+   
     for(a=0; a<local_data_disciplina.length; a++){
       if(local_data_disciplina[a].Area == "SUB 6" && array_week.indexOf(local_data_disciplina[a].Fecha)!=-1  ){
         fecha_split = local_data_disciplina[a].Fecha.split("-")
@@ -3033,6 +3032,244 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     $scope.archivoseliminar.splice(index,1)
 
   }
+  $scope.CreateReport = function(){
+    document.getElementById("divinvisible").style.display = "block";
+    var Fecha_reporte_ingreso = new Date($scope.dateselectedstart.getTime() - $scope.dateselectedstart.getTimezoneOffset()*60000);
+    converted_date_ingreso = Fecha_reporte_ingreso.toISOString().split('T')[0];
+    Fecha_1 = converted_date_ingreso.split("-")[2]+"-"+converted_date_ingreso.split("-")[1]+"-"+converted_date_ingreso.split("-")[0];
+
+    var Fecha_reporte_termino = new Date($scope.dateselectedfinish.getTime() - $scope.dateselectedfinish.getTimezoneOffset()*60000);
+    converted_date_termino = Fecha_reporte_termino.toISOString().split('T')[0];
+    Fecha_2 = converted_date_termino.split("-")[2]+"-"+converted_date_termino.split("-")[1]+"-"+converted_date_termino.split("-")[0];
+
+    var array_trabajadores = []
+    var trabajadores_visitados = []
+    var fechas_visitadas_report = []
+    var total_dias = 0
+    $scope.sitios_visitados = []
+    
+    var todasfechas = getDates(new Date(converted_date_ingreso),new Date(converted_date_termino))
+    $scope.array_sitios_visitados= []
+    Fechaaux1 = new Date(converted_date_ingreso+" "+"23:00:00")
+    Fechaaux2 = new Date(converted_date_termino+" "+"23:00:00")
+
+    const mapfechas_aux = todasfechas.map(x => x.toISOString().split('T')[0])
+    const mapfechas = mapfechas_aux.map(x => x.split("-")[2]+"-"+x.split("-")[1]+"-"+x.split("-")[0])
+    console.log(mapfechas)
+
+    for(a=0 ; a < local_data_asistencia.length; a++){
+      fecha_asistencia = new Date(local_data_asistencia[a].Fechaingreso.split("-")[2].toString()+"-"+local_data_asistencia[a].Fechaingreso.split("-")[1].toString()+"-"+local_data_asistencia[a].Fechaingreso.split("-")[0].toString()+" "+"23:00:00")
+     
+      if(fecha_asistencia.getTime() >= Fechaaux1.getTime() && fecha_asistencia.getTime() <= Fechaaux2.getTime()){
+        if($scope.sitios_visitados.indexOf(local_data_asistencia[a].Sector)==-1){
+          var sitio = {}
+          sitio.Nombre = local_data_asistencia[a].Sector
+          sitio.asistenciafecha = []
+          for(b=0 ; b < mapfechas.length; b++){
+            sitio.asistenciafecha.push(0)
+          }
+          $scope.sitios_visitados.push(local_data_asistencia[a].Sector)
+          $scope.array_sitios_visitados.push(sitio) 
+        }
+        if(trabajadores_visitados.indexOf(local_data_asistencia[a].Nombre.replace(/\s+/g,' ').trim().toUpperCase()) == -1){
+          var dic_trabajadores = {}
+          dic_trabajadores.Nombre = local_data_asistencia[a].Nombre
+          dic_trabajadores.Rut = local_data_asistencia[a].Rut
+          if(local_data_asistencia[a].Turno != "A" && local_data_asistencia[a].Turno !="B" && local_data_asistencia[a].Turno != "DESCANSO" ){
+            dic_trabajadores.Falta = 1
+          }
+          else{
+            dic_trabajadores.Falta = 0
+            $scope.array_sitios_visitados[$scope.sitios_visitados.indexOf(local_data_asistencia[a].Sector)].asistenciafecha[mapfechas.indexOf(local_data_asistencia[a].Fechaingreso)]+=1
+          }
+          dic_trabajadores.Totaldias = 1
+          dic_trabajadores.Turnos = [local_data_asistencia[a].Turno]
+          array_trabajadores.push(dic_trabajadores)
+          trabajadores_visitados.push(local_data_asistencia[a].Nombre.replace(/\s+/g,' ').trim().toUpperCase())
+
+        }
+        else{
+          if(local_data_asistencia[a].Turno != "A" && local_data_asistencia[a].Turno !="B" && local_data_asistencia[a].Turno != "DESCANSO" ){
+            array_trabajadores[trabajadores_visitados.indexOf(local_data_asistencia[a].Nombre.replace(/\s+/g,' ').trim().toUpperCase())].Falta+=1;
+          }
+          else{
+            $scope.array_sitios_visitados[$scope.sitios_visitados.indexOf(local_data_asistencia[a].Sector)].asistenciafecha[mapfechas.indexOf(local_data_asistencia[a].Fechaingreso)]+=1
+          }
+          array_trabajadores[trabajadores_visitados.indexOf(local_data_asistencia[a].Nombre.replace(/\s+/g,' ').trim().toUpperCase())].Totaldias+=1;
+          array_trabajadores[trabajadores_visitados.indexOf(local_data_asistencia[a].Nombre.replace(/\s+/g,' ').trim().toUpperCase())].Turnos.push(local_data_asistencia[a].Turno);
+        }
+
+        if(fechas_visitadas_report.indexOf(local_data_asistencia[a].Fechaingreso) == -1){
+          total_dias+=1
+          fechas_visitadas_report.push(local_data_asistencia[a].Fechaingreso)
+        }
+      }
+    }
+
+    for(a=0 ; a <array_trabajadores.length; a++){
+      array_trabajadores[a].Rendimiento = ((parseInt(array_trabajadores[a].Totaldias)-parseInt(array_trabajadores[a].Falta))/parseInt(array_trabajadores[a].Totaldias))*100
+
+    }
+    
+    array_trabajadores.sort(function(a,b) {
+        return b.Rendimiento - a.Rendimiento
+    });
+    $scope.Totalreporteasistencia = array_trabajadores
+    $scope.headersitio = $scope.sitios_visitados
+    
+    fechas_visitadas_report.sort(function(b,a) {
+        return new Date(b.split("-")[2]+"-"+b.split("-")[1]+"-"+b.split("-")[0]).getTime() - new Date(a.split("-")[2]+"-"+a.split("-")[1]+"-"+a.split("-")[0]).getTime()
+    });
+
+    $scope.fechas_visitadas_report = fechas_visitadas_report
+    if($scope.array_sitios_visitados.length >0){
+      $scope.myJsonAsistenciaReport = line_asistenciar_report($scope.sitios_visitados[0],$scope.array_sitios_visitados[0].asistenciafecha, fechas_visitadas_report)
+    }
+
+    $scope.primersector = $scope.sitios_visitados[0]
+
+
+    //---------------------------------------------- LIMPIEZA DE BROCALES------------------------------------------------------------------------------
+
+    var id_brocales_visitados = []
+    var demanda_total_sub5 = 0
+    var cantidad_realizada_sub5 = 0 
+    var demanda_total_sub6 = 0
+    var cantidad_realizada_sub6 = 0 
+
+    var incompletos_sub5 = 0
+    var no_realizados_sub5 = 0
+    var cumplidos_sub5 = 0
+    var sobrepasado_sub5 = 0
+
+    var incompletos_sub6 = 0
+    var no_realizados_sub6 = 0
+    var cumplidos_sub6 = 0
+    var sobrepasado_sub6 = 0
+    for(c=0; c < local_data_brocales.length; c++){
+      fecha_brocales = new Date(local_data_brocales[c].Fecha.split("-")[2].toString()+"-"+local_data_brocales[c].Fecha.split("-")[1].toString()+"-"+local_data_brocales[c].Fecha.split("-")[0].toString()+" "+"23:00:00")
+      if(fecha_brocales.getTime() >= Fechaaux1.getTime() && fecha_brocales.getTime() <= Fechaaux2.getTime()){
+        if(id_brocales_visitados.indexOf(local_data_brocales[c].Uniqueid) == -1){
+          if(local_data_brocales[c].Sub == "5"){
+            if(!isNaN(local_data_brocales[c].Demanda)){
+              demanda_total_sub5+=parseInt(local_data_brocales[c].Demanda)
+            }
+            if(!isNaN(local_data_brocales[c].Cantidad)){
+              cantidad_realizada_sub5+=parseInt(local_data_brocales[c].Cantidad)
+            }
+            if(parseInt(local_data_brocales[c].Cantidad)< parseInt(local_data_brocales[c].Demanda) ){
+              incompletos_sub5+=1
+            }
+            if(parseInt(local_data_brocales[c].Cantidad)==0 && parseInt(local_data_brocales[c].Demanda)== 0){
+              no_realizados_sub5+=1
+            }
+            if(parseInt(local_data_brocales[c].Cantidad) == parseInt(local_data_brocales[c].Demanda)){
+              cumplidos_sub5+=1
+            }
+            if((!isNaN(local_data_brocales[c].Demanda) && parseInt(local_data_brocales[c].Cantidad)>0 ) || parseInt(local_data_brocales[c].Cantidad) > parseInt(local_data_brocales[c].Demanda)){
+              sobrepasado_sub5+=1
+            }
+          }
+          if(local_data_brocales[c].Sub == "6"){
+            if(!isNaN(local_data_brocales[c].Demanda)){
+              demanda_total_sub6+=parseInt(local_data_brocales[c].Demanda)
+            }
+            if(!isNaN(local_data_brocales[c].Cantidad)){
+              cantidad_realizada_sub6+=parseInt(local_data_brocales[c].Cantidad)
+            }
+            if(parseInt(local_data_brocales[c].Cantidad)< parseInt(local_data_brocales[c].Cantidad) ){
+              incompletos_sub6+=1
+            }
+            if(parseInt(local_data_brocales[c].Cantidad)==0 && parseInt(local_data_brocales[c].Demanda)== 0){
+              no_realizados_sub6+=1
+            }
+            if(parseInt(local_data_brocales[c].Cantidad) == parseInt(local_data_brocales[c].Demanda)){
+              cumplidos_sub6+=1
+            }
+            if((!isNaN(local_data_brocales[c].Demanda) && parseInt(local_data_brocales[c].Cantidad)>0 ) || parseInt(local_data_brocales[c].Cantidad) > parseInt(local_data_brocales[c].Demanda)){
+              sobrepasado_sub6+=1
+            }
+          }
+          id_brocales_visitados.push(local_data_brocales[c].Uniqueid)
+        }
+      }
+    }
+
+
+    $scope.myJsonBrocalesreport1 = pie3d_brocales_report(incompletos_sub5, no_realizados_sub5, cumplidos_sub5, sobrepasado_sub5, 5)
+    $scope.myJsonBrocalesreport2 = pie3d_brocales_report(incompletos_sub6, no_realizados_sub6, cumplidos_sub6, sobrepasado_sub6, 6)  
+
+
+    $scope.myJsonBrocalesreportbar = bar_brocales_report(incompletos_sub5, no_realizados_sub5, cumplidos_sub5, sobrepasado_sub5, incompletos_sub6, no_realizados_sub6, cumplidos_sub6, sobrepasado_sub6)
+
+    $scope.myJsonBrocalesreport1v2 = pie3d_brocales_reportv2(cantidad_realizada_sub5, demanda_total_sub5-cantidad_realizada_sub5, 5)
+    $scope.myJsonBrocalesreport2v2 = pie3d_brocales_reportv2(cantidad_realizada_sub6, demanda_total_sub6-cantidad_realizada_sub6, 6)
+
+
+    //------------------------------------- PLAN MATRIZ-------------------------------------------------------------
+
+    var realizado_aire = 0;
+    var no_realizado_aire = 0;
+    var realizado_polvo = 0;
+    var no_realizado_polvo = 0;
+    var realizado_ventilacion = 0;
+    var no_realizado_ventilacion = 0;
+
+    for(d=0; d < local_data_matriz.length ; d++){
+      fecha_matriz = new Date(local_data_matriz[d].Fecha.split("-")[2].toString()+"-"+local_data_matriz[d].Fecha.split("-")[1].toString()+"-"+local_data_matriz[d].Fecha.split("-")[0].toString()+" "+"23:00:00")
+      if(fecha_matriz.getTime() >= Fechaaux1.getTime() && fecha_matriz.getTime() <= Fechaaux2.getTime()){
+        if(local_data_matriz[d].Programado == local_data_matriz[d].Realizado){
+          if(local_data_matriz[d].Area == "Colectores de polvo"){
+            realizado_polvo+= 1;
+          }
+          else if(local_data_matriz[d].Area == "Aire Acondicionado"){
+            realizado_aire+=1
+          }
+          else if(local_data_matriz[d].Area == "Ventilación"){
+            realizado_ventilacion+=1
+          }
+        }
+        else{
+          if(local_data_matriz[d].Area == "Colectores de polvo"){
+            no_realizado_polvo+= 1;
+          }
+          else if(local_data_matriz[d].Area == "Aire Acondicionado"){
+            no_realizado_aire+=1
+          }
+          else if(local_data_matriz[d].Area == "Ventilación"){
+            no_realizado_ventilacion+=1
+          }
+        }
+
+      }
+    }
+    $scope.myJsonMatrizreport1 = pie3d_matriz_report(realizado_polvo, no_realizado_polvo, "Colectores de polvo")
+    $scope.myJsonMatrizreport2 = pie3d_matriz_report(realizado_aire, no_realizado_aire, "Aire Acondicionado")
+    $scope.myJsonMatrizreport3 = pie3d_matriz_report(realizado_ventilacion, no_realizado_ventilacion, "Ventilación")
+
+
+    var contando_revision = 0
+    var contando_operativo = 0
+    for(e=0; e < local_data_puertas.length; e++){
+      fecha_puertas = new Date(local_data_puertas[e].Fecharevision.split("-")[2].toString()+"-"+local_data_puertas[e].Fecharevision.split("-")[1].toString()+"-"+local_data_puertas[e].Fecharevision.split("-")[0].toString()+" "+"23:00:00")
+      if(fecha_puertas.getTime() >= Fechaaux1.getTime() && fecha_puertas.getTime() <= Fechaaux2.getTime()){
+        contando_revision +=1;
+        if(local_data_puertas[e].Estado.replace(/\s+/g,' ').trim().toUpperCase() == "OPERATIVA"){
+          contando_operativo+=1;
+        }
+
+      }
+    }
+    $scope.myJsonMatrizreport4 = bar_puertas_report(contando_revision, contando_operativo)
+
+
+
+
+  }
+
+  $scope.Cambiositio = function(){
+    $scope.myJsonAsistenciaReport = line_asistenciar_report($scope.columnsitio ,$scope.array_sitios_visitados[$scope.sitios_visitados.indexOf($scope.columnsitio)].asistenciafecha, $scope.fechas_visitadas_report)
+  }
 
   
 
@@ -3110,6 +3347,8 @@ app.controller("myControllerBrocales", function($scope, $filter){
   $scope.modalbrocalessub7 = function(){
     $scope.Totalbrocalessubmodal = $scope.Totalbrocalessub7
   }
+
+
 
 
 
@@ -3261,6 +3500,180 @@ app.controller('MainController2', function($scope) {
   };
   
 });
+
+function bar_brocales_report(dato1sub5, dato2sub5, dato3sub5, dato4sub5,dato1sub6, dato2sub6, dato3sub6, dato4sub6){
+  var grafico = {}
+  grafico = {
+    "type" : "bar",
+    "title": {
+      "text" : "Rendimiento Sub 5 y Sub 6"
+    },
+    "legend": {},
+    scaleX : {
+      labels: ["Bajo Demanda", "No Realizado", "Cumplido", "Sobredemanda"]
+    },
+    series: [{
+      values: [dato1sub5, dato2sub5, dato3sub5, dato4sub5],
+      "text" : "Sub 5",
+      backgroundColor: '#ffa726'
+      },
+      {
+        values: [dato1sub6, dato2sub6, dato3sub6, dato4sub6],
+        "text" : "Sub 6",
+        backgroundColor : "#42a5f5"
+      }
+    ]
+  }
+
+  return grafico
+}
+
+function pie3d_brocales_report(dato1, dato2, dato3, dato5, sub){
+  var grafico = {}
+  grafico = {
+    "type": "pie3d", //"pie", "pie3d", "ring", or "ring3d"
+    "title": {
+      "text": "Rendimiento Sub "+ sub.toString()
+    },
+    "scale": {
+        "size-factor": 0.6
+    },
+    plot: {
+      showZero: true,
+      'value-box': {
+        text: '%t\n%npv%',
+        'font-size':13,
+        'font-weight': "normal",
+        "font-color":"black",
+        placement: "in"
+      }
+    },
+    "legend": {
+      align : "left",
+      "vertical-align" : "bottom"
+    },
+    "series":[{
+      "values": [dato1],
+      "text" : "Bajo Demanda"
+      },
+      {
+        "values": [dato2],
+        "text" : "No Realizado"
+      },
+      {
+        "values": [dato3],
+        "text" : "Cumplido"
+      },
+      {
+        "values": [dato3],
+        "text": "Sobredemanda"
+      }
+    ]
+  }
+  return grafico
+}
+
+function pie3d_brocales_reportv2(dato1, dato2, sub){
+  var grafico = {}
+  grafico = {
+    "type": "pie3d", //"pie", "pie3d", "ring", or "ring3d"
+    "title": {
+      "text": "Cumplimiento Sub "+ sub.toString()
+    },
+    "scale": {
+        "size-factor": 0.6
+    },
+    plot: {
+      showZero: true,
+      'value-box': {
+        text: '%npv%',
+        'font-size':13,
+        'font-weight': "normal",
+        "font-color":"black",
+        placement: "in"
+      }
+    },
+    "legend": {
+      align : "left",
+      "vertical-align" : "bottom"
+    },
+    "series":[{
+      "values": [dato1],
+      "text" : "Demanda cumplida"
+      },
+      {
+        "values": [dato2],
+        "text" : "Demanda faltante"
+      }
+    ]
+  }
+  return grafico
+}
+function pie3d_matriz_report(dato1, dato2, area){
+  var grafico = {}
+  grafico = {
+    "type": "pie3d", //"pie", "pie3d", "ring", or "ring3d"
+    "title": {
+      "text": "Cumplimiento "+ area.toString()
+    },
+    "scale": {
+        "size-factor": 0.6
+    },
+    plot: {
+      showZero: true,
+      'value-box': {
+        text: '%npv%',
+        'font-size':13,
+        'font-weight': "normal",
+        "font-color":"black",
+        placement: "in"
+      }
+    },
+    "legend": {
+      align : "left",
+      "vertical-align" : "bottom"
+    },
+    "series":[{
+      "values": [dato1],
+      "text" : "Cumplido"
+      },
+      {
+        "values": [dato2],
+        "text" : "Faltó por cumplir"
+      }
+    ]
+  }
+  return grafico
+}
+
+function bar_puertas_report(correctivos, estados){
+  var grafico = {};
+  grafico = {
+    "type" : 'bar',
+    "title" : {
+      "text" : "Puertas vimo"
+    },
+    plot: {
+      showZero: true,
+      'value-box': {
+        text: '%v',
+        'font-size':13,
+        'font-weight': "normal",
+        "font-color":"black",
+        placement: "in"
+      }
+    },
+    scaleX : {
+      labels : ["Controles realizados", "Puertas Operativas"]
+    },
+    series :[
+    {
+      values : [correctivos, estados]
+    }]
+  }
+
+  return grafico
+}
 
 function timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7){
   var grafico = {};
@@ -4157,6 +4570,7 @@ function mixed_creator_test(){
   return grafico;
 }
 
+
 function mixed_creator(tareas_deseadas, tareas_completadas, titulo){
   var grafico = {};
   grafico = {
@@ -4438,6 +4852,33 @@ function bar_brocales(deseados, realizado, x_values, tamaño, sub){
   };
    
   return grafico;
+}
+
+function line_asistenciar_report(nombre_sector, x_values, dias){
+  grafico = {};
+  grafico = {
+    type : "line",
+    "title" :{
+      "text": "Asistencia sector "+nombre_sector
+    },
+    "plotarea":{
+        "margin":"40 40 80 40"
+    },
+    scaleX : {
+      values : dias,
+      item: {
+        fontAngle: 90,
+        fontSize : "10px"
+      },
+      "max-items":9999,
+      "items-overlap" : true,
+    },
+    series :[{
+      values : x_values
+    }]
+  }
+  return grafico
+  
 }
 
 function bar_planmatriz(x_values, deseados, realizado, nombre){
@@ -4841,6 +5282,32 @@ function get_day_numbers(current2) {
     return week; 
 }
 
+
+function OrderbyValue(dict){
+  var items = Object.keys(dict).map(
+  (key) => { return [key, dict[key].Rendimiento] });
+
+  items.sort(
+    (first, second) => { return first[1] - second[1] }
+  );
+  var keys = items.map(
+    (e) => { return e[0] });
+  return keys
+}
 //console.log("Cantidad de dias del mes")
 
 //console.log(getDays(parseInt(fecha.split("-")[2]), parseInt(fecha.split("-")[1])));
+function getDates (startDate, endDate) {
+  const dates = []
+  let currentDate = startDate
+  const addDays = function (days) {
+    const date = new Date(this.valueOf())
+    date.setDate(date.getDate() + days)
+    return date
+  }
+  while (currentDate <= endDate) {
+    dates.push(currentDate)
+    currentDate = addDays.call(currentDate, 1)
+  }
+  return dates
+}
