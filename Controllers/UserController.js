@@ -158,6 +158,75 @@ module.exports = {
     
   },
 
+  getTutorial : function(req, res, next){
+    modelo.brocales.findAll({
+    }).then(function(rows_brocales){
+      modelo.asistencia.findAll({
+      }).then(function(rows_asistencia){
+        modelo.disciplina.findAll({          
+        }).then(function(rows_disciplina){
+          modelo.planmatriz.findAll({
+          }).then(function(rows_matriz){
+            modelo.puertas.findAll({
+            }).then(function(rows_puertas){
+              modelo.usuario.findAll({
+              }).then(function(rows_usuarios){
+                modelo.vimosap.findAll({                  
+                }).then(function(rows_vimosap){
+                  modelo.equipos.findAll({  
+                  }).then(function(rows_equipos){
+                    modelo.archivos.findAll({  
+                    }).then(function(rows_archivos){
+                      if(req.user != undefined){
+                        console.log("aca estoy")
+                        return res.render("dashboardtutorial", {
+                          totaldisciplina : rows_disciplina,
+                          totalasistencias : rows_asistencia,
+                          totalbrocales : rows_brocales,
+                          totalmatriz : rows_matriz,
+                          totalpuertas : rows_puertas,
+                          totalusuarios : rows_usuarios,
+                          totalequipos : rows_equipos,
+                          totalarchivos : rows_archivos,
+                          user : req.user,
+                          totalsap : rows_vimosap,
+                          authmessage : req.flash('authmessage'),
+                          info: req.flash('info'),
+                          error : req.flash('error'),
+                          ingreso : req.flash('ingreso'),
+                        })
+                      }
+                      else{
+                        return res.render("dashboardtutorial", {
+                          totaldisciplina : rows_disciplina,
+                          totalasistencias : rows_asistencia,
+                          totalbrocales : rows_brocales,
+                          totalmatriz : rows_matriz,
+                          totalpuertas : rows_puertas,
+                          totalusuarios : rows_usuarios,
+                          totalequipos : rows_equipos,
+                          totalsap : rows_vimosap,
+                          totalarchivos : rows_archivos,
+                          user : "notlogged",
+                          info: req.flash('info'),
+                          authmessage : req.flash('authmessage'),
+                          error : req.flash('error'),
+                          ingreso : req.flash('ingreso')
+                        })
+                      }
+                    })
+                    
+                  })                 
+                })            
+              })
+              
+            })
+          });
+        })
+      })    
+    });
+  },
+
 	getSistemanuevo : function(req,res,next){
     modelo.graficos.findAll({
     }).then(function(rows){

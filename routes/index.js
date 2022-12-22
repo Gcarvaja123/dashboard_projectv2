@@ -27,6 +27,7 @@ router.get('/dashboard', controllers.UserController.getdashboard);
 router.post('/dashboard', controllers.UserController.postIngreso);
 router.get('/prueba', controllers.UserController.getprueba);
 router.get('/login',  controllers.UserController.getLogin);
+router.get("/tutorial", controllers.UserController.getTutorial);
 router.post('/login', passport.authenticate('local',{
 	successRedirect : 'dashboard',
 	failureRedirect : 'dashboard',

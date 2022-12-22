@@ -1,8 +1,11 @@
 body {
   font-family: "Lato", sans-serif;
   background-color: #ededed;
-  margin: 0;
-  padding: 0;
+  top: 0%;
+  bottom: 0%;
+  position: fixed;
+  right: 0%;
+  left: 0%;
 
 
 }
@@ -1353,3 +1356,11 @@ table.matriz td{
   padding-left: 30px;
 }
 
+.modal-backdrop.show {
+    opacity: 0;
+}
+
+
+#Modaltutorial2 .modal-dialog{
+  margin-top: 200px;
+}

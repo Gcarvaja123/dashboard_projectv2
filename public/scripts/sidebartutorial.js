@@ -40,8 +40,6 @@ function openActivity(evt, actividad) {
     x[i].style.display = "none";
   }
   tablinks = document.getElementsByClassName("tablink");
-  console.log(tablinks)
-  console.log(evt.currentTarget)
   for (i = 0; i < x.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" w3-red", "");
   }
@@ -94,6 +92,12 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   if (local_user != "notlogged"){
     $scope.username = local_user.nombre
   }
+  var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+          keyboard: false,
+          backdrop: 'static'
+    })
+    myModala.toggle()
+  $scope.texto_tutorial = "Bienvenido al tutorial, no todas las funcionalidades que se explican estarán disponibles para todos, esto va depende del tipo de usuario que ingrese."
   
   
   $scope.isCollapsed = false;
@@ -2995,11 +2999,11 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
             data : JSON.stringify($scope.archivoseliminar)
         })
     $scope.archivoseliminar = []
-
-
-
   }
+
+  
   $scope.changearchivosdel = function(index){
+    console.log($scope.archivoseliminar)
     var nombre_tabla = $scope.archivoseliminar[index].Tabla;
     var Idingreso = $scope.archivoseliminar[index].Idingreso;
     
@@ -3017,6 +3021,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       myModala.toggle()
       
     }
+
     else if(nombre_tabla == "vimosap"){
       $scope.Totalplanificacion =[]
       for(a=0; a < local_data_sap.length; a++){
@@ -3097,13 +3102,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       })
       myModala.toggle()
     }
-  }
 
-  $scope.salto = function(){
-    
-    document.getElementById("Disciplinagrid").scrollIntoView({behavior: 'smooth'});
-  }
 
+  }
   $scope.deletearchivos = function(index){
     var nombre_tabla = $scope.archivostotal[index].Tabla;
     var Idingreso = $scope.archivostotal[index].Idingreso;
@@ -3422,10 +3423,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     $scope.myJsonAsistenciaReport = line_asistenciar_report($scope.columnsitio ,$scope.array_sitios_visitados[$scope.sitios_visitados.indexOf($scope.columnsitio)].asistenciafecha, $scope.fechas_visitadas_report)
   }
 
-  $scope.openTutorial = function(){
-    location.href  = window.location.href.split("/")[0]+"/"+"tutorial"
-  }
-
   $scope.blurr = function(){
     //document.getElementById("probando").style.webkitFilter = "blur(2px)";
     //$('#probando').not("#prueba1").css("filter","blur(3px)");
@@ -3468,6 +3465,237 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     $("#Modalfiles5>*:not(#Modalfiles6)").css("filter","blur(5px)");
     $("#Modalfiles6>*:not(#Modalfiles7)").css("filter","blur(5px)");
     $("#Modalfiles7>*:not(#Modalfiles8)").css("filter","blur(5px)");
+
+  }
+
+  $scope.Actividadestutorial = ["Login","Loginmodal","Fecha","Archivos","ModalArchivos","Panel","Panelasistencia", "Panelplanmatriz", "Panelbrocales", "Paneldisciplina","Panel","Panelmodificacion", "Panelmodificacionmodal","Panelreporte", "Panelcreacion", "Panelarchivos", "Fin"]
+  // "Login","Loginmodal","Fecha","Archivos","ModalArchivos","Panel","Panelasistencia", "Panelplanmatriz", "Panelbrocales", "Paneldisciplina","Panel",
+
+  $scope.tutorialcontador = 0
+  $scope.backtonormal = function(){
+    location.href  = window.location.href.split("/")[0]+"/"+"dashboard"
+  }
+
+  $scope.siguiente = function(){
+    document.getElementById('pruebama').click();
+  }
+
+  $scope.tutorialcontinue = function(){
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Login"){
+      $("*").css("filter","blur(0px)");
+      $("#probando>*:not(#blur1,#Modaltutorial,#Modallogin)").css("filter","blur(5px)");
+      $("#blur1>*:not(#blurlogin2)").css("filter","blur(5px)");
+      $("#blurlogin2>*:not(#blurlogin3)").css("filter","blur(5px)");
+      $("#blurlogin3>*:not(#loginbutton)").css("filter","blur(5px)");
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "En la parte superior derecha tenemos el boton de ingresar, al presionarlo desplegará otra pantalla donde podremos ingresar nuestros datos si es que poseemos una cuenta"
+      
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Loginmodal"){
+      var myModala = new bootstrap.Modal(document.getElementById('Modallogin'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "Para el ingreso de cuenta solo se necesita un nombre de usuario y una contraseña"
+
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Fecha"){
+      $("*").css("filter","blur(0px)");
+      $("#probando>*:not(#blur1,#Modaltutorial)").css("filter","blur(5px)");
+      $("#blur1>*:not(#blurfecha2)").css("filter","blur(5px)");
+      $("#blurfecha2>*:not(#blurfecha3)").css("filter","blur(5px)");
+      $("#blurfecha3>*:not(#startDate)").css("filter","blur(5px)");
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "En la parte superior izquierda tenemos la fecha, actualmente marca la fecha de hoy, pero al apretar despliega un calendario que nos permite cambiar la fecha. Al cambiar la fecha, modifica los datos que mostrará el sistema"
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Archivos"){
+      $("*").css("filter","blur(0px)");
+      $("#probando>*:not(#blur1,#Modaltutorial)").css("filter","blur(5px)");
+      $("#blur1>*:not(#blurfecha2)").css("filter","blur(5px)");
+      $("#blurfecha2>*:not(#bluringreso)").css("filter","blur(5px)");
+      $("#bluringreso>*:not(#ingreso)").css("filter","blur(5px)");
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "Al costado derecho de la fecha, tenemos el botón de ingresar archivos, este boton solo les aparece a los usuarios que tienen permitido ingresar archivos"
+    
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="ModalArchivos"){
+      $("*").css("filter","blur(0px)");
+      $("#probando>*:not(#Modalfiles)").css("filter","blur(5px)");
+      $("#Modalfiles>*:not(#Modalfiles2)").css("filter","blur(5px)");
+      $("#Modalfiles2>*:not(#Modalfiles3)").css("filter","blur(5px)");
+      $("#Modalfiles3>*:not(#Modalfiles4,#footer)").css("filter","blur(5px)");
+      $("#Modalfiles4>*:not(#Modalfiles5)").css("filter","blur(5px)");
+      $("#Modalfiles5>*:not(#Modalfiles6)").css("filter","blur(5px)");
+      $("#Modalfiles6>*:not(#Modalfiles7)").css("filter","blur(5px)");
+      var myModala = new bootstrap.Modal(document.getElementById('Modalfiles'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "En este panel existen varias categorias en las que se pueden ingresar archivos, por ejemplo en asistencia hay 2 recuadros, uno en donde se puede seleccionar el archivo que quiere ingresar, y otro recuadro a la derecha donde al presionarlo despliega un ejemplo del archivo que se debe ingresar"
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panel"){
+      $("*").css("filter","blur(0px)");
+      $("#probando>*:not(#sidenav1,#Modaltutorial)").css("filter","blur(5px)");
+      $("#sidenav1>*:not(#sidenav-collapse-main)").css("filter","blur(5px)");
+      $("#sidenav-collapse-main>*:not(#sidenav2)").css("filter","blur(5px)");
+      $("#sidenav2>*:not(li.nav-item)").css("filter","blur(5px)");
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      if($scope.tutorialcontador>7){
+        $scope.texto_tutorial = "En el panel izquierdo también contamos con un apartado que dice opciones, el cual presenta varias secciones: Modificacion, Reporte, Creacion y Archivos. Cabe destacar que estas opciones solo le aparecen a algunos usuarios."
+        
+      }
+      else{
+        $scope.texto_tutorial = "En el panel izquierdo tenemos varias opciones que podemos seleccionar, cada una representa una sección diferente"
+      }
+      
+
+    }
+
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panelasistencia"){
+      $("*").css("filter","blur(0px)");
+      document.getElementById("Dashboard").style.display = "none";
+      document.getElementById("Dashboard").className.replace(" w3-red", "");
+      document.getElementById("Asistencia").style.display = "block";
+      document.getElementById("Asistencia").className+= " w3-red";
+      document.getElementById('pruebaas').click();
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "Este es el panel de asistencia"
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panelplanmatriz"){
+      //document.getElementById("Asistencia").style.display = "none";
+      //document.getElementById("Asistencia").className.replace(" w3-red", "");
+      //document.getElementById("Planmatriz").style.display = "block";
+      //document.getElementById("Planmatriz").className+= " w3-red";
+      document.getElementById('pruebama').click();
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "Este es el panel de plan matriz"
+      console.log($scope.tutorialcontador)
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panelbrocales"){
+      document.getElementById("Planmatriz").style.display = "none";
+      document.getElementById("Planmatriz").className.replace(" w3-red", "");
+      document.getElementById("Brocales").style.display = "block";
+      document.getElementById("Brocales").className+= " w3-red";
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "Este es el panel de brocales"
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Paneldisciplina"){
+      document.getElementById("Brocales").style.display = "none";
+      document.getElementById("Brocales").className.replace(" w3-red", "");
+      document.getElementById("Disciplina").style.display = "block";
+      document.getElementById("Disciplina").className+= " w3-red";
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "Este es el panel de disciplina operacional"
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panelmodificacion"){
+      $("*").css("filter","blur(0px)");
+      document.getElementById("Disciplina").style.display = "none";
+      document.getElementById("Disciplina").className.replace(" w3-red", "");
+      //document.getElementById("Dashboard").style.display = "none";
+      //document.getElementById("Dashboard").className.replace(" w3-red", "");
+      document.getElementById("Modificacion").style.display = "block";
+      document.getElementById("Modificacion").className+= " w3-red";
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "Este es el panel de Modificación, actualmente está mostrando una tabla con todos los datos ingresados del Plan Matriz, para cambiar de información podemos usar el recuadro desplegable donde aparece Plan matriz. Para cambiar la información de fila que queramos, apretamos el botón de modificar de la última casilla."
+      $scope.myVar = "Planmatriz"
+    }
+
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panelmodificacionmodal"){
+      var myModala = new bootstrap.Modal(document.getElementById('Modalmodplanmatriz'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+
+      $scope.texto_tutorial = "En esta sección podemos cambiar la información de la casilla que queramos"
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panelreporte"){
+      document.getElementById("Modificacion").style.display = "none";
+      document.getElementById("Modificacion").className.replace(" w3-red", "");
+      document.getElementById("Reporte").style.display = "block";
+      document.getElementById("Reporte").className+= " w3-red";
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial2'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "En la sección de Reporte, se pueden crear reportes asignando fecha de inicio y fecha de termino"
+    }
+
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panelcreacion"){
+      document.getElementById("Reporte").style.display = "none";
+      document.getElementById("Reporte").className.replace(" w3-red", "");
+      document.getElementById("Creacion").style.display = "block";
+      document.getElementById("Creacion").className+= " w3-red";
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "En esta sección de creación, el administrador va poder crear usuarios y asignarle roles, los cuales pueden realizar diferentes funcionalidades dentro de la página"
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panelarchivos"){
+      document.getElementById("Creacion").style.display = "none";
+      document.getElementById("Creacion").className.replace(" w3-red", "");
+      document.getElementById("Archivos").style.display = "block";
+      document.getElementById("Archivos").className+= " w3-red";
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "En la sección de archivos se podrá ver todos los archivos que se han ingresado, tenemos 2 funcionalidades, la primera es el botón de ver detalles, el cual desplegará todos los datos que se ingresaron con ese archivo, el segundo botón es eliminar el cual moverá el archivo a la tabla de abajo y si queremos eliminarlo completamente, apretamos enviar datos"
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Fin"){
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorialfin'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+
+      $scope.texto_tutorial_fin = "Tutorial terminado"
+
+    }
+
+    $scope.tutorialcontador+=1
 
   }
 
