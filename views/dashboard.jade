@@ -538,15 +538,15 @@ html
       #sidenav-collapse-main.navbar-collapse.w-auto.ps
         ul.navbar-nav#sidenav2
           li.nav-item
-            a.tablink.w3-red(onclick="openActivity(event,'Dashboard')") Panel
+            a.tablink.w3-red(ng-click="GotoPanel()") Panel
           li.nav-item
-            a.tablink(ng-model="unaprueba" onclick="openActivity(event,'Asistencia')" ng-click="deleteall()") Asistencia
+            a.tablink(ng-model="unaprueba" ng-click="GotoAsistencia()") Asistencia
           li.nav-item
-            a.tablink(onclick="openActivity(event,'Planmatriz')") Plan matriz 
+            a.tablink(ng-click="GotoPlanmatriz()") Plan matriz 
           li.nav-item
-            a.tablink(onclick="openActivity(event,'Brocales')") Brocales
+            a.tablink(ng-click="GotoBrocales()") Brocales
           li.nav-item
-            a.tablink(onclick="openActivity(event,'Disciplina')") Disciplina
+            a.tablink(ng-click="GotoDisciplina()") Disciplina
           li.nav-item.has-submenu
             a.nav-link(data-bs-toggle='collapse' data-bs-target='#menu_item1')  Opciones
               i.bi.small.bi-caret-down-fill
@@ -726,385 +726,386 @@ html
                   .modal-footer
                     button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Cerrar
       //#Asistencia.w3-container.w3-border.city(ng-controller='myControllerAsistencia')
-      #Dashboard.w3-container.w3-border.activity( aria-labelledby='Modalfiles' )               
-          //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
-          
-          //#asistenciagrid.grid-container
-          #asistenciagridbar.grid-container
-            div
-              #chart1(zingchart='' zc-json='myJsonasistenciabar' zc-width='100%' zc-height='400px')
-              
+      #Vistatotal.w3-container.w3-border.activity( aria-labelledby='Modalfiles' )
+        #Dashboard      
+            //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
             
-          #planmatrizgrid1.grid-container
-            div
-              #chart71(zingchart='' zc-json='myJsonpieCumplimiento' zc-width='100%' zc-height='300px')
-            div(ng-controller='MainControllermatriz' class="border" )
-              button.airebutton(ng-model='aireselector' ng-click="changegraphview('Aire Acondicionado')") Aire
-              button.polvobutton(ng-model='polvoselector' ng-click="changegraphview('Colectores de polvo')") Polvo
-              button.ventilacionbutton(ng-model='ventilacionselector' ng-click="changegraphview('Ventilación')") Ventilación
-              #chart-matriz11(zingchart='' zc-json='myJsonAnualmatriz' zc-width='100%' zc-height='300px')
-          #planmatrizgrid.grid-container
-            div(ng-controller='MainControllermatriz2' class="border" ng-model='openmodalsub7' ng-click="modalmatriz('Aire Acondicionado')" type='button' data-bs-toggle='modal' data-bs-target='#Modalmatriz') 
-              #chart-matriz12(zingchart='' zc-json='myJsonAnualaire' zc-width='100%' zc-height='100%')
-            div(ng-controller='MainControllermatriz2' class="border" ng-model='openmodalsub7' ng-click="modalmatriz('Colectores de polvo')" type='button' data-bs-toggle='modal' data-bs-target='#Modalmatriz') 
-              #chart-matriz13(zingchart='' zc-json='myJsonAnualpolvo' zc-width='100%' zc-height='100%')
-            div(ng-controller='MainControllermatriz2' class="border" ng-model='openmodalsub7' ng-click="modalmatriz('Ventilación')" type='button' data-bs-toggle='modal' data-bs-target='#Modalmatriz') 
-              #chart-matriz14(zingchart='' zc-json='myJsonAnualventilacion' zc-width='100%' zc-height='100%')
-            div 
-              #chart-matriz14m(zingchart='' zc-json='myJsonAnualVimo' zc-width='100%' zc-height='100%')
-          #brocalesgrid.grid-container(ng-controller='myControllerBrocales')
-            div(ng-controller='MainController' class="border")
+            //#asistenciagrid.grid-container
+            #asistenciagridbar.grid-container
+              div
+                #chart1(zingchart='' zc-json='myJsonasistenciabar' zc-width='100%' zc-height='400px')
+                
+              
+            #planmatrizgrid1.grid-container
+              div
+                #chart71(zingchart='' zc-json='myJsonpieCumplimiento' zc-width='100%' zc-height='300px')
+              div(ng-controller='MainControllermatriz' class="border" )
+                button.airebutton(ng-model='aireselector' ng-click="changegraphview('Aire Acondicionado')") Aire
+                button.polvobutton(ng-model='polvoselector' ng-click="changegraphview('Colectores de polvo')") Polvo
+                button.ventilacionbutton(ng-model='ventilacionselector' ng-click="changegraphview('Ventilación')") Ventilación
+                #chart-matriz11(zingchart='' zc-json='myJsonAnualmatriz' zc-width='100%' zc-height='300px')
+            #planmatrizgrid.grid-container
+              div(ng-controller='MainControllermatriz2' class="border" ng-model='openmodalsub7' ng-click="modalmatriz('Aire Acondicionado')" type='button' data-bs-toggle='modal' data-bs-target='#Modalmatriz') 
+                #chart-matriz12(zingchart='' zc-json='myJsonAnualaire' zc-width='100%' zc-height='100%')
+              div(ng-controller='MainControllermatriz2' class="border" ng-model='openmodalsub7' ng-click="modalmatriz('Colectores de polvo')" type='button' data-bs-toggle='modal' data-bs-target='#Modalmatriz') 
+                #chart-matriz13(zingchart='' zc-json='myJsonAnualpolvo' zc-width='100%' zc-height='100%')
+              div(ng-controller='MainControllermatriz2' class="border" ng-model='openmodalsub7' ng-click="modalmatriz('Ventilación')" type='button' data-bs-toggle='modal' data-bs-target='#Modalmatriz') 
+                #chart-matriz14(zingchart='' zc-json='myJsonAnualventilacion' zc-width='100%' zc-height='100%')
+              div 
+                #chart-matriz14m(zingchart='' zc-json='myJsonAnualVimo' zc-width='100%' zc-height='100%')
+            #brocalesgrid.grid-container(ng-controller='myControllerBrocales')
+              div(ng-controller='MainController' class="border")
+                button.anualbuttonbrocales1(ng-model='sub5selector1' ng-click="changebrocal5('anual')") Anual
+                button.anualbuttonbrocales2(ng-model='sub5selector2' ng-click="changebrocal5('mensual')") Mensual
+                //#chart-15(zingchart='' zc-json='myJsonAnualsub5' zc-width='100%' zc-height='300px')
+                #chart-15(zingchart='' zc-json='myJsonBarBrocalessub5' zc-width='100%' zc-height='350px' visibility="hidden" )
+              div(ng-controller='MainController' class="border")
+                button.anualbuttonbrocales1(ng-model='sub6selector1' ng-click="changebrocal6('anual')") Anual
+                button.anualbuttonbrocales2(ng-model='sub6selector2' ng-click="changebrocal6('mensual')") Mensual 
+                //#chart-16(zingchart='' zc-json='myJsonAnualsub6' zc-width='100%' zc-height='300px' )
+                #chart-16(zingchart='' zc-json='myJsonBarBrocalessub6' zc-width='100%' zc-height='350px' visibility="hidden" )
+            #Disciplinagrid.grid-container
+              div
+                #chart-49(zingchart='' zc-json='myJsonSemanalDisciplina1' zc-width='100%' zc-height='300px' )
+              //div
+              //  #chart-50(zingchart='' zc-json='myJsonSemanalDisciplina2' zc-width='100%' zc-height='300px' )
+            
+            //#chart1002(zingchart='' zc-json='myJsonprueba' zc-width='300px' zc-height='300px')
+        #Asistencia
+          //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
+          p
+            button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample')
+              | Mostrar sectores
+          #collapseExample.collapse
+            .card.card-body
+              #asistenciagrid.grid-container
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('0')" type='button' ) 
+                  #chart17(zingchart='' zc-json='myJsonpieasistencia1' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('1')" type='button' )
+                  #chart18(zingchart='' zc-json='myJsonpieasistencia2' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('2')" type='button' ) 
+                  #chart19(zingchart='' zc-json='myJsonpieasistencia3' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('3')" type='button' ) 
+                  #chart20(zingchart='' zc-json='myJsonpieasistencia4' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('4')" type='button' )  
+                  #chart21(zingchart='' zc-json='myJsonpieasistencia5' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('5')" type='button' ) 
+                  #chart22(zingchart='' zc-json='myJsonpieasistencia6' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('6')" type='button' ) 
+                  #chart23(zingchart='' zc-json='myJsonpieasistencia7' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('7')" type='button' ) 
+                  #chart24(zingchart='' zc-json='myJsonpieasistencia8' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('8')" type='button') 
+                  #chart25(zingchart='' zc-json='myJsonpieasistencia9' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('9')" type='button'  ) 
+                  #chart26(zingchart='' zc-json='myJsonpieasistencia10' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('10')" type='button' ) 
+                  #chart80(zingchart='' zc-json='myJsonpieasistencia11' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('11')" type='button' ) 
+                  #chart81(zingchart='' zc-json='myJsonpieasistencia12' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('12')" type='button' ) 
+                  #chart82(zingchart='' zc-json='myJsonpieasistencia13' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('13')" type='button') 
+                  #chart83(zingchart='' zc-json='myJsonpieasistencia14' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('14')" type='button'  ) 
+                  #chart84(zingchart='' zc-json='myJsonpieasistencia15' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('15')" type='button' ) 
+                  #chart85(zingchart='' zc-json='myJsonpieasistencia16' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('16')" type='button' ) 
+                  #chart86(zingchart='' zc-json='myJsonpieasistencia17' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('17')" type='button' ) 
+                  #chart87(zingchart='' zc-json='myJsonpieasistencia18' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('18')" type='button') 
+                  #chart88(zingchart='' zc-json='myJsonpieasistencia19' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('19')" type='button'  ) 
+                  #chart89(zingchart='' zc-json='myJsonpieasistencia20' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('20')" type='button' ) 
+                  #chart90(zingchart='' zc-json='myJsonpieasistencia21' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('21')" type='button' ) 
+                  #chart91(zingchart='' zc-json='myJsonpieasistencia22' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('22')" type='button') 
+                  #chart92(zingchart='' zc-json='myJsonpieasistencia23' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('23')" type='button'  ) 
+                  #chart93(zingchart='' zc-json='myJsonpieasistencia24' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('24')" type='button'  ) 
+                  #chart94(zingchart='' zc-json='myJsonpieasistencia25' zc-width='100%' zc-height='210px')
+
+              
+
+          
+          #asistenciagrid2.grid-container
+            div.tabla.item1
+              table.Asistencia.table.caption-top
+                        thead
+                          tr
+                            th(data-type="text")
+                              | Sector
+                              span.resize-handle
+                            th(data-type='text')
+                              | Nombre
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Rut
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Cargo
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Turno
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Fecha ingreso
+                              span.resize-handle
+                        tbody
+                          tr(ng-repeat="asistencia in Asistenciatotal")
+                            td
+                              label {{asistencia.Sector}} 
+                            td
+                              label {{asistencia.Nombre}} 
+                            td(ng-click="searchWorker($index)")
+                              label {{asistencia.Rut}}
+                            td
+                              label {{asistencia.Cargo}}
+                            td
+                              label {{asistencia.Turno}}
+                            td
+                              label {{asistencia.Fechaingreso}}         
+            #asistenciagrid21.grid-container
+              div
+                #chart27(zingchart='' zc-json='myJsonasistenciaworker' zc-width='100%' zc-height='232px')
+              div.item3
+                #chart28(zingchart='' zc-json='myJsonasistenciaworkerturn' zc-width='100%' zc-height='232px')
+                .buttoninnasistance
+                  button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitance('anual')") Anual
+                  button.buttoninassistance2(ng-model='inassistance2' ng-click="changeinassitance('mensual')") Mensual
+          #asistenciabar.grid-container
+            #chart60(zingchart='' zc-json='myJsonasistenciabar' zc-width='100%' zc-height='300px')
+
+
+        #Planmatriz
+          //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
+          #matrizbrocales.grid-container
+            #matriz1
+              button.anualbuttonmatriz1aire(ng-model='sub6selector1' ng-click="changeaire('anual')") Anual
+              button.anualbuttonmatriz2aire(ng-model='sub6selector2' ng-click="changeaire('mensual')") Mensual
+              p
+              #matriz1(zingchart='' zc-json='myMatrizAire' zc-width='100%' zc-height='300px' visibility="hidden" )
+            #matriz2
+              button.anualbuttonmatriz1polvo(ng-model='sub6selector1' ng-click="changepolvo('anual')") Anual
+              button.anualbuttonmatriz2polvo(ng-model='sub6selector2' ng-click="changepolvo('mensual')") Mensual
+              p
+              #matriz2(zingchart='' zc-json='myMatrizColectores' zc-width='100%' zc-height='300px' visibility="hidden" )
+            #matriz3
+              button.anualbutton1ventilacion(ng-model='sub6selector1' ng-click="changeventilacion('anual')") Anual
+              button.anualbutton2ventilacion(ng-model='sub6selector2' ng-click="changeventilacion('mensual')") Mensual
+              p
+              #matriz3(zingchart='' zc-json='myMatrizVentilacion' zc-width='100%' zc-height='300px' visibility="hidden" )
+            #matriz4
+              button.anualmatriz1puertas(ng-model='sub6selector1' ng-click="changepuertas('anual')") Anual
+              button.anualmatriz2puertas(ng-model='sub6selector2' ng-click="changepuertas('mensual')") Mensual
+              p
+              #matriz4(zingchart='' zc-json='myMatrizPuertas' zc-width='100%' zc-height='300px' visibility="hidden" )
+
+          p 
+          select.selectasistencia.form-selectfilter( ng-model='columnsa' ng-init='columnsa="Identificacion"' ng-options='e for e in headers' )
+          input.form-controlfilter( type='text' ng-model='searchtxt[columnsa]' placeholder='Ingresar valor a filtrar')
+          p
+
+          #tablecompletedvimo.grid-container
+            div.tabla.item1
+              table.Asistencia.table.caption-top
+                        thead
+                          tr
+                            th(data-type="text")
+                              | Identificacion
+                              span.resize-handle
+                            th(data-type='text')
+                              | Ubicacion
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Fecha revision
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Tipo mantencion
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Estado
+                              span.resize-handle
+                        tbody
+                          tr(ng-repeat="vimos in vimostotal|filter:searchtxt")
+                            td
+                              label {{vimos.Identificacion}} 
+                            td
+                              label {{vimos.Ubicacion}} 
+                            td
+                              label {{vimos.Fecharevision}}
+                            td
+                              label {{vimos.Tipomantencion}}
+                            td
+                              label {{vimos.Estado}}  
+
+        #Brocales
+          //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")    
+          #gridbrocales.grid-container
+            #brocal1.grid-item
+                  
               button.anualbuttonbrocales1(ng-model='sub5selector1' ng-click="changebrocal5('anual')") Anual
               button.anualbuttonbrocales2(ng-model='sub5selector2' ng-click="changebrocal5('mensual')") Mensual
-              //#chart-15(zingchart='' zc-json='myJsonAnualsub5' zc-width='100%' zc-height='300px')
-              #chart-15(zingchart='' zc-json='myJsonBarBrocalessub5' zc-width='100%' zc-height='350px' visibility="hidden" )
-            div(ng-controller='MainController' class="border")
+              p
+              #Anualsub6.w3-container.w3-border.viewsub6
+                div.graphsub2( class="border" )
+                  .grapheader 
+                    div Vision Anual
+                  hr.graphr
+                  //#chart-29(zingchart='' zc-json='myJsonAnualsub5' zc-width='100%' zc-height='350px' visibility="hidden" )
+                  #chart29(zingchart='' zc-json='myJsonBarBrocalessub5' zc-width='100%' zc-height='350px' visibility="hidden" )
+                  hr.graphr
+                  .graphfooter(ng-model='openmodalsub5' ng-click="modalbrocalessub5()" type='button' data-bs-toggle='modal')
+                    div Ver detalles
+                      i.bi.bi-chevron-right
+              p
+              #contentdiariosub5
+                .headerdiariosub5
+                  h2 {{fechahoy}}
+                .bodydiariosub5
+                  div 
+                    h1 Ubicaciones : {{ubicacionessub5}}
+                    p
+                    h1 Dotacion : {{dotacionsub5}}
+                    p
+                    h1 Observaciones : {{observacionessub5}}
+                    p
+                    h1 Información : {{informacionsub5}}
+
+                  div 
+                    #chart47(zingchart='' zc-json='myJsondiariosub5' zc-width='80%' zc-height='300px' visibility="hidden" )
+
+            #brocal2.grid-item
+              
               button.anualbuttonbrocales1(ng-model='sub6selector1' ng-click="changebrocal6('anual')") Anual
-              button.anualbuttonbrocales2(ng-model='sub6selector2' ng-click="changebrocal6('mensual')") Mensual 
-              //#chart-16(zingchart='' zc-json='myJsonAnualsub6' zc-width='100%' zc-height='300px' )
-              #chart-16(zingchart='' zc-json='myJsonBarBrocalessub6' zc-width='100%' zc-height='350px' visibility="hidden" )
-          #Disciplinagrid.grid-container
-            div
-              #chart-49(zingchart='' zc-json='myJsonSemanalDisciplina1' zc-width='100%' zc-height='300px' )
-            //div
-            //  #chart-50(zingchart='' zc-json='myJsonSemanalDisciplina2' zc-width='100%' zc-height='300px' )
+              button.anualbuttonbrocales2(ng-model='sub6selector2' ng-click="changebrocal6('mensual')") Mensual
+              p
+              #Anualsub7.w3-container.w3-border.viewsub7
+                div.graphsub7(ng-controller='MainController' class="border" )
+                  .grapheader 
+                    div Vision Anual
+                  hr.graphr
+                  //#chart30(zingchart='' zc-json='myJsonAnualsub6' zc-width='100%' zc-height='350px' visibility="hidden" )
+                  #chart30(zingchart='' zc-json='myJsonBarBrocalessub6' zc-width='100%' zc-height='350px' visibility="hidden" )
+                  hr.graphr
+                  .graphfooter(ng-model='openmodalsub6' ng-click="modalbrocalessub6()" type='button' data-bs-toggle='modal' )
+                    div Ver detalles
+                      i.bi.bi-chevron-right
+              p
+              #contentdiariosub6
+                .headerdiariosub6
+                  h2 {{fechahoy}}
+                .bodydiariosub6
+                  div 
+                    h1 Ubicaciones : {{ubicacionessub6}}
+                    p
+                    h1 Dotacion : {{dotacionsub6}}
+                    p
+                    h1 Observaciones : {{observacionessub6}}
+                    p
+                    h1 Información : {{informacionsub6}}
+                  div
+                    #chart48(zingchart='' zc-json='myJsondiariosub6' zc-width='80%' zc-height='300px' visibility="hidden" )
+
+          #calendariobrocales.grid-container
+            //#myChart
+            #chart51(zingchart='' zc-json='myJsonCalendarBrocales' zc-width='100%' zc-height='400px' visibility="hidden" )
+          p
+          select.selectequipo.form-selectfilterequipo( ng-model='columns' ng-init='columns="Equipo"' ng-options='e for e in headersequipo' )
+          input.form-controlfilter( type='text' ng-model='searchtxtx[columns]' placeholder='Ingresar valor a filtrar')
+          p
+          #tableequipos.grid-container
+            div.tabla.item1
+              table.Asistencia.table.caption-top
+                        thead
+                          tr
+                            th(data-type="text")
+                              | Equipo
+                              span.resize-handle
+                            th(data-type='text')
+                              | Patente
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Cartola
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Ult. Mant.
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Ult. Mant. kms
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Prox. Mant. kms
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Km actual
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Semaforo
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Est. actual
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Fecha Cheq. gas
+                              span.resize-handle
+                        tbody
+                          tr(ng-repeat="equipo in equipostotal|filter:searchtxtx")
+                            td
+                              label {{equipo.Equipo}} 
+                            td
+                              label {{equipo.Patente}} 
+                            td
+                              label {{equipo.Cartola}}
+                            td
+                              label {{equipo.Ultimamantencion}}
+                            td
+                              label {{equipo.Ultimokms}}
+                            td
+                              label {{equipo.Proximakms}}
+                            td
+                              label {{equipo.Kilometrajeactual}}
+                            td
+                              label {{equipo.Semaforo}}
+                            td
+                              label {{equipo.Estado}}
+                            td
+                              label {{equipo.Fechagas}}
+
           
-          //#chart1002(zingchart='' zc-json='myJsonprueba' zc-width='300px' zc-height='300px')
-      #Asistencia.w3-container.w3-border.activity(style='display:none')
-        //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
-        p
-          button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample')
-            | Mostrar sectores
-        #collapseExample.collapse
-          .card.card-body
-            #asistenciagrid.grid-container
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('0')" type='button' ) 
-                #chart17(zingchart='' zc-json='myJsonpieasistencia1' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('1')" type='button' )
-                #chart18(zingchart='' zc-json='myJsonpieasistencia2' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('2')" type='button' ) 
-                #chart19(zingchart='' zc-json='myJsonpieasistencia3' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('3')" type='button' ) 
-                #chart20(zingchart='' zc-json='myJsonpieasistencia4' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('4')" type='button' )  
-                #chart21(zingchart='' zc-json='myJsonpieasistencia5' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('5')" type='button' ) 
-                #chart22(zingchart='' zc-json='myJsonpieasistencia6' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('6')" type='button' ) 
-                #chart23(zingchart='' zc-json='myJsonpieasistencia7' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('7')" type='button' ) 
-                #chart24(zingchart='' zc-json='myJsonpieasistencia8' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('8')" type='button') 
-                #chart25(zingchart='' zc-json='myJsonpieasistencia9' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('9')" type='button'  ) 
-                #chart26(zingchart='' zc-json='myJsonpieasistencia10' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('10')" type='button' ) 
-                #chart80(zingchart='' zc-json='myJsonpieasistencia11' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('11')" type='button' ) 
-                #chart81(zingchart='' zc-json='myJsonpieasistencia12' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('12')" type='button' ) 
-                #chart82(zingchart='' zc-json='myJsonpieasistencia13' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('13')" type='button') 
-                #chart83(zingchart='' zc-json='myJsonpieasistencia14' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('14')" type='button'  ) 
-                #chart84(zingchart='' zc-json='myJsonpieasistencia15' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('15')" type='button' ) 
-                #chart85(zingchart='' zc-json='myJsonpieasistencia16' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('16')" type='button' ) 
-                #chart86(zingchart='' zc-json='myJsonpieasistencia17' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('17')" type='button' ) 
-                #chart87(zingchart='' zc-json='myJsonpieasistencia18' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('18')" type='button') 
-                #chart88(zingchart='' zc-json='myJsonpieasistencia19' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('19')" type='button'  ) 
-                #chart89(zingchart='' zc-json='myJsonpieasistencia20' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('20')" type='button' ) 
-                #chart90(zingchart='' zc-json='myJsonpieasistencia21' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('21')" type='button' ) 
-                #chart91(zingchart='' zc-json='myJsonpieasistencia22' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('22')" type='button') 
-                #chart92(zingchart='' zc-json='myJsonpieasistencia23' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('23')" type='button'  ) 
-                #chart93(zingchart='' zc-json='myJsonpieasistencia24' zc-width='100%' zc-height='210px')
-              div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('24')" type='button'  ) 
-                #chart94(zingchart='' zc-json='myJsonpieasistencia25' zc-width='100%' zc-height='210px')
+          //#Bargraphbrocales.grid-container
+            //#chart70(zingchart='' zc-json='myJsonBarBrocales' zc-width='50%' zc-height='400px' visibility="hidden" )
+        #Disciplina
+          //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
 
-            
-
-        
-        #asistenciagrid2.grid-container
-          div.tabla.item1
-            table.Asistencia.table.caption-top
-                      thead
-                        tr
-                          th(data-type="text")
-                            | Sector
-                            span.resize-handle
-                          th(data-type='text')
-                            | Nombre
-                            span.resize-handle
-                          th(data-type='text-long')
-                            | Rut
-                            span.resize-handle
-                          th(data-type='text-long')
-                            | Cargo
-                            span.resize-handle
-                          th(data-type='text-long')
-                            | Turno
-                            span.resize-handle
-                          th(data-type='text-long')
-                            | Fecha ingreso
-                            span.resize-handle
-                      tbody
-                        tr(ng-repeat="asistencia in Asistenciatotal")
-                          td
-                            label {{asistencia.Sector}} 
-                          td
-                            label {{asistencia.Nombre}} 
-                          td(ng-click="searchWorker($index)")
-                            label {{asistencia.Rut}}
-                          td
-                            label {{asistencia.Cargo}}
-                          td
-                            label {{asistencia.Turno}}
-                          td
-                            label {{asistencia.Fechaingreso}}         
-          #asistenciagrid21.grid-container
-            div
-              #chart27(zingchart='' zc-json='myJsonasistenciaworker' zc-width='100%' zc-height='232px')
-            div.item3
-              #chart28(zingchart='' zc-json='myJsonasistenciaworkerturn' zc-width='100%' zc-height='232px')
-              .buttoninnasistance
-                button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitance('anual')") Anual
-                button.buttoninassistance2(ng-model='inassistance2' ng-click="changeinassitance('mensual')") Mensual
-        #asistenciabar.grid-container
-          #chart60(zingchart='' zc-json='myJsonasistenciabar' zc-width='100%' zc-height='300px')
-
-
-      #Planmatriz.w3-container.w3-border.activity(style='display:none')
-        //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
-        #matrizbrocales.grid-container
-          #matriz1
-            button.anualbuttonmatriz1aire(ng-model='sub6selector1' ng-click="changeaire('anual')") Anual
-            button.anualbuttonmatriz2aire(ng-model='sub6selector2' ng-click="changeaire('mensual')") Mensual
-            p
-            #matriz1(zingchart='' zc-json='myMatrizAire' zc-width='100%' zc-height='300px' visibility="hidden" )
-          #matriz2
-            button.anualbuttonmatriz1polvo(ng-model='sub6selector1' ng-click="changepolvo('anual')") Anual
-            button.anualbuttonmatriz2polvo(ng-model='sub6selector2' ng-click="changepolvo('mensual')") Mensual
-            p
-            #matriz2(zingchart='' zc-json='myMatrizColectores' zc-width='100%' zc-height='300px' visibility="hidden" )
-          #matriz3
-            button.anualbutton1ventilacion(ng-model='sub6selector1' ng-click="changeventilacion('anual')") Anual
-            button.anualbutton2ventilacion(ng-model='sub6selector2' ng-click="changeventilacion('mensual')") Mensual
-            p
-            #matriz3(zingchart='' zc-json='myMatrizVentilacion' zc-width='100%' zc-height='300px' visibility="hidden" )
-          #matriz4
-            button.anualmatriz1puertas(ng-model='sub6selector1' ng-click="changepuertas('anual')") Anual
-            button.anualmatriz2puertas(ng-model='sub6selector2' ng-click="changepuertas('mensual')") Mensual
-            p
-            #matriz4(zingchart='' zc-json='myMatrizPuertas' zc-width='100%' zc-height='300px' visibility="hidden" )
-
-        p 
-        select.selectasistencia.form-selectfilter( ng-model='columnsa' ng-init='columnsa="Identificacion"' ng-options='e for e in headers' )
-        input.form-controlfilter( type='text' ng-model='searchtxt[columnsa]' placeholder='Ingresar valor a filtrar')
-        p
-
-        #tablecompletedvimo.grid-container
-          div.tabla.item1
-            table.Asistencia.table.caption-top
-                      thead
-                        tr
-                          th(data-type="text")
-                            | Identificacion
-                            span.resize-handle
-                          th(data-type='text')
-                            | Ubicacion
-                            span.resize-handle
-                          th(data-type='text-long')
-                            | Fecha revision
-                            span.resize-handle
-                          th(data-type='text-long')
-                            | Tipo mantencion
-                            span.resize-handle
-                          th(data-type='text-long')
-                            | Estado
-                            span.resize-handle
-                      tbody
-                        tr(ng-repeat="vimos in vimostotal|filter:searchtxt")
-                          td
-                            label {{vimos.Identificacion}} 
-                          td
-                            label {{vimos.Ubicacion}} 
-                          td
-                            label {{vimos.Fecharevision}}
-                          td
-                            label {{vimos.Tipomantencion}}
-                          td
-                            label {{vimos.Estado}}  
-
-      #Brocales.w3-container.w3-border.activity(style='display:none')
-        //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")    
-        #gridbrocales.grid-container
-          #brocal1.grid-item
-                
-            button.anualbuttonbrocales1(ng-model='sub5selector1' ng-click="changebrocal5('anual')") Anual
-            button.anualbuttonbrocales2(ng-model='sub5selector2' ng-click="changebrocal5('mensual')") Mensual
-            p
-            #Anualsub6.w3-container.w3-border.viewsub6
-              div.graphsub2( class="border" )
-                .grapheader 
-                  div Vision Anual
-                hr.graphr
-                //#chart-29(zingchart='' zc-json='myJsonAnualsub5' zc-width='100%' zc-height='350px' visibility="hidden" )
-                #chart29(zingchart='' zc-json='myJsonBarBrocalessub5' zc-width='100%' zc-height='350px' visibility="hidden" )
-                hr.graphr
-                .graphfooter(ng-model='openmodalsub5' ng-click="modalbrocalessub5()" type='button' data-bs-toggle='modal')
-                  div Ver detalles
-                    i.bi.bi-chevron-right
-            p
-            #contentdiariosub5
-              .headerdiariosub5
-                h2 {{fechahoy}}
-              .bodydiariosub5
-                div 
-                  h1 Ubicaciones : {{ubicacionessub5}}
-                  p
-                  h1 Dotacion : {{dotacionsub5}}
-                  p
-                  h1 Observaciones : {{observacionessub5}}
-                  p
-                  h1 Información : {{informacionsub5}}
-
-                div 
-                  #chart47(zingchart='' zc-json='myJsondiariosub5' zc-width='80%' zc-height='300px' visibility="hidden" )
-
-          #brocal2.grid-item
-            
-            button.anualbuttonbrocales1(ng-model='sub6selector1' ng-click="changebrocal6('anual')") Anual
-            button.anualbuttonbrocales2(ng-model='sub6selector2' ng-click="changebrocal6('mensual')") Mensual
-            p
-            #Anualsub7.w3-container.w3-border.viewsub7
-              div.graphsub7(ng-controller='MainController' class="border" )
-                .grapheader 
-                  div Vision Anual
-                hr.graphr
-                //#chart30(zingchart='' zc-json='myJsonAnualsub6' zc-width='100%' zc-height='350px' visibility="hidden" )
-                #chart30(zingchart='' zc-json='myJsonBarBrocalessub6' zc-width='100%' zc-height='350px' visibility="hidden" )
-                hr.graphr
-                .graphfooter(ng-model='openmodalsub6' ng-click="modalbrocalessub6()" type='button' data-bs-toggle='modal' )
-                  div Ver detalles
-                    i.bi.bi-chevron-right
-            p
-            #contentdiariosub6
-              .headerdiariosub6
-                h2 {{fechahoy}}
-              .bodydiariosub6
-                div 
-                  h1 Ubicaciones : {{ubicacionessub6}}
-                  p
-                  h1 Dotacion : {{dotacionsub6}}
-                  p
-                  h1 Observaciones : {{observacionessub6}}
-                  p
-                  h1 Información : {{informacionsub6}}
+          #Disciplinaubicaciones.grid-container
+            #grid-disciplina.grid-container
+              #chart56(zingchart='' zc-json='myJsonhbar' zc-width='200px' zc-height='100%' visibility='hidden')
+              #timer-test.grid-container
                 div
-                  #chart48(zingchart='' zc-json='myJsondiariosub6' zc-width='80%' zc-height='300px' visibility="hidden" )
-
-        #calendariobrocales.grid-container
-          //#myChart
-          #chart51(zingchart='' zc-json='myJsonCalendarBrocales' zc-width='100%' zc-height='400px' visibility="hidden" )
-        p
-        select.selectequipo.form-selectfilterequipo( ng-model='columns' ng-init='columns="Equipo"' ng-options='e for e in headersequipo' )
-        input.form-controlfilter( type='text' ng-model='searchtxtx[columns]' placeholder='Ingresar valor a filtrar')
-        p
-        #tableequipos.grid-container
-          div.tabla.item1
-            table.Asistencia.table.caption-top
-                      thead
-                        tr
-                          th(data-type="text")
-                            | Equipo
-                            span.resize-handle
-                          th(data-type='text')
-                            | Patente
-                            span.resize-handle
-                          th(data-type='text-long')
-                            | Cartola
-                            span.resize-handle
-                          th(data-type='text-long')
-                            | Ult. Mant.
-                            span.resize-handle
-                          th(data-type='text-long')
-                            | Ult. Mant. kms
-                            span.resize-handle
-                          th(data-type='text-long')
-                            | Prox. Mant. kms
-                            span.resize-handle
-                          th(data-type='text-long')
-                            | Km actual
-                            span.resize-handle
-                          th(data-type='text-long')
-                            | Semaforo
-                            span.resize-handle
-                          th(data-type='text-long')
-                            | Est. actual
-                            span.resize-handle
-                          th(data-type='text-long')
-                            | Fecha Cheq. gas
-                            span.resize-handle
-                      tbody
-                        tr(ng-repeat="equipo in equipostotal|filter:searchtxtx")
-                          td
-                            label {{equipo.Equipo}} 
-                          td
-                            label {{equipo.Patente}} 
-                          td
-                            label {{equipo.Cartola}}
-                          td
-                            label {{equipo.Ultimamantencion}}
-                          td
-                            label {{equipo.Ultimokms}}
-                          td
-                            label {{equipo.Proximakms}}
-                          td
-                            label {{equipo.Kilometrajeactual}}
-                          td
-                            label {{equipo.Semaforo}}
-                          td
-                            label {{equipo.Estado}}
-                          td
-                            label {{equipo.Fechagas}}
-
-        
-        //#Bargraphbrocales.grid-container
-          //#chart70(zingchart='' zc-json='myJsonBarBrocales' zc-width='50%' zc-height='400px' visibility="hidden" )
-      #Disciplina.w3-container.w3-border.activity(style='display:none')
-        //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
-
-        #Disciplinaubicaciones.grid-container
-          #grid-disciplina.grid-container
-            #chart56(zingchart='' zc-json='myJsonhbar' zc-width='200px' zc-height='100%' visibility='hidden')
-            #timer-test.grid-container
-              div
-                div.buttonstimer
-                  button.airebutton(ng-model='sub5selector' ng-click="changegraphtimer('SUB 6')") SUB 6
-                  button.polvobutton(ng-model='pipanselector' ng-click="changegraphtimer('PIPA N')") PIPA N 
-                  button.ventilacionbutton(ng-model='diabloselector' ng-click="changegraphtimer('DIABLO')") DIABLO
-                  button.airebutton(ng-model='sub5selector' ng-click="changegraphtimer('SUB 5')") SUB 5
-                  button.polvobutton(ng-model='lajuntaselector' ng-click="changegraphtimer('LA JUNTA')") La junta
-                  button.ventilacionbutton(ng-model='tte6selector' ng-click="changegraphtimer('TTE 6')") TTE 6
-                  button.airebutton(ng-model='ventselector' ng-click="changegraphtimer('VENT')") Vent
-                  button.polvobutton(ng-model='pmselector' ng-click="changegraphtimer('P M')") P M
-                  button.ventilacionbutton(ng-model='tte7selector' ng-click="changegraphtimer('TTE 7')") TTE 7
-                  button.polvobutton(ng-model='salvatajeselector' ng-click="changegraphtimer('SALVATAJE')") Salvataje
-                  button.ventilacionbutton(ng-model='accuselector' ng-click="changegraphtimer('ACCU')") ACCU
-                  button.airebutton(ng-model='acselector' ng-click="changegraphtimer('AC')") AC
-                  button.polvobutton(ng-model='colecselector' ng-click="changegraphtimer('COLEC')") Colec
-                  button.ventilacionbutton(ng-model='chcolonselector' ng-click="changegraphtimer('CH COLON')") CH colon
-                #chart54(zingchart='' zc-json='myJsonTimer1' zc-width='100%' zc-height='300px' visibility="hidden" )
-              div
-                #chart55(zingchart='' zc-json='myJsonTest' zc-width='100%' zc-height='440px' visibility="hidden")
+                  div.buttonstimer
+                    button.airebutton(ng-model='sub5selector' ng-click="changegraphtimer('SUB 6')") SUB 6
+                    button.polvobutton(ng-model='pipanselector' ng-click="changegraphtimer('PIPA N')") PIPA N 
+                    button.ventilacionbutton(ng-model='diabloselector' ng-click="changegraphtimer('DIABLO')") DIABLO
+                    button.airebutton(ng-model='sub5selector' ng-click="changegraphtimer('SUB 5')") SUB 5
+                    button.polvobutton(ng-model='lajuntaselector' ng-click="changegraphtimer('LA JUNTA')") La junta
+                    button.ventilacionbutton(ng-model='tte6selector' ng-click="changegraphtimer('TTE 6')") TTE 6
+                    button.airebutton(ng-model='ventselector' ng-click="changegraphtimer('VENT')") Vent
+                    button.polvobutton(ng-model='pmselector' ng-click="changegraphtimer('P M')") P M
+                    button.ventilacionbutton(ng-model='tte7selector' ng-click="changegraphtimer('TTE 7')") TTE 7
+                    button.polvobutton(ng-model='salvatajeselector' ng-click="changegraphtimer('SALVATAJE')") Salvataje
+                    button.ventilacionbutton(ng-model='accuselector' ng-click="changegraphtimer('ACCU')") ACCU
+                    button.airebutton(ng-model='acselector' ng-click="changegraphtimer('AC')") AC
+                    button.polvobutton(ng-model='colecselector' ng-click="changegraphtimer('COLEC')") Colec
+                    button.ventilacionbutton(ng-model='chcolonselector' ng-click="changegraphtimer('CH COLON')") CH colon
+                  #chart54(zingchart='' zc-json='myJsonTimer1' zc-width='100%' zc-height='300px' visibility="hidden" )
+                div
+                  #chart55(zingchart='' zc-json='myJsonTest' zc-width='100%' zc-height='440px' visibility="hidden")
       #Creacion.w3-container.w3-border.activity(style='display:none')
         form.formulariocreacion(action='/crearusuario' method='post' enctype='multipart/form-data')
           .form-group.row

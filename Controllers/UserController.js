@@ -981,7 +981,7 @@ module.exports = {
                 nadaqueagregar = true
               }*/
 
-              if(Object.keys(datos[a]).length > 1 && demandaiszero != true ){
+              if((Object.keys(datos[a]).length > 1 && demandaiszero != true) || datos[a][Object.keys(datos[0])[0]] != undefined){
                 await modelo.brocales.findAll({
                   where : {
                     Fecha : Fecha,

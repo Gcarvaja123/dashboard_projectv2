@@ -1,4 +1,4 @@
-
+var options = false;
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl)
@@ -47,6 +47,7 @@ function openActivity(evt, actividad) {
   }
   document.getElementById(actividad).style.display = "block";
   evt.currentTarget.className += " w3-red";
+  options = true
 }
 
 function openViewsub6(evt, selectedview){
@@ -3098,10 +3099,94 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       myModala.toggle()
     }
   }
-
-  $scope.salto = function(){
+  $scope.GotoPanel = function(){
+    if (options == true) {
+      document.getElementById("Creacion").style.display = "none";
+      document.getElementById("Creacion").className.replace(" w3-red", "");
+      document.getElementById("Modificacion").style.display = "none";
+      document.getElementById("Modificacion").className.replace(" w3-red", "");
+      document.getElementById("Reporte").style.display = "none";
+      document.getElementById("Reporte").className.replace(" w3-red", "");
+      document.getElementById("Creacion").style.display = "none";
+      document.getElementById("Creacion").className.replace(" w3-red", "");
+      document.getElementById("Archivos").style.display = "none";
+      document.getElementById("Archivos").className.replace(" w3-red", "");
+      document.getElementById("Vistatotal").style.display = "block";
+      document.getElementById("Vistatotal").className+= " w3-red";
+    }
+    document.getElementById("blur1").scrollIntoView({behavior: 'smooth'});
+  }
+  $scope.GotoAsistencia = function(){
+    if (options == true) {
+      document.getElementById("Creacion").style.display = "none";
+      document.getElementById("Creacion").className.replace(" w3-red", "");
+      document.getElementById("Modificacion").style.display = "none";
+      document.getElementById("Modificacion").className.replace(" w3-red", "");
+      document.getElementById("Reporte").style.display = "none";
+      document.getElementById("Reporte").className.replace(" w3-red", "");
+      document.getElementById("Creacion").style.display = "none";
+      document.getElementById("Creacion").className.replace(" w3-red", "");
+      document.getElementById("Archivos").style.display = "none";
+      document.getElementById("Archivos").className.replace(" w3-red", "");
+      document.getElementById("Vistatotal").style.display = "block";
+      document.getElementById("Vistatotal").className+= " w3-red";
+    }
     
-    document.getElementById("Disciplinagrid").scrollIntoView({behavior: 'smooth'});
+    document.getElementById("Asistencia").scrollIntoView({behavior: 'smooth'});
+  }
+  $scope.GotoPlanmatriz = function(){
+    if (options == true) {
+      document.getElementById("Creacion").style.display = "none";
+      document.getElementById("Creacion").className.replace(" w3-red", "");
+      document.getElementById("Modificacion").style.display = "none";
+      document.getElementById("Modificacion").className.replace(" w3-red", "");
+      document.getElementById("Reporte").style.display = "none";
+      document.getElementById("Reporte").className.replace(" w3-red", "");
+      document.getElementById("Creacion").style.display = "none";
+      document.getElementById("Creacion").className.replace(" w3-red", "");
+      document.getElementById("Archivos").style.display = "none";
+      document.getElementById("Archivos").className.replace(" w3-red", "");
+      document.getElementById("Vistatotal").style.display = "block";
+      document.getElementById("Vistatotal").className+= " w3-red";
+    }
+    
+    document.getElementById("Planmatriz").scrollIntoView({behavior: 'smooth'});
+  }
+  $scope.GotoBrocales = function(){
+    if (options == true) {
+      document.getElementById("Creacion").style.display = "none";
+      document.getElementById("Creacion").className.replace(" w3-red", "");
+      document.getElementById("Modificacion").style.display = "none";
+      document.getElementById("Modificacion").className.replace(" w3-red", "");
+      document.getElementById("Reporte").style.display = "none";
+      document.getElementById("Reporte").className.replace(" w3-red", "");
+      document.getElementById("Creacion").style.display = "none";
+      document.getElementById("Creacion").className.replace(" w3-red", "");
+      document.getElementById("Archivos").style.display = "none";
+      document.getElementById("Archivos").className.replace(" w3-red", "");
+      document.getElementById("Vistatotal").style.display = "block";
+      document.getElementById("Vistatotal").className+= " w3-red";
+    }
+    
+    document.getElementById("Brocales").scrollIntoView({behavior: 'smooth'});
+  }
+  $scope.GotoDisciplina = function(){
+    if (options == true) {
+      document.getElementById("Creacion").style.display = "none";
+      document.getElementById("Creacion").className.replace(" w3-red", "");
+      document.getElementById("Modificacion").style.display = "none";
+      document.getElementById("Modificacion").className.replace(" w3-red", "");
+      document.getElementById("Reporte").style.display = "none";
+      document.getElementById("Reporte").className.replace(" w3-red", "");
+      document.getElementById("Creacion").style.display = "none";
+      document.getElementById("Creacion").className.replace(" w3-red", "");
+      document.getElementById("Archivos").style.display = "none";
+      document.getElementById("Archivos").className.replace(" w3-red", "");
+      document.getElementById("Vistatotal").style.display = "block";
+      document.getElementById("Vistatotal").className+= " w3-red";
+    }
+    
+    document.getElementById("Disciplina").scrollIntoView({behavior: 'smooth'});
   }
 
   $scope.deletearchivos = function(index){
