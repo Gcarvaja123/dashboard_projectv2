@@ -3573,6 +3573,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     console.log("hola")
     location.href  = window.location.href.split("/")[0]+"/"+"logout"
   }
+  $scope.deletename=""
+  $scope.datostrabajador=""
 
   $scope.borrarmodal = function(index){
      var myModala = new bootstrap.Modal(document.getElementById('modalborrar'), {
@@ -3581,8 +3583,21 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     myModala.toggle()
 
     $scope.nombre_trabajador = $scope.Totalasistenciaarchivosmod[index].Nombre
-
+    $scope.datostrabajador = $scope.Totalasistenciaarchivosmod[index]
     $scope.deletename = $scope.nombre_trabajador
+  }
+
+  $scope.deleteworker = function(){
+    $http({
+            method : 'POST',
+            url : '/Borrartrabajador',
+            data : JSON.stringify($scope.datostrabajador)
+    }).then(function onSuccess(response) {
+        console.log(response);
+    })
+    .catch(function onError(error) {
+        console.log(error);         
+    });
   }
 
   

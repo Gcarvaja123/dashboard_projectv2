@@ -2002,6 +2002,10 @@ module.exports = {
     res.redirect("dashboard")
   },
 
+  postBorrartrabajador : async(req, res, next)=>{
+    console.log(req.body)
+  },
+
   postModAsist : async(req, res, next)=>{
     console.log(req.body)
   },

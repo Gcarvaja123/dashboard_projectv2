@@ -43,6 +43,7 @@ router.post("/moddisciplina", controllers.UserController.postModDisciplina)
 router.post("/modequipo", controllers.UserController.postModEquipo)
 router.post("/modpuerta", controllers.UserController.postModPuerta)
 router.post("/modsap", controllers.UserController.postModSap)
+router.post("/Borrartrabajador", controllers.UserController.postBorrartrabajador)
 
 
 
