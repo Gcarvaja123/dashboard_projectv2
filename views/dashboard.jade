@@ -546,7 +546,7 @@ html
             a.tablink(ng-click="GotoBrocales()") Brocales
           li.nav-item
             a.tablink(ng-click="GotoDisciplina()") Disciplina
-          if user.rango=="Modificacion" || user.rango=="Reportes" || user.nombre=="admin"
+          if user.rango=="Modificacion" || user.rango=="Reportes" || user.rango=="admin"
             li.nav-item.has-submenu
               a.nav-link(data-bs-toggle='collapse' data-bs-target='#menu_item1')  Opciones
                 i.bi.small.bi-caret-down-fill
@@ -557,7 +557,7 @@ html
                 if user.rango=="Reportes" || user.rango=="admin"
                   li
                     a.nav-link.tablink(onclick="openActivity(event,'Reporte')" ) Reporte
-                if user.rango=="Reportes"
+                if user.rango=="Reportes" || user.rango=="admin"
                   li
                     a.nak-link.tablink(onclick="openActivity(event,'Archivos')") Archivos
                   li
@@ -566,7 +566,7 @@ html
 
       .sidenav-footer
         .image
-          .img.imagen2
+          .imagen2
     #blur1.main-header
       ul.navbar-nav#blurfecha2
         li.nav-item#blurfecha3
@@ -581,14 +581,8 @@ html
         li.nav-item.d-none.d-sm-inline-block#blurlogin3
           if user != 'notlogged'
             .btn-group
-              button.btn.btn-danger.dropdown-toggle(type='button' data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
-                | Action
-              .dropdown-menu
-                a.dropdown-item(href='#') Action
-                a.dropdown-item(href='#') Another action
-                a.dropdown-item(href='#') Something else here
-                .dropdown-divider
-                a.dropdown-item(href='#') Separated link
+              button.btnn( ng-model="deslogear" type='button' ng-click="logout()")
+                | Cerrar Sesion
             //li.nav-item.d-none.d-sm-inline-block
               //a.nav-link() {{username}}
             
@@ -1277,6 +1271,18 @@ html
                   .modal-footer
                     button.btnn(type='button' data-bs-dismiss='modal') Cerrar
                     button.btnn(name="probando3" value="probando4"  ng-click="postmodasistencia()"  data-bs-dismiss='modal') Aceptar
+            #modalborrar.modal.fade( aria-labelledby='Modaltutorial' )
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    h5#exampleModalLabel.modal-title Tutorial
+                    button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                  .modal-body
+                    .container
+                      a ¿Seguro que quieres borrar del historial a {{deletename}}?
+                  .modal-footer
+                    button.btnn(type='button' data-bs-dismiss='modal' ) Cerrar 
+                    button.btnn(name="probando3" value="probando4" ng-click="deleteworker()" data-bs-dismiss='modal') Aceptar
             select.selectasistencia.form-selectfilter( ng-model='columnasist' ng-init='columnasist="Sector"' ng-options='e for e in headersasist' )
             input.form-controlfilter( type='text' ng-model='searchtxt[columnasist]' placeholder='Ingresar valor a filtrar')
             #tableasistenciaarmod.grid-container
@@ -1305,6 +1311,10 @@ html
                       th(data-type='text-long')
                         | Modificar
                         span.resize-handle
+                      th(data-type='text-long')
+                        | Borrar
+                        span.resize-handle
+
                   tbody
                     tr(ng-repeat="asistencia in Totalasistenciaarchivosmod|filter:searchtxt")
                       td
@@ -1322,6 +1332,9 @@ html
                       td
                         button.btn.btn-secondary.modasistenciabutton(type='button' ng-click="modificarasistencia(Totalasistenciaarchivosmod.indexOf(asistencia))" )
                           i.bi.bi-card-text
+                      td
+                        button.btn.btn-secondary.modasistenciabutton(type='button' ng-click="borrarmodal(Totalasistenciaarchivosmod.indexOf(asistencia))" )
+                          i.bi.bi-trash3
 
           div(ng-switch-when='Brocales')
             h1 Brocales
@@ -2019,7 +2032,43 @@ html
             div
               #chart105(zingchart='' zc-json='myJsonBrocalesreport2v2' zc-width='100%' zc-height='300px')
             div
-              #chart106(zingchart='' zc-json='myJsonBrocalesreportbarv2' zc-width='100%' zc-height='300px')
+              #tableabrocalesreport.grid-container
+                div.tabla.item1
+                  table.vimo.table.caption-top
+                    thead
+                      tr
+                        th(data-type="text")
+                          | Fecha
+                          span.resize-handle
+                        th(data-type='text')
+                          | Sub
+                          span.resize-handle
+                        th(data-type='text')
+                          | Dotación
+                          span.resize-handle
+                        th(data-type='text')
+                          | Cantidad
+                          span.resize-handle
+                        th(data-type='text')
+                          | Demanda
+                          span.resize-handle
+                        th(data-type='text')
+                          | Observación
+                          span.resize-handle
+                      tbody
+                        tr(ng-repeat="brocales in Totalreportebrocales")
+                          td
+                            label {{brocales.Fecha}}
+                          td
+                            label {{brocales.Sub}}
+                          td
+                            label {{brocales.Dotacion}}
+                          td
+                            label {{brocales.Demanda}}
+                          td
+                            label {{brocales.Cantidad}}
+                          td
+                            label {{brocales.Observacion}}
           #gridmatrizreport.grid-container
             div
               #chart107(zingchart='' zc-json='myJsonMatrizreport1' zc-width='100%' zc-height='300px')

@@ -416,8 +416,6 @@ button{
   border-top: 1px solid #4f5962;
   margin-left: 10px;
   position: absolute;
-  height: 70px;
-  width: 140px;
   bottom: 0;
 
 }
@@ -438,9 +436,11 @@ button{
 }
 
 .imagen2{
-  background-image: url("/imagenes/codelco.png");
-  height: 100%;
-  width: 100%;
+  background-image: url("/imagenes/codelcov2.png");
+  background-repeat: no-repeat;
+  height: 100px;
+  width: 133px;
+  margin-left: 5px;
 }
 
 .horizontal2{
@@ -1345,6 +1345,11 @@ table.matriz td{
 
 #tableasistenciarreport.grid-container{
   height: 700px;
+}
+
+#tableabrocalesreport.grid-container{
+  height: 300px;
+  padding: 0px;
 }
 
 .timeritems{

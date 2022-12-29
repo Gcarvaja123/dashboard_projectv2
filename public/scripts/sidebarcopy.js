@@ -3375,6 +3375,19 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     $scope.myJsonBrocalesreport1v2 = pie3d_brocales_reportv2(cantidad_realizada_sub5, demanda_total_sub5-cantidad_realizada_sub5, 5)
     $scope.myJsonBrocalesreport2v2 = pie3d_brocales_reportv2(cantidad_realizada_sub6, demanda_total_sub6-cantidad_realizada_sub6, 6)
 
+    $scope.Totalreportebrocales=[]
+    var brocales_visitados = []
+    for(d=0 ; d<local_data_brocales.length; d++){
+      fecha_brocales = new Date(local_data_brocales[d].Fecha.split("-")[2].toString()+"-"+local_data_brocales[d].Fecha.split("-")[1].toString()+"-"+local_data_brocales[d].Fecha.split("-")[0].toString()+" "+"23:00:00")
+      if(fecha_brocales.getTime() >= Fechaaux1.getTime() && fecha_brocales.getTime() <= Fechaaux2.getTime()){
+        if(brocales_visitados.indexOf(local_data_brocales[d].Uniqueid) == -1){
+          brocales_visitados.push(local_data_brocales[d].Uniqueid)
+          $scope.Totalreportebrocales.push(local_data_brocales[d])
+        }
+        
+      }
+    }
+
 
     //------------------------------------- PLAN MATRIZ-------------------------------------------------------------
 
@@ -3554,6 +3567,22 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     $("#Modalfiles6>*:not(#Modalfiles7)").css("filter","blur(5px)");
     $("#Modalfiles7>*:not(#Modalfiles8)").css("filter","blur(5px)");
 
+  }
+
+  $scope.logout = function(){
+    console.log("hola")
+    location.href  = window.location.href.split("/")[0]+"/"+"logout"
+  }
+
+  $scope.borrarmodal = function(index){
+     var myModala = new bootstrap.Modal(document.getElementById('modalborrar'), {
+          keyboard: false
+    })
+    myModala.toggle()
+
+    $scope.nombre_trabajador = $scope.Totalasistenciaarchivosmod[index].Nombre
+
+    $scope.deletename = $scope.nombre_trabajador
   }
 
   

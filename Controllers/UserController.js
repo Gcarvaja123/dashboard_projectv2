@@ -70,6 +70,10 @@ function leerExcelMatriz(ruta){
 
 module.exports = {
 
+  logout : function(req,res,next){
+    req.logout();
+    res.redirect('/dashboard');
+  },
   getDashboardtest : function(req, res, next){
     return res.render('dashboardtest');
   },

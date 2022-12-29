@@ -33,7 +33,7 @@ router.post('/login', passport.authenticate('local',{
 	failureRedirect : 'dashboard',
 	failureFlash : true
 }))
-
+router.get('/logout', controllers.UserController.logout);
 router.post("/crearusuario", controllers.UserController.postCrearusuario)
 router.post("/delete", controllers.UserController.postDeleteFiles)
 router.post("/modasist", controllers.UserController.postModAsist)

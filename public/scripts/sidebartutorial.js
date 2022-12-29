@@ -97,7 +97,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
           backdrop: 'static'
     })
     myModala.toggle()
-  $scope.texto_tutorial = "Bienvenido al tutorial, no todas las funcionalidades que se explican estarán disponibles para todos, esto va depende del tipo de usuario que ingrese."
+  $scope.texto_tutorial = "Bienvenido al tutorial, no todas las funcionalidades que se explican estarán disponibles para todos, esto va depender del tipo de usuario que ingrese."
   
   
   $scope.isCollapsed = false;
