@@ -402,13 +402,7 @@ button{
   display: flex;
 }
 
-.imagen{
-  height: 50px;
-  width: 100px;
-  align-items: center;
-  margin: auto;
 
-}
 
 .sidenav-header .image{
   margin-left: auto;
@@ -422,15 +416,31 @@ button{
   border-top: 1px solid #4f5962;
   margin-left: 10px;
   position: absolute;
+  height: 70px;
+  width: 140px;
   bottom: 0;
 
 }
 
-.imagen2{
+.imagen{
   background-image: url("/imagenes/miesvec.png");
   background-repeat: no-repeat;
-  height: 70px;
+  height: 100%;
   width: 140px;
+  
+}
+
+.sidenav-footer .image{
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  padding-top: 5px;
+}
+
+.imagen2{
+  background-image: url("/imagenes/codelco.png");
+  height: 100%;
+  width: 100%;
 }
 
 .horizontal2{

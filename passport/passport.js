@@ -34,7 +34,8 @@ module.exports = function(passport){
 					console.log("aca estoy")
 					return done(null, {
 						id: rows_usuarios[0].Id,
-						nombre : rows_usuarios[0].Usuario
+						nombre : rows_usuarios[0].Usuario,
+						rango : rows_usuarios[0].Rango
 					});
 				}
 			}

@@ -108,7 +108,7 @@ module.exports = {
                     modelo.archivos.findAll({  
                     }).then(function(rows_archivos){
                       if(req.user != undefined){
-                        console.log("aca estoy")
+                        console.log(req.user)
                         return res.render("dashboard", {
                           totaldisciplina : rows_disciplina,
                           totalasistencias : rows_asistencia,
@@ -127,6 +127,7 @@ module.exports = {
                         })
                       }
                       else{
+
                         return res.render("dashboard", {
                           totaldisciplina : rows_disciplina,
                           totalasistencias : rows_asistencia,
