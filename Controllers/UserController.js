@@ -458,6 +458,7 @@ module.exports = {
                 idIngreso : random_id_asistencia_single
               }
             })
+            console.log(err)
           }
            
         }
@@ -2003,7 +2004,12 @@ module.exports = {
   },
 
   postBorrartrabajador : async(req, res, next)=>{
-    console.log(req.body)
+    await modelo.asistencia.destroy({
+      where:{
+        Nombre : req.body.Nombre
+      }
+    })
+    
   },
 
   postModAsist : async(req, res, next)=>{
