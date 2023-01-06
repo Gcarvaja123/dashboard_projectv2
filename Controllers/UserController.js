@@ -2013,31 +2013,128 @@ module.exports = {
   },
 
   postModAsist : async(req, res, next)=>{
-    console.log(req.body)
+    await modelo.asistencia.update({
+        Nombre : req.body.Nombre,
+        Rut : req.body.Rut,
+        Cargo : req.body.Cargo,
+        Turno : req.body.Turno,
+        Sector : req.body.Sector,
+        Fechaingreso : req.body.Fechaingreso
+      },{
+        where:{
+          Id : req.body.Id
+        }
+    })
   },
 
   postModBrocal : async(req, res , next)=>{
-    console.log(req.body)
+    await modelo.brocales.update({
+      Fecha:req.body.Fecha,
+      Turno : req.body.Turno,
+      Ubicacion : req.body.Ubicacion,
+      Unidad : req.body.Unidad,
+      Actividad : req.body.Actividad,
+      Observaciones : req.body.Observaciones,
+      Cantidad : req.body.Cantidad,
+      Sub : req.body.Sub,
+      Demanda : req.body.Demanda,
+      Dotacion : req.body.Dotacion,
+      Horai : req.body.Horai,
+      Horaf : req.body.Horaf
+    },{
+      where : {
+        Id : req.body.Id
+      }
+    })
   },
 
   postModMatriz : async(req, res, next)=>{
-    console.log(req.body)
+    await modelo.planmatriz.update({
+      Fecha : req.body.Fecha,
+      Programado : req.body.Programado,
+      Realizado : req.body.Realizado,
+      Observaciones : req.body.Observaciones,
+      Area : req.body.Area,
+    },{
+      where :{
+        Id : req.body.Id
+      }
+    })
   },
 
   postModDisciplina : async(req, res, next) =>{
-    console.log(req.body)
+    await modelo.disciplina.update({
+      Area : req.body.Area,
+      Dia : req.body.Dia,
+      Fecha : req.body.Fecha,
+      Llegada_Instalacion : req.body.Llegada_Instalacion,
+      Salida_Instalacion : req.body.Salida_Instalacion,
+      Inicio_Act_Am : req.body.Inicio_Act_Am,
+      Termino_Act_Am : req.body.Termino_Act_Am,
+      Almuerzo : req.body.Almuerzo,
+      Inicio_Act_Pm : req.body.Inicio_Act_Pm,
+      Termino_Act_Pm : req.body.Termino_Act_Am,
+      Tiempo_Instalacion : req.body.Tiempo_Instalacion,
+      Traslado_Postura : req.body.Traslado_Postura,
+      Tiempo_Disponible_Am : req.body.Tiempo_Disponible_Am,
+      Traslado_Colacion : req.body.Traslado_Colacion,
+      Almuerzo_2 : req.body.Almuerzo_2,
+      Tiempo_Disponible_Pm : req.body.Tiempo_Disponible_Pm,
+      Meta : req.body.Meta
+    },{
+      where : {
+        Id : req.body.Id
+      }
+    })
   },
 
   postModEquipo : async(req, res, next)=>{
-    console.log(req.body)
+    await modelo.equipos.update({
+      Equipo : req.body.Equipo,
+      Patente : req.body.Patente,
+      Cartola : req.body.Cartola,
+      Ultimamantencion : req.body.Ultimamantencion,
+      Ultimokms : req.body.Ultimokms,
+      Proximakms : req.body.Proximakms,
+      Kilometrajeactual : req.body.Kilometrajeactual,
+      Semaforo : req.body.Semaforo,
+      Estado : req.body.Estado,
+      Fechagas : req.body.Fechagas
+    })
   },
 
   postModPuerta : async(req, res, next)=>{
-    console.log(req.body)
+    await modelo.puertas.update({
+      Identificacion : req.body.Identificacion,
+      Ubicacion : req.body.Ubicacion,
+      Fecharevision : req.body.Fecharevision,
+      Tipomantencion : req.body.Tipomantencion,
+      Detalles : req.body.Detalles,
+      Solicitante : req.body.Solicitante,
+      Estado : req.body.Estado
+    },{
+      where:{
+        Id : req.body.Id
+      }
+    })
   },
 
   postModSap : async(req, res, next)=>{
-    console.log(req.body)
+    await modelo.vimosap.update({
+      Numpuerta : req.body.Numpuerta,
+      Ut : req.body.Ut,
+      Arearesponsable : req.body.Arearesponsable,
+      Prioridad : req.body.Prioridad,
+      Nivel : req.body.Nivel,
+      Plan : req.body.Plan,
+      Orden : req.body.Orden,
+      Mes : req.body.Mes
+    },
+    {
+      where :{
+        Id : req.body.Id
+      }
+    })
   },
 
 	getPrueba : function (req, res ,next){

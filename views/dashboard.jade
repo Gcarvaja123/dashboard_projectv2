@@ -1767,7 +1767,7 @@ html
                         | Modificar
                         span.resize-handle
                   tbody
-                    tr(ng-repeat="equipo in Totalequiposmod")
+                    tr(ng-repeat="equipo in Totalequiposmod|filter:searchtxt")
                       td
                         label {{equipo.Equipo}} 
                       td
@@ -1856,7 +1856,7 @@ html
                         | Modificar
                         span.resize-handle
                   tbody
-                    tr(ng-repeat="vimo in Totalvimomod")
+                    tr(ng-repeat="vimo in Totalvimomod|filter:searchtxt")
                       td
                         label {{vimo.Identificacion}}
                       td
@@ -1945,7 +1945,7 @@ html
                         | Modificar
                         span.resize-handle
                   tbody
-                    tr(ng-repeat="plani in Totalsapmod")
+                    tr(ng-repeat="plani in Totalsapmod|filter:searchtxt")
                       td
                         label {{plani.Numpuerta}}
                       td
