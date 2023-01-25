@@ -90,6 +90,12 @@ html
                       input#formFileMultiple.form-control(type='file' name="Equipos" multiple='')
                       button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
                           i.bi.bi-card-image
+                  .mb-3
+                    label.form-label(for='formFileMultiple') Traspaso
+                    .equiposexample
+                      input#formFileMultiple.form-control(type='file' name="Traspaso" multiple='')
+                      button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                          i.bi.bi-card-image
 
 
               .modal-footer
@@ -740,8 +746,6 @@ html
             #asistenciagridbar.grid-container
               div
                 #chart1(zingchart='' zc-json='myJsonasistenciabar' zc-width='100%' zc-height='400px')
-                
-              
             #planmatrizgrid1.grid-container
               div
                 #chart71(zingchart='' zc-json='myJsonpieCumplimiento' zc-width='100%' zc-height='300px')
@@ -751,11 +755,11 @@ html
                 button.ventilacionbutton(ng-model='ventilacionselector' ng-click="changegraphview('Ventilación')") Ventilación
                 #chart-matriz11(zingchart='' zc-json='myJsonAnualmatriz' zc-width='100%' zc-height='300px')
             #planmatrizgrid.grid-container
-              div(ng-controller='MainControllermatriz2' class="border" ng-model='openmodalsub7' ng-click="modalmatriz('Aire Acondicionado')" type='button' data-bs-toggle='modal' data-bs-target='#Modalmatriz') 
+              div(ng-controller='MainControllermatriz2' class="border" ng-model='openmodalsub7' ) 
                 #chart-matriz12(zingchart='' zc-json='myJsonAnualaire' zc-width='100%' zc-height='100%')
-              div(ng-controller='MainControllermatriz2' class="border" ng-model='openmodalsub7' ng-click="modalmatriz('Colectores de polvo')" type='button' data-bs-toggle='modal' data-bs-target='#Modalmatriz') 
+              div(ng-controller='MainControllermatriz2' class="border" ng-model='openmodalsub7' ) 
                 #chart-matriz13(zingchart='' zc-json='myJsonAnualpolvo' zc-width='100%' zc-height='100%')
-              div(ng-controller='MainControllermatriz2' class="border" ng-model='openmodalsub7' ng-click="modalmatriz('Ventilación')" type='button' data-bs-toggle='modal' data-bs-target='#Modalmatriz') 
+              div(ng-controller='MainControllermatriz2' class="border" ng-model='openmodalsub7' ) 
                 #chart-matriz14(zingchart='' zc-json='myJsonAnualventilacion' zc-width='100%' zc-height='100%')
               div 
                 #chart-matriz14m(zingchart='' zc-json='myJsonAnualVimo' zc-width='100%' zc-height='100%')
@@ -1244,6 +1248,8 @@ html
 
         div(ng-switch='myVar')
           div(ng-switch-when='Asistencia')
+            | Seleccionar el archivo a modificar 
+            select.selectasistenciamod.form-selectfilter( ng-model='columnasistenciamod' ng-options='e for e in headerasistencia' ng-change="filltableasistenciamod(columnasistenciamod)" )
             h1 Asistencia
             #Modalmodasistencia.modal.fade( aria-labelledby='Modalasistencia' )
               .modal-dialog
@@ -2094,4 +2100,17 @@ html
         keyboard: false
       })
       myModal.toggle()
+    }
+
+    window.onscroll = function() {myFunction()};
+
+    var header = document.getElementById("blur1");
+    var sticky = header.offsetTop;
+
+    function myFunction() {
+      if (window.pageYOffset > sticky) {
+        header.classList.add("sticky");
+      } else {
+        header.classList.remove("sticky");
+      }
     }

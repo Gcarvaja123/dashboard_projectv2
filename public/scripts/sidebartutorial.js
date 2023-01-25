@@ -320,7 +320,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
   for (d=0; d < local_data_matriz.length ; d++){   
-    if(local_data_matriz[d].Area == "Aire Acondicionado"){
+    if(local_data_matriz[d].Area == "Aire Acondicionado" && $scope.fecha_universal.split("-")[2]==local_data_matriz[d].Fecha.split("-")[2] ){
       if(local_data_matriz[d].Fecha == $scope.dateselected){
         total_array[0]+=1;
         if(local_data_matriz[d].Observaciones == null){
@@ -334,7 +334,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       total_deseadas_aire[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1; 
       
     }
-    if(local_data_matriz[d].Area == "Colectores de polvo" ){
+    if(local_data_matriz[d].Area == "Colectores de polvo" && $scope.fecha_universal.split("-")[2]==local_data_matriz[d].Fecha.split("-")[2]){
       if(local_data_matriz[d].Fecha == $scope.dateselected){
         total_array[1]+=1;
         if(local_data_matriz[d].Observaciones == null){
@@ -347,7 +347,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       }
       total_deseadas_polvo[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1; 
     }
-    if(local_data_matriz[d].Area == "Ventilación" ){
+    if(local_data_matriz[d].Area == "Ventilación" && $scope.fecha_universal.split("-")[2]==local_data_matriz[d].Fecha.split("-")[2]){
       if(local_data_matriz[d].Fecha == $scope.dateselected){
         total_array[2]+=1;
         if(local_data_matriz[d].Observaciones == null){
@@ -375,7 +375,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     */
 
 
-    if(local_data_matriz[d].Area == "Aire Acondicionado"){
+    if(local_data_matriz[d].Area == "Aire Acondicionado" && $scope.fecha_universal.split("-")[2]==local_data_matriz[d].Fecha.split("-")[2]){
       total_deseadas[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1;
       if(local_data_matriz[d].Observaciones == null){
         total_completadas[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1;
@@ -384,7 +384,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   }
 
   for(a=0; a < local_data_puertas.length; a++){
-    Anual_puertas[parseInt(local_data_puertas[a].Fecharevision.split("-")[1])-1]+=1;
+    if($scope.fecha_universal.split("-")[2]==local_data_puertas[d].Fecharevision.split("-")[2]){
+      Anual_puertas[parseInt(local_data_puertas[a].Fecharevision.split("-")[1])-1]+=1;
+    }
   }
 
 

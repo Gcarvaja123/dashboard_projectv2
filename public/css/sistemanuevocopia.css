@@ -45,6 +45,7 @@ body {
 .sidenav {
   background-color: #343a40;
   box-shadow: 0 14px 28px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.22)!important;
+  z-index: 10;
 
 }
 .sidenav a {
@@ -947,6 +948,19 @@ table.matriz td{
   font-size: 12px;
 }
 
+#tablebrocales.grid-container{
+  height: 700px;
+}
+
+#tablematrizarmod.grid-container{
+  height: 700px;
+}
+
+#tabledisciplina.grid-container{
+  height: 700px;
+}
+
+
 .headertable{
   font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
   font-size: 1.5rem;
@@ -1368,3 +1382,13 @@ table.matriz td{
   padding-left: 30px;
 }
 
+.sticky {
+  position: sticky;
+  top: 0;
+}
+
+#blur1{
+  order: 1;
+  position: sticky;
+  z-index:1000;
+}

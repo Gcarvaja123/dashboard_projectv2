@@ -67,6 +67,19 @@ function leerExcelMatriz(ruta){
   return dataExcel;  
 }
 
+function leerExcelTraspaso(ruta){
+  const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
+  const workbooksheet = workbook.SheetNames;
+  var array_datos = []
+  for(a=0; a < workbooksheet.length ; a++){
+    const sheet  = workbooksheet[a];
+    const dataExcel = reader.utils.sheet_to_json(workbook.Sheets[sheet]);
+    array_datos.push(dataExcel)
+  }
+  
+  return array_datos;
+}
+
 
 module.exports = {
 
@@ -406,8 +419,7 @@ module.exports = {
               Infoingresada : "Asistencia",
               Nombrearchivo : file.name.toString()
             })
-
-            Fechaingreso = Object.keys(datos[0])[0].split(" ")[Object.keys(datos[0])[0].split(" ").length-1];
+            Fechaingreso = Object.keys(datos[0])[0].replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Object.keys(datos[0])[0].replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1];
             for(a=1; a < Object.keys(datos).length; a++){ 
               let keys = Object.keys(datos[0]);
 
@@ -486,6 +498,7 @@ module.exports = {
               var Horaf = "";
               var Fecha_aux= "";
               var id = "";
+              var demandaiszero = true
               await modelo.archivos.create({
                 Tabla : "brocales",
                 Idingreso : random_id_brocales5_multiple,
@@ -504,20 +517,31 @@ module.exports = {
                   id = guid();
                 }
                 if(datos[a]["__EMPTY"] != undefined){
-                    Turno = datos[a]["__EMPTY"];
+                  Turno = datos[a]["__EMPTY"];
                 }
                 if(datos[a]["__EMPTY_1"] != undefined){
                     Dotacion = datos[a]["__EMPTY_1"];
                 }
+
                 if(datos[a]["__EMPTY_4"] != undefined){
                     Ubicacion = datos[a]["__EMPTY_4"];
                 }
+
                 else{
                   Ubicacion ="";
                 }
+                if(datos[a]["__EMPTY_4"] == undefined && demandaiszero==false){
+                  demandaiszero=true
+                }
                 if(datos[a]["__EMPTY_5"] != undefined){
+                    demandaiszero = false
                     Demanda = datos[a]["__EMPTY_5"];
                 }
+                if(datos[a]["__EMPTY_5"] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                   Demanda = 0;
+
+                }
+
                 if(datos[a]["__EMPTY_6"] != undefined){
                     Horai = convertToHHMM(datos[a]["__EMPTY_6"]*24).toString()
                 }
@@ -536,6 +560,10 @@ module.exports = {
                 if(datos[a]["__EMPTY_11"] != undefined){
                     Cantidad = datos[a]["__EMPTY_11"];
                   }
+                if(datos[a]["__EMPTY_11"] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                   Cantidad = 0;
+
+                }
                 if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] != undefined){
                   Actividad = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]];
                 }
@@ -552,32 +580,37 @@ module.exports = {
                     Sub = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]];
                 }*/
 
-                await modelo.brocales.findAll({
-                  where : {
-                    Fecha : Fecha,
-                    Ubicacion : Ubicacion,
-                    Horai : Horai
-                  }
-                }).then(async function(rows){
-                  if(rows.length==0){
-                    await modelo.brocales.create({
-                        Fecha : Fecha_aux,
-                        Turno : Turno,
-                        Ubicacion : Ubicacion,
-                        Unidad : Unidad,
-                        Cantidad : Cantidad,
-                        Actividad : Actividad,
-                        Observaciones : Observaciones,
-                        Sub : "5",
-                        Dotacion : Dotacion,
-                        Demanda : Demanda,
-                        Horai : Horai,
-                        Horaf : Horaf,
-                        Uniqueid : id,
-                        idIngreso : random_id_brocales5_multiple
-                    })
-                  }
-                })
+                if((Object.keys(datos[a]).length > 1 && demandaiszero != true) || datos[a][Object.keys(datos[0])[0]] != undefined){
+                  await modelo.brocales.findAll({
+                    where : {
+                      Fecha : Fecha,
+                      Ubicacion : Ubicacion,
+                      Horai : Horai
+                    }
+                  }).then(async function(rows){
+                    if(rows.length==0){
+                      await modelo.brocales.create({
+                          Fecha : Fecha_aux,
+                          Turno : Turno,
+                          Ubicacion : Ubicacion,
+                          Unidad : Unidad,
+                          Cantidad : Cantidad,
+                          Actividad : Actividad,
+                          Observaciones : Observaciones,
+                          Sub : "5",
+                          Dotacion : Dotacion,
+                          Demanda : Demanda,
+                          Horai : Horai,
+                          Horaf : Horaf,
+                          Uniqueid : id,
+                          Idingreso : random_id_brocales5_multiple
+                      })     
+                    }
+                    if (Demanda == 0 ){
+                        demandaiszero = true
+                    }
+                  })
+                }
               }
             }catch(err){
               req.flash('error', file.name.toString());
@@ -615,6 +648,7 @@ module.exports = {
             var Horaf = "";
             var Fecha_aux= "";
             var id = "";
+            var demandaiszero = true
             var random_id_brocales5_single = guid()
             await modelo.archivos.create({
               Tabla : "brocales",
@@ -638,13 +672,18 @@ module.exports = {
               if(datos[a]["__EMPTY_1"] != undefined){
                   Dotacion = datos[a]["__EMPTY_1"];
               }
+              
               if(datos[a]["__EMPTY_4"] != undefined){
                   Ubicacion = datos[a]["__EMPTY_4"];
               }
               else{
                 Ubicacion ="";
               }
+              if(datos[a]["__EMPTY_4"] == undefined && demandaiszero==false){
+                demandaiszero=true
+              }
               if(datos[a]["__EMPTY_5"] != undefined){
+                  demandaiszero = false
                   Demanda = datos[a]["__EMPTY_5"];
               }
               if(datos[a]["__EMPTY_5"] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
@@ -689,7 +728,7 @@ module.exports = {
               /*if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] != undefined){
                   Sub = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]];
               }*/
-              if(Object.keys(datos[a]).length > 1){
+              if((Object.keys(datos[a]).length > 1 && demandaiszero != true) || datos[a][Object.keys(datos[0])[0]] != undefined){
                 await modelo.brocales.findAll({
                   where : {
                     Fecha : Fecha,
@@ -713,7 +752,10 @@ module.exports = {
                         Horaf : Horaf,
                         Uniqueid : id,
                         Idingreso : random_id_brocales5_single
-                    })
+                    })     
+                  }
+                  if (Demanda == 0 ){
+                      demandaiszero = true
                   }
                 })
               }
@@ -784,11 +826,17 @@ module.exports = {
                 if(datos[a]["__EMPTY_1"] != undefined){
                     Dotacion = datos[a]["__EMPTY_1"];
                 }
+                if(datos[a]["__EMPTY_4"] == undefined && demandaiszero==false){
+                  demandaiszero=true
+                }
                 if(datos[a]["__EMPTY_4"] != undefined){
                     Ubicacion = datos[a]["__EMPTY_4"];
                 }
                 else{
                   Ubicacion ="";
+                }
+                if(datos[a]["__EMPTY_4"] == undefined && demandaiszero==false){
+                  demandaiszero=true
                 }
                 if(datos[a]["__EMPTY_5"] != undefined){
                     Demanda = datos[a]["__EMPTY_5"];
@@ -837,7 +885,7 @@ module.exports = {
                     Sub = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]];
                 }*/
 
-                if(Object.keys(datos[a]).length > 1 && demandaiszero != true){
+                if((Object.keys(datos[a]).length > 1 && demandaiszero != true) || datos[a][Object.keys(datos[0])[0]] != undefined){
                   await modelo.brocales.findAll({
                     where : {
                       Fecha : Fecha,
@@ -861,10 +909,10 @@ module.exports = {
                           Horaf : Horaf,
                           Uniqueid : id,
                           Idingreso : random_id_brocales6_multiple
-                      })
-                      if (Demanda == 0){
+                      })     
+                    }
+                    if (Demanda == 0 ){
                         demandaiszero = true
-                      }
                     }
                   })
                 }
@@ -930,11 +978,17 @@ module.exports = {
               if(datos[a]["__EMPTY_1"] != undefined){
                   Dotacion = datos[a]["__EMPTY_1"];
               }
+
+              
+
               if(datos[a]["__EMPTY_4"] != undefined){
                   Ubicacion = datos[a]["__EMPTY_4"];
               }
               else{
                 Ubicacion ="";
+              }
+              if(datos[a]["__EMPTY_4"] == undefined && demandaiszero==false){
+                demandaiszero=true
               }
               if(datos[a]["__EMPTY_5"] != undefined){
                   Demanda = datos[a]["__EMPTY_5"];
@@ -943,7 +997,6 @@ module.exports = {
               }
               if(datos[a]["__EMPTY_5"] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                  Demanda = 0;
-
               }
 
               if(datos[a]["__EMPTY_6"] != undefined){
@@ -1899,6 +1952,17 @@ module.exports = {
           }
         }
 
+      }
+
+      else if(datos_1[d] == "Traspaso"){
+        file = req.files["Traspaso"];
+        const savePath = path.join(__dirname,"../",'public','uploads',file.name);
+        await file.mv(savePath);
+        var datos = leerExcelTraspaso(file.name);
+        console.log(datos[0])
+        console.log(datos[1])
+        console.log(datos[2])
+        console.log(datos[3])
       }
          
     }

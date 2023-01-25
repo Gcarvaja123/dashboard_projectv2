@@ -300,6 +300,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
 
 
+//-------------------------------- PLAN MATRIZ PANEL PRINCIPAL----------------------------------------------------------
 
 
 
@@ -317,7 +318,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
   for (d=0; d < local_data_matriz.length ; d++){   
-    if(local_data_matriz[d].Area == "Aire Acondicionado"){
+    if(local_data_matriz[d].Area == "Aire Acondicionado" && $scope.fecha_universal.split("-")[2]==local_data_matriz[d].Fecha.split("-")[2] ){
       if(local_data_matriz[d].Fecha == $scope.dateselected){
         total_array[0]+=1;
         if(local_data_matriz[d].Observaciones == null){
@@ -331,7 +332,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       total_deseadas_aire[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1; 
       
     }
-    if(local_data_matriz[d].Area == "Colectores de polvo" ){
+    if(local_data_matriz[d].Area == "Colectores de polvo" && $scope.fecha_universal.split("-")[2]==local_data_matriz[d].Fecha.split("-")[2]){
       if(local_data_matriz[d].Fecha == $scope.dateselected){
         total_array[1]+=1;
         if(local_data_matriz[d].Observaciones == null){
@@ -344,7 +345,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       }
       total_deseadas_polvo[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1; 
     }
-    if(local_data_matriz[d].Area == "Ventilación" ){
+    if(local_data_matriz[d].Area == "Ventilación" && $scope.fecha_universal.split("-")[2]==local_data_matriz[d].Fecha.split("-")[2]){
       if(local_data_matriz[d].Fecha == $scope.dateselected){
         total_array[2]+=1;
         if(local_data_matriz[d].Observaciones == null){
@@ -358,21 +359,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       total_deseadas_ventilacion[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1; 
     }
 
-    /*
-    var anual_ventilacion_deseados=[0,0,0,0,0,0,0,0,0,0,0,0];
-      var anual_ventilacion_completados = [0,0,0,0,0,0,0,0,0,0,0,0];
-      for(a=0; a<local_data_matriz.length; a++){
-        if(local_data_matriz[a].Area=="Ventilación"  && fecha.split("-")[2] == local_data_matriz[a].Fecha.split("-")[2]){
-          anual_ventilacion_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
-          if(local_data_matriz[a].Observaciones==""){
-            anual_ventilacion_completados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
-          }
-        }      
-      }
-    */
 
 
-    if(local_data_matriz[d].Area == "Aire Acondicionado"){
+    if(local_data_matriz[d].Area == "Aire Acondicionado" && $scope.fecha_universal.split("-")[2]==local_data_matriz[d].Fecha.split("-")[2]){
       total_deseadas[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1;
       if(local_data_matriz[d].Observaciones == null){
         total_completadas[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1;
@@ -381,7 +370,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   }
 
   for(a=0; a < local_data_puertas.length; a++){
-    Anual_puertas[parseInt(local_data_puertas[a].Fecharevision.split("-")[1])-1]+=1;
+    if($scope.fecha_universal.split("-")[2]==local_data_puertas[a].Fecharevision.split("-")[2]){
+      Anual_puertas[parseInt(local_data_puertas[a].Fecharevision.split("-")[1])-1]+=1;
+    }
   }
 
 
@@ -393,28 +384,14 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   }
 
   $scope.myMatrizPuertas = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], array_total_mes_vimo , Anual_puertas, "Puertas Vimo")
-
-
-
   $scope.myMatrizAire = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], total_deseadas_aire, Anual_aire, "Aire Acondicionado");
   $scope.myMatrizColectores = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], total_deseadas_polvo, Anual_polvo, "Colectores de polvo");
   $scope.myMatrizVentilacion = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], total_deseadas_ventilacion, Anual_ventilacion, "Ventilación");
-  //$scope.myMatrizAire = Chart_creator(meses, Anual_aire, 0, "Plan matriz anual Aire Acondicionado")
-  //$scope.myMatrizColectores = Chart_creator(meses, Anual_polvo, 0, "Plan matriz anual Colectores de Polvo")
-  //$scope.myMatrizVentilacion = Chart_creator(meses, Anual_ventilacion, 0, "Plan matriz anual Ventilación")
 
-  //Chart_creator(datosx, valoresdatosx, meta, titulo)
-  /*
-  var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-  var datos_x_sub6 = [0,0,0,0,0,0,0,0,0,0,0,0];
-  for (a=0; a <local_data_brocales.length ; a++){
-    if(local_data_brocales[a].Sub == "6"){
-      mes = ObtenerMes_2(parseInt(local_data_brocales[a].Fecha.split("-")[1]));
-      datos_x_sub6[meses.indexOf(mes)] += parseInt(local_data_brocales[a].Cantidad);
-    }
-  }
-  $scope.myJsonAnualsub6 = Chart_creator(meses,datos_x_sub6,[200,150,250,100,50,230,150,450,230,200,300,150], "Limpieza de brocales Sub 6");
-  */
+
+
+
+
   var realizacion = 0;
   for(b=0; b<local_data_puertas.length ; b++){
 
@@ -427,8 +404,12 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   $scope.myJsonAnualventilacion = bar_creator(total_array[2],completed_array[2],"Ventilación");
 
   $scope.myJsonAnualVimo = bar_vimo(realizacion, "Puertas Vimo");
-
   $scope.myJsonAnualmatriz = mixed_creator(total_deseadas,total_completadas, "Aire Acondicionado");
+
+
+//---------------------------------LIMPIEZA DE BROCALES PANEL PRINCIPAL-------------------------------------------
+
+
 
   var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
   var datos_x_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0];
@@ -444,7 +425,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   for (a=0; a <local_data_brocales.length ; a++){
     
     
-    if(local_data_brocales[a].Sub == "5"){
+    if(local_data_brocales[a].Sub == "5" && local_data_brocales[a].Fecha.split("-")[2] == $scope.fecha_universal.split("-")[2]){
       if(contando_lugares_sub5.indexOf(local_data_brocales[a].Ubicacion)==-1){
         contando_lugares_sub5.push(local_data_brocales[a].Ubicacion);
       }
@@ -457,22 +438,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
           deseados_x_sub5[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
         }
       }
-
-
-      /*if(fechas_vistas_sub5.indexOf(local_data_brocales[a].Fecha) == -1){
-        mes = ObtenerMes_2(parseInt(local_data_brocales[a].Fecha.split("-")[1]));
-        fechas_vistas_sub5.push(local_data_brocales[a].Fecha);
-        if(local_data_brocales[a].Cantidad !="" && local_data_brocales[a].Demanda !=""){
-          datos_x_sub5[meses.indexOf(mes)] += parseInt(local_data_brocales[a].Cantidad);
-          deseados_x_sub5[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
-        }
-        //datos_x_sub5[meses.indexOf(mes)] += parseInt(local_data_brocales[a].Cantidad);
-        //deseados_x_sub5[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
-        //fechas_vistas_sub5.push(local_data_brocales[a].Fecha);
-      }*/
       
     }
-    else if (local_data_brocales[a].Sub == "6"){
+    else if (local_data_brocales[a].Sub == "6" && local_data_brocales[a].Fecha.split("-")[2] == $scope.fecha_universal.split("-")[2]){
       if(contando_lugares_sub6.indexOf(local_data_brocales[a].Ubicacion)==-1){
         contando_lugares_sub6.push(local_data_brocales[a].Ubicacion);
       }
@@ -484,182 +452,25 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
           deseados_x_sub6[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
         }
       }
-      /*if(fechas_vistas_sub6.indexOf(local_data_brocales[a].Fecha) == -1){
-        mes = ObtenerMes_2(parseInt(local_data_brocales[a].Fecha.split("-")[1]));
-        if(local_data_brocales[a].Cantidad !="" && local_data_brocales[a].Demanda !=""){
-          datos_x_sub6[meses.indexOf(mes)] += parseInt(local_data_brocales[a].Cantidad);
-          deseados_x_sub6[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
-        }
-        
-        fechas_vistas_sub6.push(local_data_brocales[a].Fecha);
-      }*/
     }
     
   }
-  Completados_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-  Faltantes_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
   
-  $scope.Nombres_sub5 = [];
-  for(a=0; a < local_data_brocales.length ; a++){
-    if(local_data_brocales[a].Sub == "5"){
-      if(local_data_brocales[a].Cantidad != "0"){
-        if($scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion) ==-1 && local_data_brocales[a].Ubicacion!="" ){
-          $scope.Nombres_sub5.push(local_data_brocales[a].Ubicacion);
-          Completados_sub5[$scope.Nombres_sub5.length-1]+=parseInt(local_data_brocales[a].Cantidad);
-        }
-        else{
-          Completados_sub5[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)]+=parseInt(local_data_brocales[a].Cantidad);
-        }
-      }
-      else{
-        if($scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion) == -1){
-          $scope.Nombres_sub5.push(local_data_brocales[a].Ubicacion);
-          Faltantes_sub5[$scope.Nombres_sub5.length-1]+=1
-        }
-        else{
-          Faltantes_sub5[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] += 1
-        }
-      }
-
-
-    }
-  }
-
-  //getDays(parseInt(fecha.split("-")[2]), parseInt(b))
-  
-  //$scope.myJsonCalendarBrocales = calendar_creator(fechas);
-
-
-
-  $scope.myJsonTest = mixed_creator_test();
-
-
-
-  //$scope.myJsonTimer1 = timer_chart();
-
-  
-
-  $scope.myJsonUbicacion1 = pie3d(Completados_sub5[0], Faltantes_sub5[0], $scope.Nombres_sub5[0]);
-  $scope.myJsonUbicacion2 = pie3d(Completados_sub5[1], Faltantes_sub5[1], $scope.Nombres_sub5[1]);
-  $scope.myJsonUbicacion3 = pie3d(Completados_sub5[2], Faltantes_sub5[2], $scope.Nombres_sub5[2]);
-  $scope.myJsonUbicacion4 = pie3d(Completados_sub5[3], Faltantes_sub5[3], $scope.Nombres_sub5[3]);
-  $scope.myJsonUbicacion5 = pie3d(Completados_sub5[4], Faltantes_sub5[4], $scope.Nombres_sub5[4]);
-  $scope.myJsonUbicacion6 = pie3d(Completados_sub5[5], Faltantes_sub5[5], $scope.Nombres_sub5[5]);
-  $scope.myJsonUbicacion7 = pie3d(Completados_sub5[6], Faltantes_sub5[6], $scope.Nombres_sub5[6]);
-  $scope.myJsonUbicacion8 = pie3d(Completados_sub5[7], Faltantes_sub5[7], $scope.Nombres_sub5[7]);
-  $scope.myJsonUbicacion9 = pie3d(Completados_sub5[8], Faltantes_sub5[8], $scope.Nombres_sub5[8]);
-  $scope.myJsonUbicacion10 = pie3d(Completados_sub5[9], Faltantes_sub5[9], $scope.Nombres_sub5[9]);
-  $scope.myJsonUbicacion11 = pie3d(Completados_sub5[10], Faltantes_sub5[10], $scope.Nombres_sub5[10]);
-  $scope.myJsonUbicacion12 = pie3d(Completados_sub5[11], Faltantes_sub5[11], $scope.Nombres_sub5[11]);
-  $scope.myJsonUbicacion13 = pie3d(Completados_sub5[12], Faltantes_sub5[12], $scope.Nombres_sub5[12]);
-  $scope.myJsonUbicacion14 = pie3d(Completados_sub5[13], Faltantes_sub5[13], $scope.Nombres_sub5[13]);
-  $scope.myJsonUbicacion15 = pie3d(Completados_sub5[14], Faltantes_sub5[14], $scope.Nombres_sub5[14]);
-  $scope.myJsonUbicacion16 = pie3d(Completados_sub5[15], Faltantes_sub5[15], $scope.Nombres_sub5[15]);
-
-
-
-  /*for (a = 0; a < $scope.Totalbrocalessub6.length; a++){
-    mes = ObtenerMes_2(parseInt($scope.Totalbrocalessub6[a].Fecha.split("-")[1]));
-    datos_x_sub6[meses.indexOf(mes)] += parseInt($scope.Totalbrocalessub6[a].Cantidad);
-  }
-  for (a = 0; a < $scope.Totalbrocalessub7.length; a++){
-    mes = ObtenerMes_2(parseInt($scope.Totalbrocalessub7[a].Fecha.split("-")[1]));
-    datos_x_sub7[meses.indexOf(mes)] += parseInt($scope.Totalbrocalessub7[a].Cantidad);
-  }*/
-
-  $scope.myJsonAnualsub5 = Chart_creator(meses,datos_x_sub5,deseados_x_sub5, "Limpieza de brocales Sub 5");
-  $scope.myJsonAnualsub6 = Chart_creator(meses,datos_x_sub6,deseados_x_sub6, "Limpieza de brocales Sub 6");
 
 
   $scope.myJsonBarBrocalessub5 = bar_brocales(deseados_x_sub5, datos_x_sub5,["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], 20, "5");
   $scope.myJsonBarBrocalessub6 = bar_brocales(deseados_x_sub6, datos_x_sub6,["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], 20, "6");
 
+
+
   $scope.typebrocal5 = "anual";
   $scope.typebrocal6 = "anual";
 
-  //$scope.Nombres_sub5
-  var fechas_arreglo =[];
-  var concretada_arreglo =[];
-  for(a=0 ; a<$scope.Nombres_sub5.length ; a++){
-    fechas_arreglo.push("0-0-0");
-    concretada_arreglo.push("No");
-  }
-  for(a = 0; a<local_data_brocales.length ; a++){
-    if(local_data_brocales[a].Sub=="5"){
-      if( local_data_brocales[a].Ubicacion!= "" && comparar_fechas(local_data_brocales[a].Fecha, fechas_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)])){
-        fechas_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = local_data_brocales[a].Fecha;
-        if(local_data_brocales[a].Cantidad!=0){
-          concretada_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = "Si"
-        }
-        else{
-          concretada_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = "No"
-        }
-      }
-    }
-  }
-  $scope.fecha1 = fechas_arreglo[0];
-  $scope.dato1 = concretada_arreglo[0];
-  $scope.fecha2 = fechas_arreglo[1];
-  $scope.dato2 = concretada_arreglo[1];
-  $scope.fecha3 = fechas_arreglo[2];
-  $scope.dato3 = concretada_arreglo[2];
-  $scope.fecha4 = fechas_arreglo[3];
-  $scope.dato4 = concretada_arreglo[3];
-  $scope.fecha5 = fechas_arreglo[4];
-  $scope.dato5 = concretada_arreglo[4];
-  $scope.fecha6 = fechas_arreglo[5];
-  $scope.dato6 = concretada_arreglo[5];
-  $scope.fecha7 = fechas_arreglo[6];
-  $scope.dato7 = concretada_arreglo[6];
-  $scope.fecha8 = fechas_arreglo[7];
-  $scope.dato8 = concretada_arreglo[7];
-  $scope.fecha9 = fechas_arreglo[8];
-  $scope.dato9 = concretada_arreglo[8];
-  $scope.fecha10 = fechas_arreglo[9];
-  $scope.dato10 = concretada_arreglo[9];
-  $scope.fecha11 = fechas_arreglo[10];
-  $scope.dato11 = concretada_arreglo[10];
-  $scope.fecha12 = fechas_arreglo[11];
-  $scope.dato12 = concretada_arreglo[11];
-  $scope.fecha13 = fechas_arreglo[12];
-  $scope.dato13 = concretada_arreglo[12];
-  $scope.fecha14 = fechas_arreglo[13];
-  $scope.dato14 = concretada_arreglo[13];
-  $scope.fecha15 = fechas_arreglo[14];
-  $scope.dato15 = concretada_arreglo[14];
-  $scope.fecha16 = fechas_arreglo[15];
-  $scope.dato16 = concretada_arreglo[15];
 
 
-  //$scope.myJsonSemanalDisciplina1 = Bullet_creator([98, 97, 98, 98, 97, 99, 108,103, 98, 110, 108, 99, 98, 104], [100,100,100,100, 100, 100, 100,100,100,100,100,100,100,100], ["Misc TTE7", "Misc Sub 6", "Misc Sub 5", "TTE 6 Acarrea", "Diablo regimineto", "Pipa Norte", "Chancado colon", "Salvataje", "Taller La Junta", "Aire Acondicionado", "Colectores de polvo", "Puertas Mina", "Ventilacion Local", "Agua Acida"])
-  //$scope.myJsonSemanalDisciplina2 = Bullet_creator([], [100,100,100,100, 100, 100, 100], ["Salvataje", "Taller La Junta", "Aire Acondicionado", "Colectores de polvo", "Puertas Mina", "Ventilacion Local", "Agua Acida"])
-  //let semana = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'][nueva_fecha.getDay()];
-  /*var array_name_zone = ["Tt6", "Tte sub 5"];
-  var name_visited = [];
-  var exact_days = get_day_numbers(nueva_fecha);
-  var array_week = [];
-  for (a=0; a<get_day_numbers(nueva_fecha).length; a++){
-    converted_date_2 = get_day_numbers(nueva_fecha)[a].toISOString().split('T')[0];
-    fecha_2 = converted_date_2.split("-")[2]+"-"+converted_date_2.split("-")[1]+"-"+converted_date_2.split("-")[0];
-    array_week.push(fecha_2);
-  }
-  
-  
-  var array_values = [];
-  for (a=0; a<local_data_disciplina.length; a++){
-    if(local_data_disciplina[a].Fecha==array_week[0] || local_data_disciplina[a].Fecha==array_week[1] || local_data_disciplina[a].Fecha==array_week[2] || local_data_disciplina[a].Fecha==array_week[3] || local_data_disciplina[a].Fecha==array_week[4] ){
-      if(name_visited.indexOf(local_data_disciplina[a].Area) == -1){
-        name_visited.push(local_data_disciplina[a].Area);
-        var aux_arr = [0,0,0,0,0];
-        aux_arr[array_week.indexOf(local_data_disciplina[a].Fecha)] = parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[[1]]) + parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[1])
-        array_values.push(aux_arr);
-      }
-      else{
-        array_values[name_visited.indexOf(local_data_disciplina[a].Area)][array_week.indexOf(local_data_disciplina[a].Fecha)] = parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[[1]]) + parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[1])
-      }
 
-    }
-  }*/
+//------------------------------DISCIPLINA OPERACIONAL----------------------------------------
+
   var name_visited = [];
   var meta = [];
   var week_day = 0;
@@ -761,10 +572,34 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   $scope.Totalsapmod = []
 
 
+  $scope.filltableasistenciamod = function(s){
+    $scope.Totalasistenciaarchivosmod = [];
+    var id = ""
+    for(c=0; c < local_data_archivos.length; c++){
+      if(local_data_archivos[c].Nombrearchivo == s){
+        id = local_data_archivos[c].Idingreso
+      }
+    }
 
-  for(a=0; a < local_data_asistencia.length; a++){
-    $scope.Totalasistenciaarchivosmod.push(local_data_asistencia[a])
+    for(d=0; d < local_data_asistencia.length; d++){
+      if(local_data_asistencia[d].Idingreso == id){
+        $scope.Totalasistenciaarchivosmod.push(local_data_asistencia[d])
+      }
+    }
+    $scope.headersasist = Object.keys($scope.Totalasistenciaarchivosmod[0])
+
+
   }
+  $scope.headerasistencia= []
+  for(a=0; a < local_data_archivos.length; a++){
+    if(local_data_archivos[a].Infoingresada == "Asistencia"){
+      $scope.headerasistencia.push(local_data_archivos[a].Nombrearchivo)
+    }
+  }
+
+  /*for(a=0; a < local_data_asistencia.length; a++){
+    $scope.Totalasistenciaarchivosmod.push(local_data_asistencia[a])
+  }*/
 
   for(a=0; a < local_data_brocales.length; a++){
     $scope.Totalbrocalesmod.push(local_data_brocales[a])
@@ -798,7 +633,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   $scope.sapvalue = {};
   $scope.puertasvalue = {};
 
-  $scope.headersasist = Object.keys($scope.Totalasistenciaarchivosmod[0])
+  //$scope.headersasist = Object.keys($scope.Totalasistenciaarchivosmod[0])
   $scope.headersbroc = Object.keys(local_data_brocales[0])
   $scope.headermatriz = Object.keys(local_data_matriz[0])
   $scope.headerdisciplina = Object.keys(local_data_disciplina[0])
@@ -1101,24 +936,10 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
 
 
-
-
-
-
-
-
-
-
-
-
   $scope.changeaire = function(name){
-    //$scope.myMatrizAire = Chart_creator(meses, Anual_aire, 0, "Plan matriz anual Aire Acondicionado")
     var datos_x_aire_deseados=[];
     var datos_x_aire_completados=[];
     $scope.tipochangeaire = "anual";
-    //nueva_fecha = new Date($scope.dateselected.getTime() - $scope.dateselected.getTimezoneOffset()*60000);
-    //converted_date = nueva_fecha.toISOString().split('T')[0];
-    //fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
     fecha = $scope.fecha_universal;
     var array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
     if(getDays(parseInt(fecha.split("-")[2]), parseInt(fecha.split("-")[1])) == 31){
@@ -1152,19 +973,14 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
         }      
       }
       var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-      //$scope.myMatrizAire = Chart_creator(meses, anual_aire, 0, "Plan matriz anual Aire Acondicionado")
       $scope.myMatrizAire = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], anual_aire_deseados, anual_aire_completados, "Aire Acondicionado")
     }
   }
 
   $scope.changepolvo = function(name){
-    //$scope.myMatrizAire = Chart_creator(meses, Anual_aire, 0, "Plan matriz anual Aire Acondicionado")
     var datos_x_polvo_deseados=[];
     var datos_x_polvo_completados=[];
     $scope.tipochangepolvo = "anual";
-    //nueva_fecha = new Date($scope.dateselected.getTime() - $scope.dateselected.getTimezoneOffset()*60000);
-    //converted_date = nueva_fecha.toISOString().split('T')[0];
-    //fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
     fecha = $scope.fecha_universal;
     var array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
     if(getDays(parseInt(fecha.split("-")[2]), parseInt(fecha.split("-")[1])) == 31){
@@ -1207,9 +1023,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     var datos_x_ventilacion_deseados=[];
     var datos_x_ventilacion_completados=[];
     $scope.tipochangeventilacion = "anual";
-    //nueva_fecha = new Date($scope.dateselected.getTime() - $scope.dateselected.getTimezoneOffset()*60000);
-    //converted_date = nueva_fecha.toISOString().split('T')[0];
-    //fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
     fecha = $scope.fecha_universal;
     var array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
     if(getDays(parseInt(fecha.split("-")[2]), parseInt(fecha.split("-")[1])) == 31){
@@ -1249,6 +1062,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   $scope.changepuertas = function(name){
     $scope.tipochangevimo = "anual";
     var datos_x_vimo_completados=[];
+    fecha = $scope.fecha_universal;
     var array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
     if(getDays(parseInt(fecha.split("-")[2]), parseInt(fecha.split("-")[1])) == 31){
       array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
@@ -1286,37 +1100,34 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       $scope.myMatrizPuertas = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], array_total_mes_vimo, anual_vimo_completados, "Puertas Vimo")
 
     }
-
-
-
   }
 
-
+  //CALENDARIO SUB5
   $scope.modalbrocalessub5 = function(){
     $scope.Totalbrocalessubmodal = [];
     var fechas = [];
     
     var fechas_visitadas = [];
     var id_visitados =[];
-    if($scope.typebrocal5=="anual"){
+    /*if($scope.typebrocal5=="anual"){
       for(a=0; a<local_data_brocales.length; a++){
-        if(local_data_brocales[a].Sub=="5" && parseInt(local_data_brocales[a].Cantidad)!=0){
+        if(local_data_brocales[a].Sub=="5" && parseInt(local_data_brocales[a].Cantidad)!=0 && $scope.fecha_universal.split("-")[2] == local_data_brocales[a].Fecha.split("-")[2]){
           $scope.Totalbrocalessubmodal.push(local_data_brocales[a])
         }
       }
     }
     else if($scope.typebrocal5=="mensual"){
       for(a=0; a<local_data_brocales.length; a++){
-        if(local_data_brocales[a].Sub=="5" && parseInt(local_data_brocales[a].Cantidad)!=0 && local_data_brocales[a].Fecha.split("-")[1]==fecha.split("-")[1]){
+        if(local_data_brocales[a].Sub=="5" && parseInt(local_data_brocales[a].Cantidad)!=0 && local_data_brocales[a].Fecha.split("-")[1]==fecha.split("-")[1] && $scope.fecha_universal.split("-")[2] == local_data_brocales[a].split("-")[2]){
           $scope.Totalbrocalessubmodal.push(local_data_brocales[a])
         }
       }
-    }
+    }*/
 
     var datos_preliminares = [];
     var recien = false;
     for(a=0; a<local_data_brocales.length; a++){
-      if(local_data_brocales[a].Sub=="5"){
+      if(local_data_brocales[a].Sub=="5" ){
         if(fechas_visitadas.indexOf(local_data_brocales[a].Fecha) == -1 && local_data_brocales[a].Cantidad!=""){
           var datos = [];
           fecha_cambiada = local_data_brocales[a].Fecha.split("-")[2]+"-"+local_data_brocales[a].Fecha.split("-")[1]+"-"+local_data_brocales[a].Fecha.split("-")[0]
@@ -1347,6 +1158,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       }
     }
 
+    console.log(datos_preliminares)
+
     for(a=0; a<datos_preliminares.length; a++){
       var datos = [];
       datos.push(datos_preliminares[a][0]);
@@ -1357,90 +1170,20 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       fechas.push(datos);
     }
 
-
-    /*for(a=0; a <local_data_brocales.length; a++){
-      if(local_data_brocales[a].Sub=="5"){
-        if(fechas_visitadas.indexOf(local_data_brocales[a].Fecha) == -1){  
-          var datos = [];
-          fecha_cambiada = local_data_brocales[a].Fecha.split("-")[2]+"-"+local_data_brocales[a].Fecha.split("-")[1]+"-"+local_data_brocales[a].Fecha.split("-")[0]
-          datos.push(fecha_cambiada);
-          datos.push(parseInt(local_data_brocales[a].Cantidad));
-          datos.push("Demanda : " +local_data_brocales[a].Demanda)
-          datos.push("Dotacion : " +local_data_brocales[a].Dotacion)
-          datos.push("Ubicaciones : " +local_data_brocales[a].Ubicacion)
-          fechas.push(datos);
-          fechas_visitadas.push(local_data_brocales[a].Fecha)
-        }
-
-      }
-    }*/
-
-    /*
-    var diccionario_values =[];
-    
-
-    for(a=0 ; a<array_values.length ; a++){
-      var diccionario_aux = {};
-      diccionario_aux.values = array_values[a];
-      diccionario_aux.name = name_visited[a];
-      diccionario_aux.meta = array_suma_meta[a];
-      diccionario_values.push(diccionario_aux);
-    }
-    */
-    //$scope.myJsonCalendarBrocales = calendar_creator(fechas);
-
-    
-    /*var contador_de_meses=1;
-    var dia=1;
-    var mes=1;
-    for(b=1; b<=12;b++){
-      for(c=1;c<=getDays(parseInt(2022), parseInt(b)); c++){
-        if(fechas_visitadas.indexOf(c.toString()+"-"+b.toString()+"-"+fecha.split("-")[2]) ==-1){
-          var datos=[]
-          if(b<10){
-            if(c<10){
-              //datos.push("2016"+"-"+"0"+b.toString()+"-"+"0"+c.toString())
-              datos.push(fecha.split("-")[2]+"-"+"0"+b.toString()+"-"+"0"+c.toString());
-              datos.push(3);
-              fechas.push(datos);
-            }
-            else{
-              //datos.push("2016"+"-"+"0"+b.toString()+"-"+c.toString());
-              datos.push(fecha.split("-")[2]+"-"+"0"+b.toString()+"-"+c.toString());
-              datos.push(3);
-              fechas.push(datos);
-            }
-            
-          }
-          else{
-            if(c<10){
-              //datos.push("2016"+"-"+b.toString()+"-"+"0"+c.toString())
-              datos.push(fecha.split("-")[2]+"-"+b.toString()+"-"+"0"+c.toString());
-              datos.push(3);
-              fechas.push(datos);
-            }
-            else{
-              //datos.push("2016"+"-"+b.toString()+"-"+c.toString())
-              datos.push(fecha.split("-")[2]+"-"+b.toString()+"-"+c.toString());
-              datos.push(3);
-              fechas.push(datos);
-            }
-          }
-          
-        }
-      }
-    }*/
-    $scope.myJsonCalendarBrocales = calendar_creator(fechas);
+    console.log(fechas)
+    $scope.myJsonCalendarBrocales = calendar_creator(fechas, $scope.fecha_universal.split("-")[2]);
   
 
     
   }
+
+  //CALENDARIO SUB6
   $scope.modalbrocalessub6 = function(){
     var fechas = [];
     
     var fechas_visitadas = [];
     $scope.Totalbrocalessubmodal = [];
-    if($scope.typebrocal6=="anual"){
+    /*if($scope.typebrocal6=="anual"){
       for(a=0; a<local_data_brocales.length; a++){
         if(local_data_brocales[a].Sub=="6" && parseInt(local_data_brocales[a].Cantidad)!=0){
           $scope.Totalbrocalessubmodal.push(local_data_brocales[a])
@@ -1454,7 +1197,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
           $scope.Totalbrocalessubmodal.push(local_data_brocales[a])
         }
       }
-    }
+    }*/
     var recien = false;
     var datos_preliminares = [];
     var id_visitados = [];
@@ -1500,23 +1243,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       datos.push("Ubicaciones : " +datos_preliminares[a][4])
       fechas.push(datos);
     }
-    /*for(a=0; a <local_data_brocales.length; a++){
-      if(local_data_brocales[a].Sub=="6"){
-        if(fechas_visitadas.indexOf(local_data_brocales[a].Fecha) == -1){  
-          var datos = [];
-          fecha_cambiada = local_data_brocales[a].Fecha.split("-")[2]+"-"+local_data_brocales[a].Fecha.split("-")[1]+"-"+local_data_brocales[a].Fecha.split("-")[0]
-          datos.push(fecha_cambiada);
-          datos.push(parseInt(local_data_brocales[a].Cantidad));
-          datos.push("Demanda : " +local_data_brocales[a].Demanda)
-          datos.push("Dotacion : " +local_data_brocales[a].Dotacion)
-          datos.push("Ubicaciones : " +local_data_brocales[a].Ubicacion)
-          fechas.push(datos);
-          fechas_visitadas.push(local_data_brocales[a].Fecha)
-        }
-
-      }
-    }*/
-    $scope.myJsonCalendarBrocales = calendar_creator(fechas);
+    $scope.myJsonCalendarBrocales = calendar_creator(fechas, $scope.fecha_universal.split("-")[2]);
     
   }
 
@@ -1535,11 +1262,11 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       var fechas_visitadas =[];
       var id_visitados_sub5 = [];
       for(b = 0; b < local_data_brocales.length; b++){
-        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="5" && local_data_brocales[b].Ubicacion!="" && local_data_brocales[b].Cantidad !=0 ){ 
+        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="5" && local_data_brocales[b].Ubicacion!="" && local_data_brocales[b].Cantidad !=0 && local_data_brocales[b].Fecha.split("-")[2].toString() == fecha.split("-")[2].toString()){ 
           //datos_x_dias_sub5[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1]+= parseInt(local_data_brocales[b].Cantidad);     
           datos_x_dias_sub5[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1]+= 1;
         }
-        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="5" && id_visitados_sub5.indexOf(local_data_brocales[b].Uniqueid) == -1){
+        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="5" && id_visitados_sub5.indexOf(local_data_brocales[b].Uniqueid) == -1 && local_data_brocales[b].Demanda !="" && local_data_brocales[b].Fecha.split("-")[2].toString() == fecha.split("-")[2].toString()){
           
           datos_x_deseados[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1] += parseInt(local_data_brocales[b].Demanda);
           id_visitados_sub5.push(local_data_brocales[b].Uniqueid);
@@ -1554,108 +1281,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
       $scope.myJsonBarBrocalessub5 = bar_brocales(datos_x_deseados, datos_x_dias_sub5,array_dias ,5, "5")
 
-      //------------------------------------------------------------------------------------------//
-      Completados_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-      Faltantes_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-      $scope.Nombres_sub5 = [];
-      for(a=0; a < local_data_brocales.length ; a++){
-        if(local_data_brocales[a].Sub == "5" && local_data_brocales[a].Fecha.split("-")[1].toString()==fecha.split("-")[1].toString() ){
-          if(local_data_brocales[a].Cantidad != "0"){
-            if($scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion) ==-1){
-              $scope.Nombres_sub5.push(local_data_brocales[a].Ubicacion);
-              Completados_sub5[$scope.Nombres_sub5.length-1]+=parseInt(local_data_brocales[a].Cantidad);
-            }
-            else{
-              Completados_sub5[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)]+=parseInt(local_data_brocales[a].Cantidad);
-            }
-          }
-          else{
-            if($scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion) == -1){
-              $scope.Nombres_sub5.push(local_data_brocales[a].Ubicacion);
-              Faltantes_sub5[$scope.Nombres_sub5.length-1]+=1
-            }
-            else{
-              Faltantes_sub5[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] += 1
-            }
-          }
-        }
-      }
-
-
-      $scope.myJsonUbicacion1 = pie3d(Completados_sub5[0], Faltantes_sub5[0], $scope.Nombres_sub5[0]);
-      $scope.myJsonUbicacion2 = pie3d(Completados_sub5[1], Faltantes_sub5[1], $scope.Nombres_sub5[1]);
-      $scope.myJsonUbicacion3 = pie3d(Completados_sub5[2], Faltantes_sub5[2], $scope.Nombres_sub5[2]);
-      $scope.myJsonUbicacion4 = pie3d(Completados_sub5[3], Faltantes_sub5[3], $scope.Nombres_sub5[3]);
-      $scope.myJsonUbicacion5 = pie3d(Completados_sub5[4], Faltantes_sub5[4], $scope.Nombres_sub5[4]);
-      $scope.myJsonUbicacion6 = pie3d(Completados_sub5[5], Faltantes_sub5[5], $scope.Nombres_sub5[5]);
-      $scope.myJsonUbicacion7 = pie3d(Completados_sub5[6], Faltantes_sub5[6], $scope.Nombres_sub5[6]);
-      $scope.myJsonUbicacion8 = pie3d(Completados_sub5[7], Faltantes_sub5[7], $scope.Nombres_sub5[7]);
-      $scope.myJsonUbicacion9 = pie3d(Completados_sub5[8], Faltantes_sub5[8], $scope.Nombres_sub5[8]);
-      $scope.myJsonUbicacion10 = pie3d(Completados_sub5[9], Faltantes_sub5[9], $scope.Nombres_sub5[9]);
-      $scope.myJsonUbicacion11 = pie3d(Completados_sub5[10], Faltantes_sub5[10], $scope.Nombres_sub5[10]);
-      $scope.myJsonUbicacion12 = pie3d(Completados_sub5[11], Faltantes_sub5[11], $scope.Nombres_sub5[11]);
-      $scope.myJsonUbicacion13 = pie3d(Completados_sub5[12], Faltantes_sub5[12], $scope.Nombres_sub5[12]);
-      $scope.myJsonUbicacion14 = pie3d(Completados_sub5[13], Faltantes_sub5[13], $scope.Nombres_sub5[13]);
-      $scope.myJsonUbicacion15 = pie3d(Completados_sub5[14], Faltantes_sub5[14], $scope.Nombres_sub5[14]);
-      $scope.myJsonUbicacion16 = pie3d(Completados_sub5[15], Faltantes_sub5[15], $scope.Nombres_sub5[15]);
-
-      var fechas_arreglo =[];
-      var concretada_arreglo =[];
-      for(a=0 ; a<$scope.Nombres_sub5.length ; a++){
-        fechas_arreglo.push("0-0-0");
-        concretada_arreglo.push("No");
-      }
-      for(a = 0; a<local_data_brocales.length ; a++){
-        if(local_data_brocales[a].Sub=="5" && local_data_brocales[a].Fecha.split("-")[1].toString()==fecha.split("-")[1].toString()){
-          if(comparar_fechas(local_data_brocales[a].Fecha, fechas_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)])){
-            fechas_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = local_data_brocales[a].Fecha;
-            if(local_data_brocales[a].Cantidad!=0){
-              concretada_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = "Si"
-            }
-            else{
-              concretada_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = "No"
-            }
-          }
-        }
-      }
-      $scope.fecha1 = fechas_arreglo[0];
-      $scope.dato1 = concretada_arreglo[0];
-      $scope.fecha2 = fechas_arreglo[1];
-      $scope.dato2 = concretada_arreglo[1];
-      $scope.fecha3 = fechas_arreglo[2];
-      $scope.dato3 = concretada_arreglo[2];
-      $scope.fecha4 = fechas_arreglo[3];
-      $scope.dato4 = concretada_arreglo[3];
-      $scope.fecha5 = fechas_arreglo[4];
-      $scope.dato5 = concretada_arreglo[4];
-      $scope.fecha6 = fechas_arreglo[5];
-      $scope.dato6 = concretada_arreglo[5];
-      $scope.fecha7 = fechas_arreglo[6];
-      $scope.dato7 = concretada_arreglo[6];
-      $scope.fecha8 = fechas_arreglo[7];
-      $scope.dato8 = concretada_arreglo[7];
-      $scope.fecha9 = fechas_arreglo[8];
-      $scope.dato9 = concretada_arreglo[8];
-      $scope.fecha10 = fechas_arreglo[9];
-      $scope.dato10 = concretada_arreglo[9];
-      $scope.fecha11 = fechas_arreglo[10];
-      $scope.dato11 = concretada_arreglo[10];
-      $scope.fecha12 = fechas_arreglo[11];
-      $scope.dato12 = concretada_arreglo[11];
-      $scope.fecha13 = fechas_arreglo[12];
-      $scope.dato13 = concretada_arreglo[12];
-      $scope.fecha14 = fechas_arreglo[13];
-      $scope.dato14 = concretada_arreglo[13];
-      $scope.fecha15 = fechas_arreglo[14];
-      $scope.dato15 = concretada_arreglo[14];
-      $scope.fecha16 = fechas_arreglo[15];
-      $scope.dato16 = concretada_arreglo[15];
-
-
-      //-----------------------------------------------------------------------------------------------//
-
-
-
     }
 
     else if(name=="anual"){
@@ -1666,7 +1291,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       var deseados_x_sub5 =[0,0,0,0,0,0,0,0,0,0,0,0];
       var id_visitados_sub5 = [];
       for (a=0; a <local_data_brocales.length ; a++){
-        if(local_data_brocales[a].Sub == "5"){
+        if(local_data_brocales[a].Sub == "5" && local_data_brocales[a].Fecha.split("-")[2] == fecha.split("-")[2]){
           if(id_visitados_sub5.indexOf(local_data_brocales[a].Uniqueid) == -1 ){
             
             mes = ObtenerMes_2(parseInt(local_data_brocales[a].Fecha.split("-")[1]));
@@ -1677,119 +1302,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
         }
       }
 
-
-      /*
-      if(local_data_brocales[a].Sub == "5"){
-        if(contando_lugares_sub5.indexOf(local_data_brocales[a].Ubicacion)==-1){
-          contando_lugares_sub5.push(local_data_brocales[a].Ubicacion);
-        }
-        if(fechas_vistas_sub5.indexOf(local_data_brocales[a].Fecha) == -1){
-          mes = ObtenerMes_2(parseInt(local_data_brocales[a].Fecha.split("-")[1]));
-          datos_x_sub5[meses.indexOf(mes)] += parseInt(local_data_brocales[a].Cantidad);
-          deseados_x_sub5[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
-          fechas_vistas_sub5.push(local_data_brocales[a].Fecha);
-        }
-        
-      }
-      */
       $scope.myJsonAnualsub5 = Chart_creator(meses,datos_x_sub5, deseados_x_sub5, "Limpieza de brocales Sub 5");
 
-      $scope.myJsonBarBrocalessub5 = bar_brocales(deseados_x_sub5, datos_x_sub5 , ["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"] ,20, "5")
-
-      Completados_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-      Faltantes_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-      $scope.Nombres_sub5 = [];
-      for(a=0; a < local_data_brocales.length ; a++){
-        if(local_data_brocales[a].Sub == "5" ){
-          if(local_data_brocales[a].Cantidad != "0"){
-            if($scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion) ==-1){
-              $scope.Nombres_sub5.push(local_data_brocales[a].Ubicacion);
-              Completados_sub5[$scope.Nombres_sub5.length-1]+=parseInt(local_data_brocales[a].Cantidad);
-            }
-            else{
-              Completados_sub5[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)]+=parseInt(local_data_brocales[a].Cantidad);
-            }
-          }
-          else{
-            if($scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion) == -1){
-              $scope.Nombres_sub5.push(local_data_brocales[a].Ubicacion);
-              Faltantes_sub5[$scope.Nombres_sub5.length-1]+=1
-            }
-            else{
-              Faltantes_sub5[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] += 1
-            }
-          }
-        }
-      }
-
-      $scope.myJsonUbicacion1 = pie3d(Completados_sub5[0], Faltantes_sub5[0], $scope.Nombres_sub5[0]);
-      $scope.myJsonUbicacion2 = pie3d(Completados_sub5[1], Faltantes_sub5[1], $scope.Nombres_sub5[1]);
-      $scope.myJsonUbicacion3 = pie3d(Completados_sub5[2], Faltantes_sub5[2], $scope.Nombres_sub5[2]);
-      $scope.myJsonUbicacion4 = pie3d(Completados_sub5[3], Faltantes_sub5[3], $scope.Nombres_sub5[3]);
-      $scope.myJsonUbicacion5 = pie3d(Completados_sub5[4], Faltantes_sub5[4], $scope.Nombres_sub5[4]);
-      $scope.myJsonUbicacion6 = pie3d(Completados_sub5[5], Faltantes_sub5[5], $scope.Nombres_sub5[5]);
-      $scope.myJsonUbicacion7 = pie3d(Completados_sub5[6], Faltantes_sub5[6], $scope.Nombres_sub5[6]);
-      $scope.myJsonUbicacion8 = pie3d(Completados_sub5[7], Faltantes_sub5[7], $scope.Nombres_sub5[7]);
-      $scope.myJsonUbicacion9 = pie3d(Completados_sub5[8], Faltantes_sub5[8], $scope.Nombres_sub5[8]);
-      $scope.myJsonUbicacion10 = pie3d(Completados_sub5[9], Faltantes_sub5[9], $scope.Nombres_sub5[9]);
-      $scope.myJsonUbicacion11 = pie3d(Completados_sub5[10], Faltantes_sub5[10], $scope.Nombres_sub5[10]);
-      $scope.myJsonUbicacion12 = pie3d(Completados_sub5[11], Faltantes_sub5[11], $scope.Nombres_sub5[11]);
-      $scope.myJsonUbicacion13 = pie3d(Completados_sub5[12], Faltantes_sub5[12], $scope.Nombres_sub5[12]);
-      $scope.myJsonUbicacion14 = pie3d(Completados_sub5[13], Faltantes_sub5[13], $scope.Nombres_sub5[13]);
-      $scope.myJsonUbicacion15 = pie3d(Completados_sub5[14], Faltantes_sub5[14], $scope.Nombres_sub5[14]);
-      $scope.myJsonUbicacion16 = pie3d(Completados_sub5[15], Faltantes_sub5[15], $scope.Nombres_sub5[15]);
-
-      var fechas_arreglo =[];
-      var concretada_arreglo =[];
-      for(a=0 ; a<$scope.Nombres_sub5.length ; a++){
-        fechas_arreglo.push("0-0-0");
-        concretada_arreglo.push("No");
-      }
-      for(a = 0; a<local_data_brocales.length ; a++){
-        if(local_data_brocales[a].Sub=="5" ){
-          if(comparar_fechas(local_data_brocales[a].Fecha, fechas_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)])){
-            fechas_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = local_data_brocales[a].Fecha;
-            if(local_data_brocales[a].Cantidad!=0){
-              concretada_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = "Si"
-            }
-            else{
-              concretada_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = "No"
-            }
-          }
-        }
-      }
-      $scope.fecha1 = fechas_arreglo[0];
-      $scope.dato1 = concretada_arreglo[0];
-      $scope.fecha2 = fechas_arreglo[1];
-      $scope.dato2 = concretada_arreglo[1];
-      $scope.fecha3 = fechas_arreglo[2];
-      $scope.dato3 = concretada_arreglo[2];
-      $scope.fecha4 = fechas_arreglo[3];
-      $scope.dato4 = concretada_arreglo[3];
-      $scope.fecha5 = fechas_arreglo[4];
-      $scope.dato5 = concretada_arreglo[4];
-      $scope.fecha6 = fechas_arreglo[5];
-      $scope.dato6 = concretada_arreglo[5];
-      $scope.fecha7 = fechas_arreglo[6];
-      $scope.dato7 = concretada_arreglo[6];
-      $scope.fecha8 = fechas_arreglo[7];
-      $scope.dato8 = concretada_arreglo[7];
-      $scope.fecha9 = fechas_arreglo[8];
-      $scope.dato9 = concretada_arreglo[8];
-      $scope.fecha10 = fechas_arreglo[9];
-      $scope.dato10 = concretada_arreglo[9];
-      $scope.fecha11 = fechas_arreglo[10];
-      $scope.dato11 = concretada_arreglo[10];
-      $scope.fecha12 = fechas_arreglo[11];
-      $scope.dato12 = concretada_arreglo[11];
-      $scope.fecha13 = fechas_arreglo[12];
-      $scope.dato13 = concretada_arreglo[12];
-      $scope.fecha14 = fechas_arreglo[13];
-      $scope.dato14 = concretada_arreglo[13];
-      $scope.fecha15 = fechas_arreglo[14];
-      $scope.dato15 = concretada_arreglo[14];
-      $scope.fecha16 = fechas_arreglo[15];
-      $scope.dato16 = concretada_arreglo[15];
+      $scope.myJsonBarBrocalessub5 = bar_brocales(deseados_x_sub5, datos_x_sub5 , ["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"] ,20, "5")    
     }
   }
 
@@ -1805,11 +1320,11 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       var fechas_visitadas =[]
       var id_visitados_sub6 = [];
       for(b = 0; b < local_data_brocales.length; b++){
-        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="6" && local_data_brocales[b].Ubicacion!="" && local_data_brocales[b].Cantidad != 0){
-          //datos_x_dias_sub6[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1]+= parseInt(local_data_brocales[b].Cantidad);
+        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="6" && local_data_brocales[b].Ubicacion!="" && local_data_brocales[b].Cantidad != 0 && local_data_brocales[b].Fecha.split("-")[2].toString() == fecha.split("-")[2].toString()){
+          
           datos_x_dias_sub6[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1]+=1;
         }
-        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="6" && id_visitados_sub6.indexOf(local_data_brocales[b].Uniqueid) == -1 && local_data_brocales[b].Demanda !="" ){
+        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="6" && id_visitados_sub6.indexOf(local_data_brocales[b].Uniqueid) == -1 && local_data_brocales[b].Demanda !="" && local_data_brocales[b].Fecha.split("-")[2].toString() == fecha.split("-")[2].toString()){
           datos_x_deseados[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1] += parseInt(local_data_brocales[b].Demanda);
           id_visitados_sub6.push(local_data_brocales[b].Uniqueid);
         }
@@ -1822,134 +1337,10 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
         array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
       }
       $scope.myJsonBarBrocalessub6 = bar_brocales(datos_x_deseados, datos_x_dias_sub6,array_dias ,5, "6")
-
-      Completados_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-      Faltantes_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-      $scope.Nombres_sub5 = [];
-      for(a=0; a < local_data_brocales.length ; a++){
-        if(local_data_brocales[a].Sub == "6" && local_data_brocales[a].Fecha.split("-")[1].toString()==fecha.split("-")[1].toString() ){
-          if(local_data_brocales[a].Cantidad != "0"){
-            if($scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion) ==-1){
-              $scope.Nombres_sub5.push(local_data_brocales[a].Ubicacion);
-              Completados_sub5[$scope.Nombres_sub5.length-1]+=parseInt(local_data_brocales[a].Cantidad);
-            }
-            else{
-              Completados_sub5[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)]+=parseInt(local_data_brocales[a].Cantidad);
-            }
-          }
-          else{
-            if($scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion) == -1){
-              $scope.Nombres_sub5.push(local_data_brocales[a].Ubicacion);
-              Faltantes_sub5[$scope.Nombres_sub5.length-1]+=1
-            }
-            else{
-              Faltantes_sub5[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] += 1
-            }
-          }
-        }
-      }
-
-
-      $scope.myJsonUbicacion1 = pie3d(Completados_sub5[0], Faltantes_sub5[0], $scope.Nombres_sub5[0]);
-      $scope.myJsonUbicacion2 = pie3d(Completados_sub5[1], Faltantes_sub5[1], $scope.Nombres_sub5[1]);
-      $scope.myJsonUbicacion3 = pie3d(Completados_sub5[2], Faltantes_sub5[2], $scope.Nombres_sub5[2]);
-      $scope.myJsonUbicacion4 = pie3d(Completados_sub5[3], Faltantes_sub5[3], $scope.Nombres_sub5[3]);
-      $scope.myJsonUbicacion5 = pie3d(Completados_sub5[4], Faltantes_sub5[4], $scope.Nombres_sub5[4]);
-      $scope.myJsonUbicacion6 = pie3d(Completados_sub5[5], Faltantes_sub5[5], $scope.Nombres_sub5[5]);
-      $scope.myJsonUbicacion7 = pie3d(Completados_sub5[6], Faltantes_sub5[6], $scope.Nombres_sub5[6]);
-      $scope.myJsonUbicacion8 = pie3d(Completados_sub5[7], Faltantes_sub5[7], $scope.Nombres_sub5[7]);
-      $scope.myJsonUbicacion9 = pie3d(Completados_sub5[8], Faltantes_sub5[8], $scope.Nombres_sub5[8]);
-      $scope.myJsonUbicacion10 = pie3d(Completados_sub5[9], Faltantes_sub5[9], $scope.Nombres_sub5[9]);
-      $scope.myJsonUbicacion11 = pie3d(Completados_sub5[10], Faltantes_sub5[10], $scope.Nombres_sub5[10]);
-      $scope.myJsonUbicacion12 = pie3d(Completados_sub5[11], Faltantes_sub5[11], $scope.Nombres_sub5[11]);
-      $scope.myJsonUbicacion13 = pie3d(Completados_sub5[12], Faltantes_sub5[12], $scope.Nombres_sub5[12]);
-      $scope.myJsonUbicacion14 = pie3d(Completados_sub5[13], Faltantes_sub5[13], $scope.Nombres_sub5[13]);
-      $scope.myJsonUbicacion15 = pie3d(Completados_sub5[14], Faltantes_sub5[14], $scope.Nombres_sub5[14]);
-      $scope.myJsonUbicacion16 = pie3d(Completados_sub5[15], Faltantes_sub5[15], $scope.Nombres_sub5[15]);
-
-      var fechas_arreglo =[];
-      var concretada_arreglo =[];
-      for(a=0 ; a<$scope.Nombres_sub5.length ; a++){
-        fechas_arreglo.push("0-0-0");
-        concretada_arreglo.push("No");
-      }
-      for(a = 0; a<local_data_brocales.length ; a++){
-        if(local_data_brocales[a].Sub=="6" && local_data_brocales[a].Fecha.split("-")[1].toString()==fecha.split("-")[1].toString()){
-          if(comparar_fechas(local_data_brocales[a].Fecha, fechas_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)])){
-            fechas_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = local_data_brocales[a].Fecha;
-            if(local_data_brocales[a].Cantidad!=0){
-              concretada_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = "Si"
-            }
-            else{
-              concretada_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = "No"
-            }
-          }
-        }
-      }
-      $scope.fecha1 = fechas_arreglo[0];
-      $scope.dato1 = concretada_arreglo[0];
-      $scope.fecha2 = fechas_arreglo[1];
-      $scope.dato2 = concretada_arreglo[1];
-      $scope.fecha3 = fechas_arreglo[2];
-      $scope.dato3 = concretada_arreglo[2];
-      $scope.fecha4 = fechas_arreglo[3];
-      $scope.dato4 = concretada_arreglo[3];
-      $scope.fecha5 = fechas_arreglo[4];
-      $scope.dato5 = concretada_arreglo[4];
-      $scope.fecha6 = fechas_arreglo[5];
-      $scope.dato6 = concretada_arreglo[5];
-      $scope.fecha7 = fechas_arreglo[6];
-      $scope.dato7 = concretada_arreglo[6];
-      $scope.fecha8 = fechas_arreglo[7];
-      $scope.dato8 = concretada_arreglo[7];
-      $scope.fecha9 = fechas_arreglo[8];
-      $scope.dato9 = concretada_arreglo[8];
-      $scope.fecha10 = fechas_arreglo[9];
-      $scope.dato10 = concretada_arreglo[9];
-      $scope.fecha11 = fechas_arreglo[10];
-      $scope.dato11 = concretada_arreglo[10];
-      $scope.fecha12 = fechas_arreglo[11];
-      $scope.dato12 = concretada_arreglo[11];
-      $scope.fecha13 = fechas_arreglo[12];
-      $scope.dato13 = concretada_arreglo[12];
-      $scope.fecha14 = fechas_arreglo[13];
-      $scope.dato14 = concretada_arreglo[13];
-      $scope.fecha15 = fechas_arreglo[14];
-      $scope.dato15 = concretada_arreglo[14];
-      $scope.fecha16 = fechas_arreglo[15];
-      $scope.dato16 = concretada_arreglo[15];
     }
+      
 
     else if(name=="anual"){
-
-      /*
-      $scope.typebrocal5="anual"
-      var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-      var datos_x_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0];
-      var fechas_vistas_sub5 =[];
-      var deseados_x_sub5 =[0,0,0,0,0,0,0,0,0,0,0,0];
-      for (a=0; a <local_data_brocales.length ; a++){
-        if(local_data_brocales[a].Sub == "5"){
-          if(fechas_vistas_sub5.indexOf(local_data_brocales[a].Fecha) == -1 ){
-            
-            mes = ObtenerMes_2(parseInt(local_data_brocales[a].Fecha.split("-")[1]));
-            datos_x_sub5[meses.indexOf(mes)] += parseInt(local_data_brocales[a].Cantidad);
-            deseados_x_sub5[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
-            fechas_vistas_sub5.push(local_data_brocales[a].Fecha);
-          }
-        }
-      }
-      */
-      /*
-      if(fechas_vistas_sub6.indexOf(local_data_brocales[a].Fecha) == -1){
-        mes = ObtenerMes_2(parseInt(local_data_brocales[a].Fecha.split("-")[1]));
-        if(local_data_brocales[a].Cantidad !="" && local_data_brocales[a].Demanda !=""){
-          datos_x_sub6[meses.indexOf(mes)] += parseInt(local_data_brocales[a].Cantidad);
-          deseados_x_sub6[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
-        }
-        
-        fechas_vistas_sub6.push(local_data_brocales[a].Fecha);
-      }*/
       $scope.typebrocal6="anual"
       var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
       var datos_x_sub6 = [0,0,0,0,0,0,0,0,0,0,0,0];
@@ -1957,7 +1348,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       var deseados_x_sub6 = [0,0,0,0,0,0,0,0,0,0,0,0];
       var id_visitados_sub6 = [];
       for (a=0; a <local_data_brocales.length ; a++){
-        if(local_data_brocales[a].Sub == "6"){
+        if(local_data_brocales[a].Sub == "6" && local_data_brocales[a].Fecha.split("-")[2].toString() == fecha.split("-")[2].toString()){
           if(id_visitados_sub6.indexOf(local_data_brocales[a].Uniqueid) == -1 ){
             mes = ObtenerMes_2(parseInt(local_data_brocales[a].Fecha.split("-")[1]));
             if(local_data_brocales[a].Cantidad !="" && local_data_brocales[a].Demanda !=""){
@@ -1965,120 +1356,22 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
               deseados_x_sub6[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
             }
             id_visitados_sub6.push(local_data_brocales[a].Uniqueid);
-            //fechas_vistas_sub6.push(local_data_brocales[a].Fecha);
           }
           
         }
       }
       $scope.myJsonAnualsub6 = Chart_creator(meses,datos_x_sub6,deseados_x_sub6, "Limpieza de brocales Sub 6");
-      $scope.myJsonBarBrocalessub6 = bar_brocales(deseados_x_sub6, datos_x_sub6 , ["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"] ,20, "6")
-
-
-      Completados_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-      Faltantes_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-      $scope.Nombres_sub5 = [];
-      for(a=0; a < local_data_brocales.length ; a++){
-        if(local_data_brocales[a].Sub == "6" ){
-          if(local_data_brocales[a].Cantidad != "0"){
-            if($scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion) ==-1){
-              $scope.Nombres_sub5.push(local_data_brocales[a].Ubicacion);
-              Completados_sub5[$scope.Nombres_sub5.length-1]+=parseInt(local_data_brocales[a].Cantidad);
-            }
-            else{
-              Completados_sub5[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)]+=parseInt(local_data_brocales[a].Cantidad);
-            }
-          }
-          else{
-            if($scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion) == -1){
-              $scope.Nombres_sub5.push(local_data_brocales[a].Ubicacion);
-              Faltantes_sub5[$scope.Nombres_sub5.length-1]+=1
-            }
-            else{
-              Faltantes_sub5[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] += 1
-            }
-          }
-        }
-      }
-
-      $scope.myJsonUbicacion1 = pie3d(Completados_sub5[0], Faltantes_sub5[0], $scope.Nombres_sub5[0]);
-      $scope.myJsonUbicacion2 = pie3d(Completados_sub5[1], Faltantes_sub5[1], $scope.Nombres_sub5[1]);
-      $scope.myJsonUbicacion3 = pie3d(Completados_sub5[2], Faltantes_sub5[2], $scope.Nombres_sub5[2]);
-      $scope.myJsonUbicacion4 = pie3d(Completados_sub5[3], Faltantes_sub5[3], $scope.Nombres_sub5[3]);
-      $scope.myJsonUbicacion5 = pie3d(Completados_sub5[4], Faltantes_sub5[4], $scope.Nombres_sub5[4]);
-      $scope.myJsonUbicacion6 = pie3d(Completados_sub5[5], Faltantes_sub5[5], $scope.Nombres_sub5[5]);
-      $scope.myJsonUbicacion7 = pie3d(Completados_sub5[6], Faltantes_sub5[6], $scope.Nombres_sub5[6]);
-      $scope.myJsonUbicacion8 = pie3d(Completados_sub5[7], Faltantes_sub5[7], $scope.Nombres_sub5[7]);
-      $scope.myJsonUbicacion9 = pie3d(Completados_sub5[8], Faltantes_sub5[8], $scope.Nombres_sub5[8]);
-      $scope.myJsonUbicacion10 = pie3d(Completados_sub5[9], Faltantes_sub5[9], $scope.Nombres_sub5[9]);
-      $scope.myJsonUbicacion11 = pie3d(Completados_sub5[10], Faltantes_sub5[10], $scope.Nombres_sub5[10]);
-      $scope.myJsonUbicacion12 = pie3d(Completados_sub5[11], Faltantes_sub5[11], $scope.Nombres_sub5[11]);
-      $scope.myJsonUbicacion13 = pie3d(Completados_sub5[12], Faltantes_sub5[12], $scope.Nombres_sub5[12]);
-      $scope.myJsonUbicacion14 = pie3d(Completados_sub5[13], Faltantes_sub5[13], $scope.Nombres_sub5[13]);
-      $scope.myJsonUbicacion15 = pie3d(Completados_sub5[14], Faltantes_sub5[14], $scope.Nombres_sub5[14]);
-      $scope.myJsonUbicacion16 = pie3d(Completados_sub5[15], Faltantes_sub5[15], $scope.Nombres_sub5[15]);
-
-      var fechas_arreglo =[];
-      var concretada_arreglo =[];
-      for(a=0 ; a<$scope.Nombres_sub5.length ; a++){
-        fechas_arreglo.push("0-0-0");
-        concretada_arreglo.push("No");
-      }
-      for(a = 0; a<local_data_brocales.length ; a++){
-        if(local_data_brocales[a].Sub=="6" ){
-          if(comparar_fechas(local_data_brocales[a].Fecha, fechas_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)])){
-            fechas_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = local_data_brocales[a].Fecha;
-            if(local_data_brocales[a].Cantidad!=0){
-              concretada_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = "Si"
-            }
-            else{
-              concretada_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = "No"
-            }
-          }
-        }
-      }
-      $scope.fecha1 = fechas_arreglo[0];
-      $scope.dato1 = concretada_arreglo[0];
-      $scope.fecha2 = fechas_arreglo[1];
-      $scope.dato2 = concretada_arreglo[1];
-      $scope.fecha3 = fechas_arreglo[2];
-      $scope.dato3 = concretada_arreglo[2];
-      $scope.fecha4 = fechas_arreglo[3];
-      $scope.dato4 = concretada_arreglo[3];
-      $scope.fecha5 = fechas_arreglo[4];
-      $scope.dato5 = concretada_arreglo[4];
-      $scope.fecha6 = fechas_arreglo[5];
-      $scope.dato6 = concretada_arreglo[5];
-      $scope.fecha7 = fechas_arreglo[6];
-      $scope.dato7 = concretada_arreglo[6];
-      $scope.fecha8 = fechas_arreglo[7];
-      $scope.dato8 = concretada_arreglo[7];
-      $scope.fecha9 = fechas_arreglo[8];
-      $scope.dato9 = concretada_arreglo[8];
-      $scope.fecha10 = fechas_arreglo[9];
-      $scope.dato10 = concretada_arreglo[9];
-      $scope.fecha11 = fechas_arreglo[10];
-      $scope.dato11 = concretada_arreglo[10];
-      $scope.fecha12 = fechas_arreglo[11];
-      $scope.dato12 = concretada_arreglo[11];
-      $scope.fecha13 = fechas_arreglo[12];
-      $scope.dato13 = concretada_arreglo[12];
-      $scope.fecha14 = fechas_arreglo[13];
-      $scope.dato14 = concretada_arreglo[13];
-      $scope.fecha15 = fechas_arreglo[14];
-      $scope.dato15 = concretada_arreglo[14];
-      $scope.fecha16 = fechas_arreglo[15];
-      $scope.dato16 = concretada_arreglo[15];
+      $scope.myJsonBarBrocalessub6 = bar_brocales(deseados_x_sub6, datos_x_sub6 , ["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"] ,20, "6")   
     }
-
   }
   
-
+  // CAMBIAR DATOS DEL PLAN MATRIZ EN PANEL PRINCIPAL
   $scope.changegraphview = function(name){
     var total_deseadas = [0,0,0,0,0,0,0,0,0,0,0,0];
     var total_completadas = [0,0,0,0,0,0,0,0,0,0,0,0];
     fecha = $scope.fecha_universal
     for(e=0; e < local_data_matriz.length; e++){
-      if(local_data_matriz[e].Area == name ){
+      if(local_data_matriz[e].Area == name && local_data_matriz[a].Fecha.split("-")[2]==fecha.split("-")[2]){
         total_deseadas[parseInt(local_data_matriz[e].Fecha.split("-")[1])-1]+=1;
         if(local_data_matriz[e].Observaciones == null){
           total_completadas[parseInt(local_data_matriz[e].Fecha.split("-")[1])-1]+=1;
@@ -2086,40 +1379,11 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       }
     }
     $scope.myJsonAnualmatriz = mixed_creator(total_deseadas,total_completadas, name);
-
-
     $scope.myJsonpieCumplimiento = Pie_Cumplimiento(total_deseadas[parseInt(fecha.split("-")[1])-1], total_completadas[parseInt(fecha.split("-")[1])-1], name )
-
   }
 
-  $scope.modalmatriz = function(name){
-    nueva_fecha = new Date($scope.dateselected.getTime() - $scope.dateselected.getTimezoneOffset()*60000);
-    converted_date = nueva_fecha.toISOString().split('T')[0];
-    fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
-    var nuevo_array = [];
-    $scope.Totalmatriz =[];
-    for(b = 0; b < local_data_matriz.length ; b++){
-      if(local_data_matriz[b].Area == name.toString() && local_data_matriz[b].Fecha == fecha){
-        $scope.Totalmatriz.push(local_data_matriz[b]);
-      }
-    }
-  }
-  $scope.modalasistencia = function(name){
-    nueva_fecha = new Date($scope.dateselected.getTime() - $scope.dateselected.getTimezoneOffset()*60000);
-    converted_date = nueva_fecha.toISOString().split('T')[0];
-    fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
-    fecha = $scope.fecha_universal
-    var nuevo_array =[];
-    $scope.Totalasistencia = [];     
-    for(a = 0; a < local_data_asistencia.length; a++){        
-      if(local_data_asistencia[a].Sector.toString() == name && local_data_asistencia[a].Fechaingreso == fecha){
-        $scope.Totalasistencia.push(local_data_asistencia[a]);     
-      }
-    }
-    
-    
-     
-  }
+
+
   
   $scope.changeinformation = function(){
     nueva_fecha = new Date($scope.dateselected.getTime() - $scope.dateselected.getTimezoneOffset()*60000);
@@ -2138,7 +1402,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     total_trabajadores = 0;
     asistencia_trabajadores = 0;
     for(c=0; c < local_data_asistencia.length ; c++){
-      if($scope.nombre_sectores_array.indexOf(local_data_asistencia[c].Sector) == -1 && local_data_asistencia[c].Fechaingreso == fecha){
+      if($scope.nombre_sectores_array.indexOf(local_data_asistencia[c].Sector) == -1 && local_data_asistencia[c].Fechaingreso == $scope.fecha_universal){
         $scope.nombre_sectores_array.push(local_data_asistencia[c].Sector);
         $scope.total_trabajadores_array.push(1);
         $scope.asistencia_total_trabajadores_array.push(0);
@@ -2153,7 +1417,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
         }
       } 
     }
-
 
 
     $scope.myJsonpieasistencia1 = Pie_creator($scope.total_trabajadores_array[0], $scope.asistencia_total_trabajadores_array[0], $scope.nombre_sectores_array[0]);
@@ -2183,70 +1446,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     $scope.myJsonpieasistencia25 = Pie_creator($scope.total_trabajadores_array[24], $scope.asistencia_total_trabajadores_array[24], $scope.nombre_sectores_array[24]);
 
     
-    /*$scope.myJsonpieasistencia1 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("SUB-5")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("SUB-5")], "Sub 5");
-    $scope.myJsonpieasistencia2 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("PIPA NORTE QT PACIFICO SUPERIOR")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("PIPA NORTE QT PACIFICO SUPERIOR")], "PIPA NORTE");
-    $scope.myJsonpieasistencia3 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("TTE 6 ACARREO ")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("TTE 6 ACARREO ")],"TTE 6 ACARREO " );
-    $scope.myJsonpieasistencia4 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("DIABLO REGIMIENTO ")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("DIABLO REGIMIENTO ")], "DIABLO REGIMIENTO ");
-    $scope.myJsonpieasistencia5 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("SUB 6 RENO")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("SUB 6 RENO")],"SUB 6 RENO" );
-    $scope.myJsonpieasistencia6 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("TENIENTE 7 ACARREO")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("TENIENTE 7 ACARREO")],"TENIENTE 7 ACARREO" );
-    $scope.myJsonpieasistencia7 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("LA JUNTA")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("LA JUNTA")], "LA JUNTA");
-    $scope.myJsonpieasistencia8 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("OP-20/21")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("OP-20/21")],"OP-20/21" );
-    $scope.myJsonpieasistencia9 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("CHANCADO PRIMARIO COLON")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("CHANCADO PRIMARIO COLON")], "CHANCADO PRIMARIO COLON");
-    $scope.myJsonpieasistencia10 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("AGUAS CONTACTO MINA TURNOS 4X4")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("AGUAS CONTACTO MINA TURNOS 4X4")], "ACCU TURNOS");
-    $scope.myJsonpieasistencia11 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("VOLANTE LINEA DE VIDA")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("VOLANTE LINEA DE VIDA")], "VOLANTE LINEA DE VIDA");
-    $scope.myJsonpieasistencia12 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("PILAR NORTE ")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("PILAR NORTE ")], "PILAR NORTE ");
-    $scope.myJsonpieasistencia13 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("PUERTAS")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("PUERTAS")],"PUERTAS" );
-    $scope.myJsonpieasistencia14 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("COLECTORES DE POLVO")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("COLECTORES DE POLVO")], "COLECTORES DE POLVO");
-    $scope.myJsonpieasistencia15 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("BODEGUERO")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("BODEGUERO")],"BODEGUERO" );
-    $scope.myJsonpieasistencia16 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("VENTILACION LOCAL")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("VENTILACION LOCAL")],"VENTILACION LOCAL" );
-    $scope.myJsonpieasistencia17 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("AIRE ACONDICIONADO ")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("AIRE ACONDICIONADO ")], "AIRE ACONDICIONADO ");
-    $scope.myJsonpieasistencia18 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("VIDRIOS")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("VIDRIOS")],"VIDRIOS" );
-    $scope.myJsonpieasistencia19 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("SALVATAJE ")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("SALVATAJE ")], "SALVATAJE ");
-    $scope.myJsonpieasistencia20 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("PREVENCION")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("PREVENCION")], "PREVENCION");
-    $scope.myJsonpieasistencia21 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("JEFES DE TURNO")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("JEFES DE TURNO")], "JEFES DE TURNO");
-    $scope.myJsonpieasistencia22 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("JEFE DE TERRENO")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("JEFE DE TERRENO")], "JEFE DE TERRENO");
-    $scope.myJsonpieasistencia23 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("OFICINA TECNICA ")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("OFICINA TECNICA ")],"OFICINA TECNICA " );
-    $scope.myJsonpieasistencia24 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("ADMINISTRADOR DE CONTRATO")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("ADMINISTRADOR DE CONTRATO")], "ADMINISTRADOR DE CONTRATO");
-    */
-    /*var asistencia_A = [];
-    var asistencia_B = [];
-    var asistencia_C = [];
-    */
-
-    /*var asistencia_A = [0,0,0,0,0,0,0,0,0,0];
-    var asistencia_B = [0,0,0,0,0,0,0,0,0,0];
-    var asistencia_C = [0,0,0,0,0,0,0,0,0,0];
-    for(a=0 ; a < local_data_asistencia.length; a++){
-      if(local_data_asistencia[a].Fechaingreso == fecha){
-        if(sector_visited.indexOf(local_data_asistencia[a].Sector) == -1 ){
-          //sector_visited.push(local_data_asistencia[a].Sector)
-          //asistencia_A.push(0)
-          //asistencia_B.push(0)
-          //asistencia_C.push(0)
-
-          if(local_data_asistencia[a].Turno == "A"){
-            asistencia_A[sector_visited.indexOf(local_data_asistencia[a].Sector)]+=1
-          }
-          if(local_data_asistencia[a].Turno == "B"){
-            asistencia_B[sector_visited.indexOf(local_data_asistencia[a].Sector)]+=1
-          }
-          if(local_data_asistencia[a].Turno == "C"){
-            asistencia_C[sector_visited.indexOf(local_data_asistencia[a].Sector)]+=1
-          }
-        }
-        else{
-          if(local_data_asistencia[a].Turno == "A"){
-            asistencia_A[sector_visited.indexOf(local_data_asistencia[a].Sector)]+=1
-          }
-          if(local_data_asistencia[a].Turno == "B"){
-            asistencia_B[sector_visited.indexOf(local_data_asistencia[a].Sector)]+=1
-          }
-          if(local_data_asistencia[a].Turno == "C"){
-            asistencia_C[sector_visited.indexOf(local_data_asistencia[a].Sector)]+=1
-          }
-        }
-      }
-    }*/
 
 
     var all_sector = [];
@@ -2255,7 +1454,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     var asistencia_nopresente =[];
 
     for(a=0; a<local_data_asistencia.length; a++){
-      if(local_data_asistencia[a].Fechaingreso == fecha && all_sector.indexOf(local_data_asistencia[a].Sector) == -1){
+      if(local_data_asistencia[a].Fechaingreso == $scope.fecha_universal && all_sector.indexOf(local_data_asistencia[a].Sector) == -1){
         all_sector.push(local_data_asistencia[a].Sector)
         asistencia_A.push(0)
         asistencia_B.push(0)
@@ -2265,13 +1464,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
 
     for(a=0 ; a < local_data_asistencia.length; a++){
-      if(local_data_asistencia[a].Fechaingreso == fecha){
+      if(local_data_asistencia[a].Fechaingreso == $scope.fecha_universal){
         if(all_sector.indexOf(local_data_asistencia[a].Sector) == -1 ){
-          //sector_visited.push(local_data_asistencia[a].Sector)
-          //asistencia_A.push(0)
-          //asistencia_B.push(0)
-          //asistencia_C.push(0)
-
           if(local_data_asistencia[a].Turno == "A"){
             asistencia_A[all_sector.indexOf(local_data_asistencia[a].Sector)]+=1
           }
@@ -2296,10 +1490,11 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       }
     }
 
+    
 
 
-    $scope.myJsonasistenciabar = asistencia_chart(asistencia_A, asistencia_B, asistencia_nopresente, all_sector, fecha);
-    //$scope.myJsonasistenciabar = asistencia_chart(asistencia_A, asistencia_B, asistencia_C, sector_visited, fecha);
+
+    $scope.myJsonasistenciabar = asistencia_chart(asistencia_A, asistencia_B, asistencia_nopresente, all_sector, $scope.fecha_universal);
 
 
 
@@ -2389,7 +1584,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
         }      
       }
       var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-      //$scope.myMatrizAire = Chart_creator(meses, anual_aire, 0, "Plan matriz anual Aire Acondicionado")
       $scope.myMatrizAire = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], anual_aire_deseados, anual_aire_completados, "Aire Acondicionado")
     }
 
@@ -2445,7 +1639,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
         }      
       }
       var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-      //$scope.myMatrizAire = Chart_creator(meses, anual_aire, 0, "Plan matriz anual Aire Acondicionado")
       $scope.myMatrizVentilacion = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], anual_ventilacion_deseados, anual_ventilacion_completados, "Ventilacion")
     }
 
@@ -2487,26 +1680,173 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
     }
 
+    var total_array = [0,0,0];
+    var completed_array = [0,0,0];
+    var total_deseadas = [0,0,0,0,0,0,0,0,0,0,0,0];
+    var total_completadas = [0,0,0,0,0,0,0,0,0,0,0,0];
+    var total_deseadas_aire = [0,0,0,0,0,0,0,0,0,0,0,0];
+    var total_deseadas_polvo = [0,0,0,0,0,0,0,0,0,0,0,0];
+    var total_deseadas_ventilacion = [0,0,0,0,0,0,0,0,0,0,0,0];
+    var Anual_aire =[0,0,0,0,0,0,0,0,0,0,0,0];
+    var Anual_polvo =[0,0,0,0,0,0,0,0,0,0,0,0];
+    var Anual_ventilacion =[0,0,0,0,0,0,0,0,0,0,0,0];
+    var Anual_puertas =[0,0,0,0,0,0,0,0,0,0,0,0];
+    var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+    for (d=0; d < local_data_matriz.length ; d++){   
+      if(local_data_matriz[d].Area == "Aire Acondicionado" && $scope.fecha_universal.split("-")[2]==local_data_matriz[d].Fecha.split("-")[2] ){
+        if(local_data_matriz[d].Fecha == $scope.dateselected){
+          total_array[0]+=1;
+          if(local_data_matriz[d].Observaciones == null){
+            completed_array[0]+=1;
+          }
+        }
+        if(local_data_matriz[d].Observaciones == null){
+          mes = ObtenerMes_2(parseInt(local_data_matriz[d].Fecha.split("-")[1]));
+          Anual_aire[meses.indexOf(mes)]+=1;
+        }
+        total_deseadas_aire[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1; 
+        
+      }
+      if(local_data_matriz[d].Area == "Colectores de polvo" && $scope.fecha_universal.split("-")[2]==local_data_matriz[d].Fecha.split("-")[2]){
+        if(local_data_matriz[d].Fecha == $scope.dateselected){
+          total_array[1]+=1;
+          if(local_data_matriz[d].Observaciones == null){
+            completed_array[1]+=1;
+          }
+        }
+        if(local_data_matriz[d].Observaciones == null){
+          mes = ObtenerMes_2(parseInt(local_data_matriz[d].Fecha.split("-")[1]));
+          Anual_polvo[meses.indexOf(mes)]+=1;
+        }
+        total_deseadas_polvo[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1; 
+      }
+      if(local_data_matriz[d].Area == "Ventilación" && $scope.fecha_universal.split("-")[2]==local_data_matriz[d].Fecha.split("-")[2]){
+        if(local_data_matriz[d].Fecha == $scope.dateselected){
+          total_array[2]+=1;
+          if(local_data_matriz[d].Observaciones == null){
+            completed_array[2]+=1;
+          }
+        }
+        if(local_data_matriz[d].Observaciones == null){
+          mes = ObtenerMes_2(parseInt(local_data_matriz[d].Fecha.split("-")[1]));
+          Anual_ventilacion[meses.indexOf(mes)]+=1;
+        }
+        total_deseadas_ventilacion[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1; 
+      }
 
 
 
+      if(local_data_matriz[d].Area == "Aire Acondicionado" && $scope.fecha_universal.split("-")[2]==local_data_matriz[d].Fecha.split("-")[2]){
+        total_deseadas[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1;
+        if(local_data_matriz[d].Observaciones == null){
+          total_completadas[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1;
+        }
+      }
+    }
+
+    $scope.myJsonAnualmatriz = mixed_creator(total_deseadas,total_completadas, "Aire Acondicionado");
 
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+    fecha = $scope.fecha_universal
+    if($scope.typebrocal5=="mensual"){
+      var dias = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"];
+      var datos_x_dias_sub5 =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+      var datos_x_deseados = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+      var fechas_visitadas =[];
+      var id_visitados_sub5 = [];
+      for(b = 0; b < local_data_brocales.length; b++){
+        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="5" && local_data_brocales[b].Ubicacion!="" && local_data_brocales[b].Cantidad !=0 && local_data_brocales[b].Fecha.split("-")[2].toString() == fecha.split("-")[2].toString()){ 
+          //datos_x_dias_sub5[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1]+= parseInt(local_data_brocales[b].Cantidad);     
+          datos_x_dias_sub5[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1]+= 1;
+        }
+        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="5" && id_visitados_sub5.indexOf(local_data_brocales[b].Uniqueid) == -1 && local_data_brocales[b].Demanda !="" && local_data_brocales[b].Fecha.split("-")[2].toString() == fecha.split("-")[2].toString()){
+          
+          datos_x_deseados[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1] += parseInt(local_data_brocales[b].Demanda);
+          id_visitados_sub5.push(local_data_brocales[b].Uniqueid);
+        }
+      }
+      
+      var array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
+      if(getDays(parseInt(fecha.split("-")[2]), parseInt(fecha.split("-")[1])) == 31){
+        array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
+      }
 
+      $scope.myJsonBarBrocalessub5 = bar_brocales(datos_x_deseados, datos_x_dias_sub5,array_dias ,5, "5")
 
+    }
 
+    else if($scope.typebrocal6=="anual"){
+      $scope.typebrocal5="anual"
+      var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+      var datos_x_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0];
+      var fechas_vistas_sub5 =[];
+      var deseados_x_sub5 =[0,0,0,0,0,0,0,0,0,0,0,0];
+      var id_visitados_sub5 = [];
+      for (a=0; a <local_data_brocales.length ; a++){
+        if(local_data_brocales[a].Sub == "5" && local_data_brocales[a].Fecha.split("-")[2] == fecha.split("-")[2]){
+          if(id_visitados_sub5.indexOf(local_data_brocales[a].Uniqueid) == -1 ){
+            
+            mes = ObtenerMes_2(parseInt(local_data_brocales[a].Fecha.split("-")[1]));
+            datos_x_sub5[meses.indexOf(mes)] += parseInt(local_data_brocales[a].Cantidad);
+            deseados_x_sub5[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
+            id_visitados_sub5.push(local_data_brocales[a].Uniqueid);
+          }
+        }
+      }
 
+      $scope.myJsonBarBrocalessub5 = bar_brocales(deseados_x_sub5, datos_x_sub5 , ["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"] ,20, "5")    
+    }
 
+    if($scope.typebrocal6=="mensual"){
+      var dias = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"];
+      var datos_x_dias_sub6 =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+      var datos_x_deseados = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+      var fechas_visitadas =[]
+      var id_visitados_sub6 = [];
+      for(b = 0; b < local_data_brocales.length; b++){
+        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="6" && local_data_brocales[b].Ubicacion!="" && local_data_brocales[b].Cantidad != 0 && local_data_brocales[b].Fecha.split("-")[2].toString() == fecha.split("-")[2].toString()){
+          
+          datos_x_dias_sub6[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1]+=1;
+        }
+        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="6" && id_visitados_sub6.indexOf(local_data_brocales[b].Uniqueid) == -1 && local_data_brocales[b].Demanda !="" && local_data_brocales[b].Fecha.split("-")[2].toString() == fecha.split("-")[2].toString()){
+          datos_x_deseados[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1] += parseInt(local_data_brocales[b].Demanda);
+          id_visitados_sub6.push(local_data_brocales[b].Uniqueid);
+        }
 
+      }
+      $scope.myJsonAnualsub6 = Chart_creator(dias, datos_x_dias_sub6, datos_x_deseados, "Limpieza de brocales Sub 6");
 
+      var array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
+      if(getDays(parseInt(fecha.split("-")[2]), parseInt(fecha.split("-")[1])) == 31){
+        array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
+      }
+      $scope.myJsonBarBrocalessub6 = bar_brocales(datos_x_deseados, datos_x_dias_sub6,array_dias ,5, "6")
+    }
+      
 
-
-
-
-
-
-
+    else if($scope.typebrocal6=="anual"){
+      var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+      var datos_x_sub6 = [0,0,0,0,0,0,0,0,0,0,0,0];
+      var fechas_vistas_sub6= [];
+      var deseados_x_sub6 = [0,0,0,0,0,0,0,0,0,0,0,0];
+      var id_visitados_sub6 = [];
+      for (a=0; a <local_data_brocales.length ; a++){
+        if(local_data_brocales[a].Sub == "6" && local_data_brocales[a].Fecha.split("-")[2].toString() == fecha.split("-")[2].toString()){
+          if(id_visitados_sub6.indexOf(local_data_brocales[a].Uniqueid) == -1 ){
+            mes = ObtenerMes_2(parseInt(local_data_brocales[a].Fecha.split("-")[1]));
+            if(local_data_brocales[a].Cantidad !="" && local_data_brocales[a].Demanda !=""){
+              datos_x_sub6[meses.indexOf(mes)] += parseInt(local_data_brocales[a].Cantidad);
+              deseados_x_sub6[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
+            }
+            id_visitados_sub6.push(local_data_brocales[a].Uniqueid);
+          }
+          
+        }
+      }
+      $scope.myJsonBarBrocalessub6 = bar_brocales(deseados_x_sub6, datos_x_sub6 , ["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"] ,20, "6")   
+    }
 
 
     var info_sub5=[0,0];
@@ -2553,6 +1893,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     $scope.myJsondiariosub6= bar_creator(info_sub6[1], info_sub6[0], "Demanda Sub 6")
 
 
+
+
     $scope.nueva_fecha = nueva_fecha;
     $scope.nueva_fecha_2  = angular.copy($scope.nueva_fecha)
     
@@ -2561,7 +1903,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     var exact_days = get_day_numbers($scope.nueva_fecha_2);
     var array_week = [];
     var week_day = 0;
-    //console.log($scope.dateselected)
     for (a=0; a<get_day_numbers($scope.dateselected).length; a++){
       nueva_fecha_2 = new Date(exact_days[a] - $scope.dateselected.getTimezoneOffset()*60000);
       converted_date_2 = nueva_fecha_2.toISOString().split('T')[0];
@@ -2687,17 +2028,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
     var Epoch_Inicio = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"07:00:00"))*1000
     var Epoch_Final = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"17:00:00"))*1000
-
-
-    
-
-
-
     $scope.myJsonTimer1 = timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7);
 
   }
-
-
   $scope.Asistenciatotal =[];
 
 
@@ -2773,7 +2106,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   $scope.searchWorker = function(index){
     $scope.rutworker = $scope.Asistenciatotal[index].Rut
     rut_worker = $scope.Asistenciatotal[index].Rut
-    name_worker = $scope.Asistenciatotal[index].Nombre
+    $scope.name_worker = $scope.Asistenciatotal[index].Nombre
     $scope.Asistenciatotal =[]
     fecha = $scope.fecha_universal;
     var dias_trabajados = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -2783,9 +2116,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     var Arr_fechas_visitadas = [];
 
     for(a=0; a<local_data_asistencia.length; a++){
-      if(local_data_asistencia[a].Rut==rut_worker){
+      if(local_data_asistencia[a].Rut==rut_worker ){
         $scope.Asistenciatotal.push(local_data_asistencia[a])
-        if(local_data_asistencia[a].Fechaingreso.split("-")[1]==fecha.split("-")[1]){
+        if(local_data_asistencia[a].Fechaingreso.split("-")[1]==fecha.split("-")[1] ){
           dias_trabajados[parseInt(local_data_asistencia[a].Fechaingreso.split("-")[0])-1]+=1;
           if(local_data_asistencia[a].Turno == "A" || local_data_asistencia[a].Turno == "B" || local_data_asistencia[a].Turno == "C" || local_data_asistencia[a].Turno == "DESCANSO"){
             turno_dias_trabajados[parseInt(local_data_asistencia[a].Fechaingreso.split("-")[0])-1]=local_data_asistencia[a].Turno;
@@ -2794,43 +2127,50 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
             turno_dias_trabajados[parseInt(local_data_asistencia[a].Fechaingreso.split("-")[0])-1]="0";
           }
         }
-
-        /*if(Arr_fechas_visitadas.indexOf(local_data_asistencia[a].Fecha) == -1){
-          Total_dias_trabajo+=1
-          Arr_fechas_visitadas.push(local_data_asistencia[a].Fecha);
-        }*/
         Total_dias_trabajo+=1;
-        if(local_data_asistencia[a].Turno == "A" || local_data_asistencia[a].Turno == "B"){
+        if(local_data_asistencia[a].Turno == "A" || local_data_asistencia[a].Turno == "B" || local_data_asistencia[a].Turno == "C" || local_data_asistencia[a].Turno == "DESCANSO"){
           Asistencia_al_trabajo+=1;
         }
       }
 
 
     }
-    $scope.myJsonasistenciaworker = line_creator(dias_trabajados,name_worker,[0,1])
-    //$scope.myJsonasistenciaworkerturn = line_creator(turno_dias_trabajados,name_worker,["0","A","B","C", "DESCANSO"])
-    $scope.myJsonasistenciaworkerturn = Pie_Asistencia(Total_dias_trabajo, Asistencia_al_trabajo, name_worker);
+    $scope.myJsonasistenciaworker = line_creator(dias_trabajados,$scope.name_worker,[0,1])
+    $scope.myJsonasistenciaworkerturn = Pie_Asistencia(Total_dias_trabajo, Asistencia_al_trabajo, $scope.name_worker);
   }
 
   $scope.changeinassitance = function(name){
     fecha = $scope.fecha_universal;
-    //Asistenciatotal
+    var Total_dias_trabajo = 0
+    var Asistencia_al_trabajo = 0
     $scope.Asistenciatotal = []
-    console.log($scope.rutworker)
     if(name == "mensual"){
       for(a=0; a<local_data_asistencia.length; a++){
-        if(local_data_asistencia[a].Rut == $scope.rutworker && local_data_asistencia[a].Fechaingreso.split("-")[1] == fecha.split("-")[1] && local_data_asistencia[a].Turno!="A" &&  local_data_asistencia[a].Turno!="B"){
-          $scope.Asistenciatotal.push(local_data_asistencia[a])
+        if(local_data_asistencia[a].Rut == $scope.rutworker && local_data_asistencia[a].Fechaingreso.split("-")[1] == fecha.split("-")[1] &&  local_data_asistencia[a].Fechaingreso.split("-")[2] == fecha.split("-")[2]){
+          if(local_data_asistencia[a].Turno!="A" &&  local_data_asistencia[a].Turno!="B" && local_data_asistencia[a].Turno!="C" && local_data_asistencia[a].Turno!="DESCANSO"){
+            $scope.Asistenciatotal.push(local_data_asistencia[a])
+          }
+          Total_dias_trabajo+=1;
+          if(local_data_asistencia[a].Turno == "A" || local_data_asistencia[a].Turno == "B" || local_data_asistencia[a].Turno == "C" || local_data_asistencia[a].Turno == "DESCANSO"){
+            Asistencia_al_trabajo+=1;
+          }
         }
       }
     }
     else{
       for(a=0; a<local_data_asistencia.length; a++){
-        if(local_data_asistencia[a].Rut == $scope.rutworker && local_data_asistencia[a].Fechaingreso.split("-")[2] == fecha.split("-")[2] && local_data_asistencia[a].Turno!="A" &&  local_data_asistencia[a].Turno!="B"){
-          $scope.Asistenciatotal.push(local_data_asistencia[a])
+        if(local_data_asistencia[a].Rut == $scope.rutworker){
+          if(local_data_asistencia[a].Turno!="A" &&  local_data_asistencia[a].Turno!="B" && local_data_asistencia[a].Turno!="C" && local_data_asistencia[a].Turno!="DESCANSO"){
+            $scope.Asistenciatotal.push(local_data_asistencia[a])
+          }
+          Total_dias_trabajo+=1;
+          if(local_data_asistencia[a].Turno == "A" || local_data_asistencia[a].Turno == "B" || local_data_asistencia[a].Turno == "C" || local_data_asistencia[a].Turno == "DESCANSO"){
+            Asistencia_al_trabajo+=1;
+          }
         }
       }
     }
+    $scope.myJsonasistenciaworkerturn = Pie_Asistencia(Total_dias_trabajo, Asistencia_al_trabajo, $scope.name_worker);
   }
 
   $scope.checkpassword = function(){
@@ -3114,7 +2454,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       document.getElementById("Vistatotal").style.display = "block";
       document.getElementById("Vistatotal").className+= " w3-red";
     }
-    document.getElementById("blur1").scrollIntoView({behavior: 'smooth'});
+    document.getElementById("Vistatotal").scrollIntoView({behavior: 'smooth'});
   }
   $scope.GotoAsistencia = function(){
     if (options == true) {
@@ -4090,7 +3430,7 @@ function timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, va
   return grafico;
 }
 
-function calendar_creator(fechas){
+function calendar_creator(fechas, año){
   var grafico = {};
   grafico = {
     type:'calendar',
@@ -4125,7 +3465,7 @@ function calendar_creator(fechas){
     options: {
       //startMonth: 8,
       year: {
-        text: '2022',
+        text: año,
       },
       month:{
         values: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
