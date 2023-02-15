@@ -1,4 +1,4 @@
-
+var options = false
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl)
@@ -45,6 +45,7 @@ function openActivity(evt, actividad) {
   }
   document.getElementById(actividad).style.display = "block";
   evt.currentTarget.className += " w3-red";
+  options = true
 }
 
 function openViewsub6(evt, selectedview){
@@ -384,7 +385,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   }
 
   for(a=0; a < local_data_puertas.length; a++){
-    if($scope.fecha_universal.split("-")[2]==local_data_puertas[d].Fecharevision.split("-")[2]){
+    if($scope.fecha_universal.split("-")[2]==local_data_puertas[a].Fecharevision.split("-")[2]){
       Anual_puertas[parseInt(local_data_puertas[a].Fecharevision.split("-")[1])-1]+=1;
     }
   }
@@ -775,9 +776,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     $scope.Totalbrocalesmod.push(local_data_brocales[a])
   }
 
-  for(a=0; a < local_data_matriz.length; a++){
+  /*for(a=0; a < local_data_matriz.length; a++){
     $scope.Totalmatrizarchivosmod.push(local_data_matriz[a])
-  }
+  }*/
 
   for(a=0; a < local_data_disciplina.length; a++){
     $scope.Totaldisciplinamod.push(local_data_disciplina[a])
@@ -810,6 +811,28 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   $scope.headerequipo = Object.keys(local_data_equipo[0])
   $scope.headervimo = Object.keys(local_data_puertas[0])
   $scope.headersap = Object.keys(local_data_sap[0])
+
+
+
+  $scope.headermatriza = []
+  var id_matriz = 0;
+  for(a=0; a < local_data_archivos.length; a++){
+    if(local_data_archivos[a].Infoingresada == "Plan matriz"){
+      $scope.headermatriza.push(local_data_archivos[a].Nombrearchivo)
+      if(local_data_archivos[a].Nombrearchivo == "KPI colectores de polvo Junio.xlsx"){
+        id_matriz = local_data_archivos[a].Idingreso
+      }
+    }
+
+  }
+
+  for(a=0; a < local_data_matriz.length; a++){
+    if(local_data_matriz[a].Idingreso == id_matriz){
+      $scope.Totalmatrizarchivosmod.push(local_data_matriz[a])
+    }
+  }
+
+
 
   $scope.deleteall =function(){
     $scope.Totalasistenciaarchivosmod = [];
@@ -2187,71 +2210,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     $scope.myJsonpieasistencia24 = Pie_creator($scope.total_trabajadores_array[23], $scope.asistencia_total_trabajadores_array[23], $scope.nombre_sectores_array[23]);
     $scope.myJsonpieasistencia25 = Pie_creator($scope.total_trabajadores_array[24], $scope.asistencia_total_trabajadores_array[24], $scope.nombre_sectores_array[24]);
 
-    
-    /*$scope.myJsonpieasistencia1 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("SUB-5")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("SUB-5")], "Sub 5");
-    $scope.myJsonpieasistencia2 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("PIPA NORTE QT PACIFICO SUPERIOR")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("PIPA NORTE QT PACIFICO SUPERIOR")], "PIPA NORTE");
-    $scope.myJsonpieasistencia3 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("TTE 6 ACARREO ")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("TTE 6 ACARREO ")],"TTE 6 ACARREO " );
-    $scope.myJsonpieasistencia4 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("DIABLO REGIMIENTO ")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("DIABLO REGIMIENTO ")], "DIABLO REGIMIENTO ");
-    $scope.myJsonpieasistencia5 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("SUB 6 RENO")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("SUB 6 RENO")],"SUB 6 RENO" );
-    $scope.myJsonpieasistencia6 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("TENIENTE 7 ACARREO")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("TENIENTE 7 ACARREO")],"TENIENTE 7 ACARREO" );
-    $scope.myJsonpieasistencia7 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("LA JUNTA")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("LA JUNTA")], "LA JUNTA");
-    $scope.myJsonpieasistencia8 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("OP-20/21")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("OP-20/21")],"OP-20/21" );
-    $scope.myJsonpieasistencia9 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("CHANCADO PRIMARIO COLON")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("CHANCADO PRIMARIO COLON")], "CHANCADO PRIMARIO COLON");
-    $scope.myJsonpieasistencia10 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("AGUAS CONTACTO MINA TURNOS 4X4")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("AGUAS CONTACTO MINA TURNOS 4X4")], "ACCU TURNOS");
-    $scope.myJsonpieasistencia11 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("VOLANTE LINEA DE VIDA")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("VOLANTE LINEA DE VIDA")], "VOLANTE LINEA DE VIDA");
-    $scope.myJsonpieasistencia12 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("PILAR NORTE ")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("PILAR NORTE ")], "PILAR NORTE ");
-    $scope.myJsonpieasistencia13 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("PUERTAS")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("PUERTAS")],"PUERTAS" );
-    $scope.myJsonpieasistencia14 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("COLECTORES DE POLVO")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("COLECTORES DE POLVO")], "COLECTORES DE POLVO");
-    $scope.myJsonpieasistencia15 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("BODEGUERO")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("BODEGUERO")],"BODEGUERO" );
-    $scope.myJsonpieasistencia16 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("VENTILACION LOCAL")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("VENTILACION LOCAL")],"VENTILACION LOCAL" );
-    $scope.myJsonpieasistencia17 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("AIRE ACONDICIONADO ")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("AIRE ACONDICIONADO ")], "AIRE ACONDICIONADO ");
-    $scope.myJsonpieasistencia18 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("VIDRIOS")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("VIDRIOS")],"VIDRIOS" );
-    $scope.myJsonpieasistencia19 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("SALVATAJE ")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("SALVATAJE ")], "SALVATAJE ");
-    $scope.myJsonpieasistencia20 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("PREVENCION")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("PREVENCION")], "PREVENCION");
-    $scope.myJsonpieasistencia21 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("JEFES DE TURNO")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("JEFES DE TURNO")], "JEFES DE TURNO");
-    $scope.myJsonpieasistencia22 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("JEFE DE TERRENO")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("JEFE DE TERRENO")], "JEFE DE TERRENO");
-    $scope.myJsonpieasistencia23 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("OFICINA TECNICA ")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("OFICINA TECNICA ")],"OFICINA TECNICA " );
-    $scope.myJsonpieasistencia24 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("ADMINISTRADOR DE CONTRATO")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("ADMINISTRADOR DE CONTRATO")], "ADMINISTRADOR DE CONTRATO");
-    */
-    /*var asistencia_A = [];
-    var asistencia_B = [];
-    var asistencia_C = [];
-    */
-
-    /*var asistencia_A = [0,0,0,0,0,0,0,0,0,0];
-    var asistencia_B = [0,0,0,0,0,0,0,0,0,0];
-    var asistencia_C = [0,0,0,0,0,0,0,0,0,0];
-    for(a=0 ; a < local_data_asistencia.length; a++){
-      if(local_data_asistencia[a].Fechaingreso == fecha){
-        if(sector_visited.indexOf(local_data_asistencia[a].Sector) == -1 ){
-          //sector_visited.push(local_data_asistencia[a].Sector)
-          //asistencia_A.push(0)
-          //asistencia_B.push(0)
-          //asistencia_C.push(0)
-
-          if(local_data_asistencia[a].Turno == "A"){
-            asistencia_A[sector_visited.indexOf(local_data_asistencia[a].Sector)]+=1
-          }
-          if(local_data_asistencia[a].Turno == "B"){
-            asistencia_B[sector_visited.indexOf(local_data_asistencia[a].Sector)]+=1
-          }
-          if(local_data_asistencia[a].Turno == "C"){
-            asistencia_C[sector_visited.indexOf(local_data_asistencia[a].Sector)]+=1
-          }
-        }
-        else{
-          if(local_data_asistencia[a].Turno == "A"){
-            asistencia_A[sector_visited.indexOf(local_data_asistencia[a].Sector)]+=1
-          }
-          if(local_data_asistencia[a].Turno == "B"){
-            asistencia_B[sector_visited.indexOf(local_data_asistencia[a].Sector)]+=1
-          }
-          if(local_data_asistencia[a].Turno == "C"){
-            asistencia_C[sector_visited.indexOf(local_data_asistencia[a].Sector)]+=1
-          }
-        }
-      }
-    }*/
 
 
     var all_sector = [];
@@ -3471,7 +3429,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   }
 
   $scope.Actividadestutorial = ["Login","Loginmodal","Fecha","Archivos","ModalArchivos","Panel","Panelasistencia", "Panelplanmatriz", "Panelbrocales", "Paneldisciplina","Panel","Panelmodificacion", "Panelmodificacionmodal","Panelreporte", "Panelcreacion", "Panelarchivos", "Fin"]
-  // "Login","Loginmodal","Fecha","Archivos","ModalArchivos","Panel","Panelasistencia", "Panelplanmatriz", "Panelbrocales", "Paneldisciplina","Panel",
+  // "Login","Loginmodal","Fecha","Archivos","ModalArchivos","Panel","Panelasistencia", "Panelplanmatriz", "Panelbrocales", "Paneldisciplina",
 
   $scope.tutorialcontador = 0
   $scope.backtonormal = function(){
@@ -3482,9 +3440,14 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     document.getElementById('pruebama').click();
   }
 
+  $scope.gotoprueba = function(){
+    document.getElementById("Asistencia").scrollIntoView({behavior: 'smooth'});
+    console.log("hola")
+  }
+
   $scope.tutorialcontinue = function(){
     if($scope.Actividadestutorial[$scope.tutorialcontador] =="Login"){
-      $("*").css("filter","blur(0px)");
+      //$("*").css("filter","blur(0px)");
       $("#probando>*:not(#blur1,#Modaltutorial,#Modallogin)").css("filter","blur(5px)");
       $("#blur1>*:not(#blurlogin2)").css("filter","blur(5px)");
       $("#blurlogin2>*:not(#blurlogin3)").css("filter","blur(5px)");
@@ -3507,7 +3470,13 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
     }
     if($scope.Actividadestutorial[$scope.tutorialcontador] =="Fecha"){
-      $("*").css("filter","blur(0px)");
+      //$("*").css("filter","blur(0px)");
+      //$("#probando").css("filter","blur(0px)");
+      $("#probando>*:not(#blur1,#Modaltutorial,#Modallogin)").css("filter","blur(0px)");
+      $("#blur1>*:not(#blurlogin2)").css("filter","blur(0px)");
+      $("#blurlogin2>*:not(#blurlogin3)").css("filter","blur(0px)");
+      $("#blurlogin3>*:not(#loginbutton)").css("filter","blur(0px)");
+
       $("#probando>*:not(#blur1,#Modaltutorial)").css("filter","blur(5px)");
       $("#blur1>*:not(#blurfecha2)").css("filter","blur(5px)");
       $("#blurfecha2>*:not(#blurfecha3)").css("filter","blur(5px)");
@@ -3520,7 +3489,12 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       $scope.texto_tutorial = "En la parte superior izquierda tenemos la fecha, actualmente marca la fecha de hoy, pero al apretar despliega un calendario que nos permite cambiar la fecha. Al cambiar la fecha, modifica los datos que mostrará el sistema"
     }
     if($scope.Actividadestutorial[$scope.tutorialcontador] =="Archivos"){
-      $("*").css("filter","blur(0px)");
+      //$("*").css("filter","blur(0px)");
+      $("#probando>*:not(#blur1,#Modaltutorial)").css("filter","blur(0px)");
+      $("#blur1>*:not(#blurfecha2)").css("filter","blur(0px)");
+      $("#blurfecha2>*:not(#blurfecha3)").css("filter","blur(0px)");
+      $("#blurfecha3>*:not(#startDate)").css("filter","blur(0px)");
+
       $("#probando>*:not(#blur1,#Modaltutorial)").css("filter","blur(5px)");
       $("#blur1>*:not(#blurfecha2)").css("filter","blur(5px)");
       $("#blurfecha2>*:not(#bluringreso)").css("filter","blur(5px)");
@@ -3534,7 +3508,12 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     
     }
     if($scope.Actividadestutorial[$scope.tutorialcontador] =="ModalArchivos"){
-      $("*").css("filter","blur(0px)");
+      //$("*").css("filter","blur(0px)");
+      $("#probando>*:not(#blur1,#Modaltutorial)").css("filter","blur(0px)");
+      $("#blur1>*:not(#blurfecha2)").css("filter","blur(0px)");
+      $("#blurfecha2>*:not(#bluringreso)").css("filter","blur(0px)");
+      $("#bluringreso>*:not(#ingreso)").css("filter","blur(0px)");
+
       $("#probando>*:not(#Modalfiles)").css("filter","blur(5px)");
       $("#Modalfiles>*:not(#Modalfiles2)").css("filter","blur(5px)");
       $("#Modalfiles2>*:not(#Modalfiles3)").css("filter","blur(5px)");
@@ -3544,17 +3523,23 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       $("#Modalfiles6>*:not(#Modalfiles7)").css("filter","blur(5px)");
       var myModala = new bootstrap.Modal(document.getElementById('Modalfiles'), {
           keyboard: false,
-          backdrop: 'static'
       })
       myModala.toggle()
       $scope.texto_tutorial = "En este panel existen varias categorias en las que se pueden ingresar archivos, por ejemplo en asistencia hay 2 recuadros, uno en donde se puede seleccionar el archivo que quiere ingresar, y otro recuadro a la derecha donde al presionarlo despliega un ejemplo del archivo que se debe ingresar"
     }
     if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panel"){
-      $("*").css("filter","blur(0px)");
-      $("#probando>*:not(#sidenav1,#Modaltutorial)").css("filter","blur(5px)");
+      //$("*").css("filter","blur(0px)");
+      $("#probando>*:not(#Modalfiles)").css("filter","blur(0px)");
+      $("#Modalfiles>*:not(#Modalfiles2)").css("filter","blur(0px)");
+      $("#Modalfiles2>*:not(#Modalfiles3)").css("filter","blur(0px)");
+      $("#Modalfiles3>*:not(#Modalfiles4,#footer)").css("filter","blur(0px)");
+      $("#Modalfiles4>*:not(#Modalfiles5)").css("filter","blur(0px)");
+      $("#Modalfiles5>*:not(#Modalfiles6)").css("filter","blur(0px)");
+      $("#Modalfiles6>*:not(#Modalfiles7)").css("filter","blur(0px)");
+      /*$("#probando>*:not(#sidenav1,#Modaltutorial)").css("filter","blur(5px)");
       $("#sidenav1>*:not(#sidenav-collapse-main)").css("filter","blur(5px)");
       $("#sidenav-collapse-main>*:not(#sidenav2)").css("filter","blur(5px)");
-      $("#sidenav2>*:not(li.nav-item)").css("filter","blur(5px)");
+      $("#sidenav2>*:not(li.nav-item)").css("filter","blur(5px)");*/
       var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
           keyboard: false,
           backdrop: 'static'
@@ -3572,17 +3557,27 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     }
 
     if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panelasistencia"){
-      $("*").css("filter","blur(0px)");
+      /*$("*").css("filter","blur(0px)");
       document.getElementById("Dashboard").style.display = "none";
       document.getElementById("Dashboard").className.replace(" w3-red", "");
       document.getElementById("Asistencia").style.display = "block";
       document.getElementById("Asistencia").className+= " w3-red";
-      document.getElementById('pruebaas').click();
-      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
-          keyboard: false,
-          backdrop: 'static'
-      })
-      myModala.toggle()
+      document.getElementById('pruebaas').click();*/
+      document.getElementById("Asistencia").scrollIntoView({behavior: 'smooth'});
+      var scrollTimeout;
+      addEventListener('scroll', function(e) {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(function() {
+              var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+                  keyboard: false,
+                  backdrop: 'static'
+              })
+              myModala.toggle()
+          }, 1000);
+      });
+      
+      
+      
       $scope.texto_tutorial = "Este es el panel de asistencia"
     }
     if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panelplanmatriz"){
@@ -3590,50 +3585,71 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       //document.getElementById("Asistencia").className.replace(" w3-red", "");
       //document.getElementById("Planmatriz").style.display = "block";
       //document.getElementById("Planmatriz").className+= " w3-red";
-      document.getElementById('pruebama').click();
-      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
-          keyboard: false,
-          backdrop: 'static'
-      })
-      myModala.toggle()
+      //document.getElementById('pruebama').click();
+      document.getElementById("Planmatriz").scrollIntoView({behavior: 'smooth'});
+      var scrollTimeout;
+      addEventListener('scroll', function(e) {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(function() {
+              var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+                  keyboard: false,
+                  backdrop: 'static'
+              })
+              myModala.toggle()
+          }, 1000);
+      });
+
       $scope.texto_tutorial = "Este es el panel de plan matriz"
-      console.log($scope.tutorialcontador)
     }
     if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panelbrocales"){
-      document.getElementById("Planmatriz").style.display = "none";
+      /*document.getElementById("Planmatriz").style.display = "none";
       document.getElementById("Planmatriz").className.replace(" w3-red", "");
       document.getElementById("Brocales").style.display = "block";
-      document.getElementById("Brocales").className+= " w3-red";
-      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
-          keyboard: false,
-          backdrop: 'static'
-      })
-      myModala.toggle()
+      document.getElementById("Brocales").className+= " w3-red";*/
+      document.getElementById("Brocales").scrollIntoView({behavior: 'smooth'});
+      var scrollTimeout;
+      addEventListener('scroll', function(e) {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(function() {
+              var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+                  keyboard: false,
+                  backdrop: 'static'
+              })
+              myModala.toggle()
+          }, 1000);
+      });
       $scope.texto_tutorial = "Este es el panel de brocales"
     }
     if($scope.Actividadestutorial[$scope.tutorialcontador] =="Paneldisciplina"){
-      document.getElementById("Brocales").style.display = "none";
+      /*document.getElementById("Brocales").style.display = "none";
       document.getElementById("Brocales").className.replace(" w3-red", "");
       document.getElementById("Disciplina").style.display = "block";
-      document.getElementById("Disciplina").className+= " w3-red";
-      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
-          keyboard: false,
-          backdrop: 'static'
-      })
-      myModala.toggle()
+      document.getElementById("Disciplina").className+= " w3-red";*/
+      document.getElementById("Disciplina").scrollIntoView({behavior: 'smooth'});
+      var scrollTimeout;
+      addEventListener('scroll', function(e) {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(function() {
+              var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+                  keyboard: false,
+                  backdrop: 'static'
+              })
+              myModala.toggle()
+          }, 1000);
+      });
       $scope.texto_tutorial = "Este es el panel de disciplina operacional"
     }
     if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panelmodificacion"){
-      $("*").css("filter","blur(0px)");
-      document.getElementById("Disciplina").style.display = "none";
-      document.getElementById("Disciplina").className.replace(" w3-red", "");
+      //$("*").css("filter","blur(0px)");
+      document.getElementById("Vistatotal").style.display = "none";
+      document.getElementById("Vistatotal").className.replace(" w3-red", "");
       //document.getElementById("Dashboard").style.display = "none";
       //document.getElementById("Dashboard").className.replace(" w3-red", "");
       document.getElementById("Modificacion").style.display = "block";
       document.getElementById("Modificacion").className+= " w3-red";
+      $scope.columnmatrizmod = "KPI colectores de polvo Junio.xlsx"
       var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
-          keyboard: false,
-          backdrop: 'static'
+          keyboard: false
       })
       myModala.toggle()
       $scope.texto_tutorial = "Este es el panel de Modificación, actualmente está mostrando una tabla con todos los datos ingresados del Plan Matriz, para cambiar de información podemos usar el recuadro desplegable donde aparece Plan matriz. Para cambiar la información de fila que queramos, apretamos el botón de modificar de la última casilla."
@@ -3699,6 +3715,10 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
     $scope.tutorialcontador+=1
 
+  }
+
+  $scope.filltablematrizmod = function(){
+    $scope.columnmatrizmod = "KPI colectores de polvo Junio.xlsx"
   }
 
   

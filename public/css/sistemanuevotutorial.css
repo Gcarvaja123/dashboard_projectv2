@@ -1,14 +1,18 @@
 body {
   font-family: "Lato", sans-serif;
   background-color: #ededed;
-  top: 0%;
+  margin: 0;
+  padding: 0;
+  /*top: 0%;
   bottom: 0%;
   position: fixed;
   right: 0%;
-  left: 0%;
+  left: 0%;*/
 
 
 }
+
+
 /*li.nav-item > *:not(#startDate){
   filter: blur(5px);
 }

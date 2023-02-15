@@ -5,6 +5,66 @@ body {
   padding: 0;
 
 
+
+
+}
+
+p.dato{
+  font-size: 14px;
+}
+
+.tittleh2{
+  font-size: 18px;
+}
+
+.tittleh22{
+  text-align: left;
+  font-size: 22px;
+  padding-left: 15px;
+}
+
+.tittleh2:before{
+  content: "";
+  position: relative;
+    left: -28px;
+    top: 20px;
+    display: block;
+    width: 14px;
+    height: 14px;
+    border: 3px solid #d2d3d2;
+    border-radius: 14px;
+    background: #f9f9f9
+}
+
+.bodydiariosub5{
+  text-align: left;
+  padding-left: 20px;
+  border-left: 3px solid #e8e8e8 
+}
+.bodydiariosub6{
+  text-align: left;
+  padding-left: 20px;
+  border-left: 3px solid #e8e8e8 
+}
+
+.x_body{
+  padding: 0 6px 16px;
+}
+
+.headerdiariosub5{
+  border-bottom: 2px solid #E6E9ED;
+  margin-bottom: 10px;
+}
+.headerdiariosub6{
+  border-bottom: 2px solid #E6E9ED;
+  margin-bottom: 10px;
+}
+.x_panel{
+  padding: 10px 17px;
+}
+
+.x_li{
+  border-bottom: 1px solid #e8e8e8;
 }
 /*li.nav-item > *:not(#startDate){
   filter: blur(5px);
@@ -617,9 +677,9 @@ hr{
   padding-top: 6px;
 }
 
-.bodydiariosub5 div{
+/*.bodydiariosub5 div{
   height: 300px;
-}
+}*/
 .bodydiariosub5{
   display: grid;
   grid-template-columns: auto 40%;
@@ -631,9 +691,9 @@ hr{
   padding-top: 6px;
 }
 
-.bodydiariosub6 div{
+/*.bodydiariosub6 div{
   height: 300px;
-}
+}*/
 .bodydiariosub6{
   display: grid;
   grid-template-columns: auto 40%;
@@ -1391,4 +1451,15 @@ table.matriz td{
   order: 1;
   position: sticky;
   z-index:1000;
+}
+
+#collapseEquipos{
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.card-body{
+  display: inline-block;
+  width: 100%;
+
 }

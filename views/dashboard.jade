@@ -91,9 +91,9 @@ html
                       button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
                           i.bi.bi-card-image
                   .mb-3
-                    label.form-label(for='formFileMultiple') Traspaso
+                    label.form-label(for='formFileMultiple') Trabajos diarios
                     .equiposexample
-                      input#formFileMultiple.form-control(type='file' name="Traspaso" multiple='')
+                      input#formFileMultiple.form-control(type='file' name="Trabajos" multiple='')
                       button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
                           i.bi.bi-card-image
 
@@ -784,9 +784,9 @@ html
         #Asistencia
           //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
           p
-            button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample')
+            button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseSectores' aria-expanded='false' aria-controls='collapseExample')
               | Mostrar sectores
-          #collapseExample.collapse
+          #collapseSectores.collapse
             .card.card-body
               #asistenciagrid.grid-container
                 div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('0')" type='button' ) 
@@ -975,20 +975,33 @@ html
                       i.bi.bi-chevron-right
               p
               #contentdiariosub5
-                .headerdiariosub5
-                  h2 {{fechahoy}}
-                .bodydiariosub5
-                  div 
-                    h1 Ubicaciones : {{ubicacionessub5}}
-                    p
-                    h1 Dotacion : {{dotacionsub5}}
-                    p
-                    h1 Observaciones : {{observacionessub5}}
-                    p
-                    h1 Información : {{informacionsub5}}
+                .x_panel
+                  .headerdiariosub5
+                    .tittleh22 Limpieza de brocales sub 5 {{fechahoy}}
+                  .x_body
+                    .bodydiariosub5
+                      div
+                        .x_li 
+                          .tittleh2 Ubicaciones  
+                          p.dato {{ubicacionessub5}}
+                        .x_li
+                          .tittleh2 Dotacion  
+                          p.dato {{dotacionsub5}}
+                        .x_li
+                          .tittleh2 Observaciones  
+                          p.dato {{observacionessub5}}
+                        .x_li
+                          .tittleh2 Información 
+                          p.dato {{informacionsub5}}
+                        .x_li
+                          .tittleh2 Equipo de levante
+                          p.dato {{miniretrosub5}}
+                        .x_li
+                          .tittleh2 Estado mini retro
+                          p.dato {{levantesub5}}
 
-                  div 
-                    #chart47(zingchart='' zc-json='myJsondiariosub5' zc-width='80%' zc-height='300px' visibility="hidden" )
+                      div 
+                        #chart47(zingchart='' zc-json='myJsondiariosub5' zc-width='80%' zc-height='300px' visibility="hidden" )
 
             #brocal2.grid-item
               
@@ -1008,84 +1021,101 @@ html
                       i.bi.bi-chevron-right
               p
               #contentdiariosub6
-                .headerdiariosub6
-                  h2 {{fechahoy}}
-                .bodydiariosub6
-                  div 
-                    h1 Ubicaciones : {{ubicacionessub6}}
-                    p
-                    h1 Dotacion : {{dotacionsub6}}
-                    p
-                    h1 Observaciones : {{observacionessub6}}
-                    p
-                    h1 Información : {{informacionsub6}}
-                  div
-                    #chart48(zingchart='' zc-json='myJsondiariosub6' zc-width='80%' zc-height='300px' visibility="hidden" )
+                .x_panel
+                  .headerdiariosub6
+                    .tittleh22 Limpieza de brocales sub 6 {{fechahoy}}
+                  .x_body
+                    .bodydiariosub6
+                      div
+                        .x_li 
+                          .tittleh2 Ubicaciones  
+                          p.dato {{ubicacionessub6}}
+                        .x_li
+                          .tittleh2 Dotacion  
+                          p.dato {{dotacionsub6}}
+                        .x_li
+                          .tittleh2 Observaciones  
+                          p.dato {{observacionessub6}}
+                        .x_li
+                          .tittleh2 Información 
+                          p.dato {{informacionsub6}}
+                        .x_li
+                          .tittleh2 Equipo de levante
+                          p.dato {{miniretrosub6}}
+                        .x_li
+                          .tittleh2 Estado mini retro
+                          p.dato {{levantesub6}}
+                      div
+                        #chart48(zingchart='' zc-json='myJsondiariosub6' zc-width='80%' zc-height='300px' visibility="hidden" )
 
           #calendariobrocales.grid-container
             //#myChart
             #chart51(zingchart='' zc-json='myJsonCalendarBrocales' zc-width='100%' zc-height='400px' visibility="hidden" )
           p
-          select.selectequipo.form-selectfilterequipo( ng-model='columns' ng-init='columns="Equipo"' ng-options='e for e in headersequipo' )
-          input.form-controlfilter( type='text' ng-model='searchtxtx[columns]' placeholder='Ingresar valor a filtrar')
-          p
-          #tableequipos.grid-container
-            div.tabla.item1
-              table.Asistencia.table.caption-top
-                        thead
-                          tr
-                            th(data-type="text")
-                              | Equipo
-                              span.resize-handle
-                            th(data-type='text')
-                              | Patente
-                              span.resize-handle
-                            th(data-type='text-long')
-                              | Cartola
-                              span.resize-handle
-                            th(data-type='text-long')
-                              | Ult. Mant.
-                              span.resize-handle
-                            th(data-type='text-long')
-                              | Ult. Mant. kms
-                              span.resize-handle
-                            th(data-type='text-long')
-                              | Prox. Mant. kms
-                              span.resize-handle
-                            th(data-type='text-long')
-                              | Km actual
-                              span.resize-handle
-                            th(data-type='text-long')
-                              | Semaforo
-                              span.resize-handle
-                            th(data-type='text-long')
-                              | Est. actual
-                              span.resize-handle
-                            th(data-type='text-long')
-                              | Fecha Cheq. gas
-                              span.resize-handle
-                        tbody
-                          tr(ng-repeat="equipo in equipostotal|filter:searchtxtx")
-                            td
-                              label {{equipo.Equipo}} 
-                            td
-                              label {{equipo.Patente}} 
-                            td
-                              label {{equipo.Cartola}}
-                            td
-                              label {{equipo.Ultimamantencion}}
-                            td
-                              label {{equipo.Ultimokms}}
-                            td
-                              label {{equipo.Proximakms}}
-                            td
-                              label {{equipo.Kilometrajeactual}}
-                            td
-                              label {{equipo.Semaforo}}
-                            td
-                              label {{equipo.Estado}}
-                            td
-                              label {{equipo.Fechagas}}
+            button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseEquipos' aria-expanded='false' aria-controls='collapseExample')
+              | Estado Equipos
+          #collapseEquipos.collapse
+            .card.card-body
+              select.selectequipo.form-selectfilterequipo( ng-model='columns' ng-init='columns="Equipo"' ng-options='e for e in headersequipo' )
+              input.form-controlfilter( type='text' ng-model='searchtxtx[columns]' placeholder='Ingresar valor a filtrar')
+              p
+              #tableequipos.grid-container
+                div.tabla.item1
+                  table.Asistencia.table.caption-top
+                            thead
+                              tr
+                                th(data-type="text")
+                                  | Equipo
+                                  span.resize-handle
+                                th(data-type='text')
+                                  | Patente
+                                  span.resize-handle
+                                th(data-type='text-long')
+                                  | Cartola
+                                  span.resize-handle
+                                th(data-type='text-long')
+                                  | Ult. Mant.
+                                  span.resize-handle
+                                th(data-type='text-long')
+                                  | Ult. Mant. kms
+                                  span.resize-handle
+                                th(data-type='text-long')
+                                  | Prox. Mant. kms
+                                  span.resize-handle
+                                th(data-type='text-long')
+                                  | Km actual
+                                  span.resize-handle
+                                th(data-type='text-long')
+                                  | Semaforo
+                                  span.resize-handle
+                                th(data-type='text-long')
+                                  | Est. actual
+                                  span.resize-handle
+                                th(data-type='text-long')
+                                  | Fecha Cheq. gas
+                                  span.resize-handle
+                            tbody
+                              tr(ng-repeat="equipo in equipostotal|filter:searchtxtx")
+                                td
+                                  label {{equipo.Equipo}} 
+                                td
+                                  label {{equipo.Patente}} 
+                                td
+                                  label {{equipo.Cartola}}
+                                td
+                                  label {{equipo.Ultimamantencion}}
+                                td
+                                  label {{equipo.Ultimokms}}
+                                td
+                                  label {{equipo.Proximakms}}
+                                td
+                                  label {{equipo.Kilometrajeactual}}
+                                td
+                                  label {{equipo.Semaforo}}
+                                td
+                                  label {{equipo.Estado}}
+                                td
+                                  label {{equipo.Fechagas}}
 
           
           //#Bargraphbrocales.grid-container
@@ -1343,6 +1373,8 @@ html
                           i.bi.bi-trash3
 
           div(ng-switch-when='Brocales')
+            | Seleccionar el archivo a modificar 
+            select.selectasistenciamod.form-selectfilter( ng-model='columnbrocalesmod' ng-options='e for e in headerbrocales' ng-change="filltablebrocalesmod(columnbrocalesmod)" )
             h1 Brocales
             #Modalmodbrocal.modal.fade( aria-labelledby='Modallogin' )
               .modal-dialog
@@ -1459,6 +1491,8 @@ html
                           i.bi.bi-card-text
 
           div(ng-switch-when='Planmatriz')
+            | Seleccionar el archivo a modificar 
+            select.selectasistenciamod.form-selectfilter( ng-model='columnmatrizmod' ng-options='e for e in headermatriz' ng-change="filltablematrizmod(columnmatrizmod)" )
             h1 Plan matriz
             #Modalmodplanmatriz.modal.fade( aria-labelledby='Modallogin' )
               .modal-dialog
@@ -1486,7 +1520,7 @@ html
                   .modal-footer
                     button.btnn(type='button' data-bs-dismiss='modal') Cerrar
                     button.btnn(name="probando3" value="probando4" ng-click="postmodmatriz()" data-bs-dismiss='modal') Aceptar
-            select.selectasistencia.form-selectfilter( ng-model='columnmatriz' ng-init='columnasist="Fecha"' ng-options='e for e in headermatriz' )
+            select.selectasistencia.form-selectfilter( ng-model='columnmatriz' ng-init='columnasist="Fecha"' ng-options='e for e in headermatrizp' )
             input.form-controlfilter( type='text' ng-model='searchtxt[columnmatriz]' placeholder='Ingresar valor a filtrar')
             #tablematrizarmod.grid-container
               div.tabla.item1
@@ -1527,6 +1561,8 @@ html
                         button.btn.btn-secondary.modmatrizbutton(type='button' ng-click="modificarmatriz(Totalmatrizarchivosmod.indexOf(matriz))" )
                           i.bi.bi-card-text
           div(ng-switch-when='Disciplina')
+            | Seleccionar el archivo a modificar 
+            select.selectasistenciamod.form-selectfilter( ng-model='columndisciplinamod' ng-options='e for e in headerdisciplinaselect' ng-change="filltabledisciplinamod(columndisciplinamod)" )
             h1 Disciplina Operacional
             #Modalmoddisciplina.modal.fade( aria-labelledby='Modallogin' )
               .modal-dialog

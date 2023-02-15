@@ -40,8 +40,6 @@ function openActivity(evt, actividad) {
     x[i].style.display = "none";
   }
   tablinks = document.getElementsByClassName("tablink");
-  console.log(tablinks)
-  console.log(evt.currentTarget)
   for (i = 0; i < x.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" w3-red", "");
   }
@@ -597,21 +595,84 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     }
   }
 
-  /*for(a=0; a < local_data_asistencia.length; a++){
-    $scope.Totalasistenciaarchivosmod.push(local_data_asistencia[a])
-  }*/
 
-  for(a=0; a < local_data_brocales.length; a++){
-    $scope.Totalbrocalesmod.push(local_data_brocales[a])
+  $scope.filltablebrocalesmod = function(s){
+    $scope.Totalbrocalesmod = [];
+    var id = ""
+    for(c=0; c <local_data_archivos.length; c++){
+      if(local_data_archivos[c].Nombrearchivo == s){
+        id = local_data_archivos[c].Idingreso
+      }
+    }
+
+    for(d=0; d < local_data_brocales.length; d++){
+      if(local_data_brocales[d].Idingreso == id){
+        $scope.Totalbrocalesmod.push(local_data_brocales[d])
+      }
+    }
+
+    $scope.headersbroc =  Object.keys($scope.Totalbrocalesmod[0])
   }
 
-  for(a=0; a < local_data_matriz.length; a++){
-    $scope.Totalmatrizarchivosmod.push(local_data_matriz[a])
+  $scope.headerbrocales = []
+  for(a=0; a < local_data_archivos.length; a++){
+    if(local_data_archivos[a].Infoingresada == "Limpieza de brocales"){
+      $scope.headerbrocales.push(local_data_archivos[a].Nombrearchivo)
+    }
   }
 
-  for(a=0; a < local_data_disciplina.length; a++){
-    $scope.Totaldisciplinamod.push(local_data_disciplina[a])
+  $scope.filltablematrizmod = function(s){
+    $scope.Totalmatrizmod = [];
+    var id = ""
+    for(c=0; c <local_data_archivos.length; c++){
+      if(local_data_archivos[c].Nombrearchivo == s){
+        id = local_data_archivos[c].Idingreso
+      }
+    }
+
+    for(d=0; d < local_data_matriz.length; d++){
+      if(local_data_matriz[d].Idingreso == id){
+        $scope.Totalmatrizmod.push(local_data_matriz[d])
+      }
+    }
+
+    $scope.headermatrizp =  Object.keys($scope.Totalmatrizmod[0])
   }
+
+  $scope.headermatriz =[]
+
+  for(a=0; a < local_data_archivos.length; a++){
+    if(local_data_archivos[a].Infoingresada == "Plan matriz"){
+      $scope.headermatriz.push(local_data_archivos[a].Nombrearchivo)
+    }
+  }
+
+  $scope.filltabledisciplinamod = function(s){
+    $scope.Totaldisciplinamod = [];
+    var id = ""
+    for(c=0; c <local_data_archivos.length; c++){
+      if(local_data_archivos[c].Nombrearchivo == s){
+        id = local_data_archivos[c].Idingreso
+      }
+    }
+
+    for(d=0; d < local_data_disciplina.length; d++){
+      if(local_data_disciplina[d].Idingreso == id){
+        $scope.Totaldisciplinamod.push(local_data_disciplina[d])
+      }
+    }
+
+    headerdisciplina =  Object.keys($scope.Totaldisciplinamod[0])
+  }
+
+  $scope.headerdisciplinaselect =[]
+  for(a=0; a < local_data_archivos.length; a++){
+    if(local_data_archivos[a].Infoingresada == "Tiempos de la disciplina operacional"){
+      $scope.headerdisciplinaselect.push(local_data_archivos[a].Nombrearchivo)
+    }
+  }
+
+
 
   for(a=0; a < local_data_equipo.length ; a++){
     $scope.Totalequiposmod.push(local_data_equipo[a])
@@ -634,9 +695,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   $scope.puertasvalue = {};
 
   //$scope.headersasist = Object.keys($scope.Totalasistenciaarchivosmod[0])
-  $scope.headersbroc = Object.keys(local_data_brocales[0])
-  $scope.headermatriz = Object.keys(local_data_matriz[0])
-  $scope.headerdisciplina = Object.keys(local_data_disciplina[0])
+  //$scope.headersbroc = Object.keys(local_data_brocales[0])
+  //$scope.headermatriz = Object.keys(local_data_matriz[0])
+  //$scope.headerdisciplina = Object.keys(local_data_disciplina[0])
   $scope.headerequipo = Object.keys(local_data_equipo[0])
   $scope.headervimo = Object.keys(local_data_puertas[0])
   $scope.headersap = Object.keys(local_data_sap[0])
@@ -766,7 +827,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     $scope.indicedisciplina = index
     $scope.disciplinavalue.area = $scope.Totaldisciplinamod[index].Area
     $scope.disciplinavalue.dia = $scope.Totaldisciplinamod[index].Dia
-    $scope.disciplinavalue.fechad = $scope.Totaldisciplinamod[index].Fecha
+    $scope.disciplinavalue.fecha = $scope.Totaldisciplinamod[index].Fecha
     $scope.disciplinavalue.llegadainstalacion = $scope.Totaldisciplinamod[index].Llegada_Instalacion
     $scope.disciplinavalue.salidainstalacion = $scope.Totaldisciplinamod[index].Salida_Instalacion
     $scope.disciplinavalue.inicioactam = $scope.Totaldisciplinamod[index].Inicio_Act_Am
@@ -790,7 +851,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   $scope.postmoddisciplina = function(){
     $scope.Totaldisciplinamod[$scope.indicedisciplina].Area=$scope.disciplinavalue.area
     $scope.Totaldisciplinamod[$scope.indicedisciplina].Dia=$scope.disciplinavalue.dia
-    $scope.Totaldisciplinamod[$scope.indicedisciplina].Fecha=$scope.disciplinavalue.fechad
+    $scope.Totaldisciplinamod[$scope.indicedisciplina].Fecha=$scope.disciplinavalue.fecha
     $scope.Totaldisciplinamod[$scope.indicedisciplina].Llegada_Instalacion=$scope.disciplinavalue.llegadainstalacion
     $scope.Totaldisciplinamod[$scope.indicedisciplina].Salida_Instalacion=$scope.disciplinavalue.salidainstalacion
     $scope.Totaldisciplinamod[$scope.indicedisciplina].Inicio_Act_Am=$scope.disciplinavalue.inicioactam
@@ -1859,6 +1920,10 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     $scope.observacionessub6="";
     $scope.informacionsub5="";
     $scope.informacionsub6="";
+    $scope.miniretrosub5="";
+    $scope.miniretrosub6="";
+    $scope.levantesub5="";
+    $scope.levantesub6=""
     var entrarsub5=true;
     var entrarsub6=true;
     for(a=0; a < local_data_brocales.length ; a++){
@@ -1869,6 +1934,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
           $scope.ubicacionessub5+=local_data_brocales[a].Ubicacion;
           $scope.dotacionsub5=local_data_brocales[a].Dotacion;
           $scope.observacionessub5=local_data_brocales[a].Observaciones;
+          $scope.miniretrosub5=local_data_brocales[a].Miniretro;
+          $scope.levantesub5=local_data_brocales[a].Levante
           if(local_data_brocales[a].Demanda=="0" && entrarsub5==true){
             $scope.informacionsub5=local_data_brocales[a].Horai;
             entrarsub5=false;
@@ -1881,6 +1948,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
           $scope.ubicacionessub6+=local_data_brocales[a].Ubicacion;
           $scope.dotacionsub6=local_data_brocales[a].Dotacion;
           $scope.observacionessub6=local_data_brocales[a].Observaciones;
+          $scope.miniretrosub6=local_data_brocales[a].Miniretro;
+          $scope.levantesub6=local_data_brocales[a].Levante
           if(local_data_brocales[a].Demanda=="0" && entrarsub6==true){
             $scope.informacionsub6=local_data_brocales[a].Horai;
             entrarsub6=false;

@@ -2,7 +2,7 @@
 var Sequelize = require('sequelize');
 module.exports = function(sequelize,DataTypes){
 
-	var brocales=sequelize.define('brocales',{
+	var trabajos=sequelize.define('trabajos',{
 				Id : {
 		        	type: Sequelize.INTEGER,
 		        	primaryKey: true,
@@ -11,27 +11,25 @@ module.exports = function(sequelize,DataTypes){
 		    	},
 		    	Fecha: Sequelize.TEXT,
 				Turno : Sequelize.TEXT,
-				Ubicacion : Sequelize.TEXT,
-				Unidad : Sequelize.TEXT,
-				Actividad : Sequelize.TEXT,
-				Observaciones : Sequelize.TEXT,
-				Cantidad : Sequelize.TEXT,
-				Sub : Sequelize.TEXT,
-				Demanda : Sequelize.TEXT,
 				Dotacion : Sequelize.TEXT,
-				Horai : Sequelize.TEXT,
-				Horaf : Sequelize.TEXT,
-				Uniqueid : Sequelize.TEXT,
-				Idingreso : Sequelize.TEXT,
-				Miniretro : Sequelize.TEXT,
-				Levante : Sequelize.TEXT
+				JdtDet : Sequelize.TEXT,
+				JdtMies : Sequelize.TEXT,
+				Ubicacion : Sequelize.TEXT,
+				Actividad : Sequelize.TEXT,
+				Horometrolevante : Sequelize.TEXT,
+				Estadolevante : Sequelize.TEXT,
+				Horometromini : Sequelize.TEXT,
+				Estadominiretro : Sequelize.TEXT,
+				Observaciones : Sequelize.TEXT,
+				Idingreso : Sequelize.TEXT
+
 			},{
-				tableName: 'brocales',
+				tableName: 'trabajos',
 				freezeTableName: true,
     			timestamps: false
 			
 			});
-	return brocales;
+	return trabajos;
 
 
 };

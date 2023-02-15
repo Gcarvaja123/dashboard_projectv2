@@ -19,6 +19,14 @@ function leerExcel(ruta){
   return dataExcel;
 }
 
+function leerExcelTrabajos(ruta){
+  const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
+  const workbooksheet = workbook.SheetNames;
+  const sheet  = workbooksheet[workbooksheet.length-1];
+  const dataExcel = reader.utils.sheet_to_json(workbook.Sheets[sheet]);
+  return dataExcel;
+}
+
 function leerExcelSap(ruta){
   var array=[];
   const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
@@ -499,6 +507,8 @@ module.exports = {
               var Fecha_aux= "";
               var id = "";
               var demandaiszero = true
+              var miniretro ="";
+              var levante = "";
               await modelo.archivos.create({
                 Tabla : "brocales",
                 Idingreso : random_id_brocales5_multiple,
@@ -562,12 +572,26 @@ module.exports = {
                   }
                 if(datos[a]["__EMPTY_11"] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                    Cantidad = 0;
+                }
+                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-7]] != undefined){
+                  miniretro = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-7]];
+                }
+                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-7]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                  miniretro = "";
+                }
 
+
+                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-4]] != undefined){
+                  levante = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-4]];
                 }
-                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] != undefined){
-                  Actividad = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]];
+                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-4]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                   levante = "";
                 }
-                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+
+                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-10]] != undefined){
+                  Actividad = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-10]];
+                }
+                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-10]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                    Actividad = "";
                 }
                 if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] != undefined){
@@ -576,9 +600,8 @@ module.exports = {
                 if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                    Observaciones = "";
                 }
-                /*if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] != undefined){
-                    Sub = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]];
-                }*/
+
+                
 
                 if((Object.keys(datos[a]).length > 1 && demandaiszero != true) || datos[a][Object.keys(datos[0])[0]] != undefined){
                   await modelo.brocales.findAll({
@@ -603,7 +626,9 @@ module.exports = {
                           Horai : Horai,
                           Horaf : Horaf,
                           Uniqueid : id,
-                          Idingreso : random_id_brocales5_multiple
+                          Idingreso : random_id_brocales5_multiple,
+                          Miniretro : miniretro,
+                          Levante : levante
                       })     
                     }
                     if (Demanda == 0 ){
@@ -648,6 +673,9 @@ module.exports = {
             var Horaf = "";
             var Fecha_aux= "";
             var id = "";
+            var miniretro = "";
+            var levante = "";
+
             var demandaiszero = true
             var random_id_brocales5_single = guid()
             await modelo.archivos.create({
@@ -713,10 +741,25 @@ module.exports = {
                  Cantidad = 0;
 
               }
-              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] != undefined){
-                  Actividad = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]];
+
+              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-7]] != undefined){
+                miniretro = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-7]];
               }
-              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-7]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                miniretro = "";
+              }
+
+
+              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-4]] != undefined){
+                levante = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-4]];
+              }
+              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-4]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                 levante = "";
+              }
+              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-10]] != undefined){
+                  Actividad = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-10]];
+              }
+              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-10]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                  Actividad = "";
               }
               if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] != undefined){
@@ -751,7 +794,9 @@ module.exports = {
                         Horai : Horai,
                         Horaf : Horaf,
                         Uniqueid : id,
-                        Idingreso : random_id_brocales5_single
+                        Idingreso : random_id_brocales5_single,
+                        Miniretro : miniretro,
+                        Levante : levante
                     })     
                   }
                   if (Demanda == 0 ){
@@ -802,7 +847,19 @@ module.exports = {
               var Horaf = "";
               var Fecha_aux= "";
               var id = "";
+              var levante = "";
+              var miniretro = "";
               var demandaiszero = true
+              var idminiretro =""
+              var idlevante = ""
+              if(file.name.toString().includes("pilar norte")){
+                idminiretro = 3
+                idlevante = 3
+              }
+              else{
+                idlevante = 11
+                idminiretro = 8
+              }
               await modelo.archivos.create({
                 Tabla : "brocales",
                 Idingreso : random_id_brocales6_multiple,
@@ -869,6 +926,20 @@ module.exports = {
                    Cantidad = 0;
 
                 }
+                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idminiretro]] != undefined){
+                  miniretro = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idminiretro]];
+                }
+                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idminiretro]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                  miniretro = "";
+                }
+
+                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idlevante]] != undefined){
+                  levante = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idlevante]];
+                }
+                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idlevante]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                  levante = "";
+                }
+
                 if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] != undefined){
                     Actividad = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]];
                 }
@@ -908,7 +979,9 @@ module.exports = {
                           Horai : Horai,
                           Horaf : Horaf,
                           Uniqueid : id,
-                          Idingreso : random_id_brocales6_multiple
+                          Idingreso : random_id_brocales6_multiple,
+                          Miniretro : miniretro,
+                          Levante : levante
                       })     
                     }
                     if (Demanda == 0 ){
@@ -956,6 +1029,18 @@ module.exports = {
             var random_id_brocales6_single = guid()
             var demandaiszero = true
             var nadaqueagregar = false
+            var levante = "";
+            var miniretro = "";
+            var idminiretro= ""
+            var idlevante = ""
+            if(file.name.toString().includes("pilar norte")){
+              idminiretro = 3
+              idlevante = 3
+            }
+            else{
+              idlevante = 11
+              idminiretro = 8
+            }
             await modelo.archivos.create({
               Tabla : "brocales",
               Idingreso : random_id_brocales6_single,
@@ -1019,7 +1104,20 @@ module.exports = {
                 }
               if(datos[a]["__EMPTY_11"] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                  Cantidad = 0;
+              }
 
+              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idminiretro]] != undefined){
+                miniretro = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idminiretro]];
+              }
+              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idminiretro]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                miniretro = "";
+              }
+
+              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idlevante]] != undefined){
+                levante = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idlevante]];
+              }
+              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idlevante]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                levante = "";
               }
               if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] != undefined){
                   Actividad = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]];
@@ -1063,7 +1161,9 @@ module.exports = {
                         Horai : Horai,
                         Horaf : Horaf,
                         Uniqueid : id,
-                        Idingreso : random_id_brocales6_single
+                        Idingreso : random_id_brocales6_single,
+                        Miniretro : miniretro,
+                        Levante : levante
                     })     
                   }
                   if (Demanda == 0 ){
@@ -1963,6 +2063,106 @@ module.exports = {
         console.log(datos[1])
         console.log(datos[2])
         console.log(datos[3])
+      }
+
+      else if(datos_1[d] == "Trabajos"){
+        try{
+          var random_id_trabajo_single = guid();
+          file = req.files["Trabajos"];
+          const savePath = path.join(__dirname,"../",'public','uploads',file.name);
+          await file.mv(savePath);
+          var datos = leerExcelTrabajos(file.name);
+          await modelo.archivos.create({
+            Tabla : "Trabajos",
+            Idingreso : random_id_trabajo_single,
+            Fechaingreso : Fecha_hoy,
+            Infoingresada : "Trabajos realizados",
+            Nombrearchivo : file.name.toString() 
+          })
+          var Fecha = ""
+          var Turno = ""
+          var Dotacion = ""
+          var JdtDet = ""
+          var JdtMies = ""
+          var Ubicacion = ""
+          var Actividad = ""
+          var Horometrolevante = ""
+          var Estadolevante = ""
+          var Horometromini = ""
+          var Estadominiretro = ""
+          var Observaciones = ""
+          for(a=1; a < datos.length ; a++){
+            if(datos[a][Object.keys(datos[0])[0]] != undefined){
+              var date = ExcelDateToJSDate(datos[a][Object.keys(datos[0])[0]])
+              var converted_date = date.toISOString().split('T')[0];
+              Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
+            }
+            if(datos[a]["__EMPTY"] != undefined){
+              Turno = datos[a]["__EMPTY"]
+            }
+            if (datos[a]["__EMPTY_1"] != undefined){
+              Dotacion = datos[a]["__EMPTY_1"]
+            }
+            if(datos[a]["__EMPTY_2"] != undefined){
+              JdtDet = datos[a]["__EMPTY_2"]
+            }
+            if(datos[a]["__EMPTY_3"] != undefined){
+              JdtMies = datos[a]["__EMPTY_3"]
+            }
+            if(datos[a]["__EMPTY_4"] != undefined){
+              Ubicacion = datos[a]["__EMPTY_4"]
+            }
+            if(datos[a]["__EMPTY_5"] != undefined){
+              Actividad = datos[a]["__EMPTY_5"]
+            }
+            if(datos[a]["__EMPTY_6"] != undefined){
+              Horometrolevante = datos[a]["__EMPTY_6"]
+            }
+            if (datos[a]["__EMPTY_7"] != undefined){
+              Estadolevante = datos[a]["__EMPTY_7"]
+            }
+            if (datos[a]["__EMPTY_8"] != undefined){
+              Horometromini = datos[a]["__EMPTY_8"]
+            }
+            if(datos[a]["__EMPTY_9"] != undefined){
+              Estadominiretro = datos[a]["__EMPTY_9"]
+            }
+            if(datos[a]["__EMPTY_10"] != undefined){
+              Observaciones = datos[a]["_EMPTY_10"]
+            }
+
+            await modelo.trabajos.create({
+              Fecha : Fecha,
+              Turno : Turno,
+              Dotacion : Dotacion,
+              JdtDet : JdtDet,
+              JdtMies : JdtMies,
+              Ubicacion : Ubicacion,
+              Actividad : Actividad,
+              Horometrolevante : Horometrolevante,
+              Estadolevante : Estadolevante,
+              Horometromini : Horometromini,
+              Estadominiretro : Estadominiretro,
+              Observaciones : Observaciones,
+              Idingreso : random_id_trabajo_single
+            })
+          }
+        }catch(err){
+          req.flash('error', file.name.toString());
+          console.log(err)
+          await modelo.archivos.destroy({
+            where : {
+              Tabla : "Trabajos",
+              Idingreso : random_id_trabajo_single
+            }
+          })
+
+          await modelo.trabajos.destroy({
+            where : {
+              Idingreso : random_id_trabajo_single
+            }
+          })
+        }
       }
          
     }
