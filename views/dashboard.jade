@@ -29,6 +29,8 @@ html
       local_info = !{JSON.stringify(info)};
       local_error = !{JSON.stringify(error)}
       local_ingreso = !{JSON.stringify(ingreso)}
+      local_data_trabajos = !{JSON.stringify(totaltrabajos)}
+      local_data_disciplina_traspaso = !{JSON.stringify(totaldisciplinatraspaso)}
       
   
   body#probando(ng-app='myApp' ng-controller="myControllerAsistencia")
@@ -41,61 +43,88 @@ html
                 button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
               .modal-body#Modalfiles4
                 .container#Modalfiles5
-                  .mb-3.matrizitems#Modalfiles6
-                    .item1
-                      label.form-label(for='formFileMultiple') Plan matriz
-                      .planexample
-                        input#formFileMultiple.form-control(type='file' name="Matriz" multiple='')
-                        button.btn.btn-secondary.planbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverplan'  data-bs-content=' ')
-                          i.bi.bi-card-image
-                        button.btn.btn-secondary.vimobutton(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popovervimo'  data-bs-content=' ')
-                          i.bi.bi-card-image
+                  nav
+                    #nav-tab.nav.nav-tabs(role='tablist')
+                      button#nav-home-tab.nav-link.active(data-bs-toggle='tab' data-bs-target='#nav-home' type='button' role='tab' aria-controls='nav-home' aria-selected='true') Infra
+                      button#nav-profile-tab.nav-link(data-bs-toggle='tab' data-bs-target='#nav-profile' type='button' role='tab' aria-controls='nav-profile' aria-selected='false') Traspaso
+                  #nav-tabContent.tab-content
+                    #nav-home.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='nav-home-tab')
+                      .mb-3.matrizitems#Modalfiles6
+                        .item1
+                          label.form-label(for='formFileMultiple') Plan matriz
+                          .planexample
+                            input#formFileMultiple.form-control(type='file' name="Matriz" multiple='')
+                            button.btn.btn-secondary.planbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverplan'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                            button.btn.btn-secondary.vimobutton(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popovervimo'  data-bs-content=' ')
+                              i.bi.bi-card-image
 
-                    .item2#Modalfiles7
-                      label.form-label(for='formFileMultiple') P. Vimo SAP
-                      .sapexample#Modalfiles8
-                        input#formFileMultiple.form-control(type='file' name="Matrizsap" multiple='')
-                        button.btn.btn-secondary.sapbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoversap'  data-bs-content=' ')
-                          i.bi.bi-card-image
-                  .mb-3
-                    .item1
-                      label.form-label(for='formFileMultiple') Asistencia
-                      .asistenciaexample
-                        input#formFileMultiple.form-control(type='file' name="Asistencia" multiple='')
-                        button.btn.btn-secondary.asistenciabutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverasistencia'  data-bs-content=' ')
-                          i.bi.bi-card-image
+                        .item2#Modalfiles7
+                          label.form-label(for='formFileMultiple') P. Vimo SAP
+                          .sapexample#Modalfiles8
+                            input#formFileMultiple.form-control(type='file' name="Matrizsap" multiple='')
+                            button.btn.btn-secondary.sapbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoversap'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3
+                        .item1
+                          label.form-label(for='formFileMultiple') Asistencia
+                          .asistenciaexample
+                            input#formFileMultiple.form-control(type='file' name="Asistencia" multiple='')
+                            button.btn.btn-secondary.asistenciabutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverasistencia'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      
+                      .mb-3.brocalesitems
+                        .item1
+                          label.form-label(for='formFileMultiple') Servicio y limpieza brocales sub 5
+                          .sub5example
+                            input#formFileMultiple.form-control(type='file' name="Brocales5" multiple='')
+                            button.btn.btn-secondary.sub5button(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popoversub5'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                        .item2
+                          label.form-label(for='formFileMultiple') Servicio y limpieza brocales sub 6
+                          .sub6example
+                            input#formFileMultiple.form-control(type='file' name="Brocales6" multiple='')
+                            button.btn.btn-secondary.sub6button(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoversub6'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Disciplina operacional
+                        .disciplinaexample
+                          input#formFileMultiple.form-control(type='file' name="Disciplina" multiple='')
+                          button.btn.btn-secondary.disciplinabutton(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popoverdisciplina'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Equipos y camionetas
+                        .equiposexample
+                          input#formFileMultiple.form-control(type='file' name="Equipos" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Trabajos diarios
+                        .equiposexample
+                          input#formFileMultiple.form-control(type='file' name="Trabajos" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                    #nav-profile.tab-pane.fade(role='tabpanel' aria-labelledby='nav-profile-tab')
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Asistencia
+                        .equiposexample
+                          input#formFileMultiple.form-control(type='file' name="Asistenciatraspaso" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Workpad
+                        .equiposexample
+                          input#formFileMultiple.form-control(type='file' name="Workpad" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Disciplina Operacional
+                        .equiposexample
+                          input#formFileMultiple.form-control(type='file' name="Disciplinatraspaso" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
                   
-                  .mb-3.brocalesitems
-                    .item1
-                      label.form-label(for='formFileMultiple') Servicio y limpieza brocales sub 5
-                      .sub5example
-                        input#formFileMultiple.form-control(type='file' name="Brocales5" multiple='')
-                        button.btn.btn-secondary.sub5button(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popoversub5'  data-bs-content=' ')
-                          i.bi.bi-card-image
-                    .item2
-                      label.form-label(for='formFileMultiple') Servicio y limpieza brocales sub 6
-                      .sub6example
-                        input#formFileMultiple.form-control(type='file' name="Brocales6" multiple='')
-                        button.btn.btn-secondary.sub6button(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoversub6'  data-bs-content=' ')
-                          i.bi.bi-card-image
-                  .mb-3
-                    label.form-label(for='formFileMultiple') Disciplina operacional
-                    .disciplinaexample
-                      input#formFileMultiple.form-control(type='file' name="Disciplina" multiple='')
-                      button.btn.btn-secondary.disciplinabutton(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popoverdisciplina'  data-bs-content=' ')
-                          i.bi.bi-card-image
-                  .mb-3
-                    label.form-label(for='formFileMultiple') Equipos y camionetas
-                    .equiposexample
-                      input#formFileMultiple.form-control(type='file' name="Equipos" multiple='')
-                      button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
-                          i.bi.bi-card-image
-                  .mb-3
-                    label.form-label(for='formFileMultiple') Trabajos diarios
-                    .equiposexample
-                      input#formFileMultiple.form-control(type='file' name="Trabajos" multiple='')
-                      button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
-                          i.bi.bi-card-image
 
 
               .modal-footer
@@ -521,6 +550,197 @@ html
                         label {{vimo.Detalles}}
                       td
                         label {{vimo.Estado}}
+    #Modaltrabajos.modal.fade(aria-labelledby='Modaltrabajos')
+      .modal-dialog
+        .modal-content
+          #tablebrocales.grid-container
+              div.tabla.item1
+                table.vimo.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Fecha
+                        span.resize-handle
+                      th(data-type='text')
+                        | Turno
+                        span.resize-handle
+                      th(data-type='text')
+                        | Dotacion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Jdt DET
+                        span.resize-handle
+                      th(data-type='text')
+                        | Jdt MIES
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ubicacion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Actividad
+                        span.resize-handle
+                      th(data-type='text')
+                        | Horo. Lev/Minir
+                        span.resize-handle
+                      th(data-type='text')
+                        | Est. Lev.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Horo. Minir.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Est. Minir.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Obs.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Horo. Minic.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Minic.
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="trabajos in Totaltrabajos")
+                      td
+                        label {{trabajos.Fecha}}
+                      td
+                        label {{trabajos.Turno}}
+                      td
+                        label {{trabajos.Dotacion}}
+                      td
+                        label {{trabajos.JdtDet}}
+                      td
+                        label {{trabajos.JdtMies}}
+                      td
+                        label {{trabajos.Ubicacion}}
+                      td
+                        label {{trabajos.Actividad}}
+                      td
+                        label {{trabajos.Horometrolevante}}
+                      td
+                        label {{trabajos.Estadolevante}}
+                      td
+                        label {{trabajos.Horometromini}}
+                      td
+                        label {{trabajos.Estadominiretro}}
+                      td
+                        label {{trabajos.Observaciones}}
+                      td
+                        label {{trabajos.Horometrominicargador}}
+                      td
+                        label {{trabajos.Minicargador}}
+    #Modalworkpad.modal.fade(aria-labelledby='Modalbrocales')
+      .modal-dialog
+        .modal-content
+          #tableworkpad.grid-container
+              div.tabla.item1
+                table.matriz.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Tipo
+                        span.resize-handle
+                      th(data-type='text')
+                        | Actividad
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ejecutor
+                        span.resize-handle
+                      th(data-type='text')
+                        | HrsProg
+                        span.resize-handle
+                      th(data-type='text')
+                        | Lu. Ta
+                        span.resize-handle
+                      th(data-type='text')
+                        | Lu. Tb
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ma. Ta
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ma. Tb
+                        span.resize-handle
+                      th(data-type='text')
+                        | Mi. Ta
+                        span.resize-handle
+                      th(data-type='text')
+                        | Mi. Tb
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ju. Ta
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ju. Tb
+                        span.resize-handle
+                      th(data-type='text')
+                        | Vi. Ta
+                        span.resize-handle
+                      th(data-type='text')
+                        | Vi. Tb
+                        span.resize-handle
+                      th(data-type='text')
+                        | Sa. Ta
+                        span.resize-handle
+                      th(data-type='text')
+                        | Sa. Tb
+                        span.resize-handle
+                      th(data-type='text')
+                        | Do. Ta
+                        span.resize-handle
+                      th(data-type='text')
+                        | Do. Tb
+                        span.resize-handle
+                      th(data-type='text')
+                        | Aviso
+                        span.resize-handle
+                      th(data-type='text')
+                        | Orden
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="workpad in Totalworkpad")
+                      td
+                        label {{workpad.Tipo}}
+                      td
+                        label {{workpad.Actividad}}
+                      td
+                        label {{workpad.Ejecutor}}
+                      td
+                        label {{workpad.HrsProg}}
+                      td
+                        label {{workpad.LunesTa}}
+                      td
+                        label {{workpad.LunesTb}}
+                      td
+                        label {{workpad.MartesTa}}
+                      td
+                        label {{workpad.MartesTb}}
+                      td
+                        label {{workpad.Miercoles.Ta}}
+                      td
+                        label {{workpad.MiercolesTb}}
+                      td
+                        label {{workpad.JuevesTa}}
+                      td
+                        label {{workpad.JuevesTb}}
+                      td
+                        label {{workpad.ViernesTa}}
+                      td
+                        label {{workpad.ViernesTb}}
+                      td
+                        label {{workpad.SabadoTa}}
+                      td
+                        label {{workpad.SabadoTb}}
+                      td
+                        label {{workpad.DomingoTa}}
+                      td
+                        label {{workpad.DomingoTb}}
+                      td
+                        label {{workpad.Aviso}}
+                      td
+                        label {{workpad.Orden}}
+
     #Tutorial.modal.fade( aria-labelledby='Modaltutorial' )
               .modal-dialog
                 .modal-content
@@ -552,11 +772,17 @@ html
             a.tablink(ng-click="GotoBrocales()") Brocales
           li.nav-item
             a.tablink(ng-click="GotoDisciplina()") Disciplina
+          li.nav-item.has-submenu
+            a.nav-link(data-bs-toggle='collapse' data-bs-target='#menu_item1')  Traspaso
+              i.bi.small.bi-caret-down-fill
+            ul#menu_item1.submenu.collapse(data-bs-parent='#nav_accordion')
+              li
+                a.nav-link.tablink(onclick="openActivity(event,'GotoDisciplinatraspaso')" ) Disciplina
           if user.rango=="Modificacion" || user.rango=="Reportes" || user.rango=="admin"
             li.nav-item.has-submenu
-              a.nav-link(data-bs-toggle='collapse' data-bs-target='#menu_item1')  Opciones
+              a.nav-link(data-bs-toggle='collapse' data-bs-target='#menu_item2')  Opciones
                 i.bi.small.bi-caret-down-fill
-              ul#menu_item1.submenu.collapse(data-bs-parent='#nav_accordion')
+              ul#menu_item2.submenu.collapse(data-bs-parent='#nav_accordion')
                 if user.rango=="Modificacion" || user.rango=="Reportes" || user.rango=="admin"
                   li
                     a.nav-link.tablink(onclick="openActivity(event,'Modificacion')" ) Modificación
@@ -1146,6 +1372,24 @@ html
                   #chart54(zingchart='' zc-json='myJsonTimer1' zc-width='100%' zc-height='300px' visibility="hidden" )
                 div
                   #chart55(zingchart='' zc-json='myJsonTest' zc-width='100%' zc-height='440px' visibility="hidden")
+        #Disciplinatraspaso
+          #Disciplinaubicaciones.grid-container
+            #grid-disciplina.grid-container
+              #chart57(zingchart='' zc-json='myJsonhbardisciplinatraspaso' zc-width='200px' zc-height='300px')
+              #timer-traspaso.grid-container
+                div
+                  div.buttonstimer
+                    button.airebutton(ng-model='sub5selector' ng-click="changegraphtimertraspaso('Buzones')") SUB 6
+                    button.polvobutton(ng-model='pipanselector' ng-click="changegraphtimertraspaso('Mant.Vias')") PIPA N 
+                    button.ventilacionbutton(ng-model='diabloselector' ng-click="changegraphtimertraspaso('Locos.Carros')") DIABLO
+                    button.airebutton(ng-model='sub5selector' ng-click="changegraphtimertraspaso('A1')") SUB 5
+                    button.polvobutton(ng-model='lajuntaselector' ng-click="changegraphtimertraspaso('B1')") La junta
+                  #chart59(zingchart='' zc-json='myJsonTimertraspaso1' zc-width='100%' zc-height='300px' visibility="hidden" )
+
+                div
+                  #chart58(zingchart='' zc-json='myJsonlinedisciplinatraspaso' zc-width='100%' zc-height='440px' visibility="hidden" )
+
+          
       #Creacion.w3-container.w3-border.activity(style='display:none')
         form.formulariocreacion(action='/crearusuario' method='post' enctype='multipart/form-data')
           .form-group.row

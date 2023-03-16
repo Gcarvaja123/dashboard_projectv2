@@ -369,6 +369,18 @@ button{
   height: 1000px;
 }
 
+#Modaltrabajos .modal-dialog{
+  width: 1400px;
+  max-width: 100%;
+  height: 1000px;
+}
+
+#Modalworkpad .modal-dialog{
+  width: 1400px;
+  max-width: 100%;
+  height: 1000px;
+}
+
 #ModalAsistenciaar .modal-dialog{
   max-width: 1400px;
   width: 1400px;

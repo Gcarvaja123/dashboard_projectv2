@@ -59,6 +59,26 @@ function leerExcelDisciplina(ruta, archivos){
   return array_name;
 }
 
+function leerExcelDisciplinatraspaso(ruta, archivos){
+  const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
+  const workbooksheet = workbook.SheetNames;
+  var disciplina_sheets=[];
+  var array_name = [];
+  var nombres = [];
+  for(a=0; a< 5 ; a++){
+    const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
+    const workbooksheet = workbook.SheetNames;
+    const sheet  = workbooksheet[archivos[a]];
+    nombres.push(workbooksheet[archivos[a]]);
+    const dataExcel = reader.utils.sheet_to_json(workbook.Sheets[sheet]);
+    disciplina_sheets.push(dataExcel);
+  }
+
+  array_name.push(disciplina_sheets);
+  array_name.push(nombres);
+  return array_name;
+}
+
 function leerExcelBrocales(ruta){
   const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
   const workbooksheet = workbook.SheetNames;
@@ -76,7 +96,7 @@ function leerExcelMatriz(ruta){
 }
 
 function leerExcelTraspaso(ruta){
-  const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
+  /*const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
   const workbooksheet = workbook.SheetNames;
   var array_datos = []
   for(a=0; a < workbooksheet.length ; a++){
@@ -85,7 +105,20 @@ function leerExcelTraspaso(ruta){
     array_datos.push(dataExcel)
   }
   
-  return array_datos;
+  return array_datos;*/
+  const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
+  const workbooksheet = workbook.SheetNames;
+  const sheet  = workbooksheet[0];
+  const dataExcel = reader.utils.sheet_to_json(workbook.Sheets[sheet]);
+  return dataExcel; 
+}
+
+function leerExcelAsistenciaTraspaso(ruta){
+  const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
+  const workbooksheet = workbook.SheetNames;
+  const sheet  = workbooksheet[0];
+  const dataExcel = reader.utils.sheet_to_json(workbook.Sheets[sheet]);
+  return dataExcel; 
 }
 
 
@@ -132,44 +165,56 @@ module.exports = {
                   }).then(function(rows_equipos){
                     modelo.archivos.findAll({  
                     }).then(function(rows_archivos){
-                      if(req.user != undefined){
-                        console.log(req.user)
-                        return res.render("dashboard", {
-                          totaldisciplina : rows_disciplina,
-                          totalasistencias : rows_asistencia,
-                          totalbrocales : rows_brocales,
-                          totalmatriz : rows_matriz,
-                          totalpuertas : rows_puertas,
-                          totalusuarios : rows_usuarios,
-                          totalequipos : rows_equipos,
-                          totalarchivos : rows_archivos,
-                          user : req.user,
-                          totalsap : rows_vimosap,
-                          authmessage : req.flash('authmessage'),
-                          info: req.flash('info'),
-                          error : req.flash('error'),
-                          ingreso : req.flash('ingreso'),
-                        })
-                      }
-                      else{
+                      modelo.trabajos.findAll({
+                      }).then(function(rows_trabajos){
+                        modelo.disciplina_traspaso.findAll({  
+                        }).then(function(rows_disciplina_traspaso){
+                          if(req.user != undefined){
+                            console.log(req.user)
+                            return res.render("dashboard", {
+                              totaldisciplina : rows_disciplina,
+                              totalasistencias : rows_asistencia,
+                              totalbrocales : rows_brocales,
+                              totalmatriz : rows_matriz,
+                              totalpuertas : rows_puertas,
+                              totalusuarios : rows_usuarios,
+                              totalequipos : rows_equipos,
+                              totalarchivos : rows_archivos,
+                              user : req.user,
+                              totalsap : rows_vimosap,
+                              totaltrabajos : rows_trabajos,
+                              totaldisciplinatraspaso : rows_disciplina_traspaso,
+                              authmessage : req.flash('authmessage'),
+                              info: req.flash('info'),
+                              error : req.flash('error'),
+                              ingreso : req.flash('ingreso'),
+                            })
+                          }
+                          else{
 
-                        return res.render("dashboard", {
-                          totaldisciplina : rows_disciplina,
-                          totalasistencias : rows_asistencia,
-                          totalbrocales : rows_brocales,
-                          totalmatriz : rows_matriz,
-                          totalpuertas : rows_puertas,
-                          totalusuarios : rows_usuarios,
-                          totalequipos : rows_equipos,
-                          totalsap : rows_vimosap,
-                          totalarchivos : rows_archivos,
-                          user : "notlogged",
-                          info: req.flash('info'),
-                          authmessage : req.flash('authmessage'),
-                          error : req.flash('error'),
-                          ingreso : req.flash('ingreso')
+                            return res.render("dashboard", {
+                              totaldisciplina : rows_disciplina,
+                              totalasistencias : rows_asistencia,
+                              totalbrocales : rows_brocales,
+                              totalmatriz : rows_matriz,
+                              totalpuertas : rows_puertas,
+                              totalusuarios : rows_usuarios,
+                              totalequipos : rows_equipos,
+                              totalsap : rows_vimosap,
+                              totalarchivos : rows_archivos,
+                              totaltrabajos : rows_trabajos,
+                              totaldisciplinatraspaso : rows_disciplina_traspaso,
+                              user : "notlogged",
+                              info: req.flash('info'),
+                              authmessage : req.flash('authmessage'),
+                              error : req.flash('error'),
+                              ingreso : req.flash('ingreso')
+                            })
+                          }
                         })
-                      }
+                      
+                      })
+                      
                     })
                     
                   })                 
@@ -2053,18 +2098,6 @@ module.exports = {
         }
 
       }
-
-      else if(datos_1[d] == "Traspaso"){
-        file = req.files["Traspaso"];
-        const savePath = path.join(__dirname,"../",'public','uploads',file.name);
-        await file.mv(savePath);
-        var datos = leerExcelTraspaso(file.name);
-        console.log(datos[0])
-        console.log(datos[1])
-        console.log(datos[2])
-        console.log(datos[3])
-      }
-
       else if(datos_1[d] == "Trabajos"){
         try{
           var random_id_trabajo_single = guid();
@@ -2072,6 +2105,7 @@ module.exports = {
           const savePath = path.join(__dirname,"../",'public','uploads',file.name);
           await file.mv(savePath);
           var datos = leerExcelTrabajos(file.name);
+          console.log(datos)
           await modelo.archivos.create({
             Tabla : "Trabajos",
             Idingreso : random_id_trabajo_single,
@@ -2088,8 +2122,13 @@ module.exports = {
           var Actividad = ""
           var Horometrolevante = ""
           var Estadolevante = ""
+          var Estadolevante_x = ""
           var Horometromini = ""
           var Estadominiretro = ""
+          var Estadominiretro_x = ""
+          var Horometrominicargador = ""
+          var Minicargador = ""
+          var Minicargador_x=""
           var Observaciones = ""
           for(a=1; a < datos.length ; a++){
             if(datos[a][Object.keys(datos[0])[0]] != undefined){
@@ -2120,32 +2159,163 @@ module.exports = {
             }
             if (datos[a]["__EMPTY_7"] != undefined){
               Estadolevante = datos[a]["__EMPTY_7"]
+              if(Estadolevante.toString().includes("NO") || Estadolevante.toString().includes("FUERA") || Estadolevante.toString().includes("F/S") ){
+                Estadolevante_x = "FUERA DE SERVICIO"
+              }
+              else{
+                Estadolevante_x = "OPERATIVA"
+              }
             }
             if (datos[a]["__EMPTY_8"] != undefined){
               Horometromini = datos[a]["__EMPTY_8"]
             }
             if(datos[a]["__EMPTY_9"] != undefined){
               Estadominiretro = datos[a]["__EMPTY_9"]
+              if(Estadominiretro.toString().includes("NO") || Estadominiretro.toString().includes("FUERA") || Estadominiretro.toString().includes("F/S") ){
+                Estadominiretro_x = "FUERA DE SERVICIO"
+              }
+              else{
+                Estadominiretro_x = "OPERATIVA"
+              }
             }
             if(datos[a]["__EMPTY_10"] != undefined){
-              Observaciones = datos[a]["_EMPTY_10"]
+              Horometrominicargador = datos[a]["__EMPTY_10"]
+            }
+            if(datos[a]["__EMPTY_11"] != undefined){
+              Minicargador = datos[a]["__EMPTY_11"]
+              if(Minicargador.toString().includes("NO") || Minicargador.toString().includes("FUERA") || Minicargador.toString().includes("F/S")){
+                Minicargador_x = "FUERA DE SERVICIO"
+              }
+              else{
+                Minicargador_x = "OPERATIVA"
+              }
+            }
+            if(datos[a]["__EMPTY_12"] != undefined){
+              Observaciones = datos[a]["_EMPTY_12"]
             }
 
-            await modelo.trabajos.create({
-              Fecha : Fecha,
-              Turno : Turno,
-              Dotacion : Dotacion,
-              JdtDet : JdtDet,
-              JdtMies : JdtMies,
-              Ubicacion : Ubicacion,
-              Actividad : Actividad,
-              Horometrolevante : Horometrolevante,
-              Estadolevante : Estadolevante,
-              Horometromini : Horometromini,
-              Estadominiretro : Estadominiretro,
-              Observaciones : Observaciones,
-              Idingreso : random_id_trabajo_single
+
+            await modelo.trabajos.findAll({
+              where:{
+                Fecha : Fecha,
+                Ubicacion : Ubicacion,
+                Actividad : Actividad
+              }
+            }).then(async function(rows_copias){
+              if(rows_copias.length < 1){
+                await modelo.trabajos.create({
+                  Fecha : Fecha,
+                  Turno : Turno,
+                  Dotacion : Dotacion,
+                  JdtDet : JdtDet,
+                  JdtMies : JdtMies,
+                  Ubicacion : Ubicacion,
+                  Actividad : Actividad,
+                  Horometrolevante : Horometrolevante,
+                  Estadolevante : Estadolevante,
+                  Horometromini : Horometromini,
+                  Estadominiretro : Estadominiretro,
+                  Horometrominicargador : Horometrominicargador,
+                  Minicargador : Minicargador,
+                  Observaciones : Observaciones,
+                  Idingreso : random_id_trabajo_single
+                })
+              }
+              else{
+                console.log("no pasa nada")
+              }
             })
+
+            if (datos[a]["__EMPTY_1"] != undefined){
+              await modelo.equipos.findAll({
+                where:{
+                  Patente : Estadolevante.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Estadolevante.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1]
+                }
+              }).then(async function(rows_levante){
+                if(rows_levante.length>0){
+                  await modelo.equipos.update({
+                    Estado : Estadolevante_x,
+                    Idingreso : random_id_trabajo_single
+                  },{
+                    where :{
+                      Patente : Estadolevante.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Estadolevante.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1]
+                    }
+                  })
+                }
+                else{
+                  await modelo.equipos.create({
+                    Patente : Estadolevante.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Estadolevante.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1],
+                    Equipo : "Levante",
+                    Estado : Estadolevante_x,
+                    Idingreso : random_id_trabajo_single
+                  })
+                }
+              })
+              await modelo.equipos.findAll({
+                where:{
+                  Patente : Estadominiretro.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Estadominiretro.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1]
+                }
+              }).then(async function(rows_miniretro){
+                if(rows_miniretro.length>0){
+                  await modelo.equipos.update({
+                    Estado : Estadominiretro_x,
+                    Idingreso : random_id_trabajo_single
+                  },{
+                    where :{
+                      Patente : Estadominiretro.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Estadominiretro.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1]
+                    }
+                  })
+                }
+                else{
+                  await modelo.equipos.create({
+                    Patente : Estadominiretro.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Estadominiretro.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1],
+                    Equipo : "Mini Retro",
+                    Estado : Estadominiretro_x,
+                    Idingreso : random_id_trabajo_single
+                  })
+                }
+              })
+              await modelo.equipos.findAll({
+                where:{
+                  Patente : Minicargador.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Minicargador.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1]
+                }
+              }).then(async function(rows_minicargador){
+                if(rows_minicargador.length>0){
+                  await modelo.equipos.update({
+                    Estado : Minicargador_x,
+                    Idingreso : random_id_trabajo_single
+                  },{
+                    where :{
+                      Patente : Minicargador.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Minicargador.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1]
+                    }
+                  })
+                }
+                else{
+                  await modelo.equipos.create({
+                    Patente : Minicargador.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Minicargador.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1],
+                    Equipo : "Mini Cargador",
+                    Estado : Minicargador_x,
+                    Idingreso : random_id_trabajo_single
+                  })
+                }
+              })
+            }
+            
+
+            /*await modelo.asistencia.update({
+                Nombre : req.body.Nombre,
+                Rut : req.body.Rut,
+                Cargo : req.body.Cargo,
+                Turno : req.body.Turno,
+                Sector : req.body.Sector,
+                Fechaingreso : req.body.Fechaingreso
+              },{
+                where:{
+                  Id : req.body.Id
+                }
+            })*/
+
+            
           }
         }catch(err){
           req.flash('error', file.name.toString());
@@ -2164,6 +2334,303 @@ module.exports = {
           })
         }
       }
+      else if(datos_1[d] == "Workpad"){
+        try{
+          file = req.files["Workpad"];
+          const savePath = path.join(__dirname,"../",'public','uploads',file.name);
+          await file.mv(savePath);
+          var datos = leerExcelTraspaso(file.name);
+          var random_id_workpad_single = guid();
+          await modelo.archivos.create({
+            Tabla : "workpad",
+            Idingreso : random_id_workpad_single,
+            Fechaingreso : Fecha_hoy,
+            Infoingresada : "Workpad",
+            Nombrearchivo : file.name.toString() 
+          })
+          var Tipo = "";
+          for(a=6;a < datos.length; a++){
+            
+            var Actividad = "";
+            var Ejecutor = "";
+            var HrsProg = "";
+            var HrsProgTotal = "";
+            var LunesTa = "";
+            var LunesTb = "";
+            var LunesTotal = ""
+            var MartesTa = "";
+            var MartesTb = "";
+            var MartesTotal =""
+            var MiercolesTa = "";
+            var MiercolesTb = "";
+            var MiercolesTotal = "";
+            var JuevesTa = "";
+            var JuevesTb = "";
+            var JuevesTotal = "";
+            var ViernesTa = "";
+            var ViernesTb = "";
+            var ViernesTotal = "";
+            var SabadoTa = "";
+            var SabadoTb = "";
+            var SabadoTotal = "";
+            var DomingoTa = "";
+            var DomingoTb = "";
+            var DomingoTotal= "";
+            var Aviso = "";
+            var Orden = "";
+            var sendData = false
+            if(datos[a]["__EMPTY_1"] == "LOCO" || datos[a]["__EMPTY_1"] == "CARROS" || datos[a]["__EMPTY_1"] == "LIMPIA VIAS" || datos[a]["__EMPTY_1"] == "IRWIN" || datos[a]["__EMPTY_1"] == "TRENES" || datos[a]["__EMPTY_1"] == "ALUMBRADO" || datos[a]["__EMPTY_1"] == "Automatiación" || datos[a]["__EMPTY_1"] == "VIAS DE FFFCC" || datos[a]["__EMPTY_1"] == "BUZONES" || datos[a]["__EMPTY_1"] == "RECTIFICADORAS" || datos[a]["__EMPTY_1"] == "TROLLEY"){
+              Tipo = datos[a]["__EMPTY_1"]
+            }
+
+            if(datos[a]["__EMPTY_3"]!=undefined){
+              Actividad = datos[a]["__EMPTY_3"]
+            }
+            if(datos[a]["__EMPTY_4"]!=undefined){
+              Ejecutor = datos[a]["__EMPTY_4"]
+            }
+            if(datos[a]["__EMPTY_5"]!=undefined){
+              HrsProg = datos[a]["__EMPTY_5"]
+            }
+            if(datos[a]["__EMPTY_6"]!=undefined){
+              LunesTa = datos[a]["__EMPTY_6"]
+            }
+            if(datos[a]["__EMPTY_7"]!=undefined){
+              LunesTb = datos[a]["__EMPTY_7"]
+            }
+            if(datos[a]["__EMPTY_8"]!=undefined){
+              MartesTa = datos[a]["__EMPTY_8"]
+            }
+            if(datos[a]["__EMPTY_9"]!=undefined){
+              MartesTb = datos[a]["__EMPTY_9"]
+            }
+            if(datos[a]["__EMPTY_10"]!=undefined){
+              MiercolesTa = datos[a]["__EMPTY_10"]
+            }
+            if(datos[a]["__EMPTY_11"]!=undefined){
+              MiercolesTb = datos[a]["__EMPTY_11"]
+            }
+            if(datos[a]["__EMPTY_12"]!=undefined){
+              JuevesTa = datos[a]["__EMPTY_12"]
+            }
+            if(datos[a]["__EMPTY_13"]!=undefined){
+              JuevesTb = datos[a]["__EMPTY_13"]
+            }
+            if(datos[a]["__EMPTY_14"]!=undefined){
+              ViernesTa = datos[a]["__EMPTY_14"]
+            }
+            if(datos[a]["__EMPTY_15"]!=undefined){
+              ViernesTb = datos[a]["__EMPTY_15"]
+            }
+            if(datos[a]["__EMPTY_16"]!=undefined){
+              SabadoTa = datos[a]["__EMPTY_16"]
+            }
+            if(datos[a]["__EMPTY_17"]!=undefined){
+              SabadoTb = datos[a]["__EMPTY_17"]
+            }
+            if(datos[a]["__EMPTY_18"]!=undefined){
+              DomingoTa = datos[a]["__EMPTY_18"]
+            }
+            if(datos[a]["__EMPTY_19"]!=undefined){
+              DomingoTb = datos[a]["__EMPTY_19"]
+            }
+            if(datos[a]["__EMPTY_21"]!=undefined){
+              Aviso = datos[a]["__EMPTY_21"]
+            }
+            if(datos[a]["__EMPTY_22"]!=undefined){
+              Orden = datos[a]["__EMPTY_22"]
+            }
+
+
+            if(datos[a]["__EMPTY_3"]!=undefined ){
+              if(datos[a]["__EMPTY_3"].replace(/\s+/g,' ').trim().toUpperCase() !=""){
+                await modelo.workpad.create({
+                  Tipo : Tipo,
+                  Actividad : Actividad,
+                  Ejecutor : Ejecutor,
+                  HrsProg : HrsProg,
+                  LunesTa : LunesTa,
+                  LunesTb : LunesTb,
+                  MartesTa : MartesTa,
+                  MartesTb : MartesTb,
+                  MiercolesTa : MiercolesTa,
+                  MiercolesTb : MiercolesTb,
+                  JuevesTa : JuevesTa,
+                  JuevesTb : JuevesTb,
+                  ViernesTa : ViernesTa,
+                  ViernesTb : ViernesTb,
+                  SabadoTa : SabadoTa,
+                  SabadoTb : SabadoTb,
+                  DomingoTa : DomingoTa,
+                  DomingoTb : DomingoTb,
+                  Aviso : Aviso,
+                  Orden : Orden,
+                  Idingreso : random_id_workpad_single
+                })
+              }
+            }
+
+
+
+
+
+          }
+        }catch(err){
+          req.flash('error', file.name.toString());
+          console.log(err)
+          await modelo.archivos.destroy({
+            where : {
+              Tabla : "workpad",
+              Idingreso : random_id_workpad_single
+            }
+          })
+          await modelo.workpad.destroy({
+            where : {
+              Idingreso : random_id_workpad_single
+            }
+          })
+        }
+
+
+      }
+      else if(datos_1[d] == "Disciplinatraspaso"){
+
+        try{
+          //var random_id_disciplina_single = guid()
+          file = req.files["Disciplinatraspaso"];
+          const savePath = path.join(__dirname,"../",'public','uploads',file.name);
+
+          /*await modelo.archivos.create({
+            Tabla : "disciplina",
+            Idingreso : random_id_disciplina_single,
+            Fechaingreso : Fecha_hoy,
+            Infoingresada : "Tiempos de la disciplina operacional",
+            Nombrearchivo : file.name.toString()
+          })*/
+
+          await file.mv(savePath);
+          var datos_aux = leerExcelDisciplinatraspaso(file.name, [0,1,2,3,4])
+          var datos = datos_aux[0];
+          
+          
+          var index = 0 ;
+          for(a=0; a<datos.length; a++){
+            var start = false
+            var contador = 0 ;
+            var Meta_dia = 0;
+            var Meta = 0;
+            var Cumplimiento = 0;
+            for(c=0 ; c < Object.keys(datos[a][0]).length ; c++ ){
+              if( datos[a][0][Object.keys(datos[a][0])[c]] == "Comentarios" ){
+                start= false
+              }
+              if(start == true){
+                contador+=1;
+              }
+              if(datos[a][0][Object.keys(datos[a][0])[c]] =="FECHA"){
+                var start = true
+              }
+            }
+            //console.log(contador)
+            index = 6
+            if(contador > 7){
+              index = 8
+            }
+            if(a==2){
+              index = 6
+            }
+            
+            for(b=1; b < index ; b++){
+              llaves = Object.keys(datos[a][b]);
+              var date = ExcelDateToJSDate(datos[a][b][llaves[2]]);
+              console.log(datos[a][b])
+              var converted_date = date.toISOString().split('T')[0];
+              var Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
+
+              for(c=index ; c <datos[a].length; c++){
+                if(datos[a][c][llaves[6]] == "Buzones" ){
+                  Meta_dia = datos[a][c+b][llaves[6]]
+                  Meta = datos[a][c+7][llaves[6]]
+                  Cumplimiento = Math.round(datos[a][c+8][llaves[6]]*100)
+                  break
+                }
+              }
+
+              if(index == 6 && a!=2){
+                await modelo.disciplina_traspaso.create({
+                  Area : datos_aux[1][a],
+                  Dia : datos[a][b][llaves[1]],
+                  Fecha : Fecha,
+                  Llegada_det : convertToHHMM(datos[a][b][llaves[3]]*24).toString(),
+                  Traslado_postura : convertToHHMM(datos[a][b][llaves[4]]*24).toString(),
+                  Ingreso_postura : convertToHHMM(datos[a][b][llaves[5]]*24).toString(),
+                  Almuerzo : convertToHHMM(datos[a][b][llaves[7]]*24).toString(),
+                  Salida_mina : convertToHHMM(datos[a][b][llaves[6]]*24).toString(),
+                  Traslado_buses : convertToHHMM(datos[a][b][llaves[8]]*24).toString() ,
+                  Salida_buses : convertToHHMM(datos[a][b][llaves[9]]*24).toString(),
+                  Meta_dia : convertToHHMM(Meta_dia*24).toString(),
+                  Meta : convertToHHMM(Meta*24).toString(),
+                  Cumplimiento : Cumplimiento.toString()
+
+                })
+              }
+
+              else if(a==2){
+                await modelo.disciplina_traspaso.create({
+                  Area : datos_aux[1][a],
+                  Dia : datos[a][b][llaves[1]],
+                  Fecha : Fecha,
+                  Llegada_det : convertToHHMM(datos[a][b][llaves[3]]*24).toString(),
+                  Traslado_postura : convertToHHMM(datos[a][b][llaves[4]]*24).toString(),
+                  Ingreso_postura : convertToHHMM(datos[a][b][llaves[5]]*24).toString(),
+                  Almuerzo : convertToHHMM(datos[a][b][llaves[6]]*24).toString(),
+                  Traslado_buses : convertToHHMM(datos[a][b][llaves[8]]*24).toString(),
+                  Ingreso_postura_pm : convertToHHMM(datos[a][b][llaves[7]]*24).toString(),
+                  Salida_buses : convertToHHMM(datos[a][b][llaves[9]]*24).toString() ,
+                  Meta_dia : convertToHHMM(Meta_dia*24).toString(),
+                  Meta : convertToHHMM(Meta*24).toString(),
+                  Cumplimiento : (Cumplimiento).toString()
+                })
+              }
+
+              else if(index == 8){
+                await modelo.disciplina_traspaso.create({
+                  Area : datos_aux[1][a],
+                  Dia : datos[a][b][llaves[1]],
+                  Fecha : Fecha,
+                  Llegada_det : convertToHHMM(datos[a][b][llaves[3]]*24).toString(),
+                  Traslado_postura : convertToHHMM(datos[a][b][llaves[4]]*24).toString(),
+                  Ingreso_postura : convertToHHMM(datos[a][b][llaves[5]]*24).toString(),
+                  Salida_mina : convertToHHMM(datos[a][b][llaves[6]]*24).toString(),
+                  Ingreso_am : convertToHHMM(datos[a][b][llaves[8]]*24).toString() ,
+                  Cena : convertToHHMM(datos[a][b][llaves[7]]*24).toString(),
+                  Salida_camarines : convertToHHMM(datos[a][b][llaves[9]]*24).toString(),
+                  Salida_buses : convertToHHMM(datos[a][b][llaves[10]]*24).toString() ,
+                  Meta_dia : convertToHHMM(Meta_dia*24).toString(),
+                  Meta : convertToHHMM(Meta*24).toString(),
+                  Cumplimiento : (Cumplimiento).toString()
+
+                })
+              }
+            }
+          }
+        }catch(err){
+          console.log(err)
+        }
+      }
+      else if(datos_1[d] == "Asistenciatraspaso"){
+        try{
+          file = req.files["Asistenciatraspaso"];
+          const savePath = path.join(__dirname,"../",'public','uploads',file.name);
+          await file.mv(savePath);
+          var datos = leerExcelAsistenciaTraspaso(file.name);
+          console.log(datos)
+        }catch(err){
+          console.log(err)
+        }
+      }
+
+      
          
     }
     //res.send({redirect :'/dashboard'})
@@ -2219,6 +2686,21 @@ module.exports = {
         await modelo.vimosap.destroy({
           where : {
             Idingreso : req.body[a].Idingreso
+          }
+        })
+      }
+      else if (req.body[a].Tabla == "Trabajos"){
+        await modelo.trabajos.destroy({
+          where : {
+            idIngreso : req.body[a].Idingreso
+          }
+        })
+      }
+
+      else if (req.body[a].Tabla == "workpad"){
+        await modelo.workpad.destroy({
+          where : {
+            idIngreso : req.body[a].Idingreso
           }
         })
       }

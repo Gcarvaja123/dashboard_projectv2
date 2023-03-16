@@ -20,6 +20,8 @@ module.exports = function(sequelize,DataTypes){
 				Estadolevante : Sequelize.TEXT,
 				Horometromini : Sequelize.TEXT,
 				Estadominiretro : Sequelize.TEXT,
+				Horometrominicargador : Sequelize.TEXT,
+				Minicargador : Sequelize.TEXT,
 				Observaciones : Sequelize.TEXT,
 				Idingreso : Sequelize.TEXT
 
