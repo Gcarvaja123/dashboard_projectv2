@@ -10,12 +10,12 @@ var opts = {
     }
 }
 const Op = Sequelize.Op;
-var sequelize = new Sequelize('trabajo','root','xvkgmdwe135', {
-  host: 'localhost',
+var sequelize = new Sequelize('trabajo','doadmin','AVNS_noG9ROFQelU6PTl3ZQm', {
+  host: 'db-mysql-nyc1-97835-do-user-13271095-0.b.db.ondigitalocean.com',
   dialect: 'mysql',
-  username : 'root',
-  password : "xvkgmdwe135",
-  port : 3306,
+  username : 'doadmin',
+  password : "AVNS_noG9ROFQelU6PTl3ZQm",
+  port : 25060,
   operatorsAliases: Op, // use Sequelize.Op
   pool: {
     max: 5,

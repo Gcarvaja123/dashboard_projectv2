@@ -116,9 +116,55 @@ function leerExcelTraspaso(ruta){
 function leerExcelAsistenciaTraspaso(ruta){
   const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
   const workbooksheet = workbook.SheetNames;
+  const sheet  = workbooksheet[2];
+  const dataExcel = reader.utils.sheet_to_json(workbook.Sheets[sheet]);
+  return dataExcel; 
+}
+
+function leerExcelPautaTraspaso(ruta){
+  const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
+  const workbooksheet = workbook.SheetNames;
   const sheet  = workbooksheet[0];
   const dataExcel = reader.utils.sheet_to_json(workbook.Sheets[sheet]);
   return dataExcel; 
+}
+
+async function getData() {
+  try {
+    const [rows_brocales, rows_asistencia, rows_disciplina, rows_matriz, rows_puertas, rows_usuarios, rows_vimosap, rows_equipos, rows_archivos, rows_trabajos, rows_disciplina_traspaso] = await Promise.all([
+      modelo.brocales.findAll({}),
+      modelo.asistencia.findAll({}),
+      modelo.disciplina.findAll({}),
+      modelo.planmatriz.findAll({}),
+      modelo.puertas.findAll({}),
+      modelo.usuario.findAll({}),
+      modelo.vimosap.findAll({}),
+      modelo.equipos.findAll({}),
+      modelo.archivos.findAll({}),
+      modelo.trabajos.findAll({}),
+      modelo.disciplina_traspaso.findAll({})
+    ]);
+    
+    const data = {
+      totaldisciplina: rows_disciplina,
+      totalasistencias: rows_asistencia,
+      totalbrocales: rows_brocales,
+      totalmatriz: rows_matriz,
+      totalpuertas: rows_puertas,
+      totalusuarios: rows_usuarios,
+      totalequipos: rows_equipos,
+      totalarchivos: rows_archivos,
+      totaltrabajos: rows_trabajos,
+      totaldisciplinatraspaso: rows_disciplina_traspaso,
+      totalsap: rows_vimosap,
+    };
+    
+    
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 }
 
 
@@ -139,7 +185,26 @@ module.exports = {
   getinicio2 : function(req, res, next){
     return res.render('dashboard')
   },
-  getdashboard : function(req, res, next){
+
+  getdashboard : async (req,res,next)=>{
+    try {
+      const data = await getData();
+      data.authmessage = req.flash('authmessage')
+      data.info = req.flash('info')
+      data.error = req.flash('error')
+      data.ingreso = req.flash('ingreso')
+      if (req.user !== undefined) {
+        data.user = req.user;
+      } else {
+        data.user = "notlogged";
+      }
+      return res.render("dashboard", data);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    }
+
+  //getdashboard : function(req, res, next){
     
     /*modelo.disciplina.findAll({
     }).then(function(rows_disciplina){
@@ -147,7 +212,7 @@ module.exports = {
         totaldisciplina : rows_disciplina
       })
     })*/
-    modelo.brocales.findAll({
+    /*modelo.brocales.findAll({
     }).then(function(rows_brocales){
       modelo.asistencia.findAll({
       }).then(function(rows_asistencia){
@@ -225,7 +290,7 @@ module.exports = {
           });
         })
       })    
-    });
+    });*/
     
   },
 
@@ -2624,7 +2689,63 @@ module.exports = {
           const savePath = path.join(__dirname,"../",'public','uploads',file.name);
           await file.mv(savePath);
           var datos = leerExcelAsistenciaTraspaso(file.name);
-          console.log(datos)
+          var Fecha_sin_guion = Object.keys(datos[0])[Object.keys(datos[0]).length-1]
+          var Fecha_definitiva = Fecha_sin_guion.split("/")[0]+"-"+Fecha_sin_guion.split("/")[1]+"-"+Fecha_sin_guion.split("/")[2]
+          for(a=0; a <datos.length; a++){
+            await modelo.asistencia_traspaso.create({
+              Fecha : Fecha_definitiva,
+              ApellidoP : datos[a]['Apellido P.'],
+              ApellidoM : datos[a]['Apellido M.'],
+              Nombre : datos[a]['Nombres'],
+              Rut : datos[a]['Rut'],
+              Cargo : datos[a]['Cargo'],
+              Turno : datos[a]['Turno'],
+              Asistencia : datos[a][Object.keys(datos[a])[Object.keys(datos[a]).length-1]]
+
+            })
+          }
+        }catch(err){
+          console.log(err)
+        }
+      }
+
+      else if(datos_1[d] == "Asistenciatte8"){
+        file = req.files["Asistenciatte8"];
+        const savePath = path.join(__dirname,"../",'public','uploads',file.name);
+        await file.mv(savePath);
+        var datos = leerExcel(file.name);
+        console.log(datos)
+      }
+
+      else if (datos_1[d] = "Pautadiaria"){
+        try{
+          file = req.files["Pautadiaria"];
+          const savePath = path.join(__dirname,"../",'public','uploads',file.name);
+          await file.mv(savePath);
+          var datos = leerExcelPautaTraspaso(file.name);
+          var Fecha = "";
+          var Cuadrilla = "";
+          var Descripcion = "";
+          var Ubicacion = "";
+          var Supervisor = "";
+          var Mantenedor = "";
+          var Turno = "";
+          var Instructivo = "";
+          var Telefono = "";
+          var Frecuenciaradio = "";
+          var Dotacion = "";
+          var Herramientas = "";
+          var Auspervac = "";
+          var Area = "";
+          var Coordinador = "";
+          var Apr = "";
+          Area = datos[0]["__EMPTY_4"].toUpperCase().split("AREA:")[1].replace(/\s+/g,' ').trim()
+          Fecha = datos[1]["__EMPTY_4"].toUpperCase().split("FECHA:")[1].replace(/\s+/g,' ').trim()
+          Coordinador = datos[2]["__EMPTY_4"].toUpperCase().split("COORDINADOR:")[1].replace(/\s+/g,' ').trim()
+          Apr = datos[3]["__EMPTY_4"].toUpperCase().split("APR:")[1].replace(/\s+/g,' ').trim()
+          for(a=5; a<datos.length; a++){
+            
+          }
         }catch(err){
           console.log(err)
         }

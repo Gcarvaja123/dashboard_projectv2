@@ -47,6 +47,7 @@ html
                     #nav-tab.nav.nav-tabs(role='tablist')
                       button#nav-home-tab.nav-link.active(data-bs-toggle='tab' data-bs-target='#nav-home' type='button' role='tab' aria-controls='nav-home' aria-selected='true') Infra
                       button#nav-profile-tab.nav-link(data-bs-toggle='tab' data-bs-target='#nav-profile' type='button' role='tab' aria-controls='nav-profile' aria-selected='false') Traspaso
+                      button#nav-profile-tab.nav-link(data-bs-toggle='tab' data-bs-target='#nav-tte8' type='button' role='tab' aria-controls='nav-tte8' aria-selected='false') Tte8
                   #nav-tabContent.tab-content
                     #nav-home.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='nav-home-tab')
                       .mb-3.matrizitems#Modalfiles6
@@ -111,7 +112,13 @@ html
                           input#formFileMultiple.form-control(type='file' name="Asistenciatraspaso" multiple='')
                           button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
                               i.bi.bi-card-image
-                      
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Pauta Diaria
+                        .equiposexample
+                          input#formFileMultiple.form-control(type='file' name="Pautadiaria" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                    
                       .mb-3
                         label.form-label(for='formFileMultiple') Workpad
                         .equiposexample
@@ -122,6 +129,13 @@ html
                         label.form-label(for='formFileMultiple') Disciplina Operacional
                         .equiposexample
                           input#formFileMultiple.form-control(type='file' name="Disciplinatraspaso" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                    #nav-tte8.tab-pane.fade(role='tabpanel' aria-labelledby='nav-profile-tab')
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Asistencia
+                        .equiposexample
+                          input#formFileMultiple.form-control(type='file' name="Asistenciatte8" multiple='')
                           button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
                               i.bi.bi-card-image
                   
