@@ -230,7 +230,9 @@ module.exports = {
                       }).then(function(rows_trabajos){
                         modelo.disciplina_traspaso.findAll({  
                         }).then(function(rows_disciplina_traspaso){
-                          console.log("uno")
+                          console.log("espera")
+                          setTimeout(() => {  console.log(req.user); }, 3000);
+                          
                           if(req.user != undefined){
                             return res.render("dashboard", {
                               totaldisciplina : rows_disciplina,
