@@ -2690,7 +2690,7 @@ module.exports = {
           await file.mv(savePath);
           var datos = leerExcelAsistenciaTraspaso(file.name);
           var Fecha_sin_guion = Object.keys(datos[0])[Object.keys(datos[0]).length-1]
-          var Fecha_definitiva = Fecha_sin_guion.split("/")[0]+"-"+Fecha_sin_guion.split("/")[1]+"-"+Fecha_sin_guion.split("/")[2]
+          var Fecha_definitiva = Fecha_sin_guion.split("-")[0]+"-"+Fecha_sin_guion.split("-")[1]+"-"+Fecha_sin_guion.split("-")[2]
           for(a=0; a <datos.length; a++){
             await modelo.asistencia_traspaso.create({
               Fecha : Fecha_definitiva,

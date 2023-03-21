@@ -15,17 +15,17 @@ module.exports = function(passport){
 
 	passport.use( new LocalStrategy({
 		passReqToCallback : true,
-	}, function(req, email, password , done){
+	}, async function(req, email, password , done){
 
 		//var config = require('.././database/config');
 		//var db = mysql.createConnection(config);
 		//db.connect();
 
-		modelo.usuario.findAll({
+		await modelo.usuario.findAll({
 			where:{
 				usuario : email 
 			}
-		}).then(function(rows_usuarios_aux){
+		}).then(async function(rows_usuarios_aux){
 			//rows_usuarios = JSON.stringify(rows_usuarios_aux)
 			var string=JSON.stringify(rows_usuarios_aux);
         	var rows_usuarios=JSON.parse(string);
