@@ -31,7 +31,7 @@ module.exports = async function(passport){
         	var rows_usuarios=JSON.parse(string);
 			if(rows_usuarios.length>0){
 				if(rows_usuarios[0].Contraseña == password){
-					console.log("aca estoy")
+					console.log("dos")
 					await done(null, {
 						id: rows_usuarios[0].Id,
 						nombre : rows_usuarios[0].Usuario,

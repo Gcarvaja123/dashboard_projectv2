@@ -230,8 +230,8 @@ module.exports = {
                       }).then(function(rows_trabajos){
                         modelo.disciplina_traspaso.findAll({  
                         }).then(function(rows_disciplina_traspaso){
+                          console.log("uno")
                           if(req.user != undefined){
-                            console.log(req.user)
                             return res.render("dashboard", {
                               totaldisciplina : rows_disciplina,
                               totalasistencias : rows_asistencia,
