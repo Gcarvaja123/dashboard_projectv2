@@ -6,10 +6,12 @@ module.exports = async function(passport){
 
 
 	await passport.serializeUser(function(user, done){
+		console.log("seria")
 		done(null, user);
 	});
 
 	await passport.deserializeUser(function(obj, done){
+		console.log("deseria")
 		done(null,obj);
 	});
 
