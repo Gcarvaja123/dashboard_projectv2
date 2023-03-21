@@ -186,7 +186,7 @@ module.exports = {
     return res.render('dashboard')
   },
 
-  /*getdashboard : async (req,res,next)=>{
+  getdashboard : async (req,res,next)=>{
     try {
       const data = await getData();
       data.authmessage = req.flash('authmessage')
@@ -203,9 +203,9 @@ module.exports = {
     } catch (error) {
       console.error(error);
       res.status(500).send("Internal Server Error");
-    }*/
+    }
 
-  getdashboard : function(req, res, next){
+  /*getdashboard : function(req, res, next){
     
     
     modelo.brocales.findAll({
@@ -288,7 +288,7 @@ module.exports = {
           });
         })
       })    
-    });
+    });*/
     
   },
 
