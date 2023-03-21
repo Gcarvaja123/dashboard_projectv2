@@ -32,7 +32,7 @@ module.exports = async function(passport){
 			if(rows_usuarios.length>0){
 				if(rows_usuarios[0].Contraseña == password){
 					console.log("aca estoy")
-					return done(null, {
+					await done(null, {
 						id: rows_usuarios[0].Id,
 						nombre : rows_usuarios[0].Usuario,
 						rango : rows_usuarios[0].Rango

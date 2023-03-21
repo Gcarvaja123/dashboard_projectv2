@@ -193,7 +193,7 @@ module.exports = {
       data.info = req.flash('info')
       data.error = req.flash('error')
       data.ingreso = req.flash('ingreso')
-      if (req.user !== undefined) {
+      if (req.user != undefined) {
         data.user = req.user;
       } else {
         data.user = "notlogged";
