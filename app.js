@@ -17,7 +17,7 @@ const cookieParser = require('cookie-parser');
 
 //const PassportLocal = require('passport-local').Strategy
 
-
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(session({
   secret: 'secret',
@@ -65,7 +65,7 @@ passport.deserializerUser(Function(id, done){
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, 'public')));
+
 var index = require('./routes/index');
 
 
