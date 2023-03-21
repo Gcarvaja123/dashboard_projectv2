@@ -2,14 +2,14 @@ var LocalStrategy = require('passport-local').Strategy;
 var mysql = require('mysql');
 var modelo = require('.././Models');
 
-module.exports = function(passport){
+module.exports = async function(passport){
 
 
-	passport.serializeUser(function(user, done){
+	await passport.serializeUser(function(user, done){
 		done(null, user);
 	});
 
-	passport.deserializeUser(function(obj, done){
+	await passport.deserializeUser(function(obj, done){
 		done(null,obj);
 	});
 
@@ -40,6 +40,7 @@ module.exports = function(passport){
 				}
 			}
 			else{
+				console.log("no estoy")
 				return done(null, false, req.flash('authmessage', 'Usuario o contraseña incorrecta'));
 			}
 		})
