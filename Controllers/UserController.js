@@ -186,7 +186,7 @@ module.exports = {
     return res.render('dashboard')
   },
 
-  getdashboard : async (req,res,next)=>{
+  /*getdashboard : async (req,res,next)=>{
     try {
       const data = await getData();
       data.authmessage = req.flash('authmessage')
@@ -203,17 +203,12 @@ module.exports = {
     } catch (error) {
       console.error(error);
       res.status(500).send("Internal Server Error");
-    }
+    }*/
 
-  //getdashboard : function(req, res, next){
+  getdashboard : function(req, res, next){
     
-    /*modelo.disciplina.findAll({
-    }).then(function(rows_disciplina){
-      return res.render('dashboard',{
-        totaldisciplina : rows_disciplina
-      })
-    })*/
-    /*modelo.brocales.findAll({
+    
+    modelo.brocales.findAll({
     }).then(function(rows_brocales){
       modelo.asistencia.findAll({
       }).then(function(rows_asistencia){
@@ -291,7 +286,7 @@ module.exports = {
           });
         })
       })    
-    });*/
+    });
     
   },
 
