@@ -30,7 +30,7 @@ router.get('/login',  controllers.UserController.getLogin);
 router.get("/tutorial", controllers.UserController.getTutorial);
 router.post('/login', passport.authenticate('local',{
 	successRedirect : 'dashboard',
-	failureRedirect : 'dashboard',
+	//failureRedirect : 'dashboard',
 	failureFlash : true
 }))
 router.get('/logout', controllers.UserController.logout);

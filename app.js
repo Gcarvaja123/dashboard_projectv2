@@ -19,6 +19,7 @@ const cookieParser = require('cookie-parser');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
+app.enable('trust proxy');
 app.use(session({
   secret: 'secret',
   resave: false,
