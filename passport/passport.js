@@ -2,15 +2,15 @@ var LocalStrategy = require('passport-local').Strategy;
 var mysql = require('mysql');
 var modelo = require('.././Models');
 
-module.exports = async function(passport){
+module.exports = function(passport){
 
 
-	await passport.serializeUser(function(user, done){
+	passport.serializeUser(function(user, done){
 		console.log("seria")
 		done(null, user);
 	});
 
-	await passport.deserializeUser(function(obj, done){
+	passport.deserializeUser(function(obj, done){
 		console.log("deseria")
 		done(null,obj);
 	});

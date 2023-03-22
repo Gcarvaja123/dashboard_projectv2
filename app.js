@@ -22,7 +22,7 @@ app.use(cookieParser());
 app.enable('trust proxy');
 app.use(session({
   secret: 'secret',
-  resave: false,
+  resave: true,
   saveUninitialized : true
 }));
 
