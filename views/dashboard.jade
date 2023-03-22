@@ -786,12 +786,12 @@ html
             a.tablink(ng-click="GotoBrocales()") Brocales
           li.nav-item
             a.tablink(ng-click="GotoDisciplina()") Disciplina
-          li.nav-item.has-submenu
-            a.nav-link(data-bs-toggle='collapse' data-bs-target='#menu_item1')  Traspaso
-              i.bi.small.bi-caret-down-fill
-            ul#menu_item1.submenu.collapse(data-bs-parent='#nav_accordion')
-              li
-                a.nav-link.tablink(onclick="openActivity(event,'GotoDisciplinatraspaso')" ) Disciplina
+          //li.nav-item.has-submenu
+          //  a.nav-link(data-bs-toggle='collapse' data-bs-target='#menu_item1')  Traspaso
+          //    i.bi.small.bi-caret-down-fill
+          //  ul#menu_item1.submenu.collapse(data-bs-parent='#nav_accordion')
+          //    li
+          //      a.nav-link.tablink(onclick="openActivity(event,'GotoDisciplinatraspaso')" ) Disciplina
           if user.rango=="Modificacion" || user.rango=="Reportes" || user.rango=="admin"
             li.nav-item.has-submenu
               a.nav-link(data-bs-toggle='collapse' data-bs-target='#menu_item2')  Opciones
