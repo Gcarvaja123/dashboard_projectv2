@@ -178,13 +178,12 @@ module.exports = {
     }).then(function(rows_usuarios_aux){
       if(req.body.password == rows_usuarios_aux[0].Contraseña){
         req.session.user_id = rows_usuarios_aux[0]
-        return res.redirect('/dashboard');
       }
       else{
-        req.flash('authmessage', 'Usuario o contraseña incorrecta')
-        return res.redirect('/dashboard'); 
+        req.flash('authmessage', 'Usuario o contraseña incorrecta') 
       }
     })
+    return res.redirect('/dashboard');
   },
 
   logout : function(req,res,next){
