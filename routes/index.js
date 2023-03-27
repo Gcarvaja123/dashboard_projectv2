@@ -28,11 +28,12 @@ router.post('/dashboard', controllers.UserController.postIngreso);
 router.get('/prueba', controllers.UserController.getprueba);
 router.get('/login',  controllers.UserController.getLogin);
 router.get("/tutorial", controllers.UserController.getTutorial);
-router.post('/login', passport.authenticate('local',{
+/*router.post('/login', passport.authenticate('local',{
 	successRedirect : 'dashboard',
-	//failureRedirect : 'dashboard',
+	failureRedirect : 'dashboard',
 	failureFlash : true
-}))
+}))*/
+router.post('/login', controllers.UserController.postLogin)
 router.get('/logout', controllers.UserController.logout);
 router.post("/crearusuario", controllers.UserController.postCrearusuario)
 router.post("/delete", controllers.UserController.postDeleteFiles)

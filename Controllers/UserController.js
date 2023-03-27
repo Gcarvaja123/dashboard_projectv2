@@ -170,8 +170,26 @@ async function getData() {
 
 module.exports = {
 
+  postLogin : function(req, res, next){
+    modelo.usuario.findAll({
+      where:{
+        usuario : req.body.username
+      }
+    }).then(function(rows_usuarios_aux){
+      if(req.body.password == rows_usuarios_aux[0].Contraseña){
+        req.session.user_id = rows_usuarios_aux[0]
+        return res.redirect('/dashboard');
+      }
+      else{
+        req.flash('authmessage', 'Usuario o contraseña incorrecta')
+        return res.redirect('/dashboard'); 
+      }
+    })
+  },
+
   logout : function(req,res,next){
-    req.logout();
+    req.session.destroy();
+    //req.logout();
     res.redirect('/dashboard');
   },
   getDashboardtest : function(req, res, next){
@@ -193,12 +211,12 @@ module.exports = {
       data.info = req.flash('info')
       data.error = req.flash('error')
       data.ingreso = req.flash('ingreso')
-      if (req.user != undefined) {
-        data.user = req.user;
+
+      if (req.session.user_id != undefined) {
+        data.user = req.session.user_id;
       } else {
         data.user = "notlogged";
       }
-      console.log(data.user)
       return res.render("dashboard", data);
     } catch (error) {
       console.error(error);
@@ -2741,7 +2759,77 @@ module.exports = {
           Fecha = datos[1]["__EMPTY_4"].toUpperCase().split("FECHA:")[1].replace(/\s+/g,' ').trim()
           Coordinador = datos[2]["__EMPTY_4"].toUpperCase().split("COORDINADOR:")[1].replace(/\s+/g,' ').trim()
           Apr = datos[3]["__EMPTY_4"].toUpperCase().split("APR:")[1].replace(/\s+/g,' ').trim()
-          for(a=5; a<datos.length; a++){
+          for(a=6; a<datos.length; a++){
+            if(datos[a]["__EMPTY_3"] !=undefined){
+              Descripcion = datos[a]["__EMPTY_3"]
+            }
+            if(datos[a]["__EMPTY_4"] != undefined){
+              Ubicacion = datos[a]["__EMPTY_4"]
+            }
+            if(datos[a]["__EMPTY_5"] !=undefined){
+              Supervisor = datos[a]["__EMPTY_5"]
+            }
+            if(datos[a]["__EMPTY_6"] != undefined){
+              if(Mantenedor==""){
+                Mantenedor = datos[a]["__EMPTY_6"]
+              }
+              else{
+                Mantenedor+=", "+datos[a]["__EMPTY_6"]
+              }
+              
+            }
+            if(datos[a]["__EMPTY_7"] != undefined){
+              Turno = datos[a]["__EMPTY_7"]
+            }
+            if(datos[a]["__EMPTY_8"] != undefined){
+              if(Instructivo ==""){
+                Instructivo = datos[a]["__EMPTY_8"]
+              }
+              else{
+                Instructivo+=", "+datos[a]["__EMPTY_8"]
+              }
+              
+            }
+            if(datos[a]["__EMPTY_9"] != undefined){
+              Telefono = datos[a]["__EMPTY_9"]
+            }
+            if(datos[a]["__EMPTY_10"]!= undefined){
+              Frecuenciaradio = datos[a]["__EMPTY_10"]
+            }
+            if(datos[a]["__EMPTY_11"] !=undefined){
+              Dotacion = datos[a]["__EMPTY_11"]
+            }
+            if(datos[a]["__EMPTY_12"] != undefined){
+              Herramientas = datos[a]["__EMPTY_12"]
+            }
+            if(datos[a]["__EMPTY_13"] != undefined){
+              Auspervac = datos[a]["__EMPTY_13"]
+            }
+
+
+
+            if(a+1 >= datos.length || datos[a+1]["__EMPTY_2"] !=undefined){
+              modelo.pauta_diaria.create({
+                Fecha : Fecha,
+                Cuadrilla : Cuadrilla,
+                Descripcion : Descripcion,
+                Ubicacion : Ubicacion,
+                Supervisor : Supervisor,
+                Mantenedor : Mantenedor,
+                Turno : Turno,
+                Instructivo : Instructivo,
+                Telefono : Telefono,
+                Frecuenciaradio : Frecuenciaradio,
+                Dotacion : Dotacion,
+                Herramientas : Herramientas,
+                Auspervac : Auspervac,
+                Area : Area,
+                Coordinador : Coordinador,
+                Apr : Apr
+              })
+              Instructivo=""
+              Mantenedor=""
+            }
             
           }
         }catch(err){
