@@ -180,6 +180,7 @@ module.exports = {
         console.log("Usuario verificado")
         req.session.user_id = rows_usuarios_aux[0]
         req.session.save()
+        console.log(req.session)
         return res.redirect('/dashboard');
       }
       else{
