@@ -179,6 +179,7 @@ module.exports = {
       if(req.body.password == rows_usuarios_aux[0].Contraseña){
         console.log("Usuario verificado")
         req.session.user_id = rows_usuarios_aux[0]
+        req.session.save()
         return res.redirect('/dashboard');
       }
       else{
