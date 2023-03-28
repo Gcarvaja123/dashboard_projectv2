@@ -177,10 +177,12 @@ module.exports = {
       }
     }).then(function(rows_usuarios_aux){
       if(req.body.password == rows_usuarios_aux[0].Contraseña){
+        console.log("Usuario verificado")
         req.session.user_id = rows_usuarios_aux[0]
         return res.redirect('/dashboard');
       }
       else{
+        console.log("No verificado")
         req.flash('authmessage', 'Usuario o contraseña incorrecta')
         return res.redirect('/dashboard'); 
       }
@@ -218,7 +220,7 @@ module.exports = {
       } else {
         data.user = "notlogged";
       }
-      console.log(req.session.user_id)
+      console.log(req.session)
       return res.render("dashboard", data);
     } catch (error) {
       console.error(error);
