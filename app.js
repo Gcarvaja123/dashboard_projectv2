@@ -22,9 +22,12 @@ app.use(cookieParser());
 app.enable('trust proxy');
 app.use(session({
   secret: 'secret',
-  resave: true,
+  resave: false,
   saveUninitialized : true,
-  cookie: {maxAge: 1800000}
+  proxy : true,
+  cookie: {
+  	maxAge: 1000*60*60*48,
+  	httpOnly : false,  }
 }));
 
 app.use(passport.initialize());

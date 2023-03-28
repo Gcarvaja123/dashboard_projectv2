@@ -171,6 +171,7 @@ async function getData() {
 module.exports = {
 
   postLogin : function(req, res, next){
+    console.log(req.session)
     modelo.usuario.findAll({
       where:{
         usuario : req.body.username
@@ -180,7 +181,7 @@ module.exports = {
         console.log("Usuario verificado")
         req.session.user_id = rows_usuarios_aux[0]
         req.session.save()
-        console.log(req.session)
+
         return res.redirect('/dashboard');
       }
       else{
