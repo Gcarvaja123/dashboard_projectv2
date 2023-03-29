@@ -171,7 +171,9 @@ async function getData() {
 module.exports = {
 
   postLogin : function(req, res, next){
+    console.log("Req session")
     console.log(req.session)
+    console.log("Termino Req session")
     modelo.usuario.findAll({
       where:{
         usuario : req.body.username
@@ -553,6 +555,7 @@ module.exports = {
             var Turno = "";
             var Fechaingreso = "";
             var random_id_asistencia_single = guid()
+            console.log(datos)
             await modelo.archivos.create({
               Tabla : "asistencia",
               Idingreso : random_id_asistencia_single,
@@ -564,20 +567,20 @@ module.exports = {
             for(a=1; a < Object.keys(datos).length; a++){ 
               let keys = Object.keys(datos[0]);
 
-              if(datos[a][keys[0]] != undefined ){
+              if(datos[a][datos[0][keys[0]]] != undefined ){
                 Sector = datos[a][keys[0]]
               }
-              if(datos[a][keys[1]] != undefined){
-                Nombre = datos[a][keys[1]]
+              if(datos[a]["__EMPTY"] != undefined){
+                Nombre = datos[a]["__EMPTY"]
               }
-              if(datos[a][keys[2]] != undefined){
-                Rut = datos[a][keys[2]]
+              if(datos[a]["__EMPTY_1"] != undefined){
+                Rut = datos[a]["__EMPTY_1"]
               }
-              if(datos[a][keys[3]] != undefined){
-                Cargo = datos[a][keys[3]]
+              if(datos[a]["__EMPTY_2"] != undefined){
+                Cargo = datos[a]["__EMPTY_2"]
               }
-              if(datos[a][keys[4]] != undefined){
-                Turno = datos[a][keys[4]]
+              if(datos[a]["__EMPTY_3"] != undefined){
+                Turno = datos[a]["__EMPTY_3"]
               }
               await modelo.asistencia.findAll({
                   where : {
@@ -598,7 +601,7 @@ module.exports = {
                   }
                 })
               
-            } 
+            }
           }catch(err){
             req.flash('error', file.name.toString());
             await modelo.asistencia.destroy({
