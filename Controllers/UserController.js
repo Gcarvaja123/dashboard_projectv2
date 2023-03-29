@@ -567,7 +567,7 @@ module.exports = {
             for(a=1; a < Object.keys(datos).length; a++){ 
               let keys = Object.keys(datos[0]);
 
-              if(datos[a][datos[0][keys[0]]] != undefined ){
+              if(datos[a][Object.keys(datos[0])[0]] != undefined ){
                 Sector = datos[a][keys[0]]
               }
               if(datos[a]["__EMPTY"] != undefined){
