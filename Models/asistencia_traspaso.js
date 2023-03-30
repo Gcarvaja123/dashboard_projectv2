@@ -16,7 +16,8 @@ module.exports = function(sequelize,DataTypes){
 				Rut : Sequelize.TEXT,
 				Cargo : Sequelize.TEXT,
 				Turno : Sequelize.TEXT,
-				Asistencia : Sequelize.TEXT
+				Asistencia : Sequelize.TEXT,
+				Idingreso : Sequelize.TEXT
 			},{
 				tableName: 'asistencia_traspaso',
 				freezeTableName: true,

@@ -113,6 +113,19 @@ function leerExcelTraspaso(ruta){
   return dataExcel; 
 }
 
+function leerPOD(ruta){
+  const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
+  const workbooksheet = workbook.SheetNames;
+  var datos_pod = [];
+  const sheet_1 = workbooksheet[0];
+  const dataExcel_1 = reader.utils.sheet_to_json(workbook.Sheets[sheet_1]);
+  const sheet_2 = workbooksheet[2];
+  const dataExcel_2 = reader.utils.sheet_to_json(workbook.Sheets[sheet_2]);
+  datos_pod.push(dataExcel_1)
+  datos_pod.push(dataExcel_2)
+  return datos_pod
+}
+
 function leerExcelAsistenciaTraspaso(ruta){
   const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
   const workbooksheet = workbook.SheetNames;
@@ -131,7 +144,7 @@ function leerExcelPautaTraspaso(ruta){
 
 async function getData() {
   try {
-    const [rows_brocales, rows_asistencia, rows_disciplina, rows_matriz, rows_puertas, rows_usuarios, rows_vimosap, rows_equipos, rows_archivos, rows_trabajos, rows_disciplina_traspaso] = await Promise.all([
+    const [rows_brocales, rows_asistencia, rows_disciplina, rows_matriz, rows_puertas, rows_usuarios, rows_vimosap, rows_equipos, rows_archivos, rows_trabajos, rows_disciplina_traspaso, rows_pauta_diaria, rows_asistencia_traspaso] = await Promise.all([
       modelo.brocales.findAll({}),
       modelo.asistencia.findAll({}),
       modelo.disciplina.findAll({}),
@@ -142,7 +155,9 @@ async function getData() {
       modelo.equipos.findAll({}),
       modelo.archivos.findAll({}),
       modelo.trabajos.findAll({}),
-      modelo.disciplina_traspaso.findAll({})
+      modelo.disciplina_traspaso.findAll({}),
+      modelo.pauta_diaria.findAll({}),
+      modelo.asistencia_traspaso.findAll({})
     ]);
     
     const data = {
@@ -157,6 +172,8 @@ async function getData() {
       totaltrabajos: rows_trabajos,
       totaldisciplinatraspaso: rows_disciplina_traspaso,
       totalsap: rows_vimosap,
+      totalpautadiaria: rows_pauta_diaria,
+      totalasistenciatraspaso : rows_asistencia_traspaso
     };
     
     
@@ -554,6 +571,7 @@ module.exports = {
             var Cargo = "";
             var Fechaingreso = "";
             var random_id_asistencia_single = guid()
+            console.log(datos)
             await modelo.archivos.create({
               Tabla : "asistencia",
               Idingreso : random_id_asistencia_single,
@@ -563,7 +581,7 @@ module.exports = {
             })
             Fechaingreso = Object.keys(datos[0])[0].replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Object.keys(datos[0])[0].replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1];
             columnafecha = Fechaingreso.split("-")[0]+"-"+Object.keys(datos[2])[4].split("-")[1]
-            for(a=1; a < Object.keys(datos).length; a++){ 
+            /*for(a=1; a < Object.keys(datos).length; a++){ 
               let keys = Object.keys(datos[0]);
               var Turno = " ";
 
@@ -601,7 +619,7 @@ module.exports = {
                   }
                 })
               
-            }
+            }*/
           }catch(err){
             req.flash('error', file.name.toString());
             await modelo.asistencia.destroy({
@@ -2695,6 +2713,213 @@ module.exports = {
           console.log(err)
         }
       }
+      else if(datos_1[d] == "PODtraspaso"){
+        file = req.files["PODtraspaso"];
+        const savePath = path.join(__dirname,"../",'public','uploads',file.name);
+        await file.mv(savePath);
+        var datos = leerPOD(file.name)
+        var Fecha = "";
+        // PAUTA DIARIA
+        try{
+          var random_id_pauta_single = guid();
+          await modelo.archivos.create({
+            Tabla : "pauta diaria",
+            Idingreso : random_id_pauta_single,
+            Fechaingreso : Fecha_hoy,
+            Infoingresada : "archivos pauta diaria",
+            Nombrearchivo : file.name.toString()
+          })
+          var datos_pauta = datos[0];
+          
+          var Cuadrilla = "";
+          var Descripcion = "";
+          var Ubicacion = "";
+          var Supervisor = "";
+          var Mantenedor = "";
+          var Turno = "";
+          var Instructivo = "";
+          var Telefono = "";
+          var Frecuenciaradio = "";
+          var Dotacion = "";
+          var Herramientas = "";
+          var Auspervac = "";
+          var Area = "";
+          var Coordinador = "";
+          var Apr = "";
+          Area = datos_pauta[0]["__EMPTY_4"].toUpperCase().split("AREA:")[1].replace(/\s+/g,' ').trim()
+          Fecha = datos_pauta[1]["__EMPTY_4"].toUpperCase().split("FECHA:")[1].replace(/\s+/g,' ').trim()
+          Coordinador = datos_pauta[2]["__EMPTY_4"].toUpperCase().split("COORDINADOR:")[1].replace(/\s+/g,' ').trim()
+          Apr = datos_pauta[3]["__EMPTY_4"].toUpperCase().split("APR:")[1].replace(/\s+/g,' ').trim()
+          for(a=6; a<datos_pauta.length; a++){
+            if(datos_pauta[a]["__EMPTY_2"] !=undefined){
+              Cuadrilla = datos_pauta[a]["__EMPTY_2"]
+            }
+            if(datos_pauta[a]["__EMPTY_3"] !=undefined){
+              Descripcion = datos_pauta[a]["__EMPTY_3"]
+            }
+            if(datos_pauta[a]["__EMPTY_4"] != undefined){
+              Ubicacion = datos_pauta[a]["__EMPTY_4"]
+            }
+            if(datos_pauta[a]["__EMPTY_5"] !=undefined){
+              Supervisor = datos_pauta[a]["__EMPTY_5"]
+            }
+            if(datos_pauta[a]["__EMPTY_6"] != undefined){
+              if(Mantenedor==""){
+                Mantenedor = datos_pauta[a]["__EMPTY_6"]
+              }
+              else{
+                Mantenedor+=", "+datos_pauta[a]["__EMPTY_6"]
+              }
+              
+            }
+            if(datos_pauta[a]["__EMPTY_7"] != undefined){
+              Turno = datos_pauta[a]["__EMPTY_7"]
+            }
+            if(datos_pauta[a]["__EMPTY_8"] != undefined){
+              if(Instructivo ==""){
+                Instructivo = datos_pauta[a]["__EMPTY_8"]
+              }
+              else{
+                Instructivo+=", "+datos_pauta[a]["__EMPTY_8"]
+              }
+              
+            }
+            if(datos_pauta[a]["__EMPTY_9"] != undefined){
+              Telefono = datos_pauta[a]["__EMPTY_9"]
+            }
+            if(datos_pauta[a]["__EMPTY_10"]!= undefined){
+              Frecuenciaradio = datos_pauta[a]["__EMPTY_10"]
+            }
+            if(datos_pauta[a]["__EMPTY_11"] !=undefined){
+              Dotacion = datos_pauta[a]["__EMPTY_11"]
+            }
+            if(datos_pauta[a]["__EMPTY_12"] != undefined){
+              Herramientas = datos_pauta[a]["__EMPTY_12"]
+            }
+            if(datos_pauta[a]["__EMPTY_13"] != undefined){
+              Auspervac = datos_pauta[a]["__EMPTY_13"]
+            }
+            if(a+1 >= datos_pauta.length || datos_pauta[a+1]["__EMPTY_2"] !=undefined){
+              await modelo.pauta_diaria.findAll({
+                where:{
+                  Fecha : Fecha,
+                  Cuadrilla : Cuadrilla,
+                  Descripcion : Descripcion,
+                  Ubicacion : Ubicacion,
+                  Supervisor : Supervisor,
+                  Mantenedor : Mantenedor,
+                  Turno : Turno,
+                  Instructivo : Instructivo,
+                  Telefono : Telefono,
+                  Frecuenciaradio : Frecuenciaradio,
+                  Dotacion : Dotacion,
+                  Herramientas : Herramientas,
+                  Auspervac : Auspervac,
+                  Area : Area,
+                  Coordinador : Coordinador,
+                  Apr : Apr
+                }
+              }).then(async function(rows_pod){
+                if(rows_pod.length==0){
+                  modelo.pauta_diaria.create({
+                    Fecha : Fecha,
+                    Cuadrilla : Cuadrilla,
+                    Descripcion : Descripcion,
+                    Ubicacion : Ubicacion,
+                    Supervisor : Supervisor,
+                    Mantenedor : Mantenedor,
+                    Turno : Turno,
+                    Instructivo : Instructivo,
+                    Telefono : Telefono,
+                    Frecuenciaradio : Frecuenciaradio,
+                    Dotacion : Dotacion,
+                    Herramientas : Herramientas,
+                    Auspervac : Auspervac,
+                    Area : Area,
+                    Coordinador : Coordinador,
+                    Apr : Apr,
+                    Idingreso : random_id_pauta_single
+                  })
+                  Instructivo=""
+                  Mantenedor=""
+                }
+                else{
+                  Instructivo=""
+                  Mantenedor=""
+                }
+              })
+              
+            }
+          }
+        }catch(err){
+          req.flash('error', "Error en pauta diaria traspaso "+ file.name.toString());
+          console.log(err)
+          await modelo.archivos.destroy({
+            where : {
+              Tabla : "pauta diaria",
+              Idingreso : random_id_pauta_single
+            }
+          })
+          await modelo.pauta_diaria.destroy({
+            where : {
+              Idingreso : random_id_pauta_single
+            }
+          })
+        }
+
+        try{
+          var random_id_asistencia_traspaso_single = guid();
+          await modelo.archivos.create({
+            Tabla : "asistencia traspaso",
+            Idingreso : random_id_asistencia_traspaso_single,
+            Fechaingreso : Fecha_hoy,
+            Infoingresada : "archivos asistencia traspaso",
+            Nombrearchivo : file.name.toString()
+          })
+          var datos_asistencia = datos[1];
+          var Fecha_sin_guion = Object.keys(datos_asistencia[0])[Object.keys(datos_asistencia[0]).length-1]
+          var Fecha_definitiva = Fecha_sin_guion.split("/")[1]+"-"+Fecha_sin_guion.split("/")[0]+"-20"+Fecha_sin_guion.split("/")[2]
+          for(a=0; a <datos_asistencia.length; a++){
+            await modelo.asistencia_traspaso.findAll({
+              where:{
+                Fecha : Fecha,
+                ApellidoP : datos_asistencia[a]['Apellido P.'],
+                ApellidoM : datos_asistencia[a]['Apellido M.']
+              }
+            }).then(async function(rows_asistencia_traspaso){
+              if(rows_asistencia_traspaso.length==0){
+                await modelo.asistencia_traspaso.create({
+                  Fecha : Fecha,
+                  ApellidoP : datos_asistencia[a]['Apellido P.'],
+                  ApellidoM : datos_asistencia[a]['Apellido M.'],
+                  Nombre : datos_asistencia[a]['Nombres'],
+                  Rut : datos_asistencia[a]['Rut'],
+                  Cargo : datos_asistencia[a]['Cargo'],
+                  Turno : datos_asistencia[a]['Turno'],
+                  Asistencia : datos_asistencia[a][Object.keys(datos_asistencia[a])[Object.keys(datos_asistencia[a]).length-1]],
+                  Idingreso : random_id_asistencia_traspaso_single
+                })
+              }
+            })
+          }
+        }catch(err){
+          req.flash('error', "Error en asistencia traspaso "+ file.name.toString());
+          console.log(err)
+          await modelo.archivos.destroy({
+            where : {
+              Tabla : "asistencia traspaso",
+              Idingreso : random_id_asistencia_traspaso_single
+            }
+          })
+          await modelo.asistencia_traspaso.destroy({
+            where : {
+              Idingreso : random_id_asistencia_traspaso_single
+            }
+          })
+        }
+
+      }
+
       else if(datos_1[d] == "Asistenciatraspaso"){
         try{
           file = req.files["Asistenciatraspaso"];
@@ -2704,17 +2929,27 @@ module.exports = {
           var Fecha_sin_guion = Object.keys(datos[0])[Object.keys(datos[0]).length-1]
           var Fecha_definitiva = Fecha_sin_guion.split("/")[1]+"-"+Fecha_sin_guion.split("/")[0]+"-20"+Fecha_sin_guion.split("/")[2]
           for(a=0; a <datos.length; a++){
-            await modelo.asistencia_traspaso.create({
-              Fecha : Fecha_definitiva,
-              ApellidoP : datos[a]['Apellido P.'],
-              ApellidoM : datos[a]['Apellido M.'],
-              Nombre : datos[a]['Nombres'],
-              Rut : datos[a]['Rut'],
-              Cargo : datos[a]['Cargo'],
-              Turno : datos[a]['Turno'],
-              Asistencia : datos[a][Object.keys(datos[a])[Object.keys(datos[a]).length-1]]
-
+            await modelo.trabajos.findAll({
+              where:{
+                Fecha : Fecha,
+                Cuadrilla : Cuadrilla,
+                Descripcion : Descripcion
+              }
+            }).then(async function(rows_asistencia_traspaso){
+              if(rows_asistencia_traspaso.length==0){
+                await modelo.asistencia_traspaso.create({
+                  Fecha : Fecha_definitiva,
+                  ApellidoP : datos[a]['Apellido P.'],
+                  ApellidoM : datos[a]['Apellido M.'],
+                  Nombre : datos[a]['Nombres'],
+                  Rut : datos[a]['Rut'],
+                  Cargo : datos[a]['Cargo'],
+                  Turno : datos[a]['Turno'],
+                  Asistencia : datos[a][Object.keys(datos[a])[Object.keys(datos[a]).length-1]],
+                })
+              }
             })
+            
           }
         }catch(err){
           console.log(err)
@@ -2805,6 +3040,7 @@ module.exports = {
 
 
             if(a+1 >= datos.length || datos[a+1]["__EMPTY_2"] !=undefined){
+
               modelo.pauta_diaria.create({
                 Fecha : Fecha,
                 Cuadrilla : Cuadrilla,
@@ -2904,6 +3140,21 @@ module.exports = {
         await modelo.workpad.destroy({
           where : {
             idIngreso : req.body[a].Idingreso
+          }
+        })
+      }
+
+      else if(req.body[a].Tabla == "pauta diaria"){
+        await modelo.pauta_diaria.destroy({
+          where : {
+            Idingreso : req.body[a].Idingreso
+          }
+        })
+      }
+      else if(req.body[a].Tabla == "asistencia traspaso"){
+        await modelo.asistencia_traspaso.destroy({
+          where : {
+            Idingreso : req.body[a].Idingreso
           }
         })
       }

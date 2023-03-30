@@ -24,7 +24,8 @@ module.exports = function(sequelize,DataTypes){
 				Auspervac : Sequelize.TEXT,
 				Area : Sequelize.TEXT,
 				Coordinador : Sequelize.TEXT,
-				Apr : Sequelize.TEXT
+				Apr : Sequelize.TEXT,
+				Idingreso : Sequelize.TEXT
 			},{
 				tableName: 'pauta_diaria',
 				freezeTableName: true,

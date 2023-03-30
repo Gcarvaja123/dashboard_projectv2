@@ -31,6 +31,8 @@ html
       local_ingreso = !{JSON.stringify(ingreso)}
       local_data_trabajos = !{JSON.stringify(totaltrabajos)}
       local_data_disciplina_traspaso = !{JSON.stringify(totaldisciplinatraspaso)}
+      local_data_pauta_diaria = !{JSON.stringify(totalpautadiaria)}
+      local_data_asistencia_traspaso = !{JSON.stringify(totalasistenciatraspaso)}
       
   
   body#probando(ng-app='myApp' ng-controller="myControllerAsistencia")
@@ -103,21 +105,27 @@ html
                         label.form-label(for='formFileMultiple') Trabajos diarios
                         .equiposexample
                           input#formFileMultiple.form-control(type='file' name="Trabajos" multiple='')
-                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popovertrabajos'  data-bs-content=' ')
                               i.bi.bi-card-image
                     #nav-profile.tab-pane.fade(role='tabpanel' aria-labelledby='nav-profile-tab')
                       .mb-3
-                        label.form-label(for='formFileMultiple') Asistencia
+                        label.form-label(for='formFileMultiple') POD
                         .equiposexample
-                          input#formFileMultiple.form-control(type='file' name="Asistenciatraspaso" multiple='')
+                          input#formFileMultiple.form-control(type='file' name="PODtraspaso" multiple='')
                           button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
                               i.bi.bi-card-image
-                      .mb-3
-                        label.form-label(for='formFileMultiple') Pauta Diaria
-                        .equiposexample
-                          input#formFileMultiple.form-control(type='file' name="Pautadiaria" multiple='')
-                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
-                              i.bi.bi-card-image
+                      //.mb-3
+                      //  label.form-label(for='formFileMultiple') Asistencia
+                      //  .equiposexample
+                      //    input#formFileMultiple.form-control(type='file' name="Asistenciatraspaso" multiple='')
+                      //    button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                      //        i.bi.bi-card-image
+                      //.mb-3
+                      //  label.form-label(for='formFileMultiple') Pauta Diaria
+                      //  .equiposexample
+                      //    input#formFileMultiple.form-control(type='file' name="Pautadiaria" multiple='')
+                      //    button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                      //        i.bi.bi-card-image
                     
                       .mb-3
                         label.form-label(for='formFileMultiple') Workpad

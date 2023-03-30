@@ -1240,6 +1240,23 @@ table.matriz td{
   height:819px;
 }
 
+.custom-popovertrabajos {
+  --bs-popover-max-width: 1500px;
+  --bs-popover-border-color: var(--bs-primary);
+  --bs-popover-header-bg: var(--bs-primary);
+  --bs-popover-header-color: var(--bs-white);
+  --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: .5rem;
+  --bs-popover-width:  200px;
+  background-image: url("/imagenes/trabajos_example.png");
+  background-repeat: no-repeat;
+}
+
+.custom-popovertrabajos .popover-body{
+  width: 1326px;
+  height:819px;
+}
+
 .custom-popoverdisciplina {
   --bs-popover-max-width: 1700px;
   --bs-popover-border-color: var(--bs-primary);
