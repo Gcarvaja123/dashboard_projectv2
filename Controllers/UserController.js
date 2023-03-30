@@ -473,7 +473,7 @@ module.exports = {
               var Nombre = "";
               var Rut = "";
               var Cargo = "";
-              var Turno = "";
+              
               var Fechaingreso = "";
 
               await modelo.archivos.create({
@@ -485,8 +485,8 @@ module.exports = {
               })
 
               Fechaingreso = Object.keys(datos[0])[0].split(" ")[Object.keys(datos[0])[0].split(" ").length-1];
-              console.log(Fechaingreso)
-              for(a=1; a < Object.keys(datos).length; a++){ 
+              for(a=1; a < Object.keys(datos).length; a++){
+                var Turno = ""; 
                 let keys = Object.keys(datos[0]);
                 
                 if(datos[a][keys[0]] != undefined ){
@@ -552,10 +552,8 @@ module.exports = {
             var Nombre = "";
             var Rut = "";
             var Cargo = "";
-            var Turno = "";
             var Fechaingreso = "";
             var random_id_asistencia_single = guid()
-            console.log(datos)
             await modelo.archivos.create({
               Tabla : "asistencia",
               Idingreso : random_id_asistencia_single,
@@ -564,8 +562,10 @@ module.exports = {
               Nombrearchivo : file.name.toString()
             })
             Fechaingreso = Object.keys(datos[0])[0].replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Object.keys(datos[0])[0].replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1];
+            columnafecha = Fechaingreso.split("-")[0]+"-"+Object.keys(datos[2])[4].split("-")[1]
             for(a=1; a < Object.keys(datos).length; a++){ 
               let keys = Object.keys(datos[0]);
+              var Turno = " ";
 
               if(datos[a][Object.keys(datos[0])[0]] != undefined ){
                 Sector = datos[a][keys[0]]
@@ -579,8 +579,8 @@ module.exports = {
               if(datos[a]["__EMPTY_2"] != undefined){
                 Cargo = datos[a]["__EMPTY_2"]
               }
-              if(datos[a]["__EMPTY_3"] != undefined){
-                Turno = datos[a]["__EMPTY_3"]
+              if(datos[a][columnafecha] != undefined){
+                Turno = datos[a][columnafecha]
               }
               await modelo.asistencia.findAll({
                   where : {
