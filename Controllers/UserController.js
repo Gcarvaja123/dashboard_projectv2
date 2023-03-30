@@ -2282,7 +2282,7 @@ module.exports = {
               }
             }
             if(datos[a]["__EMPTY_12"] != undefined){
-              Observaciones = datos[a]["_EMPTY_12"]
+              Observaciones = datos[a]["__EMPTY_12"]
             }
 
 
@@ -2366,9 +2366,10 @@ module.exports = {
                   })
                 }
               })
+              //Minicargador.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Minicargador.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1]
               await modelo.equipos.findAll({
                 where:{
-                  Patente : Minicargador.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Minicargador.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1]
+                  Patente : "T-40"
                 }
               }).then(async function(rows_minicargador){
                 if(rows_minicargador.length>0){
@@ -2377,7 +2378,7 @@ module.exports = {
                     Idingreso : random_id_trabajo_single
                   },{
                     where :{
-                      Patente : Minicargador.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Minicargador.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1]
+                      Patente : "T-40"
                     }
                   })
                 }
@@ -2391,21 +2392,6 @@ module.exports = {
                 }
               })
             }
-            
-
-            /*await modelo.asistencia.update({
-                Nombre : req.body.Nombre,
-                Rut : req.body.Rut,
-                Cargo : req.body.Cargo,
-                Turno : req.body.Turno,
-                Sector : req.body.Sector,
-                Fechaingreso : req.body.Fechaingreso
-              },{
-                where:{
-                  Id : req.body.Id
-                }
-            })*/
-
             
           }
         }catch(err){
