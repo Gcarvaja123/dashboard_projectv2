@@ -571,6 +571,7 @@ module.exports = {
             var Cargo = "";
             var Fechaingreso = "";
             var random_id_asistencia_single = guid()
+            console.log(datos)
             await modelo.archivos.create({
               Tabla : "asistencia",
               Idingreso : random_id_asistencia_single,
@@ -578,10 +579,16 @@ module.exports = {
               Infoingresada : "Asistencia",
               Nombrearchivo : file.name.toString()
             })
-            Fechaingreso = Object.keys(datos[0])[0].replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Object.keys(datos[0])[0].replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1];
-            columnafecha = Fechaingreso.split("-")[0]+"-"+Object.keys(datos[2])[4].split("-")[1]
+            //Fechaingreso = Object.keys(datos[0])[0].replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Object.keys(datos[0])[0].replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1];
+            Fechaingreso = (file.name).toString().replace(/\s+/g,' ').trim().toUpperCase().split(" ")[(file.name).toString().replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1];
+            //columnafecha = Fechaingreso.split("-")[0]+"-"+Object.keys(datos[2])[4].split("-")[1]
             for(a=1; a < Object.keys(datos).length; a++){ 
               let keys = Object.keys(datos[0]);
+              if(Object.keys(datos[a])[4] != undefined){
+                columnafecha = Fechaingreso.split("-")[0]+"-"+Object.keys(datos[a])[4].split("-")[1]
+                console.log(columnafecha)
+              }
+              
               var Turno = " ";
 
               if(datos[a][Object.keys(datos[0])[0]] != undefined ){
@@ -599,7 +606,7 @@ module.exports = {
               if(datos[a][columnafecha] != undefined){
                 Turno = datos[a][columnafecha]
               }
-              await modelo.asistencia.findAll({
+              /*await modelo.asistencia.findAll({
                   where : {
                     Fechaingreso : Fechaingreso,
                     Nombre : Nombre,
@@ -612,11 +619,11 @@ module.exports = {
                       Rut : Rut,
                       Cargo : Cargo,
                       Turno : Turno,
-                      Fechaingreso : Fechaingreso,
+                      Fechaingreso : Fechaingreso.split(".")[0],
                       Idingreso : random_id_asistencia_single
                     })
                   }
-                })
+                })*/
               
             }
           }catch(err){
@@ -854,43 +861,43 @@ module.exports = {
                   Dotacion = datos[a]["__EMPTY_1"];
               }
               
-              if(datos[a]["__EMPTY_4"] != undefined){
-                  Ubicacion = datos[a]["__EMPTY_4"];
+              if(datos[a]["__EMPTY_3"] != undefined){
+                  Ubicacion = datos[a]["__EMPTY_3"];
               }
               else{
                 Ubicacion ="";
               }
-              if(datos[a]["__EMPTY_4"] == undefined && demandaiszero==false){
+              if(datos[a]["__EMPTY_3"] == undefined && demandaiszero==false){
                 demandaiszero=true
               }
-              if(datos[a]["__EMPTY_5"] != undefined){
+              if(datos[a]["__EMPTY_4"] != undefined){
                   demandaiszero = false
-                  Demanda = datos[a]["__EMPTY_5"];
+                  Demanda = datos[a]["__EMPTY_4"];
               }
-              if(datos[a]["__EMPTY_5"] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+              if(datos[a]["__EMPTY_4"] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                  Demanda = 0;
 
               }
 
-              if(datos[a]["__EMPTY_6"] != undefined){
-                  Horai = convertToHHMM(datos[a]["__EMPTY_6"]*24).toString()
+              if(datos[a]["__EMPTY_5"] != undefined){
+                  Horai = convertToHHMM(datos[a]["__EMPTY_5"]*24).toString()
               }
               else{
                 Horai = "0";
               }
-              if(datos[a]["__EMPTY_7"] != undefined){
-                  Horaf = convertToHHMM(datos[a]["__EMPTY_7"]*24).toString();
+              if(datos[a]["__EMPTY_6"] != undefined){
+                  Horaf = convertToHHMM(datos[a]["__EMPTY_6"]*24).toString();
               }
               else{
                 Horaf = "0";
               }
-              if(datos[a]["__EMPTY_10"] != undefined){
-                  Unidad = datos[a]["__EMPTY_10"];
+              if(datos[a]["__EMPTY_9"] != undefined){
+                  Unidad = datos[a]["__EMPTY_9"];
               }
-              if(datos[a]["__EMPTY_11"] != undefined){
-                  Cantidad = datos[a]["__EMPTY_11"];
+              if(datos[a]["__EMPTY_10"] != undefined){
+                  Cantidad = datos[a]["__EMPTY_10"];
                 }
-              if(datos[a]["__EMPTY_11"] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+              if(datos[a]["__EMPTY_10"] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                  Cantidad = 0;
 
               }
