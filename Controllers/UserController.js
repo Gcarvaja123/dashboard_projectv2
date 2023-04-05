@@ -571,7 +571,17 @@ module.exports = {
             var Cargo = "";
             var Fechaingreso = "";
             var random_id_asistencia_single = guid()
-            console.log(datos)
+            var meses_array = ["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"]
+            var indexmes = 0
+            for(mes=0; mes<meses_array.length; mes++){
+              if(Object.keys(datos[0])[0].toUpperCase().includes(meses_array[mes])){
+                indexmes = mes+1
+                if(indexmes < 10){
+                  indexmes = "0"+indexmes.toString()
+                }
+                break
+              }
+            }
             await modelo.archivos.create({
               Tabla : "asistencia",
               Idingreso : random_id_asistencia_single,
@@ -580,16 +590,21 @@ module.exports = {
               Nombrearchivo : file.name.toString()
             })
             //Fechaingreso = Object.keys(datos[0])[0].replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Object.keys(datos[0])[0].replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1];
-            Fechaingreso = (file.name).toString().replace(/\s+/g,' ').trim().toUpperCase().split(" ")[(file.name).toString().replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1];
+            //Fechaingreso = (file.name).toString().replace(/\s+/g,' ').trim().toUpperCase().split(" ")[(file.name).toString().replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1];
             //columnafecha = Fechaingreso.split("-")[0]+"-"+Object.keys(datos[2])[4].split("-")[1]
-            for(a=1; a < Object.keys(datos).length; a++){ 
+            //Fechaingreso = 
+            for(a=1; a < Object.keys(datos).length; a++){
+
+              if(datos[a]["__EMPTY"].toUpperCase() == "NOMENCLATURA"){
+                break
+              } 
               let keys = Object.keys(datos[0]);
-              if(Object.keys(datos[a])[4] != undefined){
+              /*if(Object.keys(datos[a])[4] != undefined){
                 columnafecha = Fechaingreso.split("-")[0]+"-"+Object.keys(datos[a])[4].split("-")[1]
                 console.log(columnafecha)
               }
               
-              var Turno = " ";
+              var Turno = " ";*/
 
               if(datos[a][Object.keys(datos[0])[0]] != undefined ){
                 Sector = datos[a][keys[0]]
@@ -603,27 +618,27 @@ module.exports = {
               if(datos[a]["__EMPTY_2"] != undefined){
                 Cargo = datos[a]["__EMPTY_2"]
               }
-              if(datos[a][columnafecha] != undefined){
-                Turno = datos[a][columnafecha]
+              if(datos[a][Object.keys(datos[2])[Object.keys(datos[2]).length-7]] != undefined){
+                Turno = datos[a][Object.keys(datos[2])[Object.keys(datos[2]).length-7]]
               }
-              /*await modelo.asistencia.findAll({
+              await modelo.asistencia.findAll({
                   where : {
-                    Fechaingreso : Fechaingreso,
+                    Fechaingreso : Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[0].toString()+"-"+indexmes+"-"+"2023",
                     Nombre : Nombre,
                   }
                 }).then(async function(rows){
-                  if(rows.length==0){
+                  if(rows.length==0 ){
                     await modelo.asistencia.create({
                       Sector : Sector,
                       Nombre : Nombre,
                       Rut : Rut,
                       Cargo : Cargo,
                       Turno : Turno,
-                      Fechaingreso : Fechaingreso.split(".")[0],
+                      Fechaingreso : Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[0].toString()+"-"+indexmes+"-"+"2023",
                       Idingreso : random_id_asistencia_single
                     })
                   }
-                })*/
+                })
               
             }
           }catch(err){
