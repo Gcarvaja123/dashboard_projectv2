@@ -571,7 +571,6 @@ module.exports = {
             var Cargo = "";
             var Fechaingreso = "";
             var random_id_asistencia_single = guid()
-            console.log(datos)
             await modelo.archivos.create({
               Tabla : "asistencia",
               Idingreso : random_id_asistencia_single,
@@ -581,7 +580,7 @@ module.exports = {
             })
             Fechaingreso = Object.keys(datos[0])[0].replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Object.keys(datos[0])[0].replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1];
             columnafecha = Fechaingreso.split("-")[0]+"-"+Object.keys(datos[2])[4].split("-")[1]
-            /*for(a=1; a < Object.keys(datos).length; a++){ 
+            for(a=1; a < Object.keys(datos).length; a++){ 
               let keys = Object.keys(datos[0]);
               var Turno = " ";
 
@@ -619,7 +618,7 @@ module.exports = {
                   }
                 })
               
-            }*/
+            }
           }catch(err){
             req.flash('error', file.name.toString());
             await modelo.asistencia.destroy({
