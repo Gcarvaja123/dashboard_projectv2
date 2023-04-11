@@ -536,12 +536,14 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
 
 
-  const turnosPermitidos = ["A", "B", "C", "H", "B1", "A1", "H"];
+  const turnosPermitidos = ["A", "B", "C", "H", "B1", "A1", "H", "TT"];
   var nombre_cargos_traspaso = []
   var asistencia_cargos = []
   var inasistencia_cargos = []
   $scope.asistenciatotaltraspaso = []
   $scope.headercargotraspaso = []
+  var dias_asistidos = 0
+  var dias_total = 0
 
   for(a=0; a < local_data_asistencia_traspaso.length; a++){
     if(nombre_cargos_traspaso.indexOf(local_data_asistencia_traspaso[a].Cargo) ==-1 && $scope.fecha_universal == local_data_asistencia_traspaso[a].Fecha){
@@ -563,14 +565,34 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       }
     }
 
+
+    if(parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[1]) == parseInt($scope.fecha_universal.split("-")[1])){
+      if(turnosPermitidos.includes(local_data_asistencia_traspaso[a].Asistencia)){
+        dias_asistidos+=1
+      }
+      dias_total+=1
+    }
+      
     
   }
 
 
   $scope.myJsonasistenciabartraspaso = asistencia_chart_traspaso(asistencia_cargos, inasistencia_cargos, nombre_cargos_traspaso, $scope.fecha_universal )
 
+  $scope.myJsonAsistenciatraspaso1 = Pie_Asistencia_traspaso (dias_total, dias_asistidos, "mensual")
 
   $scope.headersasistenciatraspaso = ["Nombre", "ApellidoP", "ApellidoM", "Rut", "Cargo", "Asistencia"]
+
+  //------------------------------------------------------ PAUTA DIARIA ----------------------------------------------------------------//
+
+  $scope.pautadiariatotal = []
+
+  for(a=0 ; a < local_data_pauta_diaria.length; a++){
+
+    if(local_data_pauta_diaria[a].Fecha == $scope.fecha_universal){
+      $scope.pautadiariatotal.push(local_data_pauta_diaria[a])
+    }
+  }
 
 
   //------------------------------------------------------MODIFICACION DE DATOS---------------------------------------------------------//
@@ -1463,8 +1485,10 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     converted_date = nueva_fecha.toISOString().split('T')[0];
     fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
 
+
     $scope.fecha_universa = fecha;
     $scope.fecha_universal  = angular.copy($scope.fecha_universa);
+
 
     //let weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][nueva_fecha.getDay()];
     
@@ -2116,7 +2140,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     //---------------------------------------------------- ASISTENCIA TRASPASO----------------------------------------------------------------------------------------
 
 
-    const turnosPermitidos = ["A", "B", "C", "H", "B1", "A1", "H"];
+    const turnosPermitidos = ["A", "B", "C", "H", "B1", "A1", "H", "TT"];
+    var dias_asistidos = 0
+    var dias_total = 0
     var nombre_cargos_traspaso = []
     var asistencia_cargos = []
     var inasistencia_cargos = []
@@ -2141,12 +2167,25 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
           $scope.headercargotraspaso.push(local_data_asistencia_traspaso[a].Cargo)
         }
       }
+
+      if(parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[1]) == parseInt($scope.fecha_universal.split("-")[1])){
+        if(turnosPermitidos.includes(local_data_asistencia_traspaso[a].Asistencia)){
+          dias_asistidos+=1
+        }
+        dias_total+=1
+      }
     }
 
 
     $scope.myJsonasistenciabartraspaso = asistencia_chart_traspaso(asistencia_cargos, inasistencia_cargos, nombre_cargos_traspaso, $scope.fecha_universal )
 
     $scope.headersasistenciatraspaso = ["Nombre", "ApellidoP", "ApellidoM", "Rut", "Cargo", "Asistencia"]
+    $scope.myJsonAsistenciatraspaso1 = Pie_Asistencia_traspaso (dias_total, dias_asistidos, "mensual")
+
+    
+    
+    
+    
 
 
 
@@ -2237,15 +2276,48 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     var Epoch_Final = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"17:00:00"))*1000
     $scope.myJsonTimertraspaso1 = timer_chart_traspaso_1(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7);
 
+  //------------------------------------------------------------------ PAUTA DIARIA TRASPASO ------------------------------------------------------------------------------------
+    
+    $scope.pautadiariatotal = []
+
+    for(a=0 ; a < local_data_pauta_diaria.length; a++){
+      if(local_data_pauta_diaria[a].Fecha.toString() == $scope.fecha_universal.toString()){
+        $scope.pautadiariatotal.push(local_data_pauta_diaria[a])
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     
 
   }
 
-  //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  
+
+
+  
+
+
+
+
+
+
+
+
   $scope.Asistenciatotal =[];
 
 
+
+  
 
 
 
@@ -2389,10 +2461,14 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
 
 
+
+
+  $scope.ruttraspaso = "";
   $scope.filltableasistenciatraspaso = function(name){
-    const turnosPermitidos = ["A", "B", "C", "H", "B1", "A1", "H"];
+    const turnosPermitidos = ["A", "B", "C", "H", "B1", "A1", "H", "TT"];
     var dias_asistidos = 0
     var dias_total = 0
+    
     $scope.asistenciatotaltraspaso = []
     for(a=0; a < local_data_asistencia_traspaso.length; a++){
       if(local_data_asistencia_traspaso[a].Cargo == name){
@@ -2406,17 +2482,103 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       }
 
     }
-
-
-
+    $scope.myJsonAsistenciatraspaso1 = Pie_Asistencia_traspaso (dias_total, dias_asistidos, $scope.fecha_universal)
 
   }
 
+
+
+  $scope.changeinassitancetraspaso = function(name){
+    const turnosPermitidos = ["A", "B", "C", "H", "B1", "A1", "H", "TT"];
+    var dias_asistidos = 0;
+    var dias_total = 0;
+    
+    for(a=0 ; a < local_data_asistencia_traspaso.length; a++){
+
+      if(name=="hoy"){
+        if(parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[0]) == parseInt($scope.fecha_universal.split("-")[0])){
+          if(turnosPermitidos.includes(local_data_asistencia_traspaso[a].Asistencia)){
+            dias_asistidos+=1
+          }
+          dias_total+=1
+        }
+      }
+      else if(name=="mensual"){
+        if(parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[1]) == parseInt($scope.fecha_universal.split("-")[1])){
+          if(turnosPermitidos.includes(local_data_asistencia_traspaso[a].Asistencia)){
+            dias_asistidos+=1
+          }
+          dias_total+=1
+        }
+      }
+      else if(name=="anual"){
+        if(parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[2]) == parseInt($scope.fecha_universal.split("-")[2])){
+          if(turnosPermitidos.includes(local_data_asistencia_traspaso[a].Asistencia)){
+            dias_asistidos+=1
+          }
+          dias_total+=1
+        }
+      }     
+    }
+    $scope.myJsonAsistenciatraspaso1 = Pie_Asistencia_traspaso (dias_total, dias_asistidos, name)
+  }
+
+  $scope.changeinassitancetraspaso2 = function(name){
+    const turnosPermitidos = ["A", "B", "C", "H", "B1", "A1", "H", "TT"];
+    var dias_asistidos = 0;
+    var dias_total = 0;
+    var nombre_traspaso = ""
+    $scope.asistenciatotaltraspasomodal = []
+    for(a=0 ; a < local_data_asistencia_traspaso.length; a++){
+      if(name == "mensual"){
+        if( local_data_asistencia_traspaso[a].Rut == $scope.ruttraspaso && parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[1]) == parseInt($scope.fecha_universal.split("-")[1])){
+          $scope.nombre_traspaso = local_data_asistencia_traspaso[a].Nombre
+          $scope.asistenciatotaltraspasomodal.push(local_data_asistencia_traspaso[a])
+          if(turnosPermitidos.includes(local_data_asistencia_traspaso[a].Asistencia)){
+            dias_asistidos+=1
+          }
+          dias_total+=1
+        }
+      }
+      if(name == "anual"){
+        if( local_data_asistencia_traspaso[a].Rut == $scope.ruttraspaso && parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[2]) == parseInt($scope.fecha_universal.split("-")[2])){
+          $scope.nombre_traspaso = local_data_asistencia_traspaso[a].Nombre
+          $scope.asistenciatotaltraspasomodal.push(local_data_asistencia_traspaso[a])
+          if(turnosPermitidos.includes(local_data_asistencia_traspaso[a].Asistencia)){
+            dias_asistidos+=1
+          }
+          dias_total+=1
+        }
+      }
+    }
+    $scope.myJsonAsistenciatrabajadortraspaso = Pie_Asistencia_traspaso (dias_total, dias_asistidos, $scope.nombre_traspaso )
+  }
+
   $scope.searchWorkerTraspaso = function(index){
+    var dias_asistidos = 0;
+    var dias_total = 0 ; 
+    const turnosPermitidos = ["A", "B", "C", "H", "B1", "A1", "H", "TT"];
+    $scope.asistenciatotaltraspasomodal = []
+    $scope.ruttraspaso = $scope.asistenciatotaltraspaso[index].Rut
 
+    for(a=0 ; a < local_data_asistencia_traspaso.length; a++){
+      if(local_data_asistencia_traspaso[a].Rut == $scope.asistenciatotaltraspaso[index].Rut  && parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[1]) == parseInt($scope.fecha_universal.split("-")[1])){
+        $scope.asistenciatotaltraspasomodal.push(local_data_asistencia_traspaso[a])
+        if(turnosPermitidos.includes(local_data_asistencia_traspaso[a].Asistencia)){
+          dias_asistidos+=1
+        }
+        dias_total+=1
+      }
+    }
 
+    $scope.myJsonAsistenciatrabajadortraspaso = Pie_Asistencia_traspaso (dias_total, dias_asistidos, $scope.asistenciatotaltraspaso[index].Nombre )
+  }
 
-    console.log($scope.asistenciatotaltraspaso[index])
+  $scope.modaltraspasoasistencia = function(){
+    var myModala = new bootstrap.Modal(document.getElementById('Modalasistenciatraspaso'), {
+          keyboard: false
+      })
+      myModala.toggle()
   }
 
   $scope.filltableasistencia = function(name){
@@ -5602,6 +5764,38 @@ function Pie_Asistencia(Total, Asistencia, Nombre){
     },
     "title": {
       "text": "Asistencia " + Nombre
+    },
+    "series": [{
+        "values": [Total-Asistencia],
+        backgroundColor :"#ededed",
+        fontColor :"black"
+      },
+      {
+        "values": [Asistencia],
+        backgroundColor :"#4DC0CF",
+        fontColor: "black"
+
+      },
+    ]
+  };
+  return grafico
+}
+
+function Pie_Asistencia_traspaso(Total, Asistencia, Fecha){
+  var grafico = {};
+  grafico = {
+    "type": "pie",
+    plot: {
+      slice: 0,
+      'value-box': {
+        'font-size':13,
+        'font-weight': "normal",
+        "font-color":"black",
+      } //to make a donut
+      
+    },
+    "title": {
+      "text": "Asistencia " + Fecha.toString()
     },
     "series": [{
         "values": [Total-Asistencia],

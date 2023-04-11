@@ -621,9 +621,17 @@ module.exports = {
               if(datos[a][Object.keys(datos[2])[Object.keys(datos[2]).length-7]] != undefined){
                 Turno = datos[a][Object.keys(datos[2])[Object.keys(datos[2]).length-7]]
               }
+
+              var dia_fecha=""
+              if(parseInt(Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[0])<10){
+                dia_fecha = "0"+Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[0].toString()
+              }
+              else{
+                dia_fecha = Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[0].toString()
+              }
               await modelo.asistencia.findAll({
                   where : {
-                    Fechaingreso : Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[0].toString()+"-"+indexmes+"-"+"2023",
+                    Fechaingreso : dia_fecha+"-"+indexmes+"-"+"2023",
                     Nombre : Nombre,
                   }
                 }).then(async function(rows){
@@ -634,7 +642,7 @@ module.exports = {
                       Rut : Rut,
                       Cargo : Cargo,
                       Turno : Turno,
-                      Fechaingreso : Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[0].toString()+"-"+indexmes+"-"+"2023",
+                      Fechaingreso : dia_fecha+"-"+indexmes+"-"+"2023",
                       Idingreso : random_id_asistencia_single
                     })
                   }

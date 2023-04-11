@@ -762,6 +762,46 @@ html
                         label {{workpad.Aviso}}
                       td
                         label {{workpad.Orden}}
+    #Modalasistenciatraspaso.modal.fade(aria-labelledby='Modalbrocales')
+      .modal-dialog
+        .modal-content
+          #tablematriz.grid-container
+              div.tabla.item1
+                table.matriz.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Nombre
+                        span.resize-handle
+                      th(data-type='text')
+                        | Apellido P
+                        span.resize-handle
+                      th(data-type='text')
+                        | Apellido M
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Rut
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Cargo
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Asistencia
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="asistencia in asistenciatotaltraspasomodal|filter:searchtxt")
+                      td
+                        label {{asistencia.Nombre}} 
+                      td
+                        label {{asistencia.ApellidoP}} 
+                      td
+                        label {{asistencia.ApellidoM}}
+                      td(ng-click="searchWorkerTraspaso(asistenciatotaltraspaso.indexOf(asistencia))")
+                        label {{asistencia.Rut}} 
+                      td
+                        label {{asistencia.Cargo}}
+                      td
+                        label {{asistencia.Asistencia}} 
 
     #Tutorial.modal.fade( aria-labelledby='Modaltutorial' )
               .modal-dialog
@@ -1038,6 +1078,8 @@ html
             
             //#chart1002(zingchart='' zc-json='myJsonprueba' zc-width='300px' zc-height='300px')
         #Asistencia
+          .one
+            h1 Asistencia
           //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
           p
             button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseSectores' aria-expanded='false' aria-controls='collapseExample')
@@ -1149,6 +1191,8 @@ html
 
 
         #Planmatriz
+          .one
+            h1 Plan Matriz
           //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
           #matrizbrocales.grid-container
             #matriz1
@@ -1211,6 +1255,8 @@ html
                               label {{vimos.Estado}}  
 
         #Brocales
+          .one
+            h1 Brocales
           //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")    
           #gridbrocales.grid-container
             #brocal1.grid-item
@@ -1377,6 +1423,8 @@ html
           //#Bargraphbrocales.grid-container
             //#chart70(zingchart='' zc-json='myJsonBarBrocales' zc-width='50%' zc-height='400px' visibility="hidden" )
         #Disciplina
+          .one
+            h1 Disciplina Operacional
           //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
 
           #Disciplinaubicaciones.grid-container
@@ -1403,6 +1451,8 @@ html
                 div
                   #chart55(zingchart='' zc-json='myJsonTest' zc-width='100%' zc-height='440px' visibility="hidden")
         #Asistenciatraspaso
+          .one
+            h1 Asistencia Traspaso
           #asistenciabar.grid-container
             #chart61(zingchart='' zc-json='myJsonasistenciabartraspaso' zc-width='100%' zc-height='300px')
           p
@@ -1412,45 +1462,95 @@ html
           input.form-controlfilter( type='text' ng-model='searchtxt[columnasistenciatraspaso]' placeholder='Ingresar valor a filtrar')
           p
 
-          #tablecompletedasistenciatraspaso.grid-container
-            div.tabla.item1
-              table.Asistencia.table.caption-top
-                        thead
-                          tr
-                            th(data-type="text")
-                              | Nombre
-                              span.resize-handle
-                            th(data-type='text')
-                              | Apellido P
-                              span.resize-handle
-                            th(data-type='text')
-                              | Apellido M
-                              span.resize-handle
-                            th(data-type='text-long')
-                              | Rut
-                              span.resize-handle
-                            th(data-type='text-long')
-                              | Cargo
-                              span.resize-handle
-                            th(data-type='text-long')
-                              | Asistencia
-                              span.resize-handle
-                        tbody
-                          tr(ng-repeat="asistencia in asistenciatotaltraspaso|filter:searchtxt")
-                            td(ng-click="searchWorkerTraspaso($index)")
-                              label {{asistencia.Nombre}} 
-                            td
-                              label {{asistencia.ApellidoP}} 
-                            td
-                              label {{asistencia.ApellidoM}}
-                            td(ng-click="searchWorkerTraspaso(asistenciatotaltraspaso.indexOf(asistencia))")
-                              label {{asistencia.Rut}} 
-                            td
-                              label {{asistencia.Cargo}}
-                            td
-                              label {{asistencia.Asistencia}} 
+          //#asistenciagrid2.grid-container
+          #asistenciatraspasogrid.grid-container
+            #tablecompletedasistenciatraspaso.grid-container
+              div.tabla.item1
+                table.Asistencia.tabletraspaso.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Nombre
+                        span.resize-handle
+                      th(data-type='text')
+                        | Apellido P
+                        span.resize-handle
+                      th(data-type='text')
+                        | Apellido M
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Rut
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Cargo
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Asistencia
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="asistencia in asistenciatotaltraspaso|filter:searchtxt")
+                      td
+                        label {{asistencia.Nombre}} 
+                      td
+                        label {{asistencia.ApellidoP}} 
+                      td
+                        label {{asistencia.ApellidoM}}
+                      td(ng-click="searchWorkerTraspaso(asistenciatotaltraspaso.indexOf(asistencia))")
+                        label {{asistencia.Rut}} 
+                      td
+                        label {{asistencia.Cargo}}
+                      td
+                        label {{asistencia.Asistencia}} 
+            #asistenciatraspasograficos.grid-container
+              div
+                #chart62(zingchart='' zc-json='myJsonAsistenciatraspaso1' zc-width='100%' zc-height='232px' visibility="hidden" )
+                .buttoninnasistance
+                  button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancetraspaso('hoy')") Hoy
+                  button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancetraspaso('mensual')") Mensual
+                  button.buttoninassistance2(ng-model='inassistance2' ng-click="changeinassitancetraspaso('anual')") Anual
+              div()
+                #chart63(zingchart='' zc-json='myJsonAsistenciatrabajadortraspaso' zc-width='100%' zc-height='232px' visibility="hidden" ng-click="modaltraspasoasistencia()")
+                .buttoninnasistance
+                  button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancetraspaso2('mensual')") Mensual
+                  button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancetraspaso2('anual')") Anual
+        #Pautadiaria
+          .one
+            h1 Pauta Diaria Traspaso
+          #tablepautadiaria
+              div.tabla.item1
+                table.pautadiaria.tabletraspaso.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Fecha
+                        span.resize-handle
+                      th(data-type='text')
+                        | Descripción
+                        span.resize-handle
+                      th(data-type='text')
+                        | Supervisor
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ver Detalles
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="pauta in pautadiariatotal|filter:searchtxt")
+                      td
+                        label {{pauta.Fecha}} 
+                      td
+                        label {{pauta.Descripcion}} 
+                      td
+                        label {{pauta.Supervisor}}
+                      td
+                        button.btn.btn-secondary.archivobutton(type='button' ng-click="changearchivos($index)" )
+                          i.bi.bi-card-text
+
+
+                
           
         #Disciplinatraspaso
+          .one
+            h1 Disciplina Operacional Traspaso
           #Disciplinaubicaciones.grid-container
             #grid-disciplina.grid-container
               #chart57(zingchart='' zc-json='myJsonhbardisciplinatraspaso' zc-width='200px' zc-height='300px')

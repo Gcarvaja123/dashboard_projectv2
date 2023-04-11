@@ -9,6 +9,46 @@ body {
 
 }
 
+h1 {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+  font-weight: 300;
+  font-size: 40px;
+  color: #080808;
+  -webkit-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}
+.one h1 {
+  text-align: center;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+}
+.one h1:before {
+  width: 28px;
+  height: 5px;
+  display: block;
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  margin-left: -14px;
+  background-color: #b80000;
+}
+.one h1:after {
+  width: 100px;
+  height: 1px;
+  display: block;
+  content: "";
+  position: relative;
+  margin-top: 25px;
+  left: 50%;
+  margin-left: -50px;
+  background-color: #b80000;
+}
+
 p.dato{
   font-size: 14px;
 }
@@ -381,6 +421,12 @@ button{
   height: 1000px;
 }
 
+#Modalasistenciatraspaso .modal-dialog{
+  height: 700px;
+  width: 1000px;
+  max-width: 100%;
+}
+
 #ModalAsistenciaar .modal-dialog{
   max-width: 1400px;
   width: 1400px;
@@ -683,6 +729,15 @@ hr{
   font: 12px;
 }
 
+#asistenciatraspasogrid{
+  display: grid;
+  grid-template-columns: 75% auto;
+}
+
+#asistenciatraspasograficos div{
+  background-color: white;
+}
+
 #contentdiariosub5{
   background-color: white;
   border-radius: 10px;
@@ -736,6 +791,20 @@ hr{
   height: 475px;
   text-align: center;
   border-radius: 6px;
+}
+
+#asistenciatraspasograficos{
+  display: grid;
+  grid-template-rows: auto auto;
+  padding: 0px;
+}
+
+#asistenciatraspasograficos.grid-container div{
+  border-radius: 10px;
+}
+
+#asistenciatraspasograficos.item1traspaso{
+  height: 100%;
 }
 
 
@@ -950,6 +1019,15 @@ hr{
   width: 100%;
 }
 
+
+#tablepautadiaria .tabla{
+  background-color: white;
+  text-align: center;
+  border-radius: 6px;
+  max-height: 300px;
+  width: 100%;
+}
+
 #tableequipos {
   display: grid;
   grid-template-columns: 100% auto;
@@ -1033,9 +1111,17 @@ table.matriz td{
 }
 
 #tablecompletedasistenciatraspaso.grid-container{
-  height: 700px;
+  height: 540px;
   border-radius: 10px;
+  background-color: white;
+  padding: 0px;
 }
+
+.asistenciapietraspaso{
+  border-radius: 10px;
+  background-color: white;
+}
+
 
 #chart61{
   border-radius: 10px
