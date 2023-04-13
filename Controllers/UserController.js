@@ -1446,13 +1446,13 @@ module.exports = {
                 }
               }
               else{
-                if (keys[0].toString().includes("AIRE")){
+                if (keys[0].toString().toUpperCase().includes("AIRE")){
                   area = "Aire Acondicionado";
                 }
-                else if (keys[0].toString().includes("polvo")){
+                else if (keys[0].toString().toUpperCase().includes("POLVO")){
                   area = "Colectores de polvo";
                 }
-                else if (keys[0].toString().includes("ventilación") || datos[0][keys[0]].includes("ventilación") ){
+                else if (keys[0].toString().toUpperCase().includes("VENTILACIÓN") || datos[0][keys[0]].includes("ventilación") ){
                   area = "Ventilación";
                 }
 
@@ -1460,8 +1460,6 @@ module.exports = {
                 for (a = 1 ; a < Object.keys(datos).length ; a++ ){
 
                   let keys = Object.keys(datos[a]);
-                  console.log(datos[a])
-                  console.log(keys)
                   
                   if(keys.length < 4){
                     if(datos[a][Object.keys(datos[0])[0]]!= undefined && Number.isInteger(datos[a][Object.keys(datos[0])[0]])){
@@ -1469,11 +1467,9 @@ module.exports = {
                       var converted_date = date.toISOString().split('T')[0];
                       fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
                     }
-                    console.log(fecha)
                     if(keys.length==1 || (datos[a]["__EMPTY_1"] == undefined && datos[a]["__EMPTY_2"] == undefined)){
                       await modelo.planmatriz.create({
                         Fecha : fecha,
-                        Programado : datos[a]["__EMPTY"],
                         Realizado : datos[a]["__EMPTY_1"],
                         Observaciones : observacion,
                         Area : area,
@@ -1483,7 +1479,6 @@ module.exports = {
                     else{
                       await modelo.planmatriz.create({
                         Fecha : fecha,
-                        Programado : datos[a]["__EMPTY"],
                         Realizado : datos[a]["__EMPTY_1"],
                         Observaciones : datos[a]["__EMPTY_2"],
                         Area : area,
@@ -1591,13 +1586,13 @@ module.exports = {
               }
             }
             else{
-              if (keys[0].toString().includes("AIRE")){
+              if (keys[0].toString().toUpperCase().includes("AIRE")){
                 area = "Aire Acondicionado";
               }
-              else if (keys[0].toString().includes("polvo")){
+              else if (keys[0].toString().toUpperCase().includes("POLVO")){
                 area = "Colectores de polvo";
               }
-              else if (keys[0].toString().includes("ventilación") || datos[0][keys[0]].includes("ventilación") ){
+              else if (keys[0].toString().toUpperCase().includes("VENTILACIÓN") || datos[0][keys[0]].toUpperCase().includes("VENTILACIÓN") ){
                 area = "Ventilación";
               }
 
@@ -1617,9 +1612,8 @@ module.exports = {
                   if(keys.length==1 || (datos[a]["__EMPTY_1"] == undefined && datos[a]["__EMPTY_2"] == undefined)){
                     await modelo.planmatriz.create({
                       Fecha : fecha,
-                      Programado : datos[a]["__EMPTY"],
-                      Realizado : datos[a]["__EMPTY_1"],
-                      Observaciones : observacion,
+                      Realizado : datos[a]["__EMPTY"],
+                      Observaciones : datos[a]["__EMPTY_1"],
                       Area : area,
                       Idingreso : random_id_matriz_single
                     })
@@ -1627,9 +1621,8 @@ module.exports = {
                   else{
                     await modelo.planmatriz.create({
                       Fecha : fecha,
-                      Programado : datos[a]["__EMPTY"],
-                      Realizado : datos[a]["__EMPTY_1"],
-                      Observaciones : datos[a]["__EMPTY_2"],
+                      Realizado : datos[a]["__EMPTY"],
+                      Observaciones : datos[a]["__EMPTY_1"],
                       Area : area,
                       Idingreso : random_id_matriz_single
                     })

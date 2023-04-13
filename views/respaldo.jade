@@ -1,0 +1,2574 @@
+doctype html
+html
+  head
+    script(type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
+    script(type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js')
+    script(type='text/javascript' src='https://unpkg.com/@popperjs/core@2')
+    link(rel='stylesheet' type='text/css' href='/css/sidevar.css')
+    link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css' integrity='sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx' crossorigin='anonymous')
+    link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css')
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js' integrity='sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa' crossorigin='anonymous')
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+
+    link(rel='stylesheet' type='text/css' href='/css/sistemanuevocopia.css')
+    //link(rel='stylesheet' type='text/css' href='/css/logindashboard.css')
+    script(src='https://cdn.zingchart.com/zingchart.min.js')
+    script(src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/374756/zingchart-angularjs-1.0.4.js')
+    script.
+      local_data_asistencia = !{JSON.stringify(totalasistencias)};
+      local_data_brocales = !{JSON.stringify(totalbrocales)};
+      local_data_matriz = !{JSON.stringify(totalmatriz)};
+      local_data_disciplina = !{JSON.stringify(totaldisciplina)};
+      local_data_puertas = !{JSON.stringify(totalpuertas)};
+      local_user = !{JSON.stringify(user)};
+      local_authmessage = !{JSON.stringify(authmessage)};
+      local_data_usuarios = !{JSON.stringify(totalusuarios)};
+      local_data_sap = !{JSON.stringify(totalsap)};
+      local_data_equipo = !{JSON.stringify(totalequipos)};
+      local_data_archivos = !{JSON.stringify(totalarchivos)};
+      local_info = !{JSON.stringify(info)};
+      local_error = !{JSON.stringify(error)}
+      local_ingreso = !{JSON.stringify(ingreso)}
+      local_data_trabajos = !{JSON.stringify(totaltrabajos)}
+      local_data_disciplina_traspaso = !{JSON.stringify(totaldisciplinatraspaso)}
+      local_data_pauta_diaria = !{JSON.stringify(totalpautadiaria)}
+      local_data_asistencia_traspaso = !{JSON.stringify(totalasistenciatraspaso)}
+      
+  
+  body#probando(ng-app='myApp' ng-controller="myControllerAsistencia")
+    #Modalfiles.modal.fade( aria-labelledby='Modalfiles' )
+        form.formasistencias#Modalfiles1(action='/dashboard' method='post' enctype='multipart/form-data')
+          .modal-dialog#Modalfiles2
+            .modal-content#Modalfiles3
+              .modal-header
+                h5#exampleModalLabel.modal-title Ingreso de archivos
+                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+              .modal-body#Modalfiles4
+                .container#Modalfiles5
+                  nav
+                    #nav-tab.nav.nav-tabs(role='tablist')
+                      button#nav-home-tab.nav-link.active(data-bs-toggle='tab' data-bs-target='#nav-home' type='button' role='tab' aria-controls='nav-home' aria-selected='true') Infra
+                      button#nav-profile-tab.nav-link(data-bs-toggle='tab' data-bs-target='#nav-profile' type='button' role='tab' aria-controls='nav-profile' aria-selected='false') Traspaso
+                      button#nav-profile-tab.nav-link(data-bs-toggle='tab' data-bs-target='#nav-tte8' type='button' role='tab' aria-controls='nav-tte8' aria-selected='false') Tte8
+                  #nav-tabContent.tab-content
+                    #nav-home.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='nav-home-tab')
+                      .mb-3.matrizitems#Modalfiles6
+                        .item1
+                          label.form-label(for='formFileMultiple') Plan matriz
+                          .planexample
+                            input#formFileMultiple.form-control(type='file' name="Matriz" multiple='')
+                            button.btn.btn-secondary.planbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverplan'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                            button.btn.btn-secondary.vimobutton(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popovervimo'  data-bs-content=' ')
+                              i.bi.bi-card-image
+
+                        .item2#Modalfiles7
+                          label.form-label(for='formFileMultiple') P. Vimo SAP
+                          .sapexample#Modalfiles8
+                            input#formFileMultiple.form-control(type='file' name="Matrizsap" multiple='')
+                            button.btn.btn-secondary.sapbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoversap'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3
+                        .item1
+                          label.form-label(for='formFileMultiple') Asistencia
+                          .asistenciaexample
+                            input#formFileMultiple.form-control(type='file' name="Asistencia" multiple='')
+                            button.btn.btn-secondary.asistenciabutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverasistencia'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      
+                      .mb-3.brocalesitems
+                        .item1
+                          label.form-label(for='formFileMultiple') Servicio y limpieza brocales sub 5
+                          .sub5example
+                            input#formFileMultiple.form-control(type='file' name="Brocales5" multiple='')
+                            button.btn.btn-secondary.sub5button(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popoversub5'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                        .item2
+                          label.form-label(for='formFileMultiple') Servicio y limpieza brocales sub 6
+                          .sub6example
+                            input#formFileMultiple.form-control(type='file' name="Brocales6" multiple='')
+                            button.btn.btn-secondary.sub6button(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoversub6'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Disciplina operacional
+                        .disciplinaexample
+                          input#formFileMultiple.form-control(type='file' name="Disciplina" multiple='')
+                          button.btn.btn-secondary.disciplinabutton(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popoverdisciplina'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Equipos y camionetas
+                        .equiposexample
+                          input#formFileMultiple.form-control(type='file' name="Equipos" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Trabajos diarios
+                        .equiposexample
+                          input#formFileMultiple.form-control(type='file' name="Trabajos" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popovertrabajos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                    #nav-profile.tab-pane.fade(role='tabpanel' aria-labelledby='nav-profile-tab')
+                      .mb-3
+                        label.form-label(for='formFileMultiple') POD
+                        .equiposexample
+                          input#formFileMultiple.form-control(type='file' name="PODtraspaso" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      //.mb-3
+                      //  label.form-label(for='formFileMultiple') Asistencia
+                      //  .equiposexample
+                      //    input#formFileMultiple.form-control(type='file' name="Asistenciatraspaso" multiple='')
+                      //    button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                      //        i.bi.bi-card-image
+                      //.mb-3
+                      //  label.form-label(for='formFileMultiple') Pauta Diaria
+                      //  .equiposexample
+                      //    input#formFileMultiple.form-control(type='file' name="Pautadiaria" multiple='')
+                      //    button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                      //        i.bi.bi-card-image
+                    
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Workpad
+                        .equiposexample
+                          input#formFileMultiple.form-control(type='file' name="Workpad" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Disciplina Operacional
+                        .equiposexample
+                          input#formFileMultiple.form-control(type='file' name="Disciplinatraspaso" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                    #nav-tte8.tab-pane.fade(role='tabpanel' aria-labelledby='nav-profile-tab')
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Asistencia
+                        .equiposexample
+                          input#formFileMultiple.form-control(type='file' name="Asistenciatte8" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                  
+
+
+              .modal-footer
+                button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                button.btnn(name="probando3" value="probando4") Aceptar
+    
+
+    #Modallogin.modal.fade( aria-labelledby='Modallogin' )
+      form.formasistencias(action='/login' method='post' enctype='multipart/form-data')
+          .modal-dialog
+            .modal-content
+              .modal-header
+                h5#exampleModalLabel.modal-title Ingreso de cuenta
+                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+              .modal-body
+                .container
+                  .mb-3
+                    label() Ingresar nombre usuario
+                    input#formFileMultiple.form-control(type='text' name='username' placeholder='Usuario' )
+                  .mb-3
+                    label() Ingresar contraseña
+                    input#formFileMultiple.form-control(type='password' name='password'  placeholder='Contraseña')
+                  if authmessage!=""
+                    {{authmessagestr}}
+              .modal-footer
+                button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                button.btnn(name="probando3" value="probando4") Aceptar
+    #ModalInformacion.modal.fade( aria-labelledby='Modallogin' )
+      form.formasistencias
+          .modal-dialog
+            .modal-content
+              .modal-header
+                h5#exampleModalLabel.modal-title Información del ingreso de archivos
+                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+              .modal-body
+                .container
+                  p
+                  span {{Estado}}
+                  p
+                  span(style='white-space: pre;') {{EstadoArchivos}}
+              .modal-footer
+                button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                button.btnn(name="probando3" value="probando4") Aceptar
+    #ModalAsistenciaar.modal.fade(aria-labelledby='Modalasistenciaar')
+      .modal-dialog
+        .modal-content
+          #tableasistenciaar.grid-container
+              div.tabla.item1
+                table.Asistenciaar.table.caption-top
+                          thead
+                            tr
+                              th(data-type="text")
+                                | Sector
+                                span.resize-handle
+                              th(data-type='text')
+                                | Nombre
+                                span.resize-handle
+                              th(data-type='text-long')
+                                | Rut
+                                span.resize-handle
+                              th(data-type='text-long')
+                                | Cargo
+                                span.resize-handle
+                              th(data-type='text-long')
+                                | Turno
+                                span.resize-handle
+                              th(data-type='text-long')
+                                | Fecha ingreso
+                                span.resize-handle
+                          tbody
+                            tr(ng-repeat="asistencia in Totalasistenciaarchivos")
+                              td
+                                label {{asistencia.Sector}} 
+                              td
+                                label {{asistencia.Nombre}} 
+                              td
+                                label {{asistencia.Rut}}
+                              td
+                                label {{asistencia.Cargo}}
+                              td
+                                label {{asistencia.Turno}}
+                              td
+                                label {{asistencia.Fechaingreso}}
+    #ModalPlanificacionvimo.modal.fade(aria-labelledby='Modalplafinicacionvimo')
+      .modal-dialog
+        .modal-content
+          #tableasistenciaar.grid-container
+              div.tabla.item1
+                table.planificacionvimo.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | N° Puerta
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ut
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Area Resp.
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Prioridad
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Nivel
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Plan
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Orden
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Mes
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="plani in Totalplanificacion")
+                      td
+                        label {{plani.Numpuerta}}
+                      td
+                        label {{plani.Ut}}
+                      td
+                        label {{plani.Arearesponsable}}
+                      td
+                        label {{plani.Prioridad}}
+                      td
+                        label {{plani.Nivel}}
+                      td
+                        label {{plani.Plan}}
+                      td
+                        label {{plani.Orden}}
+                      td
+                        label {{plani.Mes}}  
+    #Modalequipos.modal.fade(aria-labelledby='Modalplafinicacionvimo')
+      .modal-dialog
+        .modal-content
+          #tableequipo.grid-container
+              div.tabla.item1
+                table.equipo.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Equipo
+                        span.resize-handle
+                      th(data-type='text')
+                        | Patente
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Cartola
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Ult. Mant.
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Ult. Mant. kms
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Prox. Mant. kms
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Km actual
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Semaforo
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Est. actual
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Fecha Cheq. gas
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="equipo in Totalequipos")
+                      td
+                        label {{equipo.Equipo}} 
+                      td
+                        label {{equipo.Patente}} 
+                      td
+                        label {{equipo.Cartola}}
+                      td
+                        label {{equipo.Ultimamantencion}}
+                      td
+                        label {{equipo.Ultimokms}}
+                      td
+                        label {{equipo.Proximakms}}
+                      td
+                        label {{equipo.Kilometrajeactual}}
+                      td
+                        label {{equipo.Semaforo}}
+                      td
+                        label {{equipo.Estado}}
+                      td
+                        label {{equipo.Fechagas}}
+    #Modaldisciplina.modal.fade(aria-labelledby='Modaldisciplina')
+      .modal-dialog
+        .modal-content
+          #tabledisciplina.grid-container
+              div.tabla.item1
+                table.disciplina.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Area
+                        span.resize-handle
+                      th(data-type='text')
+                        | Dia
+                        span.resize-handle
+                      th(data-type='text')
+                        | Fecha
+                        span.resize-handle
+                      th(data-type='text')
+                        | Lleg. inst.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Sal. inst.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Inicio Act Am.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Térm. Act. Am.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Almuerzo
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ini. Act. Pm
+                        span.resize-handle
+                      th(data-type='text')
+                        | Term. Act. Pm
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tiem. Inst.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tras. Post.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tiem. Disp. Am
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tras. Col.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tiem. Disp. Pm
+                        span.resize-handle
+                      th(data-type='text')
+                        | Almuerzo
+                        span.resize-handle
+                      th(data-type='text')
+                        | 
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="disciplina in Totaldisciplina")
+                      td
+                        label {{disciplina.Area}}
+                      td
+                        label {{disciplina.Dia}}
+                      td
+                        label {{disciplina.Fecha}}
+                      td
+                        label {{disciplina.Llegada_Instalacion}}
+                      td
+                        label {{disciplina.Salida_Instalacion}}
+                      td
+                        label {{disciplina.Inicio_Act_Am}}
+                      td
+                        label {{disciplina.Termino_Act_Am}}
+                      td
+                        label {{disciplina.Almuerzo}}
+                      td
+                        label {{disciplina.Inicio_Act_Pm}}
+                      td
+                        label {{disciplina.Termino_Act_Pm}}
+                      td
+                        label {{disciplina.Tiempo_Instalacion}}
+                      td
+                        label {{disciplina.Traslado_Postura}}
+                      td
+                        label {{disciplina.Tiempo_Disponible_Am}}
+                      td
+                        label {{disciplina.Traslado_Colacion}}
+                      td
+                        label {{disciplina.Tiempo_Disponible_Pm}}
+                      td
+                        label {{disciplina.Almuerzo_2}}
+    #Modalbrocales.modal.fade(aria-labelledby='Modalbrocales')
+      .modal-dialog
+        .modal-content
+          #tablebrocales.grid-container
+              div.tabla.item1
+                table.brocales.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Fecha
+                        span.resize-handle
+                      th(data-type='text')
+                        | Turno
+                        span.resize-handle
+                      th(data-type='text')
+                        | Act.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ubicacion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Cantidad
+                        span.resize-handle
+                      th(data-type='text')
+                        | Demanda
+                        span.resize-handle
+                      th(data-type='text')
+                        | Sub
+                        span.resize-handle
+                      th(data-type='text')
+                        | Dotacion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Hora ini.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Hora fin.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Observaciones
+                  tbody
+                    tr(ng-repeat="brocal in Totalbrocales")
+                      td
+                        label {{brocal.Fecha}}
+                      td
+                        label {{brocal.Turno}}
+                      td
+                        label {{brocal.Actividad}}
+                      td
+                        label {{brocal.Ubicacion}}
+                      td
+                        label {{brocal.Cantidad}}
+                      td
+                        label {{brocal.Demanda}}
+                      td
+                        label {{brocal.Sub}}
+                      td
+                        label {{brocal.Dotacion}}
+                      td
+                        label {{brocal.Horai}}
+                      td
+                        label {{brocal.Horaf}}
+                      td
+                        label {{brocal.Observaciones}}
+    #Modalmatriz.modal.fade(aria-labelledby='Modalbrocales')
+      .modal-dialog
+        .modal-content
+          #tablematriz.grid-container
+              div.tabla.item1
+                table.matriz.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Fecha
+                        span.resize-handle
+                      th(data-type='text')
+                        | Programado
+                        span.resize-handle
+                      th(data-type='text')
+                        | Realizado
+                        span.resize-handle
+                      th(data-type='text')
+                        | Observaciones
+                        span.resize-handle
+                      th(data-type='text')
+                        | Area
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="matriz in Totalmatrices")
+                      td
+                        label {{matriz.Fecha}}
+                      td
+                        label {{matriz.Programado}}
+                      td
+                        label {{matriz.Realizado}}
+                      td
+                        label {{matriz.Observaciones}}
+                      td
+                        label {{matriz.Area}}
+    #Modalvimo.modal.fade(aria-labelledby='Modalbrocales')
+      .modal-dialog
+        .modal-content
+          #tablevimo.grid-container
+              div.tabla.item1
+                table.vimo.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Identificacion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ubicacion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Fecha revisión
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tipo Mantencion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Detalles
+                        span.resize-handle
+                      th(data-type='text')
+                        | Estado
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="vimo in Totalvimo")
+                      td
+                        label {{vimo.Identificacion}}
+                      td
+                        label {{vimo.Ubicacion}}
+                      td
+                        label {{vimo.Fecharevision}}
+                      td
+                        label {{vimo.Tipomantencion}}
+                      td
+                        label {{vimo.Detalles}}
+                      td
+                        label {{vimo.Estado}}
+    #Modaltrabajos.modal.fade(aria-labelledby='Modaltrabajos')
+      .modal-dialog
+        .modal-content
+          #tablebrocales.grid-container
+              div.tabla.item1
+                table.vimo.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Fecha
+                        span.resize-handle
+                      th(data-type='text')
+                        | Turno
+                        span.resize-handle
+                      th(data-type='text')
+                        | Dotacion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Jdt DET
+                        span.resize-handle
+                      th(data-type='text')
+                        | Jdt MIES
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ubicacion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Actividad
+                        span.resize-handle
+                      th(data-type='text')
+                        | Horo. Lev/Minir
+                        span.resize-handle
+                      th(data-type='text')
+                        | Est. Lev.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Horo. Minir.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Est. Minir.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Obs.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Horo. Minic.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Minic.
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="trabajos in Totaltrabajos")
+                      td
+                        label {{trabajos.Fecha}}
+                      td
+                        label {{trabajos.Turno}}
+                      td
+                        label {{trabajos.Dotacion}}
+                      td
+                        label {{trabajos.JdtDet}}
+                      td
+                        label {{trabajos.JdtMies}}
+                      td
+                        label {{trabajos.Ubicacion}}
+                      td
+                        label {{trabajos.Actividad}}
+                      td
+                        label {{trabajos.Horometrolevante}}
+                      td
+                        label {{trabajos.Estadolevante}}
+                      td
+                        label {{trabajos.Horometromini}}
+                      td
+                        label {{trabajos.Estadominiretro}}
+                      td
+                        label {{trabajos.Observaciones}}
+                      td
+                        label {{trabajos.Horometrominicargador}}
+                      td
+                        label {{trabajos.Minicargador}}
+    #Modalworkpad.modal.fade(aria-labelledby='Modalbrocales')
+      .modal-dialog
+        .modal-content
+          #tableworkpad.grid-container
+              div.tabla.item1
+                table.matriz.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Tipo
+                        span.resize-handle
+                      th(data-type='text')
+                        | Actividad
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ejecutor
+                        span.resize-handle
+                      th(data-type='text')
+                        | HrsProg
+                        span.resize-handle
+                      th(data-type='text')
+                        | Lu. Ta
+                        span.resize-handle
+                      th(data-type='text')
+                        | Lu. Tb
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ma. Ta
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ma. Tb
+                        span.resize-handle
+                      th(data-type='text')
+                        | Mi. Ta
+                        span.resize-handle
+                      th(data-type='text')
+                        | Mi. Tb
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ju. Ta
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ju. Tb
+                        span.resize-handle
+                      th(data-type='text')
+                        | Vi. Ta
+                        span.resize-handle
+                      th(data-type='text')
+                        | Vi. Tb
+                        span.resize-handle
+                      th(data-type='text')
+                        | Sa. Ta
+                        span.resize-handle
+                      th(data-type='text')
+                        | Sa. Tb
+                        span.resize-handle
+                      th(data-type='text')
+                        | Do. Ta
+                        span.resize-handle
+                      th(data-type='text')
+                        | Do. Tb
+                        span.resize-handle
+                      th(data-type='text')
+                        | Aviso
+                        span.resize-handle
+                      th(data-type='text')
+                        | Orden
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="workpad in Totalworkpad")
+                      td
+                        label {{workpad.Tipo}}
+                      td
+                        label {{workpad.Actividad}}
+                      td
+                        label {{workpad.Ejecutor}}
+                      td
+                        label {{workpad.HrsProg}}
+                      td
+                        label {{workpad.LunesTa}}
+                      td
+                        label {{workpad.LunesTb}}
+                      td
+                        label {{workpad.MartesTa}}
+                      td
+                        label {{workpad.MartesTb}}
+                      td
+                        label {{workpad.Miercoles.Ta}}
+                      td
+                        label {{workpad.MiercolesTb}}
+                      td
+                        label {{workpad.JuevesTa}}
+                      td
+                        label {{workpad.JuevesTb}}
+                      td
+                        label {{workpad.ViernesTa}}
+                      td
+                        label {{workpad.ViernesTb}}
+                      td
+                        label {{workpad.SabadoTa}}
+                      td
+                        label {{workpad.SabadoTb}}
+                      td
+                        label {{workpad.DomingoTa}}
+                      td
+                        label {{workpad.DomingoTb}}
+                      td
+                        label {{workpad.Aviso}}
+                      td
+                        label {{workpad.Orden}}
+    #Modalasistenciatraspaso.modal.fade(aria-labelledby='Modalbrocales')
+      .modal-dialog
+        .modal-content
+          #tablematriz.grid-container
+              div.tabla.item1
+                table.matriz.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Nombre
+                        span.resize-handle
+                      th(data-type='text')
+                        | Apellido P
+                        span.resize-handle
+                      th(data-type='text')
+                        | Apellido M
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Rut
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Cargo
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Asistencia
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="asistencia in asistenciatotaltraspasomodal|filter:searchtxt")
+                      td
+                        label {{asistencia.Nombre}} 
+                      td
+                        label {{asistencia.ApellidoP}} 
+                      td
+                        label {{asistencia.ApellidoM}}
+                      td(ng-click="searchWorkerTraspaso(asistenciatotaltraspaso.indexOf(asistencia))")
+                        label {{asistencia.Rut}} 
+                      td
+                        label {{asistencia.Cargo}}
+                      td
+                        label {{asistencia.Asistencia}} 
+
+    #Tutorial.modal.fade( aria-labelledby='Modaltutorial' )
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    h5#exampleModalLabel.modal-title Tutorial
+                    button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                  .modal-body
+                    .container
+                      a ¿Seguro que quieres ir al tutorial?
+                  .modal-footer
+                    button.btnn(type='button' data-bs-dismiss='modal' ) Cerrar 
+                    button.btnn(name="probando3" value="probando4" ng-click="openTutorial()" data-bs-dismiss='modal') Aceptar
+
+
+    .sidenav#sidenav1
+      .sidenav-header
+        .image
+          .img.imagen
+          
+      #sidenav-collapse-main.navbar-collapse.w-auto.ps
+        ul.navbar-nav#sidenav2
+          li.nav-item.has-submenu
+            a.nav-link(data-bs-toggle='collapse' data-bs-target='#menu_infra')  Infra
+              i.bi.small.bi-caret-down-fill
+            ul#menu_infra.submenu.collapse(data-bs-parent='#nav_accordion')
+              li
+                a.tablink.w3-red(ng-click="GotoPanel()") Panel
+              li.nav-item
+                a.tablink(ng-click="GotoAsistencia()") Asistencia
+              li.nav-item
+                a.tablink(ng-click="GotoPlanmatriz()") Plan matriz 
+              li.nav-item
+                a.tablink(ng-click="GotoBrocales()") Brocales
+              li.nav-item
+                a.tablink(ng-click="GotoDisciplina()") Disciplina
+          li.nav-item.has-submenu
+            a.nav-link(data-bs-toggle='collapse' data-bs-target='#menu_traspaso')  Traspaso
+              i.bi.small.bi-caret-down-fill
+            ul#menu_traspaso.submenu.collapse(data-bs-parent='#nav_accordion')
+              li
+                a.nav-link.tablink(ng-click="GotoAsistenciatraspaso()" ) Asistencia
+              li
+                a.nav-link.tablink(ng-click="GotoPaneltraspaso()" ) Pauta diaria
+              li
+                a.nav-link.tablink(ng-click="GotoDisciplinatraspaso()" ) Disciplina
+          if user.Rango=="Modificacion" || user.Rango=="Reportes" || user.Rango=="admin"
+            li.nav-item.has-submenu
+              a.nav-link(data-bs-toggle='collapse' data-bs-target='#menu_item2')  Opciones
+                i.bi.small.bi-caret-down-fill
+              ul#menu_item2.submenu.collapse(data-bs-parent='#nav_accordion')
+                if user.Rango=="Modificacion" || user.Rango=="Reportes" || user.Rango=="admin"
+                  li
+                    a.nav-link.tablink(onclick="openActivity(event,'Modificacion')" ) Modificación
+                if user.Rango=="Reportes" || user.Rango=="admin"
+                  li
+                    a.nav-link.tablink(onclick="openActivity(event,'Reporte')" ) Reporte
+                if user.Rango=="Reportes" || user.Rango=="admin"
+                  li
+                    a.nak-link.tablink(onclick="openActivity(event,'Archivos')") Archivos
+                  li
+                    a.nak-link.tablink(onclick="openActivity(event,'Creacion')") Creacion
+            
+
+      .sidenav-footer
+        .image
+          .imagen2
+    #blur1.main-header
+      ul.navbar-nav#blurfecha2
+        li.nav-item#blurfecha3
+          input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
+        //if user!= 'notlogged'
+        if user.Usuario=="admin" || user.Rango=="Modificacion"
+          li.nav-item
+            button.btnn(type='button' data-bs-toggle='modal' data-bs-target='#Modalfiles') Ingresar archivos
+      ul.navbar-nav.ml-auto#blurlogin2
+        li.nav-item
+          button.btnn(type='button' data-bs-toggle='modal' data-bs-target='#Tutorial') Tutorial
+        li.nav-item.d-none.d-sm-inline-block#blurlogin3
+          if user != 'notlogged'
+            .btn-group
+              button.btnn( ng-model="deslogear" type='button' ng-click="logout()")
+                | Cerrar Sesion
+            //li.nav-item.d-none.d-sm-inline-block
+              //a.nav-link() {{username}}
+            
+          else
+            button#loginbutton.btnn(type='button' data-bs-toggle='modal' data-bs-target='#Modallogin') Ingresar
+        
+
+
+    .main
+
+      #Modalbrocales.modal.fade( aria-labelledby='Modalbrocales' )
+            .modal-dialog
+              .modal-content
+                .modal-header
+                  h5#exampleModalLabel.modal-title Detalles de los servicios
+                  button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                .modal-body
+                  div
+                    table.responstable.table.caption-top
+                      thead
+                        tr
+                          th(data-type='numeric')
+                            | Fecha
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Turno
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Ubicación
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Unidad
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Cantidad
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Actividad
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Observaciones
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Sub
+                            span.resize-handle
+                      tbody
+                        tr(ng-repeat='brocales in Totalbrocalessubmodal')
+                          td
+                            label {{brocales.Fecha}} 
+                          td
+                            label {{brocales.Turno}}
+                          td
+                            label {{brocales.Ubicacion}}
+                          td
+                            label {{brocales.Unidad}}
+                          td
+                            label {{brocales.Cantidad}}
+                          td
+                            label {{brocales.Actividad}}
+                          td
+                            label {{brocales.Observaciones}}
+                          td
+                            label {{brocales.Sub}}
+                .modal-footer
+                  button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Cerrar  
+      #Modalmatriz.modal.fade( aria-labelledby='Modalmatriz' )
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    h5#exampleModalLabel.modal-title Detalles de plan matriz
+                    button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                  .modal-body
+                    table.matriz.table.caption-top
+                      thead
+                        tr
+                          th(data-type="text")
+                            | Fecha
+                            span.resize-handle
+                          th(data-type='text')
+                            | Programado
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Realizado
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Observaciones
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Area
+                            span.resize-handle
+                      tbody
+                        tr(ng-repeat="matriz in Totalmatriz")
+                          td
+                            label {{matriz.Fecha}} 
+                          td
+                            label {{matriz.Programado}} 
+                          td
+                            label {{matriz.Realizado}}
+                          td
+                            label {{matriz.Observaciones}}
+                          td
+                            label {{matriz.Area}}
+                  .modal-footer
+                    button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Cerrar
+          #Modalasistencia.modal.fade( aria-labelledby='Modalasistencia' )
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    h5#exampleModalLabel.modal-title Detalles de la asistencia
+                    button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                  .modal-body
+                    table.Asistencia.table.caption-top
+                      thead
+                        tr
+                          th(data-type="text")
+                            | Sector
+                            span.resize-handle
+                          th(data-type='text')
+                            | Nombre
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Rut
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Cargo
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Turno
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Fecha ingreso
+                            span.resize-handle
+                      tbody
+                        tr(ng-repeat="asistencia in Totalasistencia")
+                          td
+                            label {{asistencia.Sector}} 
+                          td
+                            label {{asistencia.Nombre}} 
+                          td
+                            label {{asistencia.Rut}}
+                          td
+                            label {{asistencia.Cargo}}
+                          td
+                            label {{asistencia.Turno}}
+                          td
+                            label {{asistencia.Fechaingreso}}
+                  .modal-footer
+                    button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Cerrar
+      //#Asistencia.w3-container.w3-border.city(ng-controller='myControllerAsistencia')
+      #Vistatotal.w3-container.w3-border.activity( aria-labelledby='Modalfiles' )
+        #Dashboard      
+            //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
+            
+            //#asistenciagrid.grid-container
+            #asistenciagridbar.grid-container
+              div
+                #chart1(zingchart='' zc-json='myJsonasistenciabar' zc-width='100%' zc-height='400px')
+            #planmatrizgrid1.grid-container
+              div
+                #chart71(zingchart='' zc-json='myJsonpieCumplimiento' zc-width='100%' zc-height='300px')
+              div(ng-controller='MainControllermatriz' class="border" )
+                button.airebutton(ng-model='aireselector' ng-click="changegraphview('Aire Acondicionado')") Aire
+                button.polvobutton(ng-model='polvoselector' ng-click="changegraphview('Colectores de polvo')") Polvo
+                button.ventilacionbutton(ng-model='ventilacionselector' ng-click="changegraphview('Ventilación')") Ventilación
+                #chart-matriz11(zingchart='' zc-json='myJsonAnualmatriz' zc-width='100%' zc-height='300px')
+            #planmatrizgrid.grid-container
+              div(ng-controller='MainControllermatriz2' class="border" ng-model='openmodalsub7' ) 
+                #chart-matriz12(zingchart='' zc-json='myJsonAnualaire' zc-width='100%' zc-height='100%')
+              div(ng-controller='MainControllermatriz2' class="border" ng-model='openmodalsub7' ) 
+                #chart-matriz13(zingchart='' zc-json='myJsonAnualpolvo' zc-width='100%' zc-height='100%')
+              div(ng-controller='MainControllermatriz2' class="border" ng-model='openmodalsub7' ) 
+                #chart-matriz14(zingchart='' zc-json='myJsonAnualventilacion' zc-width='100%' zc-height='100%')
+              div 
+                #chart-matriz14m(zingchart='' zc-json='myJsonAnualVimo' zc-width='100%' zc-height='100%')
+            #brocalesgrid.grid-container(ng-controller='myControllerBrocales')
+              div(ng-controller='MainController' class="border")
+                button.anualbuttonbrocales1(ng-model='sub5selector1' ng-click="changebrocal5('anual')") Anual
+                button.anualbuttonbrocales2(ng-model='sub5selector2' ng-click="changebrocal5('mensual')") Mensual
+                //#chart-15(zingchart='' zc-json='myJsonAnualsub5' zc-width='100%' zc-height='300px')
+                #chart-15(zingchart='' zc-json='myJsonBarBrocalessub5' zc-width='100%' zc-height='350px' visibility="hidden" )
+              div(ng-controller='MainController' class="border")
+                button.anualbuttonbrocales1(ng-model='sub6selector1' ng-click="changebrocal6('anual')") Anual
+                button.anualbuttonbrocales2(ng-model='sub6selector2' ng-click="changebrocal6('mensual')") Mensual 
+                //#chart-16(zingchart='' zc-json='myJsonAnualsub6' zc-width='100%' zc-height='300px' )
+                #chart-16(zingchart='' zc-json='myJsonBarBrocalessub6' zc-width='100%' zc-height='350px' visibility="hidden" )
+            #Disciplinagrid.grid-container
+              div
+                #chart-49(zingchart='' zc-json='myJsonSemanalDisciplina1' zc-width='100%' zc-height='300px' )
+              //div
+              //  #chart-50(zingchart='' zc-json='myJsonSemanalDisciplina2' zc-width='100%' zc-height='300px' )
+            
+            //#chart1002(zingchart='' zc-json='myJsonprueba' zc-width='300px' zc-height='300px')
+        #Asistencia
+          .one
+            h1 Asistencia
+          //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
+          p
+            button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseSectores' aria-expanded='false' aria-controls='collapseExample')
+              | Mostrar sectores
+          #collapseSectores.collapse
+            .card.card-body
+              #asistenciagrid.grid-container
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('0')" type='button' ) 
+                  #chart17(zingchart='' zc-json='myJsonpieasistencia1' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('1')" type='button' )
+                  #chart18(zingchart='' zc-json='myJsonpieasistencia2' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('2')" type='button' ) 
+                  #chart19(zingchart='' zc-json='myJsonpieasistencia3' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('3')" type='button' ) 
+                  #chart20(zingchart='' zc-json='myJsonpieasistencia4' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('4')" type='button' )  
+                  #chart21(zingchart='' zc-json='myJsonpieasistencia5' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('5')" type='button' ) 
+                  #chart22(zingchart='' zc-json='myJsonpieasistencia6' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('6')" type='button' ) 
+                  #chart23(zingchart='' zc-json='myJsonpieasistencia7' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('7')" type='button' ) 
+                  #chart24(zingchart='' zc-json='myJsonpieasistencia8' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('8')" type='button') 
+                  #chart25(zingchart='' zc-json='myJsonpieasistencia9' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('9')" type='button'  ) 
+                  #chart26(zingchart='' zc-json='myJsonpieasistencia10' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('10')" type='button' ) 
+                  #chart80(zingchart='' zc-json='myJsonpieasistencia11' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('11')" type='button' ) 
+                  #chart81(zingchart='' zc-json='myJsonpieasistencia12' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('12')" type='button' ) 
+                  #chart82(zingchart='' zc-json='myJsonpieasistencia13' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('13')" type='button') 
+                  #chart83(zingchart='' zc-json='myJsonpieasistencia14' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('14')" type='button'  ) 
+                  #chart84(zingchart='' zc-json='myJsonpieasistencia15' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('15')" type='button' ) 
+                  #chart85(zingchart='' zc-json='myJsonpieasistencia16' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('16')" type='button' ) 
+                  #chart86(zingchart='' zc-json='myJsonpieasistencia17' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('17')" type='button' ) 
+                  #chart87(zingchart='' zc-json='myJsonpieasistencia18' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('18')" type='button') 
+                  #chart88(zingchart='' zc-json='myJsonpieasistencia19' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('19')" type='button'  ) 
+                  #chart89(zingchart='' zc-json='myJsonpieasistencia20' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('20')" type='button' ) 
+                  #chart90(zingchart='' zc-json='myJsonpieasistencia21' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('21')" type='button' ) 
+                  #chart91(zingchart='' zc-json='myJsonpieasistencia22' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('22')" type='button') 
+                  #chart92(zingchart='' zc-json='myJsonpieasistencia23' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('23')" type='button'  ) 
+                  #chart93(zingchart='' zc-json='myJsonpieasistencia24' zc-width='100%' zc-height='210px')
+                div(ng-controller='PiechartAsistencia' class="border" ng-model='openmodalsub6' ng-click="filltableasistencia('24')" type='button'  ) 
+                  #chart94(zingchart='' zc-json='myJsonpieasistencia25' zc-width='100%' zc-height='210px')
+
+              
+
+          
+          #asistenciagrid2.grid-container
+            div.tabla.item1
+              table.Asistencia.table.caption-top
+                        thead
+                          tr
+                            th(data-type="text")
+                              | Sector
+                              span.resize-handle
+                            th(data-type='text')
+                              | Nombre
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Rut
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Cargo
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Turno
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Fecha ingreso
+                              span.resize-handle
+                        tbody
+                          tr(ng-repeat="asistencia in Asistenciatotal")
+                            td
+                              label {{asistencia.Sector}} 
+                            td
+                              label {{asistencia.Nombre}} 
+                            td(ng-click="searchWorker($index)")
+                              label {{asistencia.Rut}}
+                            td
+                              label {{asistencia.Cargo}}
+                            td
+                              label {{asistencia.Turno}}
+                            td
+                              label {{asistencia.Fechaingreso}}         
+            #asistenciagrid21.grid-container
+              div
+                #chart27(zingchart='' zc-json='myJsonasistenciaworker' zc-width='100%' zc-height='232px')
+              div.item3
+                #chart28(zingchart='' zc-json='myJsonasistenciaworkerturn' zc-width='100%' zc-height='232px')
+                .buttoninnasistance
+                  button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitance('anual')") Anual
+                  button.buttoninassistance2(ng-model='inassistance2' ng-click="changeinassitance('mensual')") Mensual
+          #asistenciabar.grid-container
+            #chart60(zingchart='' zc-json='myJsonasistenciabar' zc-width='100%' zc-height='300px')
+
+
+        #Planmatriz
+          .one
+            h1 Plan Matriz
+          //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
+          #matrizbrocales.grid-container
+            #matriz1
+              button.anualbuttonmatriz1aire(ng-model='sub6selector1' ng-click="changeaire('anual')") Anual
+              button.anualbuttonmatriz2aire(ng-model='sub6selector2' ng-click="changeaire('mensual')") Mensual
+              p
+              #matriz1(zingchart='' zc-json='myMatrizAire' zc-width='100%' zc-height='300px' visibility="hidden" )
+            #matriz2
+              button.anualbuttonmatriz1polvo(ng-model='sub6selector1' ng-click="changepolvo('anual')") Anual
+              button.anualbuttonmatriz2polvo(ng-model='sub6selector2' ng-click="changepolvo('mensual')") Mensual
+              p
+              #matriz2(zingchart='' zc-json='myMatrizColectores' zc-width='100%' zc-height='300px' visibility="hidden" )
+            #matriz3
+              button.anualbutton1ventilacion(ng-model='sub6selector1' ng-click="changeventilacion('anual')") Anual
+              button.anualbutton2ventilacion(ng-model='sub6selector2' ng-click="changeventilacion('mensual')") Mensual
+              p
+              #matriz3(zingchart='' zc-json='myMatrizVentilacion' zc-width='100%' zc-height='300px' visibility="hidden" )
+            #matriz4
+              button.anualmatriz1puertas(ng-model='sub6selector1' ng-click="changepuertas('anual')") Anual
+              button.anualmatriz2puertas(ng-model='sub6selector2' ng-click="changepuertas('mensual')") Mensual
+              p
+              #matriz4(zingchart='' zc-json='myMatrizPuertas' zc-width='100%' zc-height='300px' visibility="hidden" )
+
+          p 
+          select.selectasistencia.form-selectfilter( ng-model='columnsa' ng-init='columnsa="Identificacion"' ng-options='e for e in headers' )
+          input.form-controlfilter( type='text' ng-model='searchtxt[columnsa]' placeholder='Ingresar valor a filtrar')
+          p
+
+          #tablecompletedvimo.grid-container
+            div.tabla.item1
+              table.Asistencia.table.caption-top
+                        thead
+                          tr
+                            th(data-type="text")
+                              | Identificacion
+                              span.resize-handle
+                            th(data-type='text')
+                              | Ubicacion
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Fecha revision
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Tipo mantencion
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Estado
+                              span.resize-handle
+                        tbody
+                          tr(ng-repeat="vimos in vimostotal|filter:searchtxt")
+                            td
+                              label {{vimos.Identificacion}} 
+                            td
+                              label {{vimos.Ubicacion}} 
+                            td
+                              label {{vimos.Fecharevision}}
+                            td
+                              label {{vimos.Tipomantencion}}
+                            td
+                              label {{vimos.Estado}}  
+
+        #Brocales
+          .one
+            h1 Brocales
+          //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")    
+          #gridbrocales.grid-container
+            #brocal1.grid-item
+                  
+              button.anualbuttonbrocales1(ng-model='sub5selector1' ng-click="changebrocal5('anual')") Anual
+              button.anualbuttonbrocales2(ng-model='sub5selector2' ng-click="changebrocal5('mensual')") Mensual
+              p
+              #Anualsub6.w3-container.w3-border.viewsub6
+                div.graphsub2( class="border" )
+                  .grapheader 
+                    div Vision Anual
+                  hr.graphr
+                  //#chart-29(zingchart='' zc-json='myJsonAnualsub5' zc-width='100%' zc-height='350px' visibility="hidden" )
+                  #chart29(zingchart='' zc-json='myJsonBarBrocalessub5' zc-width='100%' zc-height='350px' visibility="hidden" )
+                  hr.graphr
+                  .graphfooter(ng-model='openmodalsub5' ng-click="modalbrocalessub5()" type='button' data-bs-toggle='modal')
+                    div Ver detalles
+                      i.bi.bi-chevron-right
+              p
+              #contentdiariosub5
+                .x_panel
+                  .headerdiariosub5
+                    .tittleh22 Limpieza de brocales sub 5 {{fechahoy}}
+                  .x_body
+                    .bodydiariosub5
+                      div
+                        .x_li 
+                          .tittleh2 Ubicaciones  
+                          p.dato {{ubicacionessub5}}
+                        .x_li
+                          .tittleh2 Dotacion  
+                          p.dato {{dotacionsub5}}
+                        .x_li
+                          .tittleh2 Observaciones  
+                          p.dato {{observacionessub5}}
+                        .x_li
+                          .tittleh2 Información 
+                          p.dato {{informacionsub5}}
+                        .x_li
+                          .tittleh2 Equipo de levante
+                          p.dato {{miniretrosub5}}
+                        .x_li
+                          .tittleh2 Estado mini retro
+                          p.dato {{levantesub5}}
+
+                      div 
+                        #chart47(zingchart='' zc-json='myJsondiariosub5' zc-width='80%' zc-height='300px' visibility="hidden" )
+
+            #brocal2.grid-item
+              
+              button.anualbuttonbrocales1(ng-model='sub6selector1' ng-click="changebrocal6('anual')") Anual
+              button.anualbuttonbrocales2(ng-model='sub6selector2' ng-click="changebrocal6('mensual')") Mensual
+              p
+              #Anualsub7.w3-container.w3-border.viewsub7
+                div.graphsub7(ng-controller='MainController' class="border" )
+                  .grapheader 
+                    div Vision Anual
+                  hr.graphr
+                  //#chart30(zingchart='' zc-json='myJsonAnualsub6' zc-width='100%' zc-height='350px' visibility="hidden" )
+                  #chart30(zingchart='' zc-json='myJsonBarBrocalessub6' zc-width='100%' zc-height='350px' visibility="hidden" )
+                  hr.graphr
+                  .graphfooter(ng-model='openmodalsub6' ng-click="modalbrocalessub6()" type='button' data-bs-toggle='modal' )
+                    div Ver detalles
+                      i.bi.bi-chevron-right
+              p
+              #contentdiariosub6
+                .x_panel
+                  .headerdiariosub6
+                    .tittleh22 Limpieza de brocales sub 6 {{fechahoy}}
+                  .x_body
+                    .bodydiariosub6
+                      div
+                        .x_li 
+                          .tittleh2 Ubicaciones  
+                          p.dato {{ubicacionessub6}}
+                        .x_li
+                          .tittleh2 Dotacion  
+                          p.dato {{dotacionsub6}}
+                        .x_li
+                          .tittleh2 Observaciones  
+                          p.dato {{observacionessub6}}
+                        .x_li
+                          .tittleh2 Información 
+                          p.dato {{informacionsub6}}
+                        .x_li
+                          .tittleh2 Equipo de levante
+                          p.dato {{miniretrosub6}}
+                        .x_li
+                          .tittleh2 Estado mini retro
+                          p.dato {{levantesub6}}
+                      div
+                        #chart48(zingchart='' zc-json='myJsondiariosub6' zc-width='80%' zc-height='300px' visibility="hidden" )
+
+          #calendariobrocales.grid-container
+            //#myChart
+            #chart51(zingchart='' zc-json='myJsonCalendarBrocales' zc-width='100%' zc-height='400px' visibility="hidden" )
+          p
+            button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseEquipos' aria-expanded='false' aria-controls='collapseExample')
+              | Estado Equipos
+          #collapseEquipos.collapse
+            .card.card-body
+              select.selectequipo.form-selectfilterequipo( ng-model='columns' ng-init='columns="Equipo"' ng-options='e for e in headersequipo' )
+              input.form-controlfilter( type='text' ng-model='searchtxtx[columns]' placeholder='Ingresar valor a filtrar')
+              p
+              #tableequipos.grid-container
+                div.tabla.item1
+                  table.Asistencia.table.caption-top
+                            thead
+                              tr
+                                th(data-type="text")
+                                  | Equipo
+                                  span.resize-handle
+                                th(data-type='text')
+                                  | Patente
+                                  span.resize-handle
+                                th(data-type='text-long')
+                                  | Cartola
+                                  span.resize-handle
+                                th(data-type='text-long')
+                                  | Ult. Mant.
+                                  span.resize-handle
+                                th(data-type='text-long')
+                                  | Ult. Mant. kms
+                                  span.resize-handle
+                                th(data-type='text-long')
+                                  | Prox. Mant. kms
+                                  span.resize-handle
+                                th(data-type='text-long')
+                                  | Km actual
+                                  span.resize-handle
+                                th(data-type='text-long')
+                                  | Semaforo
+                                  span.resize-handle
+                                th(data-type='text-long')
+                                  | Est. actual
+                                  span.resize-handle
+                                th(data-type='text-long')
+                                  | Fecha Cheq. gas
+                                  span.resize-handle
+                            tbody
+                              tr(ng-repeat="equipo in equipostotal|filter:searchtxtx")
+                                td
+                                  label {{equipo.Equipo}} 
+                                td
+                                  label {{equipo.Patente}} 
+                                td
+                                  label {{equipo.Cartola}}
+                                td
+                                  label {{equipo.Ultimamantencion}}
+                                td
+                                  label {{equipo.Ultimokms}}
+                                td
+                                  label {{equipo.Proximakms}}
+                                td
+                                  label {{equipo.Kilometrajeactual}}
+                                td
+                                  label {{equipo.Semaforo}}
+                                td
+                                  label {{equipo.Estado}}
+                                td
+                                  label {{equipo.Fechagas}}
+
+          
+          //#Bargraphbrocales.grid-container
+            //#chart70(zingchart='' zc-json='myJsonBarBrocales' zc-width='50%' zc-height='400px' visibility="hidden" )
+        #Disciplina
+          .one
+            h1 Disciplina Operacional
+          //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
+
+          #Disciplinaubicaciones.grid-container
+            #grid-disciplina.grid-container
+              #chart56(zingchart='' zc-json='myJsonhbar' zc-width='200px' zc-height='100%' visibility='hidden')
+              #timer-test.grid-container
+                div
+                  div.buttonstimer
+                    button.airebutton(ng-model='sub5selector' ng-click="changegraphtimer('SUB 6')") SUB 6
+                    button.polvobutton(ng-model='pipanselector' ng-click="changegraphtimer('PIPA N')") PIPA N 
+                    button.ventilacionbutton(ng-model='diabloselector' ng-click="changegraphtimer('DIABLO')") DIABLO
+                    button.airebutton(ng-model='sub5selector' ng-click="changegraphtimer('SUB 5')") SUB 5
+                    button.polvobutton(ng-model='lajuntaselector' ng-click="changegraphtimer('LA JUNTA')") La junta
+                    button.ventilacionbutton(ng-model='tte6selector' ng-click="changegraphtimer('TTE 6')") TTE 6
+                    button.airebutton(ng-model='ventselector' ng-click="changegraphtimer('VENT')") Vent
+                    button.polvobutton(ng-model='pmselector' ng-click="changegraphtimer('P M')") P M
+                    button.ventilacionbutton(ng-model='tte7selector' ng-click="changegraphtimer('TTE 7')") TTE 7
+                    button.polvobutton(ng-model='salvatajeselector' ng-click="changegraphtimer('SALVATAJE')") Salvataje
+                    button.ventilacionbutton(ng-model='accuselector' ng-click="changegraphtimer('ACCU')") ACCU
+                    button.airebutton(ng-model='acselector' ng-click="changegraphtimer('AC')") AC
+                    button.polvobutton(ng-model='colecselector' ng-click="changegraphtimer('COLEC')") Colec
+                    button.ventilacionbutton(ng-model='chcolonselector' ng-click="changegraphtimer('CH COLON')") CH colon
+                  #chart54(zingchart='' zc-json='myJsonTimer1' zc-width='100%' zc-height='300px' visibility="hidden" )
+                div
+                  #chart55(zingchart='' zc-json='myJsonTest' zc-width='100%' zc-height='440px' visibility="hidden")
+        #Asistenciatraspaso
+          .one
+            h1 Asistencia Traspaso
+          #asistenciabar.grid-container
+            #chart61(zingchart='' zc-json='myJsonasistenciabartraspaso' zc-width='100%' zc-height='300px')
+          p
+          select.selectasistenciatraspaso.form-selectfilter( ng-model='columncargotraspaso' ng-init='columnasistenciatraspaso="Nombre"' ng-options='e for e in headercargotraspaso' ng-change="filltableasistenciatraspaso(columncargotraspaso)")
+          p
+          select.selectasistenciatraspaso.form-selectfilter( ng-model='columnasistenciatraspaso' ng-init='columnasistenciatraspaso="Nombre"' ng-options='e for e in headersasistenciatraspaso' )
+          input.form-controlfilter( type='text' ng-model='searchtxt[columnasistenciatraspaso]' placeholder='Ingresar valor a filtrar')
+          p
+
+          //#asistenciagrid2.grid-container
+          #asistenciatraspasogrid.grid-container
+            #tablecompletedasistenciatraspaso.grid-container
+              div.tabla.item1
+                table.Asistencia.tabletraspaso.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Nombre
+                        span.resize-handle
+                      th(data-type='text')
+                        | Apellido P
+                        span.resize-handle
+                      th(data-type='text')
+                        | Apellido M
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Rut
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Cargo
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Asistencia
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="asistencia in asistenciatotaltraspaso|filter:searchtxt")
+                      td
+                        label {{asistencia.Nombre}} 
+                      td
+                        label {{asistencia.ApellidoP}} 
+                      td
+                        label {{asistencia.ApellidoM}}
+                      td(ng-click="searchWorkerTraspaso(asistenciatotaltraspaso.indexOf(asistencia))")
+                        label {{asistencia.Rut}} 
+                      td
+                        label {{asistencia.Cargo}}
+                      td
+                        label {{asistencia.Asistencia}} 
+            #asistenciatraspasograficos.grid-container
+              div
+                #chart62(zingchart='' zc-json='myJsonAsistenciatraspaso1' zc-width='100%' zc-height='232px' visibility="hidden" )
+                .buttoninnasistance
+                  button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancetraspaso('hoy')") Hoy
+                  button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancetraspaso('mensual')") Mensual
+                  button.buttoninassistance2(ng-model='inassistance2' ng-click="changeinassitancetraspaso('anual')") Anual
+              div()
+                #chart63(zingchart='' zc-json='myJsonAsistenciatrabajadortraspaso' zc-width='100%' zc-height='232px' visibility="hidden" ng-click="modaltraspasoasistencia()")
+                .buttoninnasistance
+                  button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancetraspaso2('mensual')") Mensual
+                  button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancetraspaso2('anual')") Anual
+        #Pautadiaria
+          .one
+            h1 Pauta Diaria Traspaso
+          #tablepautadiaria
+              div.tabla.item1
+                table.pautadiaria.tabletraspaso.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Fecha
+                        span.resize-handle
+                      th(data-type='text')
+                        | Descripción
+                        span.resize-handle
+                      th(data-type='text')
+                        | Supervisor
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ver Detalles
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="pauta in pautadiariatotal|filter:searchtxt")
+                      td
+                        label {{pauta.Fecha}} 
+                      td
+                        label {{pauta.Descripcion}} 
+                      td
+                        label {{pauta.Supervisor}}
+                      td
+                        button.btn.btn-secondary.archivobutton(type='button' ng-click="changearchivos($index)" )
+                          i.bi.bi-card-text
+
+
+                
+          
+        #Disciplinatraspaso
+          .one
+            h1 Disciplina Operacional Traspaso
+          #Disciplinaubicaciones.grid-container
+            #grid-disciplina.grid-container
+              #chart57(zingchart='' zc-json='myJsonhbardisciplinatraspaso' zc-width='200px' zc-height='300px')
+              #timer-traspaso.grid-container
+                div
+                  div.buttonstimer
+                    button.airebutton(ng-model='sub5selector' ng-click="changegraphtimertraspaso('Buzones')") Buzones
+                    button.polvobutton(ng-model='pipanselector' ng-click="changegraphtimertraspaso('Mant.Vias')") Mant. Vias 
+                    button.ventilacionbutton(ng-model='diabloselector' ng-click="changegraphtimertraspaso('Locos.Carros')") Locos Carros
+                    button.airebutton(ng-model='sub5selector' ng-click="changegraphtimertraspaso('A1')") A1
+                    button.polvobutton(ng-model='lajuntaselector' ng-click="changegraphtimertraspaso('B1')") A2
+                  #chart59(zingchart='' zc-json='myJsonTimertraspaso1' zc-width='100%' zc-height='300px' visibility="hidden" )
+
+                div
+                  #chart58(zingchart='' zc-json='myJsonlinedisciplinatraspaso' zc-width='100%' zc-height='440px' visibility="hidden" )
+
+          
+      #Creacion.w3-container.w3-border.activity(style='display:none')
+        form.formulariocreacion(action='/crearusuario' method='post' enctype='multipart/form-data')
+          .form-group.row
+            label.col-sm-2.col-form-label(for='inputEmail3') Nombre usuario
+            .col-sm-10
+              input#inputEmail3.form-control(type='text' name= "Usuario" placeholder='Ingresar usuario')
+          .form-group.row
+            label.col-sm-2.col-form-label(for='inputPassword3') Contraseña
+            .col-sm-10
+              input#inputPassword3.form-control(ng-model="pass1" ng-change = "checkpassword()" name="Contrasena" type='password' placeholder='Ingrese contraseña')
+          .form-group.row
+            label.col-sm-2.col-form-label(for='inputPassword3') Confirmar contraseña
+            .col-sm-10
+              input#inputPassword3.form-control(ng-model="pass2" ng-change = "checkpassword()" name="ContrasenaRepeticion" type='password' placeholder='Reingresar contraseña')
+              p
+              {{msg}}
+          fieldset.form-group
+            .row
+              legend.col-form-label.col-sm-2.pt-0 Roles
+              .col-sm-10
+                .form-check
+                  input#gridRadios1.form-check-input(type='radio' name='gridRadios' value='Visualizacion' checked='')
+                  label.form-check-label(for='gridRadios1')
+                    | Rol 1 (Visualización de información)
+                .form-check
+                  input#gridRadios2.form-check-input(type='radio' name='gridRadios' value='Modificacion')
+                  label.form-check-label(for='gridRadios2')
+                    | Rol 2 (Ingreso información y modificación)
+                .form-check.disabled
+                  input#gridRadios3.form-check-input(type='radio' name='gridRadios' value='Reportes' )
+                  label.form-check-label(for='gridRadios3')
+                    | Rol 3 (Crea reportes)
+          .form-group.row
+            .col-sm-10
+              button.btn.btn-primary(type='submit') Crear
+      #Archivos.w3-container.w3-border.activity(style='display:none')
+        p
+        p
+        #tablearchivos
+          .headertable Archivos ingresados
+          p
+          div.tabla.item1
+            table.Asistencia.table.caption-top
+              thead
+                tr
+                  th(data-type="text")
+                    | Fecha de ingreso
+                    span.resize-handle
+                  th(data-type='text')
+                    | Información ingresada
+                    span.resize-handle
+                  th(data-type='text-long')
+                    | Nombre archivo
+                    span.resize-handle
+                  th(data-type='text-long')
+                    | Ver detalles
+                    span.resize-handle
+                  th(data-type='text-long')
+                    | Eliminar
+                    span.resize-handle
+              tbody
+                tr(ng-repeat="archivo in archivostotal")
+                  td
+                    label {{archivo.Fechaingreso}} 
+                  td
+                    label {{archivo.Infoingresada}}
+                  td
+                    label {{archivo.Nombrearchivo}}
+                  td
+                    button.btn.btn-secondary.archivobutton(type='button' ng-click="changearchivos($index)" )
+                      i.bi.bi-card-text
+                  td
+                    button.btn.btn-secondary.archivodelete(type='button' ng-click="deletearchivos($index)" )
+                      i.bi.bi-trash3
+        p
+        p
+        #tablearchivos
+          .headertable Archivos para eliminar
+          p
+          div.tabla2.item1
+            table.Asistencia.table.caption-top
+              thead
+                tr
+                  th(data-type="text")
+                    | Fecha de ingreso
+                    span.resize-handle
+                  th(data-type='text')
+                    | Información ingresada
+                    span.resize-handle
+                  th(data-type='text-long')
+                    | Nombre archivo
+                    span.resize-handle
+                  th(data-type='text-long')
+                    | Ver detalles
+                    span.resize-handle
+                  th(data-type='text-long')
+                    | Eliminar
+                    span.resize-handle
+              tbody
+                tr(ng-repeat="archivo in archivoseliminar")
+                  td
+                    label {{archivo.Fechaingreso}} 
+                  td
+                    label {{archivo.Infoingresada}}
+                  td
+                    label {{archivo.Nombrearchivo}}
+                  td
+                    button.btn.btn-secondary.archivobutton(type='button' ng-click="changearchivosdel($index)" )
+                      i.bi.bi-card-text
+                  td
+                    button.btn.btn-secondary.archivodelete(type='button' ng-click="deletearchivosdel($index)" )
+                      i.bi.bi-trash3
+        button.btnn(name="probando3" value="probando4" ng-click="SendDelete()") Enviar Datos
+      #Modificacion.w3-container.w3-border.activity(style='display:none')
+        select.selectasistencia.form-selectfilter(ng-model="myVar")
+          option(value='Asistencia')
+            | Asistencia
+          option(value='Brocales')
+            | Brocales
+          option(value='Planmatriz') 
+            | Plan matriz
+          option(value='Disciplina') 
+            | Disciplina Operacional
+          option(value='Equipos') 
+            | Equipos
+          option(value='Puertas') 
+            | Puertas
+          option(value='Vimosap') 
+            | Planificación Puertas
+
+        div(ng-switch='myVar')
+          div(ng-switch-when='Asistencia')
+            | Seleccionar el archivo a modificar 
+            select.selectasistenciamod.form-selectfilter( ng-model='columnasistenciamod' ng-options='e for e in headerasistencia' ng-change="filltableasistenciamod(columnasistenciamod)" )
+            h1 Asistencia
+            #Modalmodasistencia.modal.fade( aria-labelledby='Modalasistencia' )
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    h5#exampleModalLabel.modal-title Modificación de datos
+                    button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                  .modal-body
+                    .container
+                      .mb-3
+                        label() sectortrabajador            
+                        input#formFileMultiple.form-control(ng-model="asistenciavalue.sector"  ng-change="asistenciachange()" type='text')
+                      .mb-3
+                        label() Nombre trabajador
+                        input#formFileMultiple.form-control(ng-model="asistenciavalue.nombre" ng-change="asistenciachange()" name="nombretra" type='text')
+                      .mb-3
+                        label() Rut trabajador
+                        input#formFileMultiple.form-control(ng-model="asistenciavalue.rut"  ng-change="asistenciachange()" type='text')
+                      .mb-3
+                        label() Cargo trabajador
+                        input#formFileMultiple.form-control(ng-model="asistenciavalue.cargo"  ng-change="asistenciachange()" type='text')
+                      .mb-3
+                        label() Turno trabajador
+                        input#formFileMultiple.form-control(ng-model="asistenciavalue.turno"  ng-change="asistenciachange()" type='text')
+                  .modal-footer
+                    button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                    button.btnn(name="probando3" value="probando4"  ng-click="postmodasistencia()"  data-bs-dismiss='modal') Aceptar
+            #modalborrar.modal.fade( aria-labelledby='Modaltutorial' )
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    h5#exampleModalLabel.modal-title Tutorial
+                    button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                  .modal-body
+                    .container
+                      a ¿Seguro que quieres borrar del historial a {{deletename}}?
+                  .modal-footer
+                    button.btnn(type='button' data-bs-dismiss='modal' ) Cerrar 
+                    button.btnn(name="probando3" value="probando4" ng-click="deleteworker()" data-bs-dismiss='modal') Aceptar
+            select.selectasistencia.form-selectfilter( ng-model='columnasist' ng-init='columnasist="Sector"' ng-options='e for e in headersasist' )
+            input.form-controlfilter( type='text' ng-model='searchtxt[columnasist]' placeholder='Ingresar valor a filtrar')
+            #tableasistenciaarmod.grid-container
+              div.tabla.item1
+                table.Asistenciaarmod.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Sector
+                        span.resize-handle
+                      th(data-type='text')
+                        | Nombre
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Rut
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Cargo
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Turno
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Fecha ingreso
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Modificar
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Borrar
+                        span.resize-handle
+
+                  tbody
+                    tr(ng-repeat="asistencia in Totalasistenciaarchivosmod|filter:searchtxt")
+                      td
+                        label {{asistencia.Sector}} 
+                      td
+                        label {{asistencia.Nombre}} 
+                      td
+                        label {{asistencia.Rut}}
+                      td
+                        label {{asistencia.Cargo}}
+                      td
+                        label {{asistencia.Turno}}
+                      td
+                        label {{asistencia.Fechaingreso}}
+                      td
+                        button.btn.btn-secondary.modasistenciabutton(type='button' ng-click="modificarasistencia(Totalasistenciaarchivosmod.indexOf(asistencia))" )
+                          i.bi.bi-card-text
+                      td
+                        button.btn.btn-secondary.modasistenciabutton(type='button' ng-click="borrarmodal(Totalasistenciaarchivosmod.indexOf(asistencia))" )
+                          i.bi.bi-trash3
+
+          div(ng-switch-when='Brocales')
+            | Seleccionar el archivo a modificar 
+            select.selectasistenciamod.form-selectfilter( ng-model='columnbrocalesmod' ng-options='e for e in headerbrocales' ng-change="filltablebrocalesmod(columnbrocalesmod)" )
+            h1 Brocales
+            #Modalmodbrocal.modal.fade( aria-labelledby='Modallogin' )
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    h5#exampleModalLabel.modal-title Modificación de datos
+                    button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                  .modal-body
+                    .container
+                      .mb-3
+                        label() Fecha
+                        input#formFileMultiple.form-control(ng-model="brocalesvalue.fecha" type='text')
+                      .mb-3
+                        label() Turno
+                        input#formFileMultiple.form-control(ng-model="brocalesvalue.turno" type='text')
+                      .mb-3
+                        label() Actividad
+                        input#formFileMultiple.form-control(ng-model="brocalesvalue.actividad" type='text' rows="2")
+                      .mb-3
+                        label() Ubicacion
+                        input#formFileMultiple.form-control(ng-model="brocalesvalue.ubicacion" type='text')
+                      .mb-3
+                        label() Cantidad
+                        input#formFileMultiple.form-control(ng-model="brocalesvalue.cantidad" type='text')
+                      .mb-3
+                        label() Demanda
+                        input#formFileMultiple.form-control(ng-model="brocalesvalue.demanda" type='text')
+                      .mb-3
+                        label() Dotacion
+                        input#formFileMultiple.form-control(ng-model="brocalesvalue.dotacion" type='text')
+                      .mb-3
+                        label() Hora inicio
+                        input#formFileMultiple.form-control(ng-model="brocalesvalue.horai" type='text')
+                      .mb-3
+                        label() Hora finalizacion
+                        input#formFileMultiple.form-control(ng-model="brocalesvalue.horaf" type='text')
+                      .mb-3
+                        label() Sub
+                        input#formFileMultiple.form-control(ng-model="brocalesvalue.sub" type='text')
+                      .mb-3
+                        label() Observaciones
+                        input#formFileMultiple.form-control(ng-model="brocalesvalue.observacion" type='text')
+                  .modal-footer
+                    button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                    button.btnn(name="probando3" value="probando4" ng-model="brocalesmod" ng-click="postmodbrocales()" data-bs-dismiss='modal') Aceptar
+            select.selectbrocales.form-selectfilter( ng-model='columnbroc' ng-init='columnbroc="Sector"' ng-options='e for e in headersbroc' )
+            input.form-controlfilter( type='text' ng-model='searchtxt[columnbroc]' placeholder='Ingresar valor a filtrar')
+            #tablebrocales.grid-container
+              div.tabla.item1
+                table.brocales.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Fecha
+                        span.resize-handle
+                      th(data-type='text')
+                        | Turno
+                        span.resize-handle
+                      th(data-type='text')
+                        | Act.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ubicacion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Cantidad
+                        span.resize-handle
+                      th(data-type='text')
+                        | Demanda
+                        span.resize-handle 
+                      th(data-type='text')
+                        | Dotacion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Hora ini.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Hora fin.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Sub
+                        span.resize-handle
+                      th(data-type='text')
+                        | Observaciones
+
+                      th(data-type='text')
+                        | Modificar
+                  tbody
+                    tr(ng-repeat="brocal in Totalbrocalesmod")
+                      td
+                        label {{brocal.Fecha}}
+                      td
+                        label {{brocal.Turno}}
+                      td
+                        label {{brocal.Actividad}}
+                      td
+                        label {{brocal.Ubicacion}}
+                      td
+                        label {{brocal.Cantidad}}
+                      td
+                        label {{brocal.Demanda}}
+                      td
+                        label {{brocal.Dotacion}}
+                      td
+                        label {{brocal.Horai}}
+                      td
+                        label {{brocal.Horaf}}
+                      td
+                        label {{brocal.Sub}}
+                      td
+                        label {{brocal.Observaciones}}
+                      td
+                        button.btn.btn-secondary.modbrocalesbutton(type='button' ng-click="modificarbrocales(Totalbrocalesmod.indexOf(brocal))" )
+                          i.bi.bi-card-text
+
+          div(ng-switch-when='Planmatriz')
+            | Seleccionar el archivo a modificar 
+            select.selectasistenciamod.form-selectfilter( ng-model='columnmatrizmod' ng-options='e for e in headermatriz' ng-change="filltablematrizmod(columnmatrizmod)" )
+            h1 Plan matriz
+            #Modalmodplanmatriz.modal.fade( aria-labelledby='Modallogin' )
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    h5#exampleModalLabel.modal-title Modificación de datos
+                    button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                  .modal-body
+                    .container
+                      .mb-3
+                        label() Fecha
+                        input#formFileMultiple.form-control(ng-model="matrizvalue.fecha" type='text')
+                      .mb-3
+                        label() Programado
+                        input#formFileMultiple.form-control(ng-model="matrizvalue.programado" type='text')
+                      .mb-3
+                        label() Realizado
+                        input#formFileMultiple.form-control(ng-model="matrizvalue.realizado" type='text')
+                      .mb-3
+                        label() Observaciones
+                        input#formFileMultiple.form-control(ng-model="matrizvalue.observaciones" type='text')
+                      .mb-3
+                        label() Area
+                        input#formFileMultiple.form-control(ng-model="matrizvalue.area" type='text')
+                  .modal-footer
+                    button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                    button.btnn(name="probando3" value="probando4" ng-click="postmodmatriz()" data-bs-dismiss='modal') Aceptar
+            select.selectasistencia.form-selectfilter( ng-model='columnmatriz' ng-init='columnasist="Fecha"' ng-options='e for e in headermatrizp' )
+            input.form-controlfilter( type='text' ng-model='searchtxt[columnmatriz]' placeholder='Ingresar valor a filtrar')
+            #tablematrizarmod.grid-container
+              div.tabla.item1
+                table.matrizaarmod.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Fecha
+                        span.resize-handle
+                      th(data-type='text')
+                        | Programado
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Realizado
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Observaciones
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Area
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Modificar
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="matriz in Totalmatrizarchivosmod|filter:searchtxt")
+                      td
+                        label {{matriz.Fecha}} 
+                      td
+                        label {{matriz.Programado}} 
+                      td
+                        label {{matriz.Realizado}}
+                      td
+                        label {{matriz.Observaciones}}
+                      td
+                        label {{matriz.Area}}
+                      td
+                        button.btn.btn-secondary.modmatrizbutton(type='button' ng-click="modificarmatriz(Totalmatrizarchivosmod.indexOf(matriz))" )
+                          i.bi.bi-card-text
+          div(ng-switch-when='Disciplina')
+            | Seleccionar el archivo a modificar 
+            select.selectasistenciamod.form-selectfilter( ng-model='columndisciplinamod' ng-options='e for e in headerdisciplinaselect' ng-change="filltabledisciplinamod(columndisciplinamod)" )
+            h1 Disciplina Operacional
+            #Modalmoddisciplina.modal.fade( aria-labelledby='Modallogin' )
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    h5#exampleModalLabel.modal-title Modificación de datos
+                    button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                  .modal-body
+                    .container
+                      .mb-3
+                        label() Area
+                        input#formFileMultiple.form-control(ng-model="disciplinavalue.area" type='text')
+                      .mb-3
+                        label() Dia
+                        input#formFileMultiple.form-control(ng-model="disciplinavalue.dia" type='text')
+                      .mb-3
+                        label() Fecha
+                        input#formFileMultiple.form-control(ng-model="disciplinavalue.fecha" type='text')
+                      .mb-3
+                        label() Llegada instalación
+                        input#formFileMultiple.form-control(ng-model="disciplinavalue.llegadainstalacion" type='text')
+                      .mb-3
+                        label() Salida instalación
+                        input#formFileMultiple.form-control(ng-model="disciplinavalue.salidainstalacion" type='text')
+                      .mb-3
+                        label() Inicio Act. Am
+                        input#formFileMultiple.form-control(ng-model="disciplinavalue.inicioactam" type='text')
+                      .mb-3
+                        label() Termino Act. Am
+                        input#formFileMultiple.form-control(ng-model="disciplinavalue.terminoactam" type='text')
+                      .mb-3
+                        label() Almuerzo
+                        input#formFileMultiple.form-control(ng-model="disciplinavalue.almuerzo" type='text')
+                      .mb-3
+                        label() Inicio Act. Pm
+                        input#formFileMultiple.form-control(ng-model="disciplinavalue.inicioactpm" type='text')
+                      .mb-3
+                        label() Termino Act. Pm
+                        input#formFileMultiple.form-control(ng-model="disciplinavalue.terminoactpm" type='text')
+                      .mb-3
+                        label() Tiempo Instalación
+                        input#formFileMultiple.form-control(ng-model="disciplinavalue.tiempoinstalacion" type='text')
+                      .mb-3
+                        label() Traslado Postura
+                        input#formFileMultiple.form-control(ng-model="disciplinavalue.trasladopostura" type='text')
+                      .mb-3
+                        label() Tiempo disponible Am
+                        input#formFileMultiple.form-control(ng-model="disciplinavalue.tiempodispam" type='text')
+                      .mb-3
+                        label() Traslado Colacion
+                        input#formFileMultiple.form-control(ng-model="disciplinavalue.trasladocolacion" type='text')
+                      .mb-3
+                        label() Tiempo Disponible Pm
+                        input#formFileMultiple.form-control(ng-model="disciplinavalue.tiempodisponiblepm" type='text')
+                      .mb-3
+                        label() Almuerzo 
+                        input#formFileMultiple.form-control(ng-model="disciplinavalue.almuerzo2" type='text')
+                      .mb-3
+                        label() Meta
+                        input#formFileMultiple.form-control(ng-model="disciplinavalue.meta" type='text')
+                  .modal-footer
+                    button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                    button.btnn(name="probando3" value="probando4" ng-click="postmoddisciplina()" data-bs-dismiss='modal') Aceptar
+            select.selectasistencia.form-selectfilter( ng-model='columndisciplina' ng-init='columndisciplina="Fecha"' ng-options='e for e in headerdisciplina' )
+            input.form-controlfilter( type='text' ng-model='searchtxt[columndisciplina]' placeholder='Ingresar valor a filtrar')
+            #tabledisciplina.grid-container
+              div.tabla.item1
+                table.disciplina.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Area
+                        span.resize-handle
+                      th(data-type='text')
+                        | Dia
+                        span.resize-handle
+                      th(data-type='text')
+                        | Fecha
+                        span.resize-handle
+                      th(data-type='text')
+                        | Lleg. inst.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Sal. inst.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Inicio Act Am.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Térm. Act. Am.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Almuerzo
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ini. Act. Pm
+                        span.resize-handle
+                      th(data-type='text')
+                        | Term. Act. Pm
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tiem. Inst.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tras. Post.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tiem. Disp. Am
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tras. Col.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tiem. Disp. Pm
+                        span.resize-handle
+                      th(data-type='text')
+                        | Almuerzo
+                        span.resize-handle
+                      th(data-type='text')
+                        | Meta
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Modificar
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="disciplina in Totaldisciplinamod|filter:searchtxt")
+                      td
+                        label {{disciplina.Area}}
+                      td
+                        label {{disciplina.Dia}}
+                      td
+                        label {{disciplina.Fecha}}
+                      td
+                        label {{disciplina.Llegada_Instalacion}}
+                      td
+                        label {{disciplina.Salida_Instalacion}}
+                      td
+                        label {{disciplina.Inicio_Act_Am}}
+                      td
+                        label {{disciplina.Termino_Act_Am}}
+                      td
+                        label {{disciplina.Almuerzo}}
+                      td
+                        label {{disciplina.Inicio_Act_Pm}}
+                      td
+                        label {{disciplina.Termino_Act_Pm}}
+                      td
+                        label {{disciplina.Tiempo_Instalacion}}
+                      td
+                        label {{disciplina.Traslado_Postura}}
+                      td
+                        label {{disciplina.Tiempo_Disponible_Am}}
+                      td
+                        label {{disciplina.Traslado_Colacion}}
+                      td
+                        label {{disciplina.Tiempo_Disponible_Pm}}
+                      td
+                        label {{disciplina.Almuerzo_2}}
+                      td
+                        label {{disciplina.Meta}}
+                      td
+                        button.btn.btn-secondary.moddisciplinabutton(type='button' ng-click="modificardisciplina(Totaldisciplinamod.indexOf(disciplina))" )
+                          i.bi.bi-card-text
+          div(ng-switch-when='Equipos')
+            #Modalmodequipos.modal.fade( aria-labelledby='Modallogin' )
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    h5#exampleModalLabel.modal-title Modificación de datos
+                    button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                  .modal-body
+                    .container
+                      .mb-3
+                        label() Equipo
+                        input#formFileMultiple.form-control(ng-model="equipovalue.equipo" type='text')
+                      .mb-3
+                        label() Patente
+                        input#formFileMultiple.form-control(ng-model="equipovalue.patente" type='text')
+                      .mb-3
+                        label() Cartola
+                        input#formFileMultiple.form-control(ng-model="equipovalue.cartola" type='text')
+                      .mb-3
+                        label() Última mant.
+                        input#formFileMultiple.form-control(ng-model="equipovalue.ultimamantencion" type='text')
+                      .mb-3
+                        label() Última Mant. Kms
+                        input#formFileMultiple.form-control(ng-model="equipovalue.ultimokms" type='text')
+                      .mb-3
+                        label() Próxima Mant. Kms
+                        input#formFileMultiple.form-control(ng-model="equipovalue.proximakms" type='text')
+                      .mb-3
+                        label() Kilometraje Actual
+                        input#formFileMultiple.form-control(ng-model="equipovalue.kmactual" type='text')
+                      .mb-3
+                        label() Semaforo
+                        input#formFileMultiple.form-control(ng-model="equipovalue.semaforo" type='text')
+                      .mb-3
+                        label() Estado
+                        input#formFileMultiple.form-control(ng-model="equipovalue.estado" type='text')
+                      .mb-3
+                        label() Fecha Chequeo Gas
+                        input#formFileMultiple.form-control(ng-model="equipovalue.fechagas" type='text')
+                  .modal-footer
+                    button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                    button.btnn(name="probando3" value="probando4" ng-click="postmodequipo()"  data-bs-dismiss='modal') Aceptar
+            select.selectequipo.form-selectfilter( ng-model='columnequipo' ng-init='columnequipo="Fecha"' ng-options='e for e in headerequipo' )
+            input.form-controlfilter( type='text' ng-model='searchtxt[columnequipo]' placeholder='Ingresar valor a filtrar')
+            #tableequipo.grid-container
+              div.tabla.item1
+                table.equipo.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Equipo
+                        span.resize-handle
+                      th(data-type='text')
+                        | Patente
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Cartola
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Ult. Mant.
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Ult. Mant. kms
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Prox. Mant. kms
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Km actual
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Semaforo
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Est. actual
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Fecha Cheq. gas
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Modificar
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="equipo in Totalequiposmod|filter:searchtxt")
+                      td
+                        label {{equipo.Equipo}} 
+                      td
+                        label {{equipo.Patente}} 
+                      td
+                        label {{equipo.Cartola}}
+                      td
+                        label {{equipo.Ultimamantencion}}
+                      td
+                        label {{equipo.Ultimokms}}
+                      td
+                        label {{equipo.Proximakms}}
+                      td
+                        label {{equipo.Kilometrajeactual}}
+                      td
+                        label {{equipo.Semaforo}}
+                      td
+                        label {{equipo.Estado}}
+                      td
+                        label {{equipo.Fechagas}}
+                      td
+                        button.btn.btn-secondary.modequipobutton(type='button' ng-click="modificarequipo(Totalequiposmod.indexOf(equipo))" )
+                          i.bi.bi-card-text
+          div(ng-switch-when='Puertas')
+            #Modalpuertasvimo.modal.fade( aria-labelledby='Modallogin' )
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    h5#exampleModalLabel.modal-title Modificación de datos
+                    button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                  .modal-body
+                    .container
+                      .mb-3
+                        label() Identificacion
+                        input#formFileMultiple.form-control(ng-model="puertasvalue.identificacion" type='text')
+                      .mb-3
+                        label() Ubicacion
+                        input#formFileMultiple.form-control(ng-model="puertasvalue.ubicacion" type='text')
+                      .mb-3
+                        label() Fecha revisión
+                        input#formFileMultiple.form-control(ng-model="puertasvalue.fecharevision" type='text')
+                      .mb-3
+                        label() Tipo Mantención
+                        input#formFileMultiple.form-control(ng-model="puertasvalue.tipomantencion" type='text')
+                      .mb-3
+                        label() Detalles
+                        input#formFileMultiple.form-control(ng-model="puertasvalue.detalles" type='text')
+                      .mb-3
+                        label() Solicitante
+                        input#formFileMultiple.form-control(ng-model="puertasvalue.solicitante" type='text')
+                      .mb-3
+                        label() Estado
+                        input#formFileMultiple.form-control(ng-model="puertasvalue.estado" type='text')
+                  .modal-footer
+                    button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                    button.btnn(name="probando3" value="probando4" ng-click="postmodpuerta()" data-bs-dismiss='modal') Aceptar
+            select.selectvimo.form-selectfilter( ng-model='columnvimo' ng-init='columnvimo="Fecha"' ng-options='e for e in headervimo' )
+            input.form-controlfilter( type='text' ng-model='searchtxt[columnvimo]' placeholder='Ingresar valor a filtrar')
+            #tablevimomod.grid-container
+              div.tabla.item1
+                table.vimo.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Identificacion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ubicacion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Fecha revisión
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tipo Mantencion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Detalles
+                        span.resize-handle
+                      th(data-type='text')
+                        | Solicitante
+                        span.resize-handle
+                      th(data-type='text')
+                        | Estado
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Modificar
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="vimo in Totalvimomod|filter:searchtxt")
+                      td
+                        label {{vimo.Identificacion}}
+                      td
+                        label {{vimo.Ubicacion}}
+                      td
+                        label {{vimo.Fecharevision}}
+                      td
+                        label {{vimo.Tipomantencion}}
+                      td
+                        label {{vimo.Detalles}}
+                      td
+                        label {{vimo.Solicitante}}
+                      td
+                        label {{vimo.Estado}}
+                      td
+                        button.btn.btn-secondary.modvimobutton(type='button' ng-click="modificarvimo(Totalvimomod.indexOf(vimo))" )
+                          i.bi.bi-card-text
+          div(ng-switch-when='Vimosap')
+            #Modalsap.modal.fade( aria-labelledby='Modallogin' )
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    h5#exampleModalLabel.modal-title Modificación de datos
+                    button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                  .modal-body
+                    .container
+                      .mb-3
+                        label() N° Puerta
+                        input#formFileMultiple.form-control(ng-model="sapvalue.npuerta" type='text')
+                      .mb-3
+                        label() Ut
+                        input#formFileMultiple.form-control(ng-model="sapvalue.ut" type='text')
+                      .mb-3
+                        label() Area Responsable
+                        input#formFileMultiple.form-control(ng-model="sapvalue.arearesponsable" type='text')
+                      .mb-3
+                        label() Prioridad
+                        input#formFileMultiple.form-control(ng-model="sapvalue.prioridad" type='text')
+                      .mb-3
+                        label() Nivel
+                        input#formFileMultiple.form-control(ng-model="sapvalue.nivel" type='text')
+                      .mb-3
+                        label() Plan
+                        input#formFileMultiple.form-control(ng-model="sapvalue.plan" type='text')
+                      .mb-3
+                        label() Orden
+                        input#formFileMultiple.form-control(ng-model="sapvalue.orden" type='text')
+                      .mb-3
+                        label() Mes
+                        input#formFileMultiple.form-control(ng-model="sapvalue.mes" type='text')
+                  .modal-footer
+                    button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                    button.btnn(name="probando3" value="probando4" ng-click="postmodsap()" data-bs-dismiss='modal') Aceptar
+            select.selectsap.form-selectfilter( ng-model='columnsap' ng-init='columnsap="Fecha"' ng-options='e for e in headersap' )
+            input.form-controlfilter( type='text' ng-model='searchtxt[columnsap]' placeholder='Ingresar valor a filtrar')
+            #tablesapar.grid-container
+              div.tabla.item1
+                table.planificacionvimo.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | N° Puerta
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ut
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Area Responsable
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Prioridad
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Nivel
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Plan
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Orden
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Mes
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Modificar
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="plani in Totalsapmod|filter:searchtxt")
+                      td
+                        label {{plani.Numpuerta}}
+                      td
+                        label {{plani.Ut}}
+                      td
+                        label {{plani.Arearesponsable}}
+                      td
+                        label {{plani.Prioridad}}
+                      td
+                        label {{plani.Nivel}}
+                      td
+                        label {{plani.Plan}}
+                      td
+                        label {{plani.Orden}}
+                      td
+                        label {{plani.Mes}}
+                      td
+                        button.btn.btn-secondary.modsapbutton(type='button' ng-click="modificarsap(Totalsapmod.indexOf(plani))" )
+                          i.bi.bi-card-text
+
+          div(ng-switch-default='')
+            p Seleccionar area del cual quiere modificar los datos
+      #Reporte.w3-container.w3-border.activity(style='display:none')
+
+        .timeritems
+          .item1fecha
+            label.form-label(for='formFileMultiple') Fecha inicio
+            input#startDatestart.form-control(ng-model="dateselectedstart" type='date' )
+          .item2fecha
+            label.form-label(for='formFileMultiple') Fecha termino
+            input#startDateend.form-control(ng-model="dateselectedfinish" type='date' )
+        .buttonreport
+          button.btnn(type='button' ng-click="CreateReport()") Crear Reporte
+        p
+        #divinvisible
+          #tableasistenciarreport.grid-container
+                div.tabla.item1
+                  table.vimo.table.caption-top
+                    thead
+                      tr
+                        th(data-type="text")
+                          | Nombre
+                          span.resize-handle
+                        th(data-type='text')
+                          | Rut
+                          span.resize-handle
+                        th(data-type='text')
+                          | Total dias posibles
+                          span.resize-handle
+                        th(data-type='text')
+                          | Faltas
+                          span.resize-handle
+                        th(data-type='text')
+                          | Rendimiento
+                          span.resize-handle
+                      tbody
+                        tr(ng-repeat="asistencia in Totalreporteasistencia")
+                          td
+                            label {{asistencia.Nombre}}
+                          td
+                            label {{asistencia.Rut}}
+                          td
+                            label {{asistencia.Totaldias}}
+                          td
+                            label {{asistencia.Falta}}
+                          td
+                            progress#progressbar(value='{{asistencia.Rendimiento}}' max='100')
+          p
+          select.selectsitio.form-selectfilter( ng-model='columnsitio' ng-init='columnsitio="Fecha"' ng-options='e for e in headersitio' ng-change="Cambiositio()" )
+          p
+          #lineasistenciareport.grid-container
+            #chart100(zingchart='' zc-json='myJsonAsistenciaReport' zc-width='100%' zc-height='300px')
+
+          #gridbrocalesreport.grid-container
+            div
+              #chart101(zingchart='' zc-json='myJsonBrocalesreport1' zc-width='100%' zc-height='300px')
+            div
+              #chart102(zingchart='' zc-json='myJsonBrocalesreport2' zc-width='100%' zc-height='300px')
+            div
+              #chart103(zingchart='' zc-json='myJsonBrocalesreportbar' zc-width='100%' zc-height='300px')
+          #gridbrocalesreport2.grid-container
+            div
+              #chart104(zingchart='' zc-json='myJsonBrocalesreport1v2' zc-width='100%' zc-height='300px')
+            div
+              #chart105(zingchart='' zc-json='myJsonBrocalesreport2v2' zc-width='100%' zc-height='300px')
+            div
+              #tableabrocalesreport.grid-container
+                div.tabla.item1
+                  table.vimo.table.caption-top
+                    thead
+                      tr
+                        th(data-type="text")
+                          | Fecha
+                          span.resize-handle
+                        th(data-type='text')
+                          | Sub
+                          span.resize-handle
+                        th(data-type='text')
+                          | Dotación
+                          span.resize-handle
+                        th(data-type='text')
+                          | Cantidad
+                          span.resize-handle
+                        th(data-type='text')
+                          | Demanda
+                          span.resize-handle
+                        th(data-type='text')
+                          | Observación
+                          span.resize-handle
+                      tbody
+                        tr(ng-repeat="brocales in Totalreportebrocales")
+                          td
+                            label {{brocales.Fecha}}
+                          td
+                            label {{brocales.Sub}}
+                          td
+                            label {{brocales.Dotacion}}
+                          td
+                            label {{brocales.Demanda}}
+                          td
+                            label {{brocales.Cantidad}}
+                          td
+                            label {{brocales.Observacion}}
+          #gridmatrizreport.grid-container
+            div
+              #chart107(zingchart='' zc-json='myJsonMatrizreport1' zc-width='100%' zc-height='300px')
+            div
+              #chart108(zingchart='' zc-json='myJsonMatrizreport2' zc-width='100%' zc-height='300px')
+            div
+              #chart109(zingchart='' zc-json='myJsonMatrizreport3' zc-width='100%' zc-height='300px')
+            div
+              #chart110(zingchart='' zc-json='myJsonMatrizreport4' zc-width='100%' zc-height='300px')
+          div.grid-container
+            #chart111(zingchart='' zc-json='myJsonDisciplinareport' zc-width='100%' zc-height='300px')
+
+
+
+
+  script(type='text/javascript' src='/scripts/sidebarcopy.js')
+  script.
+    if(local_authmessage!=""){
+      document.getElementById("loginbutton").click();
+    }
+    if(local_ingreso.length !=0){
+      var myModal = new bootstrap.Modal(document.getElementById('ModalInformacion'), {
+        keyboard: false
+      })
+      myModal.toggle()
+    }
+
+    window.onscroll = function() {myFunction()};
+
+    var header = document.getElementById("blur1");
+    var sticky = header.offsetTop;
+
+    function myFunction() {
+      if (window.pageYOffset > sticky) {
+        header.classList.add("sticky");
+      } else {
+        header.classList.remove("sticky");
+      }
+    }
