@@ -143,7 +143,7 @@ p.dato{
 }
 
 .sidenav {
-  background-color: #343a40;
+  background-color:  #2A2D35;
   box-shadow: 0 14px 28px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.22)!important;
   z-index: 10;
 
@@ -516,7 +516,7 @@ button{
 
 .sidenav-header {
   height: 60px;
-  border-bottom: 1px solid #4f5962;
+  border-bottom: 1px solid rgba(255,152,0,0.1);
   display: flex;
 }
 

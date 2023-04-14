@@ -44,111 +44,64 @@ html
               a(href='#')
                 span.fa.fa-history.nb-link-icon
                 span.nb-link-text Disciplina
-        li.active
-          a(href='#')
-            span.glyphicon.glyphicon-folder-open.nb-link-icon
-            span.nb-link-text Pages
+        li 
+          a.collapsed(data-toggle='collapse' href='#collapseTraspaso' aria-expanded='false' aria-controls='collapseTraspaso')
+            span.glyphicon.glyphicon-stats.nb-link-icon
+            span.nb-link-text Traspaso
+            span.fa.fa-angle-up.nb-btn-sub-collapse
+          // Dropdown level one
+          ul#collapseTraspaso.nb-sub-one.collapse
+            li
+              a(href='#')
+                span.fa.fa-clock-o.nb-link-icon
+                span.nb-link-text Asistencia
+            li
+              a(href='#')
+                span.fa.fa-history.nb-link-icon
+                span.nb-link-text Pauta Diaria
+            li
+              a(href='#')
+                span.fa.fa-history.nb-link-icon
+                span.nb-link-text Disciplina
+        li 
+          a.collapsed(data-toggle='collapse' href='#collapsett8' aria-expanded='false' aria-controls='collapsett8')
+            span.glyphicon.glyphicon-stats.nb-link-icon
+            span.nb-link-text Tt8
+            span.fa.fa-angle-up.nb-btn-sub-collapse
+          // Dropdown level one
+          ul#collapsett8.nb-sub-one.collapse
+            li
+              a(href='#')
+                span.fa.fa-clock-o.nb-link-icon
+                span.nb-link-text Asistencia
+            li
+              a(href='#')
+                span.fa.fa-history.nb-link-icon
+                span.nb-link-text Pauta Diaria
+            li
+              a(href='#')
+                span.fa.fa-history.nb-link-icon
+                span.nb-link-text Disciplina
         li
           a(href='#')
             span.glyphicon.glyphicon-comment.nb-link-icon
             span.nb-link-text Comments
             span.badge 4
-        li
-          a.collapsed(data-toggle='collapse' href='#collapseLevelOne' aria-expanded='false' aria-controls='collapseLevelOne')
-            span.fa.fa-sort-amount-desc.nb-link-icon
-            span.nb-link-text Dropdown level 1
-            span.fa.fa-angle-up.nb-btn-sub-collapse
-          // Dropdown level one
-          ul#collapseLevelOne.nb-sub-one.collapse
-            li
-              a(href='#')
-                span.fa.fa-slack.nb-link-icon
-                span.nb-link-text Level 1
-            li
-              a.collapsed(data-toggle='collapse' href='#collapseLevelTwo' aria-expanded='false' aria-controls='collapseLevelTwo')
-                span.fa.fa-level-down.nb-link-icon
-                span.nb-link-text Dropdown level 2
-                span.fa.fa-angle-up.nb-btn-sub-collapse
-              // Dropdown level two
-              ul#collapseLevelTwo.nb-sub-two.collapse
-                li
-                  a(href='#')
-                    span.fa.fa-wifi.nb-link-icon
-                    span.nb-link-text Level 2
-                li
-                  a(href='#')
-                    span.fa.fa-wifi.nb-link-icon
-                    span.nb-link-text Level 2
-                li
-                  a(href='#')
-                    span.fa.fa-wifi.nb-link-icon
-                    span.nb-link-text Level 2
-            li
-              a(href='#')
-                span.fa.fa-slack.nb-link-icon
-                span.nb-link-text Level 1
-      p.nb-nav-title Filter
+      p.nb-nav-title Opciones
       ul.nb-nav
-        li
-          a(href='#')
-            span.fa.fa-image.nb-link-icon
-            span.nb-link-text Image
-        li
-          a(href='#')
-            span.fa.fa-video-camera.nb-link-icon
-            span.nb-link-text Video
         li
           a(href='#')
             span.glyphicon.glyphicon-folder-open.nb-link-icon
-            span.nb-link-text Audio
+            span.nb-link-text Modificación
         li
           a(href='#')
-            span.fa.fa-file-text.nb-link-icon
-            span.nb-link-text File
-            span.badge 4
+            span.glyphicon.glyphicon-folder-open.nb-link-icon
+            span.nb-link-text Reporte
         li
           a(href='#')
-            span.fa.fa-link.nb-link-icon
-            span.nb-link-text Active link
-      p.nb-nav-title Category
-      ul.nb-nav
-        li
-          a.collapsed(data-toggle='collapse' href='#collapseCategoryAll' aria-expanded='false' aria-controls='collapseCategoryAll')
-            span.glyphicon.glyphicon-tags.nb-link-icon
-            span.nb-link-text All
-            span.fa.fa-angle-up.nb-btn-sub-collapse
-          // Dropdown level one
-          ul#collapseCategoryAll.nb-sub-one.collapse
-            li
-              a(href='#')
-                span.fa.fa-dot-circle-o.nb-link-icon
-                span.nb-link-text UI
-                span.badge 4
-            li
-              a(href='#')
-                span.fa.fa-dot-circle-o.nb-link-icon
-                span.nb-link-text Design
-            li
-              a(href='#')
-                span.fa.fa-dot-circle-o.nb-link-icon
-                span.nb-link-text App
-            li
-              a(href='#')
-                span.fa.fa-dot-circle-o.nb-link-icon
-                span.nb-link-text Homepage
+            span.glyphicon.glyphicon-folder-open.nb-link-icon
+            span.nb-link-text Archivos
         li
           a(href='#')
-            span.fa.fa-dot-circle-o.nb-link-icon
-            span.nb-link-text Popular
-        li
-          a(href='#')
-            span.fa.fa-dot-circle-o.nb-link-icon
-            span.nb-link-text Handpicked
-    // /.dash-navbar-left
-    .content-wrap.nb-visible(data-effect='nb-push')
-      .container-fluid
-        .row
-          // Your content here
-          .dummy-div(style='height:1500px;')
-          // End of your content
-    // /.content-wrap
+            span.glyphicon.glyphicon-folder-open.nb-link-icon
+            span.nb-link-text Creación

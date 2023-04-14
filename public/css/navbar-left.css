@@ -1,0 +1,143 @@
+/* Dash Navbar Left = nb
+/ -------------------------------------------------- */
+.dash-navbar-left {
+    background-color: #2A2D35;
+    width: 160px;
+    top: 0;
+    bottom: 0;
+    overflow-y: auto;
+    z-index: 999;
+    padding-top: 5px;
+    -webkit-transition: left 300ms;
+    -o-transition: left 300ms;
+    transition: left 300ms;
+  }
+  
+  .dash-navbar-left.nb-hidden {
+    left: -250px;
+  }
+  .dash-navbar-left.nb-hidden.nb-show {
+    left: 0;
+  }
+  .dash-navbar-left .nb-nav-title {
+    text-transform: uppercase;
+    color: #7f799c;
+    border-bottom: 1px solid rgba(255,152,0,0.1);
+    padding: 10px 25px;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+  .dash-navbar-left .nb-nav {
+    padding-left: 0;
+    list-style: none;
+  }
+  .dash-navbar-left .nb-nav ul {
+    padding-left: 0;
+    list-style: none;
+  }
+  .dash-navbar-left .nb-nav li {
+    position: relative;
+  }
+  .dash-navbar-left .nb-nav li a {
+    display: block;
+    outline: 0;
+    padding: 8px 25px 7px;
+    font-size: 14px;
+    color: #b7b4c7;
+  }
+  .dash-navbar-left .nb-nav li a:hover,
+  .dash-navbar-left .nb-nav li a:focus {
+    color: #eeeeee;
+    text-decoration: none;
+    background-color: rgba(255,152,0,0.1);
+    -webkit-box-shadow: inset 3px 0 0 orange;
+    box-shadow: inset 3px 0 0 orange;
+  }
+  .dash-navbar-left .nb-nav li a:hover .badge,
+  .dash-navbar-left .nb-nav li a:focus .badge {
+    color: #EEE;
+  }
+  .dash-navbar-left .nb-nav li a > .nb-link-icon {
+    padding-right: 8px;
+  }
+  .dash-navbar-left .nb-nav li a > .nb-btn-sub-collapse {
+    position: absolute;
+    right: 25px;
+    top: 10px;
+  }
+  .dash-navbar-left .nb-nav li a > .badge {
+    position: absolute;
+    right: 24px;
+    top: 6px;
+    padding: 3px 10px;
+    color: #a7a9ac;
+    background-color: transparent;
+    border: 1px solid #4f4a65;
+  }
+  .dash-navbar-left .nb-nav li a.collapsed .nb-btn-sub-collapse {
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+  .dash-navbar-left .nb-nav li.active > a {
+    background-color: rgba(255,152,0,0.1);
+    -webkit-box-shadow: inset 3px 0 0 orange;
+    box-shadow: inset 3px 0 0 orange;
+  }
+  .dash-navbar-left .nb-nav li .nb-sub-one {
+    background-color: #15141b;
+  }
+  .dash-navbar-left .nb-nav li .nb-sub-one li {
+    border-top: 1px solid #1c1b24;
+  }
+  .dash-navbar-left .nb-nav li .nb-sub-one li a {
+    display: block;
+    color: #a7a9ac;
+  }
+  .dash-navbar-left .nb-nav li .nb-sub-one li a:hover,
+  .dash-navbar-left .nb-nav li .nb-sub-one li a:focus {
+    color: #eeeeee;
+    background-color: #1c1b24;
+    -webkit-box-shadow: inset 3px 0 0 #1c1b24;
+    box-shadow: inset 3px 0 0 #1c1b24;
+  }
+  .dash-navbar-left .nb-nav li .nb-sub-one li a > .nb-link-icon {
+    padding-right: 8px;
+  }
+  .dash-navbar-left .nb-nav li .nb-sub-one li a > .badge {
+    color: #a7a9ac;
+    background-color: transparent;
+    border: 1px solid #211f2a;
+  }
+  .dash-navbar-left .nb-nav li .nb-sub-one li.active > a {
+    background-color: #1c1b24;
+    -webkit-box-shadow: inset 3px 0 0 #1c1b24;
+    box-shadow: inset 3px 0 0 #1c1b24;
+  }
+  .dash-navbar-left .nb-nav li .nb-sub-two {
+    background-color: #211f2a;
+  }
+  .dash-navbar-left .nb-nav li .nb-sub-two li {
+    border-top-color: 1px solid #282533;
+  }
+  .dash-navbar-left .nb-nav li .nb-sub-two li a {
+    color: #a7a9ac;
+  }
+  .dash-navbar-left .nb-nav li .nb-sub-two li a:hover,
+  .dash-navbar-left .nb-nav li .nb-sub-two li a:focus {
+    color: #eeeeee;
+    background-color: #282533;
+    -webkit-box-shadow: inset 3px 0 0 #282533;
+    box-shadow: inset 3px 0 0 #282533;
+  }
+  .dash-navbar-left .nb-nav li .nb-sub-two li a > .badge {
+    color: #a7a9ac;
+    background-color: transparent;
+    border: 1px solid #211f2a;
+  }
+  .dash-navbar-left .nb-nav li .nb-sub-two li.active > a {
+    background-color: #1c1b24;
+    -webkit-box-shadow: inset 3px 0 0 #1c1b24;
+    box-shadow: inset 3px 0 0 #1c1b24;
+  }

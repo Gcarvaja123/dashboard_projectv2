@@ -14,54 +14,106 @@ html
     //link(rel='stylesheet' type='text/css' href='/css/logindashboard.css')
     script(src='https://cdn.zingchart.com/zingchart.min.js')
     script(src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/374756/zingchart-angularjs-1.0.4.js')
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' )
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js' )
   body
     .sidenav#sidenav1
       .sidenav-header
         .image
           .img.imagen
           
-      #sidenav-collapse-main.navbar-collapse.w-auto.ps
-        ul.navbar-nav#sidenav2
-          li.nav-item.has-submenu
-            a.nav-link(data-bs-toggle='collapse' data-bs-target='#menu_infra')  Infra
-              i.bi.small.bi-caret-down-fill
-            ul#menu_infra.submenu.collapse(data-bs-parent='#nav_accordion')
+      #sidenav-collapse-main.dash-navbar-left.navbar-collapse.w-auto.ps
+       p.nb-nav-title Información
+        ul.nb-nav
+          li
+            a.collapsed(data-toggle='collapse' href='#collapseStatistics' aria-expanded='false' aria-controls='collapseStatistics')
+              span.glyphicon.glyphicon-stats.nb-link-icon
+              span.nb-link-text Infra
+              span.fa.fa-angle-up.nb-btn-sub-collapse
+            // Dropdown level one
+            ul#collapseStatistics.nb-sub-one.collapse
               li
-                a.tablink.w3-red(ng-click="GotoPanel()") Panel
-              li.nav-item
-                a.tablink(ng-click="GotoAsistencia()") Asistencia
-              li.nav-item
-                a.tablink(ng-click="GotoPlanmatriz()") Plan matriz 
-              li.nav-item
-                a.tablink(ng-click="GotoBrocales()") Brocales
-              li.nav-item
-                a.tablink(ng-click="GotoDisciplina()") Disciplina
-          li.nav-item.has-submenu
-            a.nav-link(data-bs-toggle='collapse' data-bs-target='#menu_traspaso')  Traspaso
-              i.bi.small.bi-caret-down-fill
-            ul#menu_traspaso.submenu.collapse(data-bs-parent='#nav_accordion')
+                a(href='#')
+                  span.fa.fa-clock-o.nb-link-icon
+                  span.nb-link-text Panel
               li
-                a.nav-link.tablink(ng-click="GotoAsistenciatraspaso()" ) Asistencia
+                a(href='#')
+                  span.fa.fa-history.nb-link-icon
+                  span.nb-link-text Asistencia
               li
-                a.nav-link.tablink(ng-click="GotoPaneltraspaso()" ) Pauta diaria
+                a(href='#')
+                  span.fa.fa-history.nb-link-icon
+                  span.nb-link-text Plan Matriz
               li
-                a.nav-link.tablink(ng-click="GotoDisciplinatraspaso()" ) Disciplina
-            li.nav-item.has-submenu
-              a.nav-link(data-bs-toggle='collapse' data-bs-target='#menu_item2')  Opciones
-                i.bi.small.bi-caret-down-fill
-              ul#menu_item2.submenu.collapse(data-bs-parent='#nav_accordion')
+                a(href='#')
+                  span.fa.fa-history.nb-link-icon
+                  span.nb-link-text Brocales
+              li
+                a(href='#')
+                  span.fa.fa-history.nb-link-icon
+                  span.nb-link-text Disciplina
+          li 
+            a.collapsed(data-toggle='collapse' href='#collapseTraspaso' aria-expanded='false' aria-controls='collapseTraspaso')
+              span.glyphicon.glyphicon-stats.nb-link-icon
+              span.nb-link-text Traspaso
+              span.fa.fa-angle-up.nb-btn-sub-collapse
+            // Dropdown level one
+            ul#collapseTraspaso.nb-sub-one.collapse
+              li
+                a(href='#')
+                  span.fa.fa-clock-o.nb-link-icon
+                  span.nb-link-text Asistencia
+              li
+                a(href='#')
+                  span.fa.fa-history.nb-link-icon
+                  span.nb-link-text Pauta Diaria
+              li
+                a(href='#')
+                  span.fa.fa-history.nb-link-icon
+                  span.nb-link-text Disciplina
+          li 
+            a.collapsed(data-toggle='collapse' href='#collapsett8' aria-expanded='false' aria-controls='collapsett8')
+              span.glyphicon.glyphicon-stats.nb-link-icon
+              span.nb-link-text Tt8
+              span.fa.fa-angle-up.nb-btn-sub-collapse
+            // Dropdown level one
+            ul#collapsett8.nb-sub-one.collapse
+              li
+                a(href='#')
+                  span.fa.fa-clock-o.nb-link-icon
+                  span.nb-link-text Asistencia
+              li
+                a(href='#')
+                  span.fa.fa-history.nb-link-icon
+                  span.nb-link-text Pauta Diaria
+              li
+                a(href='#')
+                  span.fa.fa-history.nb-link-icon
+                  span.nb-link-text Disciplina
+          li
+            a(href='#')
+              span.glyphicon.glyphicon-comment.nb-link-icon
+              span.nb-link-text Comments
+              span.badge 4
+        p.nb-nav-title Opciones
+        ul.nb-nav
+          li
+            a(href='#')
+              span.glyphicon.glyphicon-folder-open.nb-link-icon
+              span.nb-link-text Modificación
+          li
+            a(href='#')
+              span.glyphicon.glyphicon-folder-open.nb-link-icon
+              span.nb-link-text Reporte
+          li
+            a(href='#')
+              span.glyphicon.glyphicon-folder-open.nb-link-icon
+              span.nb-link-text Archivos
+          li
+            a(href='#')
+              span.glyphicon.glyphicon-folder-open.nb-link-icon
+              span.nb-link-text Creación
               
-                  li
-                    a.nav-link.tablink(onclick="openActivity(event,'Modificacion')" ) Modificación
-                
-                  li
-                    a.nav-link.tablink(onclick="openActivity(event,'Reporte')" ) Reporte
-                
-                  li
-                    a.nak-link.tablink(onclick="openActivity(event,'Archivos')") Archivos
-                  li
-                    a.nak-link.tablink(onclick="openActivity(event,'Creacion')") Creacion
-            
 
       .sidenav-footer
         .image
