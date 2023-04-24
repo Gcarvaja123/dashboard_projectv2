@@ -142,9 +142,53 @@ function leerExcelPautaTraspaso(ruta){
   return dataExcel; 
 }
 
+function leerExcelAsistenciaTte8(ruta){
+  const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
+  //const sheet  = workbooksheet[workbooksheet.length-11];
+  const workbooksheet = workbook.SheetNames;
+  var Asistenciatte8_sheets=[];
+  var array_name = [];
+  var nombres = [];
+  for(a=0; a< workbooksheet.length ; a++){
+    const sheet  = workbooksheet[a];
+    const dataExcel = reader.utils.sheet_to_json(workbook.Sheets[sheet]);
+    Asistenciatte8_sheets.push(dataExcel);
+  }
+  return Asistenciatte8_sheets; 
+}
+
+function leerExcelPlanificacionTte8(ruta){
+  const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
+  const workbooksheet = workbook.SheetNames;
+  const sheet  = workbooksheet[6];
+  const dataExcel = reader.utils.sheet_to_json(workbook.Sheets[sheet]);
+  
+  return dataExcel; 
+}
+
+function leerExcelVimoPlanificacion(ruta){
+  const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
+  const workbooksheet = workbook.SheetNames;
+  var disciplina_sheets=[];
+  var array_name = [];
+  var nombres = [];
+  for(a=0; a<workbooksheet.length-4  ; a++){
+    const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
+    const workbooksheet = workbook.SheetNames;
+    const sheet  = workbooksheet[a+4];
+    const dataExcel = reader.utils.sheet_to_json(workbook.Sheets[sheet]);
+    disciplina_sheets.push(dataExcel);
+  }
+  array_name.push(disciplina_sheets);
+  array_name.push(nombres);
+  return disciplina_sheets;
+}
+
+
+
 async function getData() {
   try {
-    const [rows_brocales, rows_asistencia, rows_disciplina, rows_matriz, rows_puertas, rows_usuarios, rows_vimosap, rows_equipos, rows_archivos, rows_trabajos, rows_disciplina_traspaso, rows_pauta_diaria, rows_asistencia_traspaso] = await Promise.all([
+    const [rows_brocales, rows_asistencia, rows_disciplina, rows_matriz, rows_puertas, rows_usuarios, rows_vimosap, rows_equipos, rows_archivos, rows_trabajos, rows_disciplina_traspaso, rows_pauta_diaria, rows_asistencia_traspaso, rows_puertas_vimo, rows_asistencia_tte8] = await Promise.all([
       modelo.brocales.findAll({}),
       modelo.asistencia.findAll({}),
       modelo.disciplina.findAll({}),
@@ -157,7 +201,9 @@ async function getData() {
       modelo.trabajos.findAll({}),
       modelo.disciplina_traspaso.findAll({}),
       modelo.pauta_diaria.findAll({}),
-      modelo.asistencia_traspaso.findAll({})
+      modelo.asistencia_traspaso.findAll({}),
+      modelo.puertas_vimo.findAll({}),
+      modelo.asistencia_tte8.findAll({})
     ]);
     
     const data = {
@@ -173,7 +219,9 @@ async function getData() {
       totaldisciplinatraspaso: rows_disciplina_traspaso,
       totalsap: rows_vimosap,
       totalpautadiaria: rows_pauta_diaria,
-      totalasistenciatraspaso : rows_asistencia_traspaso
+      totalasistenciatraspaso : rows_asistencia_traspaso,
+      totalpuertasvimo : rows_puertas_vimo,
+      totalasistenciatte8 : rows_asistencia_tte8
     };
     
     
@@ -1379,14 +1427,14 @@ module.exports = {
               file = req.files["Matriz"][e]
               const savePath = path.join(__dirname,"../",'public','uploads',file.name);
               await file.mv(savePath);
-              var datos = leerExcel(file.name);
-              let keys = Object.keys(datos[0]);
+              
               var area ="";
               var random_id_matriz_multiple = guid()
-              if(file.name.toString().includes("Consolidado")){
+              if(file.name.toString().includes("Consolidado") || file.name.toString().toUpperCase().includes("INFORME")){
                 area = "vimo"
+                datos = leerExcelVimoPlanificacion(file.name)
                 await modelo.archivos.create({
-                  Tabla : "puertas",
+                  Tabla : "puertas_vimo",
                   Idingreso : random_id_matriz_multiple,
                   Fechaingreso : Fecha_hoy,
                   Infoingresada : "Puertas vimo",
@@ -1394,6 +1442,7 @@ module.exports = {
                 })
               }
               else{
+                var datos = leerExcel(file.name);
                 await modelo.archivos.create({
                   Tabla : "planmatriz",
                   Idingreso : random_id_matriz_multiple,
@@ -1402,7 +1451,7 @@ module.exports = {
                   Nombrearchivo : file.name.toString()
                 })
               }
-              if(file.name.toString().includes("Consolidado")){
+              /*if(file.name.toString().includes("Consolidado")){
                 for(a=1; a< Object.keys(datos).length ; a++){
                   var date = ExcelDateToJSDate(datos[a]["__EMPTY_2"])
                   var converted_date = date.toISOString().split('T')[0];
@@ -1444,6 +1493,24 @@ module.exports = {
                   })
                   
                 }
+              }*/
+              if(area == "vimo"){
+                       
+                for(a=0; a < datos.length; a++){
+                  var date = ExcelDateToJSDate(datos[a][2][Object.keys(datos[a][2])[1]]);
+                  var converted_date = date.toISOString().split('T')[0];
+                  var Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
+                  modelo.puertas_vimo.create({
+                    Codigo : datos[a][2][Object.keys(datos[a][2])[0]],
+                    Fecha : Fecha,
+                    Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]],
+                    Nivel : datos[a][2][Object.keys(datos[a][2])[3]],
+                    Area : datos[a][2][Object.keys(datos[a][2])[4]],
+                    Horainicio : convertToHHMM(datos[a][2][Object.keys(datos[a][2])[Object.keys(datos[a][2]).length-1]]*24).toString(),
+                    Horatermino : convertToHHMM(datos[a][6][Object.keys(datos[a][6])[Object.keys(datos[a][6]).length-1]]*24).toString(),
+                    Idingreso : random_id_matriz_multiple
+                  })
+                }       
               }
               else{
                 if (keys[0].toString().toUpperCase().includes("AIRE")){
@@ -1491,8 +1558,8 @@ module.exports = {
               }
             }catch(err){
               req.flash('error', file.name.toString());
-                if(area=="vimo"){
-                await modelo.puertas.destroy({
+              if(area=="vimo"){
+                await modelo.puertas_vimo.destroy({
                   where : {
                     Idingreso : random_id_matriz_single
                   }
@@ -1519,14 +1586,16 @@ module.exports = {
             file = req.files["Matriz"]
             const savePath = path.join(__dirname,"../",'public','uploads',file.name);
             await file.mv(savePath);
-            var datos = leerExcelMatriz(file.name);
+            
             var area ="";
-            let keys = Object.keys(datos[0]);
+            //let keys = Object.keys(datos[0]);
             var random_id_matriz_single = guid()
-            if(file.name.toString().includes("Consolidado")){
+            if(file.name.toString().includes("Consolidado") || file.name.toString().toUpperCase().includes("INFORME")){
+              
               area = "vimo"
+              datos = leerExcelVimoPlanificacion(file.name)
               await modelo.archivos.create({
-                Tabla : "puertas",
+                Tabla : "puertas_vimo",
                 Idingreso : random_id_matriz_single,
                 Fechaingreso : Fecha_hoy,
                 Infoingresada : "Puertas vimo",
@@ -1534,6 +1603,7 @@ module.exports = {
               })
             }
             else{
+              var datos = leerExcelMatriz(file.name);
               await modelo.archivos.create({
                 Tabla : "planmatriz",
                 Idingreso : random_id_matriz_single,
@@ -1542,9 +1612,7 @@ module.exports = {
                 Nombrearchivo : file.name.toString()
               })
             }
-            
-
-            if(file.name.toString().includes("Consolidado")){
+            /*if(file.name.toString().includes("Consolidado")){
               for(a=1; a< Object.keys(datos).length ; a++){
                 var date = ExcelDateToJSDate(datos[a]["__EMPTY_2"])
                 var converted_date = date.toISOString().split('T')[0];
@@ -1584,6 +1652,24 @@ module.exports = {
                   
                   })
               }
+            }*/
+            if(area == "vimo"){
+                       
+              for(a=0; a < datos.length; a++){
+                var date = ExcelDateToJSDate(datos[a][2][Object.keys(datos[a][2])[1]]);
+                var converted_date = date.toISOString().split('T')[0];
+                var Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
+                modelo.puertas_vimo.create({
+                  Codigo : datos[a][2][Object.keys(datos[a][2])[0]],
+                  Fecha : Fecha,
+                  Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]],
+                  Nivel : datos[a][2][Object.keys(datos[a][2])[3]],
+                  Area : datos[a][2][Object.keys(datos[a][2])[4]],
+                  Horainicio : convertToHHMM(datos[a][2][Object.keys(datos[a][2])[Object.keys(datos[a][2]).length-1]]*24).toString(),
+                  Horatermino : convertToHHMM(datos[a][6][Object.keys(datos[a][6])[Object.keys(datos[a][6]).length-1]]*24).toString(),
+                  Idingreso : random_id_matriz_single
+                })
+              }       
             }
             else{
               if (keys[0].toString().toUpperCase().includes("AIRE")){
@@ -1633,8 +1719,9 @@ module.exports = {
             }
           }catch(err){
             req.flash('error', file.name.toString());
+            console.log(err)
             if(area=="vimo"){
-              await modelo.puertas.destroy({
+              await modelo.puertas_vimo.destroy({
                 where : {
                   Idingreso : random_id_matriz_single
                 }
@@ -2979,11 +3066,218 @@ module.exports = {
       }
 
       else if(datos_1[d] == "Asistenciatte8"){
-        file = req.files["Asistenciatte8"];
-        const savePath = path.join(__dirname,"../",'public','uploads',file.name);
-        await file.mv(savePath);
-        var datos = leerExcel(file.name);
-        console.log(datos)
+        try{
+          file = req.files["Asistenciatte8"];
+          const savePath = path.join(__dirname,"../",'public','uploads',file.name);
+          await file.mv(savePath);
+          var datos = leerExcelAsistenciaTte8(file.name);
+          const date = new Date();
+          let day = date.getDate();
+          let month = date.getMonth() + 1;
+          let year = date.getFullYear();
+          var random_id_asistencia_tte8_single = guid();
+          await modelo.archivos.create({
+            Tabla : "asistencia_tte8",
+            Idingreso : random_id_asistencia_tte8_single,
+            Fechaingreso : Fecha_hoy,
+            Infoingresada : "archivos asistencia tte8",
+            Nombrearchivo : file.name.toString()
+          })
+          if(month<10){
+            month = "0"+month.toString()
+          }
+          let currentDate_today = `${day}-${month}-${year}`;
+          await modelo.asistencia_tte8.findAll({
+          }).then(async function(rows_asistencia){
+            for(a = 0 ; a < datos.length; a++){
+              var array_keys_date = []
+              var arrays_date = []
+              for(b=0; b < Object.keys(datos[a][2]).length; b++ ){
+                if(Number.isInteger(datos[a][2][Object.keys(datos[a][2])[b]])){
+                  array_keys_date.push(Object.keys(datos[a][2])[b])
+                  var date = ExcelDateToJSDate(datos[a][2][Object.keys(datos[a][2])[b]]);
+                  var converted_date = date.toISOString().split('T')[0];
+                  var Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
+                  arrays_date.push(Fecha)
+                }
+              }
+              if(rows_asistencia.length > 0 && arrays_date[arrays_date.length-1].split("-")[2] == rows_asistencia[rows_asistencia.length-1].Fecha.split("-")[2] && parseInt(arrays_date[arrays_date.length-1].split("-")[1]) >= parseInt(rows_asistencia[rows_asistencia.length-1].Fecha.split("-")[1]) ){
+                for(c=5; c < datos[a].length; c++){
+                  var stop = false
+                  if(Object.keys(datos[a][c]).length < 12){
+                    stop=true
+                    console.log("pa fuera")
+                    break
+                  }
+                  //arrays_date.indexOf(rows_asistencia[rows_asistencia.length-1].Fecha)
+                  for(d=0; d < array_keys_date.length; d++){         
+                    if(Object.keys(datos[a][c]).includes(array_keys_date[d]) && comparar_fechas(currentDate_today, arrays_date[d])){
+                      await modelo.asistencia_tte8.findAll({
+                        where :{
+                          Fecha : arrays_date[d],
+                          Nombre : datos[a][c]["__EMPTY_4"],
+                          Rut : datos[a][c]["__EMPTY_5"],
+                        }
+                      }).then(async function(rows_asistencia_repetida){
+                        if(rows_asistencia_repetida.length==0 && stop==false && datos[a][c][array_keys_date[d]] != undefined &&  datos[a][c][Object.keys(datos[a][c])[Object.keys(datos[a][c]).indexOf(array_keys_date[d])+1]]!=undefined){
+                          await modelo.asistencia_tte8.create({
+                            Fecha : arrays_date[d],
+                            Nombre : datos[a][c]["__EMPTY_4"],
+                            ApellidoP : datos[a][c]["__EMPTY_2"],
+                            ApellidoM : datos[a][c]["__EMPTY_3"],
+                            Rut : datos[a][c]["__EMPTY_5"],
+                            Cargo : datos[a][c]["__EMPTY_6"],
+                            Turno : datos[a][c]["__EMPTY_7"],
+                            Hn : datos[a][c][array_keys_date[d]],
+                            Tur : datos[a][c][Object.keys(datos[a][c])[Object.keys(datos[a][c]).indexOf(array_keys_date[d])+1]],
+                            Idingreso : random_id_asistencia_tte8_single
+                          })
+                        }
+                      })
+                      
+                    }
+                  }
+                }
+              }
+              
+            }
+          })
+        }catch(err){
+          console.log(err)
+          await modelo.archivos.destroy({
+            where : {
+              Tabla : "asistencia_tte8",
+              Idingreso : random_id_asistencia_tte8_single
+            }
+          })
+          await modelo.asistencia_tte8.destroy({
+            where : {
+              Idingreso : random_id_asistencia_tte8_single
+            }
+          })
+        }
+        
+      }
+      else if(datos_1[d] == "Disciplinatte8"){
+        try{
+          var random_id_disciplina_tte8_single = guid();
+          file = req.files["Disciplinatte8"];
+          const savePath = path.join(__dirname,"../",'public','uploads',file.name);
+          await file.mv(savePath);
+          var datos = leerExcel(file.name)
+          await modelo.disciplina_tte8.findAll({
+          }).then(async function(rows_disciplina_tte8){
+            if(rows_disciplina_tte8.length!=0){
+              
+            }
+
+
+          })
+          for(a=0; a < datos.length; a++){
+            var date = ExcelDateToJSDate(datos[a]["Fecha"]);
+            var converted_date = date.toISOString().split('T')[0];
+            var Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
+            if(Fecha.split("-")[2]=="2023"){
+              //convertToHHMM(datos[a][b][llaves[3]]*24).toString()
+            }
+          }
+        }catch(err){
+          console.log(err)
+        }
+      }
+
+
+      else if(datos_1[d] == "Planificaciontte8"){
+        try{
+          var random_id_planificacion_tte8_single = guid();
+          file = req.files["Planificaciontte8"];
+          const savePath = path.join(__dirname,"../",'public','uploads',file.name);
+          await file.mv(savePath);
+          var datos = leerExcelPlanificacionTte8(file.name);
+          await modelo.archivos.create({
+            Tabla : "planificaciontte8",
+            Idingreso : random_id_planificacion_tte8_single,
+            Fechaingreso : Fecha_hoy,
+            Infoingresada : "archivo planificacion tte8",
+            Nombrearchivo : file.name.toString()
+          })
+          var array_fechas = []
+          var fechas = []
+          for(a=0; a < Object.keys(datos[5]).length; a++ ){
+            
+            if(Number.isInteger(parseInt(Object.keys(datos[5])[a].split("_")[0])) > 0){
+              array_fechas.push(Object.keys(datos[5])[a])
+              console.log(parseInt(Object.keys(datos[5])[a].split("_")[0]))
+            }
+          }
+          array_fechas.sort()
+          for(a=0 ; a < array_fechas.length; a++){
+            var date = ExcelDateToJSDate(datos[5][array_fechas[a]]);
+            var converted_date = date.toISOString().split('T')[0];
+            var Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
+            fechas.push(Fecha)
+          }
+
+          for(a=6; a < datos.length; a ++){
+            var dia = ""
+            for(b=0; b < Object.keys(datos[a]).length; b++){
+              if(array_fechas.includes(Object.keys(datos[a])[b])){
+                dia = Object.keys(datos[a])[b]
+              }
+            }
+            await modelo.planificaciontte8.create({
+              Orden : datos[a]["__EMPTY_1"],
+              Aviso : datos[a]["__EMPTY_2"],
+              Equipo : datos[a]["__EMPTY_3"],
+              Actividad : datos[a]["__EMPTY_4"],
+              Np : datos[a]["PERSONAS DÍA"],
+              Hrs : datos[a]["__EMPTY_5"],
+              Clasificacion : datos[a]["__EMPTY_6"],
+              Fecha : fechas[array_fechas.indexOf(dia)],
+              Totalhrs : datos[a][dia],
+              Idingreso : random_id_planificacion_tte8_single
+            })
+          }
+        }catch(err){
+          console.log(err)
+          await modelo.archivos.destroy({
+            where :{
+              Idingreso : random_id_planificacion_tte8_single
+            }
+          })
+          await modelo.planificaciontte8.destroy({
+            where :{
+              Idingreso : random_id_planificacion_tte8_single
+            }
+          })
+        }
+      }
+
+      else if (datos_1[d] == "Pruebavimo"){
+        try{  
+          file = req.files["Pruebavimo"];
+          const savePath = path.join(__dirname,"../",'public','uploads',file.name);
+          await file.mv(savePath);
+          var datos = leerExcelPruebavimo(file.name);
+          
+          for(a=0; a < datos.length; a++){
+            var date = ExcelDateToJSDate(datos[a][2][Object.keys(datos[a][2])[1]]);
+            var converted_date = date.toISOString().split('T')[0];
+            var Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
+            modelo.puertas_vimo.create({
+              Codigo : datos[a][2][Object.keys(datos[a][2])[0]],
+              Fecha : Fecha,
+              Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]],
+              Nivel : datos[a][2][Object.keys(datos[a][2])[3]],
+              Area : datos[a][2][Object.keys(datos[a][2])[4]],
+              Horainicio : convertToHHMM(datos[a][2][Object.keys(datos[a][2])[Object.keys(datos[a][2]).length-1]]*24).toString(),
+              Horatermino : convertToHHMM(datos[a][6][Object.keys(datos[a][6])[Object.keys(datos[a][6]).length-1]]*24).toString(),
+            })
+          }
+        }
+        catch(err){
+          console.log(err)
+        }
       }
 
       else if (datos_1[d] = "Pautadiaria"){
@@ -3175,6 +3469,13 @@ module.exports = {
       }
       else if(req.body[a].Tabla == "asistencia traspaso"){
         await modelo.asistencia_traspaso.destroy({
+          where : {
+            Idingreso : req.body[a].Idingreso
+          }
+        })
+      }
+      else if(req.body[a].Tabla == "asistencia_tte8"){
+        await modelo.asistencia_tte8.destroy({
           where : {
             Idingreso : req.body[a].Idingreso
           }
@@ -3418,4 +3719,21 @@ let guid = () => {
     }
     //return id of format 'aaaaaaaa'-'aaaa'-'aaaa'-'aaaa'-'aaaaaaaaaaaa'
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+}
+
+function comparar_fechas(fecha1, fecha2){
+  if(parseInt(fecha1.split("-")[2]) > parseInt(fecha2.split("-")[2])){
+    return true
+  }
+  else if(parseInt(fecha1.split("-")[2]) == parseInt(fecha2.split("-")[2])){
+      if(parseInt(fecha1.split("-")[1]) > parseInt(fecha2.split("-")[1])){
+        return true
+      }
+      else if(parseInt(fecha1.split("-")[1]) == parseInt(fecha2.split("-")[1])){
+        if(parseInt(fecha1.split("-")[0]) >= parseInt(fecha2.split("-")[0])){
+          return true
+        }
+      }
+  }
+  return false
 }

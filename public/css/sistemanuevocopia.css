@@ -179,13 +179,7 @@ li a {
   padding-top: 0.5rem;
 }
 
-.tablink:hover{
-  background-color: rgba(255,255,255,.1);
-  border-radius: 10px;
-  margin-left: 0.625rem;
-  margin-right: 0.625rem;
 
-}
 .navbar-collapse {
   padding-top: 0.4rem;
 }
@@ -531,8 +525,9 @@ button{
 
 
 .sidenav-footer {
-  border-top: 1px solid #4f5962;
-  margin-left: 10px;
+  border-top: 1px solid rgba(255,152,0,0.1);
+  /*margin-left: 10px;*/
+  width: 100%;
   position: absolute;
   bottom: 0;
 
@@ -551,6 +546,7 @@ button{
   margin-right: auto;
   display: block;
   padding-top: 5px;
+  margin-left: 10px;
 }
 
 .imagen2{
@@ -737,6 +733,15 @@ hr{
   background-color: white;
 }
 
+#asistenciatte8graficos div{
+  background-color: white;
+}
+
+#asistenciatte8grid{
+  display: grid;
+  grid-template-columns: 75% auto;
+}
+
 #contentdiariosub5{
   background-color: white;
   border-radius: 10px;
@@ -803,6 +808,20 @@ hr{
 }
 
 #asistenciatraspasograficos.item1traspaso{
+  height: 100%;
+}
+
+#asistenciatte8graficos{
+  display: grid;
+  grid-template-rows: auto auto;
+  padding: 0px;
+}
+
+#asistenciatte8graficos.grid-container div{
+  border-radius: 10px;
+}
+
+#asistenciatte8graficos.item1traspaso{
   height: 100%;
 }
 
@@ -1121,6 +1140,12 @@ table.matriz td{
   background-color: white;
 }
 
+#tablecompletedasistenciatte8.grid-container{
+  height: 540px;
+  border-radius: 10px;
+  background-color: white;
+  padding: 0px;
+}
 
 #chart61{
   border-radius: 10px
@@ -1286,9 +1311,6 @@ table.matriz td{
 }
 
 
-.nav-link:focus, .nav-link:hover {
-  color: #c2c7d0; 
-}
 
 .formulariocreacion .form-group{
   padding-bottom: 20px;

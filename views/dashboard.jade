@@ -36,6 +36,8 @@ html
       local_data_disciplina_traspaso = !{JSON.stringify(totaldisciplinatraspaso)}
       local_data_pauta_diaria = !{JSON.stringify(totalpautadiaria)}
       local_data_asistencia_traspaso = !{JSON.stringify(totalasistenciatraspaso)}
+      local_data_puertas_vimo = !{JSON.stringify(totalpuertasvimo)}
+      local_data_asistencia_tte8 = !{JSON.stringify(totalasistenciatte8)}
       
   
   body#probando(ng-app='myApp' ng-controller="myControllerAsistencia")
@@ -51,31 +53,32 @@ html
                   nav
                     #nav-tab.nav.nav-tabs(role='tablist')
                       button#nav-home-tab.nav-link.active(data-bs-toggle='tab' data-bs-target='#nav-home' type='button' role='tab' aria-controls='nav-home' aria-selected='true') Infra
-                      button#nav-profile-tab.nav-link(data-bs-toggle='tab' data-bs-target='#nav-profile' type='button' role='tab' aria-controls='nav-profile' aria-selected='false') Traspaso
-                      button#nav-profile-tab.nav-link(data-bs-toggle='tab' data-bs-target='#nav-tte8' type='button' role='tab' aria-controls='nav-tte8' aria-selected='false') Tte8
+                      button#nav-profile-tabtraspaso.nav-link(data-bs-toggle='tab' data-bs-target='#nav-profile' type='button' role='tab' aria-controls='nav-profile' aria-selected='false') Traspaso
+                      button#nav-profile-tabtte8.nav-link(data-bs-toggle='tab' data-bs-target='#nav-tte8' type='button' role='tab' aria-controls='nav-tte8' aria-selected='false') Tte8
                   #nav-tabContent.tab-content
                     #nav-home.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='nav-home-tab')
                       .mb-3.matrizitems#Modalfiles6
                         .item1
                           label.form-label(for='formFileMultiple') Plan matriz
                           .planexample
-                            input#formFileMultiple.form-control(type='file' name="Matriz" multiple='')
+                            input#formFileMultiplematriz.form-control(type='file' name="Matriz" multiple='')
                             button.btn.btn-secondary.planbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverplan'  data-bs-content=' ')
                               i.bi.bi-card-image
                             button.btn.btn-secondary.vimobutton(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popovervimo'  data-bs-content=' ')
                               i.bi.bi-card-image
+                        
 
                         .item2#Modalfiles7
                           label.form-label(for='formFileMultiple') P. Vimo SAP
                           .sapexample#Modalfiles8
-                            input#formFileMultiple.form-control(type='file' name="Matrizsap" multiple='')
+                            input#formFileMultiplevimosap.form-control(type='file' name="Matrizsap" multiple='')
                             button.btn.btn-secondary.sapbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoversap'  data-bs-content=' ')
                               i.bi.bi-card-image
                       .mb-3
                         .item1
                           label.form-label(for='formFileMultiple') Asistencia
                           .asistenciaexample
-                            input#formFileMultiple.form-control(type='file' name="Asistencia" multiple='')
+                            input#formFileMultipleasistenciainfra.form-control(type='file' name="Asistencia" multiple='')
                             button.btn.btn-secondary.asistenciabutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverasistencia'  data-bs-content=' ')
                               i.bi.bi-card-image
                       
@@ -83,40 +86,47 @@ html
                         .item1
                           label.form-label(for='formFileMultiple') Servicio y limpieza brocales sub 5
                           .sub5example
-                            input#formFileMultiple.form-control(type='file' name="Brocales5" multiple='')
+                            input#formFileMultiplebrocales5.form-control(type='file' name="Brocales5" multiple='')
                             button.btn.btn-secondary.sub5button(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popoversub5'  data-bs-content=' ')
                               i.bi.bi-card-image
                         .item2
                           label.form-label(for='formFileMultiple') Servicio y limpieza brocales sub 6
                           .sub6example
-                            input#formFileMultiple.form-control(type='file' name="Brocales6" multiple='')
+                            input#formFileMultiplebrocales6.form-control(type='file' name="Brocales6" multiple='')
                             button.btn.btn-secondary.sub6button(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoversub6'  data-bs-content=' ')
                               i.bi.bi-card-image
                       .mb-3
                         label.form-label(for='formFileMultiple') Disciplina operacional
                         .disciplinaexample
-                          input#formFileMultiple.form-control(type='file' name="Disciplina" multiple='')
+                          input#formFileMultipledisciplinainfra.form-control(type='file' name="Disciplina" multiple='')
                           button.btn.btn-secondary.disciplinabutton(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popoverdisciplina'  data-bs-content=' ')
                               i.bi.bi-card-image
                       .mb-3
                         label.form-label(for='formFileMultiple') Equipos y camionetas
                         .equiposexample
-                          input#formFileMultiple.form-control(type='file' name="Equipos" multiple='')
+                          input#formFileMultipleequipos.form-control(type='file' name="Equipos" multiple='')
                           button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
                               i.bi.bi-card-image
                       .mb-3
                         label.form-label(for='formFileMultiple') Trabajos diarios
                         .equiposexample
-                          input#formFileMultiple.form-control(type='file' name="Trabajos" multiple='')
+                          input#formFileMultipletrabajos.form-control(type='file' name="Trabajos" multiple='')
                           button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popovertrabajos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Prueba Vimo
+                        .equiposexample
+                          input#formFileMultiplevimopuertas.form-control(type='file' name="Pruebavimo" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
                               i.bi.bi-card-image
                     #nav-profile.tab-pane.fade(role='tabpanel' aria-labelledby='nav-profile-tab')
                       .mb-3
                         label.form-label(for='formFileMultiple') POD
                         .equiposexample
-                          input#formFileMultiple.form-control(type='file' name="PODtraspaso" multiple='')
+                          input#formFileMultiplepod.form-control(type='file' name="PODtraspaso" multiple='')
                           button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
                               i.bi.bi-card-image
+                      
                       //.mb-3
                       //  label.form-label(for='formFileMultiple') Asistencia
                       //  .equiposexample
@@ -133,20 +143,32 @@ html
                       .mb-3
                         label.form-label(for='formFileMultiple') Workpad
                         .equiposexample
-                          input#formFileMultiple.form-control(type='file' name="Workpad" multiple='')
+                          input#formFileMultipleworkpad.form-control(type='file' name="Workpad" multiple='')
                           button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
                               i.bi.bi-card-image
                       .mb-3
                         label.form-label(for='formFileMultiple') Disciplina Operacional
                         .equiposexample
-                          input#formFileMultiple.form-control(type='file' name="Disciplinatraspaso" multiple='')
+                          input#formFileMultipledisciplinatraspaso.form-control(type='file' name="Disciplinatraspaso" multiple='')
                           button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
                               i.bi.bi-card-image
                     #nav-tte8.tab-pane.fade(role='tabpanel' aria-labelledby='nav-profile-tab')
                       .mb-3
                         label.form-label(for='formFileMultiple') Asistencia
                         .equiposexample
-                          input#formFileMultiple.form-control(type='file' name="Asistenciatte8" multiple='')
+                          input#formFileMultipleasistenciatte8.form-control(type='file' name="Asistenciatte8" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Disciplina
+                        .equiposexample
+                          input#formFileMultipledisciplinatte8.form-control(type='file' name="Disciplinatte8" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Planificacion
+                        .equiposexample
+                          input#formFileMultipleplanificaciontte8.form-control(type='file' name="Planificaciontte8" multiple='')
                           button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
                               i.bi.bi-card-image
                   
@@ -168,10 +190,10 @@ html
                 .container
                   .mb-3
                     label() Ingresar nombre usuario
-                    input#formFileMultiple.form-control(type='text' name='username' placeholder='Usuario' )
+                    input#formFileMultipleusernamelogin.form-control(type='text' name='username' placeholder='Usuario' )
                   .mb-3
                     label() Ingresar contraseña
-                    input#formFileMultiple.form-control(type='password' name='password'  placeholder='Contraseña')
+                    input#formFileMultiplepasswordlogin.form-control(type='password' name='password'  placeholder='Contraseña')
                   if authmessage!=""
                     {{authmessagestr}}
               .modal-footer
@@ -882,7 +904,7 @@ html
               // Dropdown level one
               ul#collapsett8.nb-sub-one.collapse
                 li
-                  a.tablink
+                  a.tablink(ng-click="GotoAsistenciatte8()" )
                     span.fa.fa-clock-o.nb-link-icon
                     span.nb-link-text Asistencia
                 li
@@ -1616,7 +1638,57 @@ html
 
                 div
                   #chart58(zingchart='' zc-json='myJsonlinedisciplinatraspaso' zc-width='100%' zc-height='440px' visibility="hidden" )
-
+        #Asistenciatte8
+          .one
+            h1 Asistencia Tte8
+          #asistenciabar.grid-container
+            #chart64(zingchart='' zc-json='myJsonasistenciabartte8' zc-width='100%' zc-height='300px')
+          #asistenciatte8grid.grid-container
+            #tablecompletedasistenciatte8.grid-container
+              div.tabla.item1
+                table.Asistencia.tablette8.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Nombre
+                        span.resize-handle
+                      th(data-type='text')
+                        | Apellido P
+                        span.resize-handle
+                      th(data-type='text')
+                        | Apellido M
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Rut
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Cargo
+                        span.resize-handle
+                      th(data-type='text-long')
+                        | Asistencia
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="asistencia in asistenciatotaltte8|filter:searchtxt")
+                      td
+                        label {{asistencia.Nombre}} 
+                      td
+                        label {{asistencia.ApellidoP}} 
+                      td
+                        label {{asistencia.ApellidoM}}
+                      td(ng-click="searchWorkerTte8(asistenciatotaltte8.indexOf(asistencia))")
+                        label {{asistencia.Rut}} 
+                      td
+                        label {{asistencia.Cargo}}
+                      td
+                        label {{asistencia.Tur}} 
+            #asistenciatte8graficos.grid-container
+              div
+                #chart65(zingchart='' zc-json='myJsonAsistenciatte81' zc-width='100%' zc-height='232px' visibility="hidden" )
+              div
+                #chart66(zingchart='' zc-json='myJsonAsistenciatrabajadortte8' zc-width='100%' zc-height='232px' visibility="hidden" ng-click="modaltte8asistencia()")
+                .buttoninnasistance
+                  button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancette82('mensual')") Mensual
+                  button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancette82('anual')") Anual
           
       #Creacion.w3-container.w3-border.activity(style='display:none')
         form.formulariocreacion(action='/crearusuario' method='post' enctype='multipart/form-data')
@@ -1631,7 +1703,7 @@ html
           .form-group.row
             label.col-sm-2.col-form-label(for='inputPassword3') Confirmar contraseña
             .col-sm-10
-              input#inputPassword3.form-control(ng-model="pass2" ng-change = "checkpassword()" name="ContrasenaRepeticion" type='password' placeholder='Reingresar contraseña')
+              input#inputPassword3repe.form-control(ng-model="pass2" ng-change = "checkpassword()" name="ContrasenaRepeticion" type='password' placeholder='Reingresar contraseña')
               p
               {{msg}}
           fieldset.form-group
