@@ -1,4 +1,4 @@
-var options = false;
+var options = false
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl)
@@ -93,6 +93,12 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   if (local_user != "notlogged"){
     $scope.username = local_user.nombre
   }
+  var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+          keyboard: false,
+          backdrop: 'static'
+    })
+    myModala.toggle()
+  $scope.texto_tutorial = "Bienvenido al tutorial, no todas las funcionalidades que se explican estarán disponibles para todos, esto va depender del tipo de usuario que ingrese."
   
   
   $scope.isCollapsed = false;
@@ -199,17 +205,42 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       }
     } 
   }
-
-  //Asistencia pie
-  for (var i = 0; i < 25; i++) {
-  $scope["myJsonpieasistencia" + (i+1)] = Pie_creator(
-    $scope.total_trabajadores_array[i],
-    $scope.asistencia_total_trabajadores_array[i],
-    $scope.nombre_sectores_array[i]
-    );
-  }
-
-  
+  /*$scope.myJsonpieasistencia1 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("SUB-5")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("SUB-5")], "SUB 5");
+  $scope.myJsonpieasistencia2 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("PIPA NORTE QT PACIFICO SUPERIOR")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("PIPA NORTE QT PACIFICO SUPERIOR")], "PIPA NORTE");
+  $scope.myJsonpieasistencia3 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("TTE 6 ACARREO ")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("TTE 6 ACARREO ")],"TTE 6 ACARREO " );
+  $scope.myJsonpieasistencia4 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("DIABLO REGIMIENTO ")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("DIABLO REGIMIENTO ")], "DIABLO REGIMIENTO ");
+  $scope.myJsonpieasistencia5 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("SUB 6 RENO")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("SUB 6 RENO")],"SUB 6" );
+  $scope.myJsonpieasistencia6 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("TENIENTE 7 ACARREO")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("TENIENTE 7 ACARREO")],"TENIENTE 7" );
+  $scope.myJsonpieasistencia7 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("LA JUNTA")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("LA JUNTA")], "LA JUNTA");
+  $scope.myJsonpieasistencia8 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("OP-20/21")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("OP-20/21")],"OP-20/21" );
+  $scope.myJsonpieasistencia9 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("CHANCADO PRIMARIO COLON")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("CHANCADO PRIMARIO COLON")], "CHANCADO PRIMARIO COLON");
+  $scope.myJsonpieasistencia10 = Pie_creator($scope.total_trabajadores_array[$scope.nombre_sectores_array.indexOf("AGUAS CONTACTO MINA TURNOS 4X4")], $scope.asistencia_total_trabajadores_array[$scope.nombre_sectores_array.indexOf("AGUAS CONTACTO MINA TURNOS 4X4")], "ACCU TURNOS");
+  */
+  $scope.myJsonpieasistencia1 = Pie_creator($scope.total_trabajadores_array[0], $scope.asistencia_total_trabajadores_array[0], $scope.nombre_sectores_array[0]);
+  $scope.myJsonpieasistencia2 = Pie_creator($scope.total_trabajadores_array[1], $scope.asistencia_total_trabajadores_array[1], $scope.nombre_sectores_array[1]);
+  $scope.myJsonpieasistencia3 = Pie_creator($scope.total_trabajadores_array[2], $scope.asistencia_total_trabajadores_array[2], $scope.nombre_sectores_array[2]);
+  $scope.myJsonpieasistencia4 = Pie_creator($scope.total_trabajadores_array[3], $scope.asistencia_total_trabajadores_array[3], $scope.nombre_sectores_array[3]);
+  $scope.myJsonpieasistencia5 = Pie_creator($scope.total_trabajadores_array[4], $scope.asistencia_total_trabajadores_array[4], $scope.nombre_sectores_array[4]);
+  $scope.myJsonpieasistencia6 = Pie_creator($scope.total_trabajadores_array[5], $scope.asistencia_total_trabajadores_array[5], $scope.nombre_sectores_array[5]);
+  $scope.myJsonpieasistencia7 = Pie_creator($scope.total_trabajadores_array[6], $scope.asistencia_total_trabajadores_array[6], $scope.nombre_sectores_array[6]);
+  $scope.myJsonpieasistencia8 = Pie_creator($scope.total_trabajadores_array[7], $scope.asistencia_total_trabajadores_array[7], $scope.nombre_sectores_array[7]);
+  $scope.myJsonpieasistencia9 = Pie_creator($scope.total_trabajadores_array[8], $scope.asistencia_total_trabajadores_array[8], $scope.nombre_sectores_array[8]);
+  $scope.myJsonpieasistencia10 = Pie_creator($scope.total_trabajadores_array[9], $scope.asistencia_total_trabajadores_array[9], $scope.nombre_sectores_array[9]);
+  $scope.myJsonpieasistencia11 = Pie_creator($scope.total_trabajadores_array[10], $scope.asistencia_total_trabajadores_array[10], $scope.nombre_sectores_array[10]);
+  $scope.myJsonpieasistencia12 = Pie_creator($scope.total_trabajadores_array[11], $scope.asistencia_total_trabajadores_array[11], $scope.nombre_sectores_array[11]);
+  $scope.myJsonpieasistencia13 = Pie_creator($scope.total_trabajadores_array[12], $scope.asistencia_total_trabajadores_array[12], $scope.nombre_sectores_array[12]);
+  $scope.myJsonpieasistencia14 = Pie_creator($scope.total_trabajadores_array[13], $scope.asistencia_total_trabajadores_array[13], $scope.nombre_sectores_array[13]);
+  $scope.myJsonpieasistencia15 = Pie_creator($scope.total_trabajadores_array[14], $scope.asistencia_total_trabajadores_array[14], $scope.nombre_sectores_array[14]);
+  $scope.myJsonpieasistencia16 = Pie_creator($scope.total_trabajadores_array[15], $scope.asistencia_total_trabajadores_array[15], $scope.nombre_sectores_array[15]);
+  $scope.myJsonpieasistencia17 = Pie_creator($scope.total_trabajadores_array[16], $scope.asistencia_total_trabajadores_array[16], $scope.nombre_sectores_array[16]);
+  $scope.myJsonpieasistencia18 = Pie_creator($scope.total_trabajadores_array[17], $scope.asistencia_total_trabajadores_array[17], $scope.nombre_sectores_array[17]);
+    $scope.myJsonpieasistencia19 = Pie_creator($scope.total_trabajadores_array[18], $scope.asistencia_total_trabajadores_array[18], $scope.nombre_sectores_array[18]);
+    $scope.myJsonpieasistencia20 = Pie_creator($scope.total_trabajadores_array[19], $scope.asistencia_total_trabajadores_array[19], $scope.nombre_sectores_array[19]);
+    $scope.myJsonpieasistencia21 = Pie_creator($scope.total_trabajadores_array[20], $scope.asistencia_total_trabajadores_array[20], $scope.nombre_sectores_array[20]);
+    $scope.myJsonpieasistencia22 = Pie_creator($scope.total_trabajadores_array[21], $scope.asistencia_total_trabajadores_array[21], $scope.nombre_sectores_array[21]);
+    $scope.myJsonpieasistencia23 = Pie_creator($scope.total_trabajadores_array[22], $scope.asistencia_total_trabajadores_array[22], $scope.nombre_sectores_array[22]);
+    $scope.myJsonpieasistencia24 = Pie_creator($scope.total_trabajadores_array[23], $scope.asistencia_total_trabajadores_array[23], $scope.nombre_sectores_array[23]);
+    $scope.myJsonpieasistencia25 = Pie_creator($scope.total_trabajadores_array[24], $scope.asistencia_total_trabajadores_array[24], $scope.nombre_sectores_array[24]);
 
 
 
@@ -273,7 +304,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
 
 
-//-------------------------------- PLAN MATRIZ PANEL PRINCIPAL----------------------------------------------------------
 
 
 
@@ -332,6 +362,18 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       total_deseadas_ventilacion[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1; 
     }
 
+    /*
+    var anual_ventilacion_deseados=[0,0,0,0,0,0,0,0,0,0,0,0];
+      var anual_ventilacion_completados = [0,0,0,0,0,0,0,0,0,0,0,0];
+      for(a=0; a<local_data_matriz.length; a++){
+        if(local_data_matriz[a].Area=="Ventilación"  && fecha.split("-")[2] == local_data_matriz[a].Fecha.split("-")[2]){
+          anual_ventilacion_deseados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
+          if(local_data_matriz[a].Observaciones==""){
+            anual_ventilacion_completados[parseInt(local_data_matriz[a].Fecha.split("-")[1])-1]+=1;
+          }
+        }      
+      }
+    */
 
 
     if(local_data_matriz[d].Area == "Aire Acondicionado" && $scope.fecha_universal.split("-")[2]==local_data_matriz[d].Fecha.split("-")[2]){
@@ -341,34 +383,44 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       }
     }
   }
-  /*for(a=0; a < local_data_puertas.length; a++){
+
+  for(a=0; a < local_data_puertas.length; a++){
     if($scope.fecha_universal.split("-")[2]==local_data_puertas[a].Fecharevision.split("-")[2]){
       Anual_puertas[parseInt(local_data_puertas[a].Fecharevision.split("-")[1])-1]+=1;
     }
   }
+
+
   array_total_mes_vimo = [0,0,0,0,0,0,0,0,0,0,0,0]
   for(a=0; a <local_data_sap.length; a++){
     var result = local_data_sap[a].Mes.charAt(0).toUpperCase() + local_data_sap[a].Mes.slice(1).toLowerCase();
     nummes = parseInt(obtenerMes(result))-1
     array_total_mes_vimo[nummes]+=1;
-  }*/
-  array_total_mes_vimo = [0,0,0,0,0,0,0,0,0,0,0,0]
-  for(a=0 ; a < local_data_puertas_vimo.length; a++){
-    if($scope.fecha_universal.split("-")[2] == local_data_puertas_vimo[a].Fecha.split("-")[2]){
-      
-      Anual_puertas[parseInt(local_data_puertas_vimo[a].Fecha.split("-")[1])-1]+=1;
-    }
   }
 
   $scope.myMatrizPuertas = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], array_total_mes_vimo , Anual_puertas, "Puertas Vimo")
+
+
+
   $scope.myMatrizAire = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], total_deseadas_aire, Anual_aire, "Aire Acondicionado");
   $scope.myMatrizColectores = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], total_deseadas_polvo, Anual_polvo, "Colectores de polvo");
   $scope.myMatrizVentilacion = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], total_deseadas_ventilacion, Anual_ventilacion, "Ventilación");
+  //$scope.myMatrizAire = Chart_creator(meses, Anual_aire, 0, "Plan matriz anual Aire Acondicionado")
+  //$scope.myMatrizColectores = Chart_creator(meses, Anual_polvo, 0, "Plan matriz anual Colectores de Polvo")
+  //$scope.myMatrizVentilacion = Chart_creator(meses, Anual_ventilacion, 0, "Plan matriz anual Ventilación")
 
-
-
-
-
+  //Chart_creator(datosx, valoresdatosx, meta, titulo)
+  /*
+  var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+  var datos_x_sub6 = [0,0,0,0,0,0,0,0,0,0,0,0];
+  for (a=0; a <local_data_brocales.length ; a++){
+    if(local_data_brocales[a].Sub == "6"){
+      mes = ObtenerMes_2(parseInt(local_data_brocales[a].Fecha.split("-")[1]));
+      datos_x_sub6[meses.indexOf(mes)] += parseInt(local_data_brocales[a].Cantidad);
+    }
+  }
+  $scope.myJsonAnualsub6 = Chart_creator(meses,datos_x_sub6,[200,150,250,100,50,230,150,450,230,200,300,150], "Limpieza de brocales Sub 6");
+  */
   var realizacion = 0;
   for(b=0; b<local_data_puertas.length ; b++){
 
@@ -381,12 +433,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   $scope.myJsonAnualventilacion = bar_creator(total_array[2],completed_array[2],"Ventilación");
 
   $scope.myJsonAnualVimo = bar_vimo(realizacion, "Puertas Vimo");
+
   $scope.myJsonAnualmatriz = mixed_creator(total_deseadas,total_completadas, "Aire Acondicionado");
-
-
-//---------------------------------LIMPIEZA DE BROCALES PANEL PRINCIPAL-------------------------------------------
-
-
 
   var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
   var datos_x_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0];
@@ -402,7 +450,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   for (a=0; a <local_data_brocales.length ; a++){
     
     
-    if(local_data_brocales[a].Sub == "5" && local_data_brocales[a].Fecha.split("-")[2] == $scope.fecha_universal.split("-")[2]){
+    if(local_data_brocales[a].Sub == "5"){
       if(contando_lugares_sub5.indexOf(local_data_brocales[a].Ubicacion)==-1){
         contando_lugares_sub5.push(local_data_brocales[a].Ubicacion);
       }
@@ -415,9 +463,22 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
           deseados_x_sub5[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
         }
       }
+
+
+      /*if(fechas_vistas_sub5.indexOf(local_data_brocales[a].Fecha) == -1){
+        mes = ObtenerMes_2(parseInt(local_data_brocales[a].Fecha.split("-")[1]));
+        fechas_vistas_sub5.push(local_data_brocales[a].Fecha);
+        if(local_data_brocales[a].Cantidad !="" && local_data_brocales[a].Demanda !=""){
+          datos_x_sub5[meses.indexOf(mes)] += parseInt(local_data_brocales[a].Cantidad);
+          deseados_x_sub5[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
+        }
+        //datos_x_sub5[meses.indexOf(mes)] += parseInt(local_data_brocales[a].Cantidad);
+        //deseados_x_sub5[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
+        //fechas_vistas_sub5.push(local_data_brocales[a].Fecha);
+      }*/
       
     }
-    else if (local_data_brocales[a].Sub == "6" && local_data_brocales[a].Fecha.split("-")[2] == $scope.fecha_universal.split("-")[2]){
+    else if (local_data_brocales[a].Sub == "6"){
       if(contando_lugares_sub6.indexOf(local_data_brocales[a].Ubicacion)==-1){
         contando_lugares_sub6.push(local_data_brocales[a].Ubicacion);
       }
@@ -429,30 +490,186 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
           deseados_x_sub6[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
         }
       }
+      /*if(fechas_vistas_sub6.indexOf(local_data_brocales[a].Fecha) == -1){
+        mes = ObtenerMes_2(parseInt(local_data_brocales[a].Fecha.split("-")[1]));
+        if(local_data_brocales[a].Cantidad !="" && local_data_brocales[a].Demanda !=""){
+          datos_x_sub6[meses.indexOf(mes)] += parseInt(local_data_brocales[a].Cantidad);
+          deseados_x_sub6[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
+        }
+        
+        fechas_vistas_sub6.push(local_data_brocales[a].Fecha);
+      }*/
     }
     
   }
+  Completados_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  Faltantes_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
   
+  $scope.Nombres_sub5 = [];
+  for(a=0; a < local_data_brocales.length ; a++){
+    if(local_data_brocales[a].Sub == "5"){
+      if(local_data_brocales[a].Cantidad != "0"){
+        if($scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion) ==-1 && local_data_brocales[a].Ubicacion!="" ){
+          $scope.Nombres_sub5.push(local_data_brocales[a].Ubicacion);
+          Completados_sub5[$scope.Nombres_sub5.length-1]+=parseInt(local_data_brocales[a].Cantidad);
+        }
+        else{
+          Completados_sub5[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)]+=parseInt(local_data_brocales[a].Cantidad);
+        }
+      }
+      else{
+        if($scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion) == -1){
+          $scope.Nombres_sub5.push(local_data_brocales[a].Ubicacion);
+          Faltantes_sub5[$scope.Nombres_sub5.length-1]+=1
+        }
+        else{
+          Faltantes_sub5[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] += 1
+        }
+      }
+
+
+    }
+  }
+
+  //getDays(parseInt(fecha.split("-")[2]), parseInt(b))
+  
+  //$scope.myJsonCalendarBrocales = calendar_creator(fechas);
+
+
+
+  $scope.myJsonTest = mixed_creator_test();
+
+
+
+  //$scope.myJsonTimer1 = timer_chart();
+
+  
+
+  $scope.myJsonUbicacion1 = pie3d(Completados_sub5[0], Faltantes_sub5[0], $scope.Nombres_sub5[0]);
+  $scope.myJsonUbicacion2 = pie3d(Completados_sub5[1], Faltantes_sub5[1], $scope.Nombres_sub5[1]);
+  $scope.myJsonUbicacion3 = pie3d(Completados_sub5[2], Faltantes_sub5[2], $scope.Nombres_sub5[2]);
+  $scope.myJsonUbicacion4 = pie3d(Completados_sub5[3], Faltantes_sub5[3], $scope.Nombres_sub5[3]);
+  $scope.myJsonUbicacion5 = pie3d(Completados_sub5[4], Faltantes_sub5[4], $scope.Nombres_sub5[4]);
+  $scope.myJsonUbicacion6 = pie3d(Completados_sub5[5], Faltantes_sub5[5], $scope.Nombres_sub5[5]);
+  $scope.myJsonUbicacion7 = pie3d(Completados_sub5[6], Faltantes_sub5[6], $scope.Nombres_sub5[6]);
+  $scope.myJsonUbicacion8 = pie3d(Completados_sub5[7], Faltantes_sub5[7], $scope.Nombres_sub5[7]);
+  $scope.myJsonUbicacion9 = pie3d(Completados_sub5[8], Faltantes_sub5[8], $scope.Nombres_sub5[8]);
+  $scope.myJsonUbicacion10 = pie3d(Completados_sub5[9], Faltantes_sub5[9], $scope.Nombres_sub5[9]);
+  $scope.myJsonUbicacion11 = pie3d(Completados_sub5[10], Faltantes_sub5[10], $scope.Nombres_sub5[10]);
+  $scope.myJsonUbicacion12 = pie3d(Completados_sub5[11], Faltantes_sub5[11], $scope.Nombres_sub5[11]);
+  $scope.myJsonUbicacion13 = pie3d(Completados_sub5[12], Faltantes_sub5[12], $scope.Nombres_sub5[12]);
+  $scope.myJsonUbicacion14 = pie3d(Completados_sub5[13], Faltantes_sub5[13], $scope.Nombres_sub5[13]);
+  $scope.myJsonUbicacion15 = pie3d(Completados_sub5[14], Faltantes_sub5[14], $scope.Nombres_sub5[14]);
+  $scope.myJsonUbicacion16 = pie3d(Completados_sub5[15], Faltantes_sub5[15], $scope.Nombres_sub5[15]);
+
+
+
+  /*for (a = 0; a < $scope.Totalbrocalessub6.length; a++){
+    mes = ObtenerMes_2(parseInt($scope.Totalbrocalessub6[a].Fecha.split("-")[1]));
+    datos_x_sub6[meses.indexOf(mes)] += parseInt($scope.Totalbrocalessub6[a].Cantidad);
+  }
+  for (a = 0; a < $scope.Totalbrocalessub7.length; a++){
+    mes = ObtenerMes_2(parseInt($scope.Totalbrocalessub7[a].Fecha.split("-")[1]));
+    datos_x_sub7[meses.indexOf(mes)] += parseInt($scope.Totalbrocalessub7[a].Cantidad);
+  }*/
+
+  $scope.myJsonAnualsub5 = Chart_creator(meses,datos_x_sub5,deseados_x_sub5, "Limpieza de brocales Sub 5");
+  $scope.myJsonAnualsub6 = Chart_creator(meses,datos_x_sub6,deseados_x_sub6, "Limpieza de brocales Sub 6");
 
 
   $scope.myJsonBarBrocalessub5 = bar_brocales(deseados_x_sub5, datos_x_sub5,["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], 20, "5");
   $scope.myJsonBarBrocalessub6 = bar_brocales(deseados_x_sub6, datos_x_sub6,["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], 20, "6");
 
-
-
   $scope.typebrocal5 = "anual";
   $scope.typebrocal6 = "anual";
 
+  //$scope.Nombres_sub5
+  var fechas_arreglo =[];
+  var concretada_arreglo =[];
+  for(a=0 ; a<$scope.Nombres_sub5.length ; a++){
+    fechas_arreglo.push("0-0-0");
+    concretada_arreglo.push("No");
+  }
+  for(a = 0; a<local_data_brocales.length ; a++){
+    if(local_data_brocales[a].Sub=="5"){
+      if( local_data_brocales[a].Ubicacion!= "" && comparar_fechas(local_data_brocales[a].Fecha, fechas_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)])){
+        fechas_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = local_data_brocales[a].Fecha;
+        if(local_data_brocales[a].Cantidad!=0){
+          concretada_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = "Si"
+        }
+        else{
+          concretada_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = "No"
+        }
+      }
+    }
+  }
+  $scope.fecha1 = fechas_arreglo[0];
+  $scope.dato1 = concretada_arreglo[0];
+  $scope.fecha2 = fechas_arreglo[1];
+  $scope.dato2 = concretada_arreglo[1];
+  $scope.fecha3 = fechas_arreglo[2];
+  $scope.dato3 = concretada_arreglo[2];
+  $scope.fecha4 = fechas_arreglo[3];
+  $scope.dato4 = concretada_arreglo[3];
+  $scope.fecha5 = fechas_arreglo[4];
+  $scope.dato5 = concretada_arreglo[4];
+  $scope.fecha6 = fechas_arreglo[5];
+  $scope.dato6 = concretada_arreglo[5];
+  $scope.fecha7 = fechas_arreglo[6];
+  $scope.dato7 = concretada_arreglo[6];
+  $scope.fecha8 = fechas_arreglo[7];
+  $scope.dato8 = concretada_arreglo[7];
+  $scope.fecha9 = fechas_arreglo[8];
+  $scope.dato9 = concretada_arreglo[8];
+  $scope.fecha10 = fechas_arreglo[9];
+  $scope.dato10 = concretada_arreglo[9];
+  $scope.fecha11 = fechas_arreglo[10];
+  $scope.dato11 = concretada_arreglo[10];
+  $scope.fecha12 = fechas_arreglo[11];
+  $scope.dato12 = concretada_arreglo[11];
+  $scope.fecha13 = fechas_arreglo[12];
+  $scope.dato13 = concretada_arreglo[12];
+  $scope.fecha14 = fechas_arreglo[13];
+  $scope.dato14 = concretada_arreglo[13];
+  $scope.fecha15 = fechas_arreglo[14];
+  $scope.dato15 = concretada_arreglo[14];
+  $scope.fecha16 = fechas_arreglo[15];
+  $scope.dato16 = concretada_arreglo[15];
 
 
+  //$scope.myJsonSemanalDisciplina1 = Bullet_creator([98, 97, 98, 98, 97, 99, 108,103, 98, 110, 108, 99, 98, 104], [100,100,100,100, 100, 100, 100,100,100,100,100,100,100,100], ["Misc TTE7", "Misc Sub 6", "Misc Sub 5", "TTE 6 Acarrea", "Diablo regimineto", "Pipa Norte", "Chancado colon", "Salvataje", "Taller La Junta", "Aire Acondicionado", "Colectores de polvo", "Puertas Mina", "Ventilacion Local", "Agua Acida"])
+  //$scope.myJsonSemanalDisciplina2 = Bullet_creator([], [100,100,100,100, 100, 100, 100], ["Salvataje", "Taller La Junta", "Aire Acondicionado", "Colectores de polvo", "Puertas Mina", "Ventilacion Local", "Agua Acida"])
+  //let semana = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'][nueva_fecha.getDay()];
+  /*var array_name_zone = ["Tt6", "Tte sub 5"];
+  var name_visited = [];
+  var exact_days = get_day_numbers(nueva_fecha);
+  var array_week = [];
+  for (a=0; a<get_day_numbers(nueva_fecha).length; a++){
+    converted_date_2 = get_day_numbers(nueva_fecha)[a].toISOString().split('T')[0];
+    fecha_2 = converted_date_2.split("-")[2]+"-"+converted_date_2.split("-")[1]+"-"+converted_date_2.split("-")[0];
+    array_week.push(fecha_2);
+  }
+  
+  
+  var array_values = [];
+  for (a=0; a<local_data_disciplina.length; a++){
+    if(local_data_disciplina[a].Fecha==array_week[0] || local_data_disciplina[a].Fecha==array_week[1] || local_data_disciplina[a].Fecha==array_week[2] || local_data_disciplina[a].Fecha==array_week[3] || local_data_disciplina[a].Fecha==array_week[4] ){
+      if(name_visited.indexOf(local_data_disciplina[a].Area) == -1){
+        name_visited.push(local_data_disciplina[a].Area);
+        var aux_arr = [0,0,0,0,0];
+        aux_arr[array_week.indexOf(local_data_disciplina[a].Fecha)] = parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[[1]]) + parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[1])
+        array_values.push(aux_arr);
+      }
+      else{
+        array_values[name_visited.indexOf(local_data_disciplina[a].Area)][array_week.indexOf(local_data_disciplina[a].Fecha)] = parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[[1]]) + parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[1])
+      }
 
-//------------------------------DISCIPLINA OPERACIONAL----------------------------------------
-
+    }
+  }*/
   var name_visited = [];
   var meta = [];
   var week_day = 0;
   var exact_days = get_day_numbers(nueva_fecha);
-  console.log(exact_days)
   var array_week = [];
   for (a=0; a<get_day_numbers($scope.dateselected).length; a++){
     nueva_fecha_2 = new Date(exact_days[a] - $scope.dateselected.getTimezoneOffset()*60000);
@@ -463,7 +680,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       week_day=a;
     }
   }
-  console.log(array_week)
 
     
   var array_suma_meta =[];
@@ -476,6 +692,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
         var aux_arr = [0,0,0,0,0];
         aux_arr[array_week.indexOf(local_data_disciplina[a].Fecha)] = parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[[1]]) + parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[1])
         array_values.push(aux_arr);
+        //array_float.push(aux_arr);
+        //console.log(aux_arr)
 
       }
       else{
@@ -538,111 +756,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   $scope.myJsonTest = line_chart(array_values, name_visited)
 
 
-  //------------------------------------------------------- ASISTENCIA TRASPASO--------------------------------------------------------------//
-
-
-
-  const turnosPermitidos = ["A", "B", "C", "H", "B1", "A1", "H", "TT"];
-  var nombre_cargos_traspaso = []
-  var asistencia_cargos = []
-  var inasistencia_cargos = []
-  $scope.asistenciatotaltraspaso = []
-  $scope.headercargotraspaso = []
-  var dias_asistidos = 0
-  var dias_total = 0
-
-  for(a=0; a < local_data_asistencia_traspaso.length; a++){
-    if(nombre_cargos_traspaso.indexOf(local_data_asistencia_traspaso[a].Cargo) ==-1 && $scope.fecha_universal == local_data_asistencia_traspaso[a].Fecha){
-      nombre_cargos_traspaso.push(local_data_asistencia_traspaso[a].Cargo)
-      asistencia_cargos.push(0)
-      inasistencia_cargos.push(0)
-    }
-    if(turnosPermitidos.includes(local_data_asistencia_traspaso[a].Asistencia) ){
-      asistencia_cargos[nombre_cargos_traspaso.indexOf(local_data_asistencia_traspaso[a].Cargo)]+=1
-    }
-    else{
-      inasistencia_cargos[nombre_cargos_traspaso.indexOf(local_data_asistencia_traspaso[a].Cargo)]+=1
-    }
-
-    if(local_data_asistencia_traspaso[a].Fecha == $scope.fecha_universal){
-      $scope.asistenciatotaltraspaso.push(local_data_asistencia_traspaso[a])
-      if($scope.headercargotraspaso.indexOf(local_data_asistencia_traspaso[a].Cargo) == -1){
-        $scope.headercargotraspaso.push(local_data_asistencia_traspaso[a].Cargo)
-      }
-    }
-
-
-    if(parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[1]) == parseInt($scope.fecha_universal.split("-")[1])){
-      if(turnosPermitidos.includes(local_data_asistencia_traspaso[a].Asistencia)){
-        dias_asistidos+=1
-      }
-      dias_total+=1
-    }
-      
-    
-  }
-
-
-  $scope.myJsonasistenciabartraspaso = asistencia_chart_traspaso(asistencia_cargos, inasistencia_cargos, nombre_cargos_traspaso, $scope.fecha_universal )
-
-  $scope.myJsonAsistenciatraspaso1 = Pie_Asistencia_traspaso (dias_total, dias_asistidos, "mensual")
-
-  $scope.headersasistenciatraspaso = ["Nombre", "ApellidoP", "ApellidoM", "Rut", "Cargo", "Asistencia"]
-
-  //------------------------------------------------------ PAUTA DIARIA ----------------------------------------------------------------//
-
-  $scope.pautadiariatotal = []
-
-  for(a=0 ; a < local_data_pauta_diaria.length; a++){
-
-    if(local_data_pauta_diaria[a].Fecha == $scope.fecha_universal){
-      $scope.pautadiariatotal.push(local_data_pauta_diaria[a])
-    }
-  }
-
-
-
-  //------------------------------------------------------ ASISTENCIA TTE8---------------------------------------------------------------//
-
-  var nombre_cargos_tte8 = []
-  var asistencia_cargos_tte8 = []
-  var inasistencia_cargos_tte8 = []
-  $scope.asistenciatotaltte8 = []
-  const turnosPermitidos_tte8 = ["A"]
-  const turnosPermitidos_pie_tte8 = ["A", "B", "C", "De", "Pc", "V"]
-  var dias_trabajados_tte8=0;
-  var dias_no_trabajados_tte8=0;
-  for(a=0 ; a < local_data_asistencia_tte8.length ; a++){
-    if(local_data_asistencia_tte8[a].Fecha == $scope.fecha_universal ){
-      if(nombre_cargos_tte8.indexOf(local_data_asistencia_tte8[a].Cargo) == -1){
-        nombre_cargos_tte8.push(local_data_asistencia_tte8[a].Cargo.toUpperCase())
-        asistencia_cargos_tte8.push(0)
-        inasistencia_cargos_tte8.push(0)
-      }
-      if(turnosPermitidos_tte8.includes(local_data_asistencia_tte8[a].Tur)){
-        asistencia_cargos_tte8[nombre_cargos_tte8.indexOf(local_data_asistencia_tte8[a].Cargo.toUpperCase())]+=1
-      }
-      else{
-        inasistencia_cargos_tte8[nombre_cargos_tte8.indexOf(local_data_asistencia_tte8[a].Cargo.toUpperCase())]+=1
-      }
-      $scope.asistenciatotaltte8.push(local_data_asistencia_tte8[a])
-      
-    }
-    if($scope.fecha_universal.split("-")[2]==local_data_asistencia_tte8[a].Fecha.split("-")[2] && $scope.fecha_universal.split("-")[1]==local_data_asistencia_tte8[a].Fecha.split("-")[1]){
-      if(turnosPermitidos_pie_tte8.includes(local_data_asistencia_tte8[a].Tur)){
-        dias_trabajados_tte8+=1
-      }
-      else{
-        dias_no_trabajados_tte8+=1
-      }
-    }
-    
-    
-  }
-  $scope.myJsonasistenciabartte8 = asistencia_chart_tte8(asistencia_cargos_tte8, inasistencia_cargos_tte8, nombre_cargos_tte8, $scope.fecha_universal)
-  $scope.myJsonAsistenciatte81 = Pie_Asistencia_tte8(dias_trabajados_tte8+dias_no_trabajados_tte8, dias_trabajados_tte8, "mensual")
-
-
   //------------------------------------------------------MODIFICACION DE DATOS---------------------------------------------------------//
 
   $scope.Totalasistenciaarchivosmod = [];
@@ -654,109 +767,22 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   $scope.Totalsapmod = []
 
 
-  $scope.filltableasistenciamod = function(s){
-    $scope.Totalasistenciaarchivosmod = [];
-    var id = ""
-    for(c=0; c < local_data_archivos.length; c++){
-      if(local_data_archivos[c].Nombrearchivo == s){
-        id = local_data_archivos[c].Idingreso
-      }
-    }
 
-    for(d=0; d < local_data_asistencia.length; d++){
-      if(local_data_asistencia[d].Idingreso == id){
-        $scope.Totalasistenciaarchivosmod.push(local_data_asistencia[d])
-      }
-    }
-    $scope.headersasist = Object.keys($scope.Totalasistenciaarchivosmod[0])
-
-
-  }
-  $scope.headerasistencia= []
-  for(a=0; a < local_data_archivos.length; a++){
-    if(local_data_archivos[a].Infoingresada == "Asistencia"){
-      $scope.headerasistencia.push(local_data_archivos[a].Nombrearchivo)
-    }
+  for(a=0; a < local_data_asistencia.length; a++){
+    $scope.Totalasistenciaarchivosmod.push(local_data_asistencia[a])
   }
 
-
-  $scope.filltablebrocalesmod = function(s){
-    $scope.Totalbrocalesmod = [];
-    var id = ""
-    for(c=0; c <local_data_archivos.length; c++){
-      if(local_data_archivos[c].Nombrearchivo == s){
-        id = local_data_archivos[c].Idingreso
-      }
-    }
-
-    for(d=0; d < local_data_brocales.length; d++){
-      if(local_data_brocales[d].Idingreso == id){
-        $scope.Totalbrocalesmod.push(local_data_brocales[d])
-      }
-    }
-
-    $scope.headersbroc =  Object.keys($scope.Totalbrocalesmod[0])
+  for(a=0; a < local_data_brocales.length; a++){
+    $scope.Totalbrocalesmod.push(local_data_brocales[a])
   }
 
-  $scope.headerbrocales = []
-  for(a=0; a < local_data_archivos.length; a++){
-    if(local_data_archivos[a].Infoingresada == "Limpieza de brocales"){
-      $scope.headerbrocales.push(local_data_archivos[a].Nombrearchivo)
-    }
+  /*for(a=0; a < local_data_matriz.length; a++){
+    $scope.Totalmatrizarchivosmod.push(local_data_matriz[a])
+  }*/
+
+  for(a=0; a < local_data_disciplina.length; a++){
+    $scope.Totaldisciplinamod.push(local_data_disciplina[a])
   }
-
-  $scope.filltablematrizmod = function(s){
-    $scope.Totalmatrizmod = [];
-    var id = ""
-    for(c=0; c <local_data_archivos.length; c++){
-      if(local_data_archivos[c].Nombrearchivo == s){
-        id = local_data_archivos[c].Idingreso
-      }
-    }
-
-    for(d=0; d < local_data_matriz.length; d++){
-      if(local_data_matriz[d].Idingreso == id){
-        $scope.Totalmatrizmod.push(local_data_matriz[d])
-      }
-    }
-
-    $scope.headermatrizp =  Object.keys($scope.Totalmatrizmod[0])
-  }
-
-  $scope.headermatriz =[]
-
-  for(a=0; a < local_data_archivos.length; a++){
-    if(local_data_archivos[a].Infoingresada == "Plan matriz"){
-      $scope.headermatriz.push(local_data_archivos[a].Nombrearchivo)
-    }
-  }
-
-  $scope.filltabledisciplinamod = function(s){
-    $scope.Totaldisciplinamod = [];
-    var id = ""
-    for(c=0; c <local_data_archivos.length; c++){
-      if(local_data_archivos[c].Nombrearchivo == s){
-        id = local_data_archivos[c].Idingreso
-      }
-    }
-
-    for(d=0; d < local_data_disciplina.length; d++){
-      if(local_data_disciplina[d].Idingreso == id){
-        $scope.Totaldisciplinamod.push(local_data_disciplina[d])
-      }
-    }
-
-    headerdisciplina =  Object.keys($scope.Totaldisciplinamod[0])
-  }
-
-  $scope.headerdisciplinaselect =[]
-  for(a=0; a < local_data_archivos.length; a++){
-    if(local_data_archivos[a].Infoingresada == "Tiempos de la disciplina operacional"){
-      $scope.headerdisciplinaselect.push(local_data_archivos[a].Nombrearchivo)
-    }
-  }
-
-
 
   for(a=0; a < local_data_equipo.length ; a++){
     $scope.Totalequiposmod.push(local_data_equipo[a])
@@ -778,13 +804,35 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   $scope.sapvalue = {};
   $scope.puertasvalue = {};
 
-  //$scope.headersasist = Object.keys($scope.Totalasistenciaarchivosmod[0])
-  //$scope.headersbroc = Object.keys(local_data_brocales[0])
-  //$scope.headermatriz = Object.keys(local_data_matriz[0])
-  //$scope.headerdisciplina = Object.keys(local_data_disciplina[0])
+  $scope.headersasist = Object.keys($scope.Totalasistenciaarchivosmod[0])
+  $scope.headersbroc = Object.keys(local_data_brocales[0])
+  $scope.headermatriz = Object.keys(local_data_matriz[0])
+  $scope.headerdisciplina = Object.keys(local_data_disciplina[0])
   $scope.headerequipo = Object.keys(local_data_equipo[0])
   $scope.headervimo = Object.keys(local_data_puertas[0])
   $scope.headersap = Object.keys(local_data_sap[0])
+
+
+
+  $scope.headermatriza = []
+  var id_matriz = 0;
+  for(a=0; a < local_data_archivos.length; a++){
+    if(local_data_archivos[a].Infoingresada == "Plan matriz"){
+      $scope.headermatriza.push(local_data_archivos[a].Nombrearchivo)
+      if(local_data_archivos[a].Nombrearchivo == "KPI colectores de polvo Junio.xlsx"){
+        id_matriz = local_data_archivos[a].Idingreso
+      }
+    }
+
+  }
+
+  for(a=0; a < local_data_matriz.length; a++){
+    if(local_data_matriz[a].Idingreso == id_matriz){
+      $scope.Totalmatrizarchivosmod.push(local_data_matriz[a])
+    }
+  }
+
+
 
   $scope.deleteall =function(){
     $scope.Totalasistenciaarchivosmod = [];
@@ -911,7 +959,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     $scope.indicedisciplina = index
     $scope.disciplinavalue.area = $scope.Totaldisciplinamod[index].Area
     $scope.disciplinavalue.dia = $scope.Totaldisciplinamod[index].Dia
-    $scope.disciplinavalue.fecha = $scope.Totaldisciplinamod[index].Fecha
+    $scope.disciplinavalue.fechad = $scope.Totaldisciplinamod[index].Fecha
     $scope.disciplinavalue.llegadainstalacion = $scope.Totaldisciplinamod[index].Llegada_Instalacion
     $scope.disciplinavalue.salidainstalacion = $scope.Totaldisciplinamod[index].Salida_Instalacion
     $scope.disciplinavalue.inicioactam = $scope.Totaldisciplinamod[index].Inicio_Act_Am
@@ -935,7 +983,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   $scope.postmoddisciplina = function(){
     $scope.Totaldisciplinamod[$scope.indicedisciplina].Area=$scope.disciplinavalue.area
     $scope.Totaldisciplinamod[$scope.indicedisciplina].Dia=$scope.disciplinavalue.dia
-    $scope.Totaldisciplinamod[$scope.indicedisciplina].Fecha=$scope.disciplinavalue.fecha
+    $scope.Totaldisciplinamod[$scope.indicedisciplina].Fecha=$scope.disciplinavalue.fechad
     $scope.Totaldisciplinamod[$scope.indicedisciplina].Llegada_Instalacion=$scope.disciplinavalue.llegadainstalacion
     $scope.Totaldisciplinamod[$scope.indicedisciplina].Salida_Instalacion=$scope.disciplinavalue.salidainstalacion
     $scope.Totaldisciplinamod[$scope.indicedisciplina].Inicio_Act_Am=$scope.disciplinavalue.inicioactam
@@ -1081,10 +1129,24 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
 
 
+
+
+
+
+
+
+
+
+
+
   $scope.changeaire = function(name){
+    //$scope.myMatrizAire = Chart_creator(meses, Anual_aire, 0, "Plan matriz anual Aire Acondicionado")
     var datos_x_aire_deseados=[];
     var datos_x_aire_completados=[];
     $scope.tipochangeaire = "anual";
+    //nueva_fecha = new Date($scope.dateselected.getTime() - $scope.dateselected.getTimezoneOffset()*60000);
+    //converted_date = nueva_fecha.toISOString().split('T')[0];
+    //fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
     fecha = $scope.fecha_universal;
     var array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
     if(getDays(parseInt(fecha.split("-")[2]), parseInt(fecha.split("-")[1])) == 31){
@@ -1118,14 +1180,19 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
         }      
       }
       var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+      //$scope.myMatrizAire = Chart_creator(meses, anual_aire, 0, "Plan matriz anual Aire Acondicionado")
       $scope.myMatrizAire = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], anual_aire_deseados, anual_aire_completados, "Aire Acondicionado")
     }
   }
 
   $scope.changepolvo = function(name){
+    //$scope.myMatrizAire = Chart_creator(meses, Anual_aire, 0, "Plan matriz anual Aire Acondicionado")
     var datos_x_polvo_deseados=[];
     var datos_x_polvo_completados=[];
     $scope.tipochangepolvo = "anual";
+    //nueva_fecha = new Date($scope.dateselected.getTime() - $scope.dateselected.getTimezoneOffset()*60000);
+    //converted_date = nueva_fecha.toISOString().split('T')[0];
+    //fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
     fecha = $scope.fecha_universal;
     var array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
     if(getDays(parseInt(fecha.split("-")[2]), parseInt(fecha.split("-")[1])) == 31){
@@ -1168,6 +1235,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     var datos_x_ventilacion_deseados=[];
     var datos_x_ventilacion_completados=[];
     $scope.tipochangeventilacion = "anual";
+    //nueva_fecha = new Date($scope.dateselected.getTime() - $scope.dateselected.getTimezoneOffset()*60000);
+    //converted_date = nueva_fecha.toISOString().split('T')[0];
+    //fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
     fecha = $scope.fecha_universal;
     var array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
     if(getDays(parseInt(fecha.split("-")[2]), parseInt(fecha.split("-")[1])) == 31){
@@ -1207,7 +1277,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   $scope.changepuertas = function(name){
     $scope.tipochangevimo = "anual";
     var datos_x_vimo_completados=[];
-    fecha = $scope.fecha_universal;
     var array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
     if(getDays(parseInt(fecha.split("-")[2]), parseInt(fecha.split("-")[1])) == 31){
       array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
@@ -1218,15 +1287,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
     if(name=="mensual"){
       $scope.tipochangevimo = "mensual";
-      
-      /*for(a=0; a < local_data_puertas.length; a++){
+      for(a=0; a < local_data_puertas.length; a++){
         if(local_data_puertas[a].Fecharevision.split("-")[1] == fecha.split("-")[1] && local_data_puertas[a].Fecharevision.split("-")[2] == fecha.split("-")[2]){
           datos_x_vimo_completados[parseInt(local_data_puertas[a].Fecharevision.split("-")[0])-1]+=1;
-        }
-      }*/
-      for(a=0; a < local_data_puertas_vimo.length; a++){
-        if($scope.fecha_universal.split("-")[1]== local_data_puertas_vimo[a].Fecha.split("-")[1] && $scope.fecha_universal.split("-")[2]== local_data_puertas_vimo[a].Fecha.split("-")[2]){
-          datos_x_vimo_completados[parseInt(local_data_puertas_vimo[a].Fecha.split("-")[0])-1]+=1
         }
       }
 
@@ -1236,12 +1299,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     else{
       $scope.tipochangevimo = "anual";
       var anual_vimo_completados = [0,0,0,0,0,0,0,0,0,0,0,0];
-      for(a=0 ; a <local_data_puertas_vimo.length; a++){
-        if($scope.fecha_universal.split("-")[2] == local_data_puertas_vimo[a].Fecha.split("-")[2]){
-          anual_vimo_completados[parseInt(local_data_puertas_vimo[a].Fecha.split("-")[1])-1]+=1;
-        }
-      }
-      /*for(a=0; a < local_data_puertas.length; a++){
+      for(a=0; a < local_data_puertas.length; a++){
         if( local_data_puertas[a].Fecharevision.split("-")[2] == fecha.split("-")[2]){
           anual_vimo_completados[parseInt(local_data_puertas[a].Fecharevision.split("-")[1])-1]+=1;
         }
@@ -1251,39 +1309,42 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
         var result = local_data_sap[a].Mes.charAt(0).toUpperCase() + local_data_sap[a].Mes.slice(1).toLowerCase();
         nummes = parseInt(obtenerMes(result))-1
         array_total_mes_vimo[nummes]+=1;
-      }*/
+      }
       var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
       $scope.myMatrizPuertas = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], array_total_mes_vimo, anual_vimo_completados, "Puertas Vimo")
 
     }
+
+
+
   }
 
-  //CALENDARIO SUB5
+
   $scope.modalbrocalessub5 = function(){
     $scope.Totalbrocalessubmodal = [];
     var fechas = [];
     
     var fechas_visitadas = [];
     var id_visitados =[];
-    /*if($scope.typebrocal5=="anual"){
+    if($scope.typebrocal5=="anual"){
       for(a=0; a<local_data_brocales.length; a++){
-        if(local_data_brocales[a].Sub=="5" && parseInt(local_data_brocales[a].Cantidad)!=0 && $scope.fecha_universal.split("-")[2] == local_data_brocales[a].Fecha.split("-")[2]){
+        if(local_data_brocales[a].Sub=="5" && parseInt(local_data_brocales[a].Cantidad)!=0){
           $scope.Totalbrocalessubmodal.push(local_data_brocales[a])
         }
       }
     }
     else if($scope.typebrocal5=="mensual"){
       for(a=0; a<local_data_brocales.length; a++){
-        if(local_data_brocales[a].Sub=="5" && parseInt(local_data_brocales[a].Cantidad)!=0 && local_data_brocales[a].Fecha.split("-")[1]==fecha.split("-")[1] && $scope.fecha_universal.split("-")[2] == local_data_brocales[a].split("-")[2]){
+        if(local_data_brocales[a].Sub=="5" && parseInt(local_data_brocales[a].Cantidad)!=0 && local_data_brocales[a].Fecha.split("-")[1]==fecha.split("-")[1]){
           $scope.Totalbrocalessubmodal.push(local_data_brocales[a])
         }
       }
-    }*/
+    }
 
     var datos_preliminares = [];
     var recien = false;
     for(a=0; a<local_data_brocales.length; a++){
-      if(local_data_brocales[a].Sub=="5" ){
+      if(local_data_brocales[a].Sub=="5"){
         if(fechas_visitadas.indexOf(local_data_brocales[a].Fecha) == -1 && local_data_brocales[a].Cantidad!=""){
           var datos = [];
           fecha_cambiada = local_data_brocales[a].Fecha.split("-")[2]+"-"+local_data_brocales[a].Fecha.split("-")[1]+"-"+local_data_brocales[a].Fecha.split("-")[0]
@@ -1314,7 +1375,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       }
     }
 
-
     for(a=0; a<datos_preliminares.length; a++){
       var datos = [];
       datos.push(datos_preliminares[a][0]);
@@ -1325,19 +1385,90 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       fechas.push(datos);
     }
 
-    $scope.myJsonCalendarBrocales = calendar_creator(fechas, $scope.fecha_universal.split("-")[2]);
+
+    /*for(a=0; a <local_data_brocales.length; a++){
+      if(local_data_brocales[a].Sub=="5"){
+        if(fechas_visitadas.indexOf(local_data_brocales[a].Fecha) == -1){  
+          var datos = [];
+          fecha_cambiada = local_data_brocales[a].Fecha.split("-")[2]+"-"+local_data_brocales[a].Fecha.split("-")[1]+"-"+local_data_brocales[a].Fecha.split("-")[0]
+          datos.push(fecha_cambiada);
+          datos.push(parseInt(local_data_brocales[a].Cantidad));
+          datos.push("Demanda : " +local_data_brocales[a].Demanda)
+          datos.push("Dotacion : " +local_data_brocales[a].Dotacion)
+          datos.push("Ubicaciones : " +local_data_brocales[a].Ubicacion)
+          fechas.push(datos);
+          fechas_visitadas.push(local_data_brocales[a].Fecha)
+        }
+
+      }
+    }*/
+
+    /*
+    var diccionario_values =[];
+    
+
+    for(a=0 ; a<array_values.length ; a++){
+      var diccionario_aux = {};
+      diccionario_aux.values = array_values[a];
+      diccionario_aux.name = name_visited[a];
+      diccionario_aux.meta = array_suma_meta[a];
+      diccionario_values.push(diccionario_aux);
+    }
+    */
+    //$scope.myJsonCalendarBrocales = calendar_creator(fechas);
+
+    
+    /*var contador_de_meses=1;
+    var dia=1;
+    var mes=1;
+    for(b=1; b<=12;b++){
+      for(c=1;c<=getDays(parseInt(2022), parseInt(b)); c++){
+        if(fechas_visitadas.indexOf(c.toString()+"-"+b.toString()+"-"+fecha.split("-")[2]) ==-1){
+          var datos=[]
+          if(b<10){
+            if(c<10){
+              //datos.push("2016"+"-"+"0"+b.toString()+"-"+"0"+c.toString())
+              datos.push(fecha.split("-")[2]+"-"+"0"+b.toString()+"-"+"0"+c.toString());
+              datos.push(3);
+              fechas.push(datos);
+            }
+            else{
+              //datos.push("2016"+"-"+"0"+b.toString()+"-"+c.toString());
+              datos.push(fecha.split("-")[2]+"-"+"0"+b.toString()+"-"+c.toString());
+              datos.push(3);
+              fechas.push(datos);
+            }
+            
+          }
+          else{
+            if(c<10){
+              //datos.push("2016"+"-"+b.toString()+"-"+"0"+c.toString())
+              datos.push(fecha.split("-")[2]+"-"+b.toString()+"-"+"0"+c.toString());
+              datos.push(3);
+              fechas.push(datos);
+            }
+            else{
+              //datos.push("2016"+"-"+b.toString()+"-"+c.toString())
+              datos.push(fecha.split("-")[2]+"-"+b.toString()+"-"+c.toString());
+              datos.push(3);
+              fechas.push(datos);
+            }
+          }
+          
+        }
+      }
+    }*/
+    $scope.myJsonCalendarBrocales = calendar_creator(fechas);
   
 
     
   }
-
-  //CALENDARIO SUB6
   $scope.modalbrocalessub6 = function(){
     var fechas = [];
     
     var fechas_visitadas = [];
     $scope.Totalbrocalessubmodal = [];
-    /*if($scope.typebrocal6=="anual"){
+    if($scope.typebrocal6=="anual"){
       for(a=0; a<local_data_brocales.length; a++){
         if(local_data_brocales[a].Sub=="6" && parseInt(local_data_brocales[a].Cantidad)!=0){
           $scope.Totalbrocalessubmodal.push(local_data_brocales[a])
@@ -1351,7 +1482,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
           $scope.Totalbrocalessubmodal.push(local_data_brocales[a])
         }
       }
-    }*/
+    }
     var recien = false;
     var datos_preliminares = [];
     var id_visitados = [];
@@ -1397,7 +1528,23 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       datos.push("Ubicaciones : " +datos_preliminares[a][4])
       fechas.push(datos);
     }
-    $scope.myJsonCalendarBrocales = calendar_creator(fechas, $scope.fecha_universal.split("-")[2]);
+    /*for(a=0; a <local_data_brocales.length; a++){
+      if(local_data_brocales[a].Sub=="6"){
+        if(fechas_visitadas.indexOf(local_data_brocales[a].Fecha) == -1){  
+          var datos = [];
+          fecha_cambiada = local_data_brocales[a].Fecha.split("-")[2]+"-"+local_data_brocales[a].Fecha.split("-")[1]+"-"+local_data_brocales[a].Fecha.split("-")[0]
+          datos.push(fecha_cambiada);
+          datos.push(parseInt(local_data_brocales[a].Cantidad));
+          datos.push("Demanda : " +local_data_brocales[a].Demanda)
+          datos.push("Dotacion : " +local_data_brocales[a].Dotacion)
+          datos.push("Ubicaciones : " +local_data_brocales[a].Ubicacion)
+          fechas.push(datos);
+          fechas_visitadas.push(local_data_brocales[a].Fecha)
+        }
+
+      }
+    }*/
+    $scope.myJsonCalendarBrocales = calendar_creator(fechas);
     
   }
 
@@ -1416,11 +1563,11 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       var fechas_visitadas =[];
       var id_visitados_sub5 = [];
       for(b = 0; b < local_data_brocales.length; b++){
-        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="5" && local_data_brocales[b].Ubicacion!="" && local_data_brocales[b].Cantidad !=0 && local_data_brocales[b].Fecha.split("-")[2].toString() == fecha.split("-")[2].toString()){ 
+        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="5" && local_data_brocales[b].Ubicacion!="" && local_data_brocales[b].Cantidad !=0 ){ 
           //datos_x_dias_sub5[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1]+= parseInt(local_data_brocales[b].Cantidad);     
           datos_x_dias_sub5[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1]+= 1;
         }
-        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="5" && id_visitados_sub5.indexOf(local_data_brocales[b].Uniqueid) == -1 && local_data_brocales[b].Demanda !="" && local_data_brocales[b].Fecha.split("-")[2].toString() == fecha.split("-")[2].toString()){
+        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="5" && id_visitados_sub5.indexOf(local_data_brocales[b].Uniqueid) == -1){
           
           datos_x_deseados[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1] += parseInt(local_data_brocales[b].Demanda);
           id_visitados_sub5.push(local_data_brocales[b].Uniqueid);
@@ -1435,6 +1582,108 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
       $scope.myJsonBarBrocalessub5 = bar_brocales(datos_x_deseados, datos_x_dias_sub5,array_dias ,5, "5")
 
+      //------------------------------------------------------------------------------------------//
+      Completados_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+      Faltantes_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+      $scope.Nombres_sub5 = [];
+      for(a=0; a < local_data_brocales.length ; a++){
+        if(local_data_brocales[a].Sub == "5" && local_data_brocales[a].Fecha.split("-")[1].toString()==fecha.split("-")[1].toString() ){
+          if(local_data_brocales[a].Cantidad != "0"){
+            if($scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion) ==-1){
+              $scope.Nombres_sub5.push(local_data_brocales[a].Ubicacion);
+              Completados_sub5[$scope.Nombres_sub5.length-1]+=parseInt(local_data_brocales[a].Cantidad);
+            }
+            else{
+              Completados_sub5[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)]+=parseInt(local_data_brocales[a].Cantidad);
+            }
+          }
+          else{
+            if($scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion) == -1){
+              $scope.Nombres_sub5.push(local_data_brocales[a].Ubicacion);
+              Faltantes_sub5[$scope.Nombres_sub5.length-1]+=1
+            }
+            else{
+              Faltantes_sub5[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] += 1
+            }
+          }
+        }
+      }
+
+
+      $scope.myJsonUbicacion1 = pie3d(Completados_sub5[0], Faltantes_sub5[0], $scope.Nombres_sub5[0]);
+      $scope.myJsonUbicacion2 = pie3d(Completados_sub5[1], Faltantes_sub5[1], $scope.Nombres_sub5[1]);
+      $scope.myJsonUbicacion3 = pie3d(Completados_sub5[2], Faltantes_sub5[2], $scope.Nombres_sub5[2]);
+      $scope.myJsonUbicacion4 = pie3d(Completados_sub5[3], Faltantes_sub5[3], $scope.Nombres_sub5[3]);
+      $scope.myJsonUbicacion5 = pie3d(Completados_sub5[4], Faltantes_sub5[4], $scope.Nombres_sub5[4]);
+      $scope.myJsonUbicacion6 = pie3d(Completados_sub5[5], Faltantes_sub5[5], $scope.Nombres_sub5[5]);
+      $scope.myJsonUbicacion7 = pie3d(Completados_sub5[6], Faltantes_sub5[6], $scope.Nombres_sub5[6]);
+      $scope.myJsonUbicacion8 = pie3d(Completados_sub5[7], Faltantes_sub5[7], $scope.Nombres_sub5[7]);
+      $scope.myJsonUbicacion9 = pie3d(Completados_sub5[8], Faltantes_sub5[8], $scope.Nombres_sub5[8]);
+      $scope.myJsonUbicacion10 = pie3d(Completados_sub5[9], Faltantes_sub5[9], $scope.Nombres_sub5[9]);
+      $scope.myJsonUbicacion11 = pie3d(Completados_sub5[10], Faltantes_sub5[10], $scope.Nombres_sub5[10]);
+      $scope.myJsonUbicacion12 = pie3d(Completados_sub5[11], Faltantes_sub5[11], $scope.Nombres_sub5[11]);
+      $scope.myJsonUbicacion13 = pie3d(Completados_sub5[12], Faltantes_sub5[12], $scope.Nombres_sub5[12]);
+      $scope.myJsonUbicacion14 = pie3d(Completados_sub5[13], Faltantes_sub5[13], $scope.Nombres_sub5[13]);
+      $scope.myJsonUbicacion15 = pie3d(Completados_sub5[14], Faltantes_sub5[14], $scope.Nombres_sub5[14]);
+      $scope.myJsonUbicacion16 = pie3d(Completados_sub5[15], Faltantes_sub5[15], $scope.Nombres_sub5[15]);
+
+      var fechas_arreglo =[];
+      var concretada_arreglo =[];
+      for(a=0 ; a<$scope.Nombres_sub5.length ; a++){
+        fechas_arreglo.push("0-0-0");
+        concretada_arreglo.push("No");
+      }
+      for(a = 0; a<local_data_brocales.length ; a++){
+        if(local_data_brocales[a].Sub=="5" && local_data_brocales[a].Fecha.split("-")[1].toString()==fecha.split("-")[1].toString()){
+          if(comparar_fechas(local_data_brocales[a].Fecha, fechas_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)])){
+            fechas_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = local_data_brocales[a].Fecha;
+            if(local_data_brocales[a].Cantidad!=0){
+              concretada_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = "Si"
+            }
+            else{
+              concretada_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = "No"
+            }
+          }
+        }
+      }
+      $scope.fecha1 = fechas_arreglo[0];
+      $scope.dato1 = concretada_arreglo[0];
+      $scope.fecha2 = fechas_arreglo[1];
+      $scope.dato2 = concretada_arreglo[1];
+      $scope.fecha3 = fechas_arreglo[2];
+      $scope.dato3 = concretada_arreglo[2];
+      $scope.fecha4 = fechas_arreglo[3];
+      $scope.dato4 = concretada_arreglo[3];
+      $scope.fecha5 = fechas_arreglo[4];
+      $scope.dato5 = concretada_arreglo[4];
+      $scope.fecha6 = fechas_arreglo[5];
+      $scope.dato6 = concretada_arreglo[5];
+      $scope.fecha7 = fechas_arreglo[6];
+      $scope.dato7 = concretada_arreglo[6];
+      $scope.fecha8 = fechas_arreglo[7];
+      $scope.dato8 = concretada_arreglo[7];
+      $scope.fecha9 = fechas_arreglo[8];
+      $scope.dato9 = concretada_arreglo[8];
+      $scope.fecha10 = fechas_arreglo[9];
+      $scope.dato10 = concretada_arreglo[9];
+      $scope.fecha11 = fechas_arreglo[10];
+      $scope.dato11 = concretada_arreglo[10];
+      $scope.fecha12 = fechas_arreglo[11];
+      $scope.dato12 = concretada_arreglo[11];
+      $scope.fecha13 = fechas_arreglo[12];
+      $scope.dato13 = concretada_arreglo[12];
+      $scope.fecha14 = fechas_arreglo[13];
+      $scope.dato14 = concretada_arreglo[13];
+      $scope.fecha15 = fechas_arreglo[14];
+      $scope.dato15 = concretada_arreglo[14];
+      $scope.fecha16 = fechas_arreglo[15];
+      $scope.dato16 = concretada_arreglo[15];
+
+
+      //-----------------------------------------------------------------------------------------------//
+
+
+
     }
 
     else if(name=="anual"){
@@ -1445,7 +1694,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       var deseados_x_sub5 =[0,0,0,0,0,0,0,0,0,0,0,0];
       var id_visitados_sub5 = [];
       for (a=0; a <local_data_brocales.length ; a++){
-        if(local_data_brocales[a].Sub == "5" && local_data_brocales[a].Fecha.split("-")[2] == fecha.split("-")[2]){
+        if(local_data_brocales[a].Sub == "5"){
           if(id_visitados_sub5.indexOf(local_data_brocales[a].Uniqueid) == -1 ){
             
             mes = ObtenerMes_2(parseInt(local_data_brocales[a].Fecha.split("-")[1]));
@@ -1456,9 +1705,119 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
         }
       }
 
+
+      /*
+      if(local_data_brocales[a].Sub == "5"){
+        if(contando_lugares_sub5.indexOf(local_data_brocales[a].Ubicacion)==-1){
+          contando_lugares_sub5.push(local_data_brocales[a].Ubicacion);
+        }
+        if(fechas_vistas_sub5.indexOf(local_data_brocales[a].Fecha) == -1){
+          mes = ObtenerMes_2(parseInt(local_data_brocales[a].Fecha.split("-")[1]));
+          datos_x_sub5[meses.indexOf(mes)] += parseInt(local_data_brocales[a].Cantidad);
+          deseados_x_sub5[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
+          fechas_vistas_sub5.push(local_data_brocales[a].Fecha);
+        }
+        
+      }
+      */
       $scope.myJsonAnualsub5 = Chart_creator(meses,datos_x_sub5, deseados_x_sub5, "Limpieza de brocales Sub 5");
 
-      $scope.myJsonBarBrocalessub5 = bar_brocales(deseados_x_sub5, datos_x_sub5 , ["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"] ,20, "5")    
+      $scope.myJsonBarBrocalessub5 = bar_brocales(deseados_x_sub5, datos_x_sub5 , ["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"] ,20, "5")
+
+      Completados_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+      Faltantes_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+      $scope.Nombres_sub5 = [];
+      for(a=0; a < local_data_brocales.length ; a++){
+        if(local_data_brocales[a].Sub == "5" ){
+          if(local_data_brocales[a].Cantidad != "0"){
+            if($scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion) ==-1){
+              $scope.Nombres_sub5.push(local_data_brocales[a].Ubicacion);
+              Completados_sub5[$scope.Nombres_sub5.length-1]+=parseInt(local_data_brocales[a].Cantidad);
+            }
+            else{
+              Completados_sub5[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)]+=parseInt(local_data_brocales[a].Cantidad);
+            }
+          }
+          else{
+            if($scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion) == -1){
+              $scope.Nombres_sub5.push(local_data_brocales[a].Ubicacion);
+              Faltantes_sub5[$scope.Nombres_sub5.length-1]+=1
+            }
+            else{
+              Faltantes_sub5[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] += 1
+            }
+          }
+        }
+      }
+
+      $scope.myJsonUbicacion1 = pie3d(Completados_sub5[0], Faltantes_sub5[0], $scope.Nombres_sub5[0]);
+      $scope.myJsonUbicacion2 = pie3d(Completados_sub5[1], Faltantes_sub5[1], $scope.Nombres_sub5[1]);
+      $scope.myJsonUbicacion3 = pie3d(Completados_sub5[2], Faltantes_sub5[2], $scope.Nombres_sub5[2]);
+      $scope.myJsonUbicacion4 = pie3d(Completados_sub5[3], Faltantes_sub5[3], $scope.Nombres_sub5[3]);
+      $scope.myJsonUbicacion5 = pie3d(Completados_sub5[4], Faltantes_sub5[4], $scope.Nombres_sub5[4]);
+      $scope.myJsonUbicacion6 = pie3d(Completados_sub5[5], Faltantes_sub5[5], $scope.Nombres_sub5[5]);
+      $scope.myJsonUbicacion7 = pie3d(Completados_sub5[6], Faltantes_sub5[6], $scope.Nombres_sub5[6]);
+      $scope.myJsonUbicacion8 = pie3d(Completados_sub5[7], Faltantes_sub5[7], $scope.Nombres_sub5[7]);
+      $scope.myJsonUbicacion9 = pie3d(Completados_sub5[8], Faltantes_sub5[8], $scope.Nombres_sub5[8]);
+      $scope.myJsonUbicacion10 = pie3d(Completados_sub5[9], Faltantes_sub5[9], $scope.Nombres_sub5[9]);
+      $scope.myJsonUbicacion11 = pie3d(Completados_sub5[10], Faltantes_sub5[10], $scope.Nombres_sub5[10]);
+      $scope.myJsonUbicacion12 = pie3d(Completados_sub5[11], Faltantes_sub5[11], $scope.Nombres_sub5[11]);
+      $scope.myJsonUbicacion13 = pie3d(Completados_sub5[12], Faltantes_sub5[12], $scope.Nombres_sub5[12]);
+      $scope.myJsonUbicacion14 = pie3d(Completados_sub5[13], Faltantes_sub5[13], $scope.Nombres_sub5[13]);
+      $scope.myJsonUbicacion15 = pie3d(Completados_sub5[14], Faltantes_sub5[14], $scope.Nombres_sub5[14]);
+      $scope.myJsonUbicacion16 = pie3d(Completados_sub5[15], Faltantes_sub5[15], $scope.Nombres_sub5[15]);
+
+      var fechas_arreglo =[];
+      var concretada_arreglo =[];
+      for(a=0 ; a<$scope.Nombres_sub5.length ; a++){
+        fechas_arreglo.push("0-0-0");
+        concretada_arreglo.push("No");
+      }
+      for(a = 0; a<local_data_brocales.length ; a++){
+        if(local_data_brocales[a].Sub=="5" ){
+          if(comparar_fechas(local_data_brocales[a].Fecha, fechas_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)])){
+            fechas_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = local_data_brocales[a].Fecha;
+            if(local_data_brocales[a].Cantidad!=0){
+              concretada_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = "Si"
+            }
+            else{
+              concretada_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = "No"
+            }
+          }
+        }
+      }
+      $scope.fecha1 = fechas_arreglo[0];
+      $scope.dato1 = concretada_arreglo[0];
+      $scope.fecha2 = fechas_arreglo[1];
+      $scope.dato2 = concretada_arreglo[1];
+      $scope.fecha3 = fechas_arreglo[2];
+      $scope.dato3 = concretada_arreglo[2];
+      $scope.fecha4 = fechas_arreglo[3];
+      $scope.dato4 = concretada_arreglo[3];
+      $scope.fecha5 = fechas_arreglo[4];
+      $scope.dato5 = concretada_arreglo[4];
+      $scope.fecha6 = fechas_arreglo[5];
+      $scope.dato6 = concretada_arreglo[5];
+      $scope.fecha7 = fechas_arreglo[6];
+      $scope.dato7 = concretada_arreglo[6];
+      $scope.fecha8 = fechas_arreglo[7];
+      $scope.dato8 = concretada_arreglo[7];
+      $scope.fecha9 = fechas_arreglo[8];
+      $scope.dato9 = concretada_arreglo[8];
+      $scope.fecha10 = fechas_arreglo[9];
+      $scope.dato10 = concretada_arreglo[9];
+      $scope.fecha11 = fechas_arreglo[10];
+      $scope.dato11 = concretada_arreglo[10];
+      $scope.fecha12 = fechas_arreglo[11];
+      $scope.dato12 = concretada_arreglo[11];
+      $scope.fecha13 = fechas_arreglo[12];
+      $scope.dato13 = concretada_arreglo[12];
+      $scope.fecha14 = fechas_arreglo[13];
+      $scope.dato14 = concretada_arreglo[13];
+      $scope.fecha15 = fechas_arreglo[14];
+      $scope.dato15 = concretada_arreglo[14];
+      $scope.fecha16 = fechas_arreglo[15];
+      $scope.dato16 = concretada_arreglo[15];
     }
   }
 
@@ -1474,11 +1833,11 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       var fechas_visitadas =[]
       var id_visitados_sub6 = [];
       for(b = 0; b < local_data_brocales.length; b++){
-        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="6" && local_data_brocales[b].Ubicacion!="" && local_data_brocales[b].Cantidad != 0 && local_data_brocales[b].Fecha.split("-")[2].toString() == fecha.split("-")[2].toString()){
-          
+        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="6" && local_data_brocales[b].Ubicacion!="" && local_data_brocales[b].Cantidad != 0){
+          //datos_x_dias_sub6[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1]+= parseInt(local_data_brocales[b].Cantidad);
           datos_x_dias_sub6[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1]+=1;
         }
-        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="6" && id_visitados_sub6.indexOf(local_data_brocales[b].Uniqueid) == -1 && local_data_brocales[b].Demanda !="" && local_data_brocales[b].Fecha.split("-")[2].toString() == fecha.split("-")[2].toString()){
+        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="6" && id_visitados_sub6.indexOf(local_data_brocales[b].Uniqueid) == -1 && local_data_brocales[b].Demanda !="" ){
           datos_x_deseados[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1] += parseInt(local_data_brocales[b].Demanda);
           id_visitados_sub6.push(local_data_brocales[b].Uniqueid);
         }
@@ -1491,10 +1850,134 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
         array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
       }
       $scope.myJsonBarBrocalessub6 = bar_brocales(datos_x_deseados, datos_x_dias_sub6,array_dias ,5, "6")
+
+      Completados_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+      Faltantes_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+      $scope.Nombres_sub5 = [];
+      for(a=0; a < local_data_brocales.length ; a++){
+        if(local_data_brocales[a].Sub == "6" && local_data_brocales[a].Fecha.split("-")[1].toString()==fecha.split("-")[1].toString() ){
+          if(local_data_brocales[a].Cantidad != "0"){
+            if($scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion) ==-1){
+              $scope.Nombres_sub5.push(local_data_brocales[a].Ubicacion);
+              Completados_sub5[$scope.Nombres_sub5.length-1]+=parseInt(local_data_brocales[a].Cantidad);
+            }
+            else{
+              Completados_sub5[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)]+=parseInt(local_data_brocales[a].Cantidad);
+            }
+          }
+          else{
+            if($scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion) == -1){
+              $scope.Nombres_sub5.push(local_data_brocales[a].Ubicacion);
+              Faltantes_sub5[$scope.Nombres_sub5.length-1]+=1
+            }
+            else{
+              Faltantes_sub5[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] += 1
+            }
+          }
+        }
+      }
+
+
+      $scope.myJsonUbicacion1 = pie3d(Completados_sub5[0], Faltantes_sub5[0], $scope.Nombres_sub5[0]);
+      $scope.myJsonUbicacion2 = pie3d(Completados_sub5[1], Faltantes_sub5[1], $scope.Nombres_sub5[1]);
+      $scope.myJsonUbicacion3 = pie3d(Completados_sub5[2], Faltantes_sub5[2], $scope.Nombres_sub5[2]);
+      $scope.myJsonUbicacion4 = pie3d(Completados_sub5[3], Faltantes_sub5[3], $scope.Nombres_sub5[3]);
+      $scope.myJsonUbicacion5 = pie3d(Completados_sub5[4], Faltantes_sub5[4], $scope.Nombres_sub5[4]);
+      $scope.myJsonUbicacion6 = pie3d(Completados_sub5[5], Faltantes_sub5[5], $scope.Nombres_sub5[5]);
+      $scope.myJsonUbicacion7 = pie3d(Completados_sub5[6], Faltantes_sub5[6], $scope.Nombres_sub5[6]);
+      $scope.myJsonUbicacion8 = pie3d(Completados_sub5[7], Faltantes_sub5[7], $scope.Nombres_sub5[7]);
+      $scope.myJsonUbicacion9 = pie3d(Completados_sub5[8], Faltantes_sub5[8], $scope.Nombres_sub5[8]);
+      $scope.myJsonUbicacion10 = pie3d(Completados_sub5[9], Faltantes_sub5[9], $scope.Nombres_sub5[9]);
+      $scope.myJsonUbicacion11 = pie3d(Completados_sub5[10], Faltantes_sub5[10], $scope.Nombres_sub5[10]);
+      $scope.myJsonUbicacion12 = pie3d(Completados_sub5[11], Faltantes_sub5[11], $scope.Nombres_sub5[11]);
+      $scope.myJsonUbicacion13 = pie3d(Completados_sub5[12], Faltantes_sub5[12], $scope.Nombres_sub5[12]);
+      $scope.myJsonUbicacion14 = pie3d(Completados_sub5[13], Faltantes_sub5[13], $scope.Nombres_sub5[13]);
+      $scope.myJsonUbicacion15 = pie3d(Completados_sub5[14], Faltantes_sub5[14], $scope.Nombres_sub5[14]);
+      $scope.myJsonUbicacion16 = pie3d(Completados_sub5[15], Faltantes_sub5[15], $scope.Nombres_sub5[15]);
+
+      var fechas_arreglo =[];
+      var concretada_arreglo =[];
+      for(a=0 ; a<$scope.Nombres_sub5.length ; a++){
+        fechas_arreglo.push("0-0-0");
+        concretada_arreglo.push("No");
+      }
+      for(a = 0; a<local_data_brocales.length ; a++){
+        if(local_data_brocales[a].Sub=="6" && local_data_brocales[a].Fecha.split("-")[1].toString()==fecha.split("-")[1].toString()){
+          if(comparar_fechas(local_data_brocales[a].Fecha, fechas_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)])){
+            fechas_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = local_data_brocales[a].Fecha;
+            if(local_data_brocales[a].Cantidad!=0){
+              concretada_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = "Si"
+            }
+            else{
+              concretada_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = "No"
+            }
+          }
+        }
+      }
+      $scope.fecha1 = fechas_arreglo[0];
+      $scope.dato1 = concretada_arreglo[0];
+      $scope.fecha2 = fechas_arreglo[1];
+      $scope.dato2 = concretada_arreglo[1];
+      $scope.fecha3 = fechas_arreglo[2];
+      $scope.dato3 = concretada_arreglo[2];
+      $scope.fecha4 = fechas_arreglo[3];
+      $scope.dato4 = concretada_arreglo[3];
+      $scope.fecha5 = fechas_arreglo[4];
+      $scope.dato5 = concretada_arreglo[4];
+      $scope.fecha6 = fechas_arreglo[5];
+      $scope.dato6 = concretada_arreglo[5];
+      $scope.fecha7 = fechas_arreglo[6];
+      $scope.dato7 = concretada_arreglo[6];
+      $scope.fecha8 = fechas_arreglo[7];
+      $scope.dato8 = concretada_arreglo[7];
+      $scope.fecha9 = fechas_arreglo[8];
+      $scope.dato9 = concretada_arreglo[8];
+      $scope.fecha10 = fechas_arreglo[9];
+      $scope.dato10 = concretada_arreglo[9];
+      $scope.fecha11 = fechas_arreglo[10];
+      $scope.dato11 = concretada_arreglo[10];
+      $scope.fecha12 = fechas_arreglo[11];
+      $scope.dato12 = concretada_arreglo[11];
+      $scope.fecha13 = fechas_arreglo[12];
+      $scope.dato13 = concretada_arreglo[12];
+      $scope.fecha14 = fechas_arreglo[13];
+      $scope.dato14 = concretada_arreglo[13];
+      $scope.fecha15 = fechas_arreglo[14];
+      $scope.dato15 = concretada_arreglo[14];
+      $scope.fecha16 = fechas_arreglo[15];
+      $scope.dato16 = concretada_arreglo[15];
     }
-      
 
     else if(name=="anual"){
+
+      /*
+      $scope.typebrocal5="anual"
+      var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+      var datos_x_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0];
+      var fechas_vistas_sub5 =[];
+      var deseados_x_sub5 =[0,0,0,0,0,0,0,0,0,0,0,0];
+      for (a=0; a <local_data_brocales.length ; a++){
+        if(local_data_brocales[a].Sub == "5"){
+          if(fechas_vistas_sub5.indexOf(local_data_brocales[a].Fecha) == -1 ){
+            
+            mes = ObtenerMes_2(parseInt(local_data_brocales[a].Fecha.split("-")[1]));
+            datos_x_sub5[meses.indexOf(mes)] += parseInt(local_data_brocales[a].Cantidad);
+            deseados_x_sub5[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
+            fechas_vistas_sub5.push(local_data_brocales[a].Fecha);
+          }
+        }
+      }
+      */
+      /*
+      if(fechas_vistas_sub6.indexOf(local_data_brocales[a].Fecha) == -1){
+        mes = ObtenerMes_2(parseInt(local_data_brocales[a].Fecha.split("-")[1]));
+        if(local_data_brocales[a].Cantidad !="" && local_data_brocales[a].Demanda !=""){
+          datos_x_sub6[meses.indexOf(mes)] += parseInt(local_data_brocales[a].Cantidad);
+          deseados_x_sub6[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
+        }
+        
+        fechas_vistas_sub6.push(local_data_brocales[a].Fecha);
+      }*/
       $scope.typebrocal6="anual"
       var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
       var datos_x_sub6 = [0,0,0,0,0,0,0,0,0,0,0,0];
@@ -1502,7 +1985,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       var deseados_x_sub6 = [0,0,0,0,0,0,0,0,0,0,0,0];
       var id_visitados_sub6 = [];
       for (a=0; a <local_data_brocales.length ; a++){
-        if(local_data_brocales[a].Sub == "6" && local_data_brocales[a].Fecha.split("-")[2].toString() == fecha.split("-")[2].toString()){
+        if(local_data_brocales[a].Sub == "6"){
           if(id_visitados_sub6.indexOf(local_data_brocales[a].Uniqueid) == -1 ){
             mes = ObtenerMes_2(parseInt(local_data_brocales[a].Fecha.split("-")[1]));
             if(local_data_brocales[a].Cantidad !="" && local_data_brocales[a].Demanda !=""){
@@ -1510,22 +1993,120 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
               deseados_x_sub6[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
             }
             id_visitados_sub6.push(local_data_brocales[a].Uniqueid);
+            //fechas_vistas_sub6.push(local_data_brocales[a].Fecha);
           }
           
         }
       }
       $scope.myJsonAnualsub6 = Chart_creator(meses,datos_x_sub6,deseados_x_sub6, "Limpieza de brocales Sub 6");
-      $scope.myJsonBarBrocalessub6 = bar_brocales(deseados_x_sub6, datos_x_sub6 , ["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"] ,20, "6")   
+      $scope.myJsonBarBrocalessub6 = bar_brocales(deseados_x_sub6, datos_x_sub6 , ["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"] ,20, "6")
+
+
+      Completados_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+      Faltantes_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+      $scope.Nombres_sub5 = [];
+      for(a=0; a < local_data_brocales.length ; a++){
+        if(local_data_brocales[a].Sub == "6" ){
+          if(local_data_brocales[a].Cantidad != "0"){
+            if($scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion) ==-1){
+              $scope.Nombres_sub5.push(local_data_brocales[a].Ubicacion);
+              Completados_sub5[$scope.Nombres_sub5.length-1]+=parseInt(local_data_brocales[a].Cantidad);
+            }
+            else{
+              Completados_sub5[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)]+=parseInt(local_data_brocales[a].Cantidad);
+            }
+          }
+          else{
+            if($scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion) == -1){
+              $scope.Nombres_sub5.push(local_data_brocales[a].Ubicacion);
+              Faltantes_sub5[$scope.Nombres_sub5.length-1]+=1
+            }
+            else{
+              Faltantes_sub5[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] += 1
+            }
+          }
+        }
+      }
+
+      $scope.myJsonUbicacion1 = pie3d(Completados_sub5[0], Faltantes_sub5[0], $scope.Nombres_sub5[0]);
+      $scope.myJsonUbicacion2 = pie3d(Completados_sub5[1], Faltantes_sub5[1], $scope.Nombres_sub5[1]);
+      $scope.myJsonUbicacion3 = pie3d(Completados_sub5[2], Faltantes_sub5[2], $scope.Nombres_sub5[2]);
+      $scope.myJsonUbicacion4 = pie3d(Completados_sub5[3], Faltantes_sub5[3], $scope.Nombres_sub5[3]);
+      $scope.myJsonUbicacion5 = pie3d(Completados_sub5[4], Faltantes_sub5[4], $scope.Nombres_sub5[4]);
+      $scope.myJsonUbicacion6 = pie3d(Completados_sub5[5], Faltantes_sub5[5], $scope.Nombres_sub5[5]);
+      $scope.myJsonUbicacion7 = pie3d(Completados_sub5[6], Faltantes_sub5[6], $scope.Nombres_sub5[6]);
+      $scope.myJsonUbicacion8 = pie3d(Completados_sub5[7], Faltantes_sub5[7], $scope.Nombres_sub5[7]);
+      $scope.myJsonUbicacion9 = pie3d(Completados_sub5[8], Faltantes_sub5[8], $scope.Nombres_sub5[8]);
+      $scope.myJsonUbicacion10 = pie3d(Completados_sub5[9], Faltantes_sub5[9], $scope.Nombres_sub5[9]);
+      $scope.myJsonUbicacion11 = pie3d(Completados_sub5[10], Faltantes_sub5[10], $scope.Nombres_sub5[10]);
+      $scope.myJsonUbicacion12 = pie3d(Completados_sub5[11], Faltantes_sub5[11], $scope.Nombres_sub5[11]);
+      $scope.myJsonUbicacion13 = pie3d(Completados_sub5[12], Faltantes_sub5[12], $scope.Nombres_sub5[12]);
+      $scope.myJsonUbicacion14 = pie3d(Completados_sub5[13], Faltantes_sub5[13], $scope.Nombres_sub5[13]);
+      $scope.myJsonUbicacion15 = pie3d(Completados_sub5[14], Faltantes_sub5[14], $scope.Nombres_sub5[14]);
+      $scope.myJsonUbicacion16 = pie3d(Completados_sub5[15], Faltantes_sub5[15], $scope.Nombres_sub5[15]);
+
+      var fechas_arreglo =[];
+      var concretada_arreglo =[];
+      for(a=0 ; a<$scope.Nombres_sub5.length ; a++){
+        fechas_arreglo.push("0-0-0");
+        concretada_arreglo.push("No");
+      }
+      for(a = 0; a<local_data_brocales.length ; a++){
+        if(local_data_brocales[a].Sub=="6" ){
+          if(comparar_fechas(local_data_brocales[a].Fecha, fechas_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)])){
+            fechas_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = local_data_brocales[a].Fecha;
+            if(local_data_brocales[a].Cantidad!=0){
+              concretada_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = "Si"
+            }
+            else{
+              concretada_arreglo[$scope.Nombres_sub5.indexOf(local_data_brocales[a].Ubicacion)] = "No"
+            }
+          }
+        }
+      }
+      $scope.fecha1 = fechas_arreglo[0];
+      $scope.dato1 = concretada_arreglo[0];
+      $scope.fecha2 = fechas_arreglo[1];
+      $scope.dato2 = concretada_arreglo[1];
+      $scope.fecha3 = fechas_arreglo[2];
+      $scope.dato3 = concretada_arreglo[2];
+      $scope.fecha4 = fechas_arreglo[3];
+      $scope.dato4 = concretada_arreglo[3];
+      $scope.fecha5 = fechas_arreglo[4];
+      $scope.dato5 = concretada_arreglo[4];
+      $scope.fecha6 = fechas_arreglo[5];
+      $scope.dato6 = concretada_arreglo[5];
+      $scope.fecha7 = fechas_arreglo[6];
+      $scope.dato7 = concretada_arreglo[6];
+      $scope.fecha8 = fechas_arreglo[7];
+      $scope.dato8 = concretada_arreglo[7];
+      $scope.fecha9 = fechas_arreglo[8];
+      $scope.dato9 = concretada_arreglo[8];
+      $scope.fecha10 = fechas_arreglo[9];
+      $scope.dato10 = concretada_arreglo[9];
+      $scope.fecha11 = fechas_arreglo[10];
+      $scope.dato11 = concretada_arreglo[10];
+      $scope.fecha12 = fechas_arreglo[11];
+      $scope.dato12 = concretada_arreglo[11];
+      $scope.fecha13 = fechas_arreglo[12];
+      $scope.dato13 = concretada_arreglo[12];
+      $scope.fecha14 = fechas_arreglo[13];
+      $scope.dato14 = concretada_arreglo[13];
+      $scope.fecha15 = fechas_arreglo[14];
+      $scope.dato15 = concretada_arreglo[14];
+      $scope.fecha16 = fechas_arreglo[15];
+      $scope.dato16 = concretada_arreglo[15];
     }
+
   }
   
-  // CAMBIAR DATOS DEL PLAN MATRIZ EN PANEL PRINCIPAL
+
   $scope.changegraphview = function(name){
     var total_deseadas = [0,0,0,0,0,0,0,0,0,0,0,0];
     var total_completadas = [0,0,0,0,0,0,0,0,0,0,0,0];
     fecha = $scope.fecha_universal
     for(e=0; e < local_data_matriz.length; e++){
-      if(local_data_matriz[e].Area == name && local_data_matriz[a].Fecha.split("-")[2]==fecha.split("-")[2]){
+      if(local_data_matriz[e].Area == name ){
         total_deseadas[parseInt(local_data_matriz[e].Fecha.split("-")[1])-1]+=1;
         if(local_data_matriz[e].Observaciones == null){
           total_completadas[parseInt(local_data_matriz[e].Fecha.split("-")[1])-1]+=1;
@@ -1533,21 +2114,48 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       }
     }
     $scope.myJsonAnualmatriz = mixed_creator(total_deseadas,total_completadas, name);
+
+
     $scope.myJsonpieCumplimiento = Pie_Cumplimiento(total_deseadas[parseInt(fecha.split("-")[1])-1], total_completadas[parseInt(fecha.split("-")[1])-1], name )
+
   }
 
-
-
+  $scope.modalmatriz = function(name){
+    nueva_fecha = new Date($scope.dateselected.getTime() - $scope.dateselected.getTimezoneOffset()*60000);
+    converted_date = nueva_fecha.toISOString().split('T')[0];
+    fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
+    var nuevo_array = [];
+    $scope.Totalmatriz =[];
+    for(b = 0; b < local_data_matriz.length ; b++){
+      if(local_data_matriz[b].Area == name.toString() && local_data_matriz[b].Fecha == fecha){
+        $scope.Totalmatriz.push(local_data_matriz[b]);
+      }
+    }
+  }
+  $scope.modalasistencia = function(name){
+    nueva_fecha = new Date($scope.dateselected.getTime() - $scope.dateselected.getTimezoneOffset()*60000);
+    converted_date = nueva_fecha.toISOString().split('T')[0];
+    fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
+    fecha = $scope.fecha_universal
+    var nuevo_array =[];
+    $scope.Totalasistencia = [];     
+    for(a = 0; a < local_data_asistencia.length; a++){        
+      if(local_data_asistencia[a].Sector.toString() == name && local_data_asistencia[a].Fechaingreso == fecha){
+        $scope.Totalasistencia.push(local_data_asistencia[a]);     
+      }
+    }
+    
+    
+     
+  }
   
   $scope.changeinformation = function(){
     nueva_fecha = new Date($scope.dateselected.getTime() - $scope.dateselected.getTimezoneOffset()*60000);
     converted_date = nueva_fecha.toISOString().split('T')[0];
     fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
 
-
     $scope.fecha_universa = fecha;
     $scope.fecha_universal  = angular.copy($scope.fecha_universa);
-
 
     //let weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][nueva_fecha.getDay()];
     
@@ -1558,7 +2166,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     total_trabajadores = 0;
     asistencia_trabajadores = 0;
     for(c=0; c < local_data_asistencia.length ; c++){
-      if($scope.nombre_sectores_array.indexOf(local_data_asistencia[c].Sector) == -1 && local_data_asistencia[c].Fechaingreso == $scope.fecha_universal){
+      if($scope.nombre_sectores_array.indexOf(local_data_asistencia[c].Sector) == -1 && local_data_asistencia[c].Fechaingreso == fecha){
         $scope.nombre_sectores_array.push(local_data_asistencia[c].Sector);
         $scope.total_trabajadores_array.push(1);
         $scope.asistencia_total_trabajadores_array.push(0);
@@ -1573,6 +2181,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
         }
       } 
     }
+
 
 
     $scope.myJsonpieasistencia1 = Pie_creator($scope.total_trabajadores_array[0], $scope.asistencia_total_trabajadores_array[0], $scope.nombre_sectores_array[0]);
@@ -1601,7 +2210,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     $scope.myJsonpieasistencia24 = Pie_creator($scope.total_trabajadores_array[23], $scope.asistencia_total_trabajadores_array[23], $scope.nombre_sectores_array[23]);
     $scope.myJsonpieasistencia25 = Pie_creator($scope.total_trabajadores_array[24], $scope.asistencia_total_trabajadores_array[24], $scope.nombre_sectores_array[24]);
 
-    
 
 
     var all_sector = [];
@@ -1610,7 +2218,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     var asistencia_nopresente =[];
 
     for(a=0; a<local_data_asistencia.length; a++){
-      if(local_data_asistencia[a].Fechaingreso == $scope.fecha_universal && all_sector.indexOf(local_data_asistencia[a].Sector) == -1){
+      if(local_data_asistencia[a].Fechaingreso == fecha && all_sector.indexOf(local_data_asistencia[a].Sector) == -1){
         all_sector.push(local_data_asistencia[a].Sector)
         asistencia_A.push(0)
         asistencia_B.push(0)
@@ -1620,8 +2228,13 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
 
     for(a=0 ; a < local_data_asistencia.length; a++){
-      if(local_data_asistencia[a].Fechaingreso == $scope.fecha_universal){
+      if(local_data_asistencia[a].Fechaingreso == fecha){
         if(all_sector.indexOf(local_data_asistencia[a].Sector) == -1 ){
+          //sector_visited.push(local_data_asistencia[a].Sector)
+          //asistencia_A.push(0)
+          //asistencia_B.push(0)
+          //asistencia_C.push(0)
+
           if(local_data_asistencia[a].Turno == "A"){
             asistencia_A[all_sector.indexOf(local_data_asistencia[a].Sector)]+=1
           }
@@ -1646,11 +2259,10 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       }
     }
 
-    
 
 
-
-    $scope.myJsonasistenciabar = asistencia_chart(asistencia_A, asistencia_B, asistencia_nopresente, all_sector, $scope.fecha_universal);
+    $scope.myJsonasistenciabar = asistencia_chart(asistencia_A, asistencia_B, asistencia_nopresente, all_sector, fecha);
+    //$scope.myJsonasistenciabar = asistencia_chart(asistencia_A, asistencia_B, asistencia_C, sector_visited, fecha);
 
 
 
@@ -1740,6 +2352,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
         }      
       }
       var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+      //$scope.myMatrizAire = Chart_creator(meses, anual_aire, 0, "Plan matriz anual Aire Acondicionado")
       $scope.myMatrizAire = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], anual_aire_deseados, anual_aire_completados, "Aire Acondicionado")
     }
 
@@ -1795,6 +2408,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
         }      
       }
       var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+      //$scope.myMatrizAire = Chart_creator(meses, anual_aire, 0, "Plan matriz anual Aire Acondicionado")
       $scope.myMatrizVentilacion = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], anual_ventilacion_deseados, anual_ventilacion_completados, "Ventilacion")
     }
 
@@ -1809,15 +2423,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     }
 
     if($scope.tipochangevimo=="mensual"){
-      /*for(a=0; a < local_data_puertas.length; a++){
+      for(a=0; a < local_data_puertas.length; a++){
         if(local_data_puertas[a].Fecharevision.split("-")[1] == fecha.split("-")[1] && local_data_puertas[a].Fecharevision.split("-")[2] == fecha.split("-")[2]){
           datos_x_vimo_completados[parseInt(local_data_puertas[a].Fecharevision.split("-")[0])-1]+=1;
-        }
-      }*/
-
-      for(a=0; a <local_data_puertas_vimo.length; a++){
-        if($scope.fecha_universal.split("-")[1]== local_data_puertas_vimo[a].Fecha.split("-")[1] && $scope.fecha_universal.split("-")[2] == local_data_puertas_vimo[a].Fecha.split("-")[2]){
-          datos_x_vimo_completados[parseInt(local_data_puertas_vimo[a].Fecha.split("-")[0])-1]+=1;
         }
       }
 
@@ -1825,196 +2433,43 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     }
 
     else{
-      array_total_mes_vimo = [0,0,0,0,0,0,0,0,0,0,0,0]
       var anual_vimo_completados = [0,0,0,0,0,0,0,0,0,0,0,0];
-      for(a=0; a <local_data_puertas_vimo.length; a++){
-        if($scope.fecha_universal.split("-")[2] == local_data_puertas_vimo[a].Fecha.split("-")[2]){
-          anual_vimo_completados[parseInt(local_data_puertas_vimo[a].Fecha.split("-")[1])-1]+=1
-        }
-      }
-      /*for(a=0; a < local_data_puertas.length; a++){
+      for(a=0; a < local_data_puertas.length; a++){
         if( local_data_puertas[a].Fecharevision.split("-")[2] == fecha.split("-")[2]){
           anual_vimo_completados[parseInt(local_data_puertas[a].Fecharevision.split("-")[1])-1]+=1;
         }
       }
-      
+      array_total_mes_vimo = [0,0,0,0,0,0,0,0,0,0,0,0]
       for(a=0; a <local_data_sap.length; a++){
         var result = local_data_sap[a].Mes.charAt(0).toUpperCase() + local_data_sap[a].Mes.slice(1).toLowerCase();
         nummes = parseInt(obtenerMes(result))-1
         array_total_mes_vimo[nummes]+=1;
-      }*/
+      }
       var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
       $scope.myMatrizPuertas = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], array_total_mes_vimo, anual_vimo_completados, "Puertas Vimo")
 
     }
 
-    var total_array = [0,0,0];
-    var completed_array = [0,0,0];
-    var total_deseadas = [0,0,0,0,0,0,0,0,0,0,0,0];
-    var total_completadas = [0,0,0,0,0,0,0,0,0,0,0,0];
-    var total_deseadas_aire = [0,0,0,0,0,0,0,0,0,0,0,0];
-    var total_deseadas_polvo = [0,0,0,0,0,0,0,0,0,0,0,0];
-    var total_deseadas_ventilacion = [0,0,0,0,0,0,0,0,0,0,0,0];
-    var Anual_aire =[0,0,0,0,0,0,0,0,0,0,0,0];
-    var Anual_polvo =[0,0,0,0,0,0,0,0,0,0,0,0];
-    var Anual_ventilacion =[0,0,0,0,0,0,0,0,0,0,0,0];
-    var Anual_puertas =[0,0,0,0,0,0,0,0,0,0,0,0];
-    var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-
-    for (d=0; d < local_data_matriz.length ; d++){   
-      if(local_data_matriz[d].Area == "Aire Acondicionado" && $scope.fecha_universal.split("-")[2]==local_data_matriz[d].Fecha.split("-")[2] ){
-        if(local_data_matriz[d].Fecha == $scope.dateselected){
-          total_array[0]+=1;
-          if(local_data_matriz[d].Observaciones == null){
-            completed_array[0]+=1;
-          }
-        }
-        if(local_data_matriz[d].Observaciones == null){
-          mes = ObtenerMes_2(parseInt(local_data_matriz[d].Fecha.split("-")[1]));
-          Anual_aire[meses.indexOf(mes)]+=1;
-        }
-        total_deseadas_aire[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1; 
-        
-      }
-      if(local_data_matriz[d].Area == "Colectores de polvo" && $scope.fecha_universal.split("-")[2]==local_data_matriz[d].Fecha.split("-")[2]){
-        if(local_data_matriz[d].Fecha == $scope.dateselected){
-          total_array[1]+=1;
-          if(local_data_matriz[d].Observaciones == null){
-            completed_array[1]+=1;
-          }
-        }
-        if(local_data_matriz[d].Observaciones == null){
-          mes = ObtenerMes_2(parseInt(local_data_matriz[d].Fecha.split("-")[1]));
-          Anual_polvo[meses.indexOf(mes)]+=1;
-        }
-        total_deseadas_polvo[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1; 
-      }
-      if(local_data_matriz[d].Area == "Ventilación" && $scope.fecha_universal.split("-")[2]==local_data_matriz[d].Fecha.split("-")[2]){
-        if(local_data_matriz[d].Fecha == $scope.dateselected){
-          total_array[2]+=1;
-          if(local_data_matriz[d].Observaciones == null){
-            completed_array[2]+=1;
-          }
-        }
-        if(local_data_matriz[d].Observaciones == null){
-          mes = ObtenerMes_2(parseInt(local_data_matriz[d].Fecha.split("-")[1]));
-          Anual_ventilacion[meses.indexOf(mes)]+=1;
-        }
-        total_deseadas_ventilacion[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1; 
-      }
 
 
 
-      if(local_data_matriz[d].Area == "Aire Acondicionado" && $scope.fecha_universal.split("-")[2]==local_data_matriz[d].Fecha.split("-")[2]){
-        total_deseadas[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1;
-        if(local_data_matriz[d].Observaciones == null){
-          total_completadas[parseInt(local_data_matriz[d].Fecha.split("-")[1])-1]+=1;
-        }
-      }
-    }
-
-    $scope.myJsonAnualmatriz = mixed_creator(total_deseadas,total_completadas, "Aire Acondicionado");
 
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    fecha = $scope.fecha_universal
-    if($scope.typebrocal5=="mensual"){
-      var dias = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"];
-      var datos_x_dias_sub5 =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-      var datos_x_deseados = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-      var fechas_visitadas =[];
-      var id_visitados_sub5 = [];
-      for(b = 0; b < local_data_brocales.length; b++){
-        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="5" && local_data_brocales[b].Ubicacion!="" && local_data_brocales[b].Cantidad !=0 && local_data_brocales[b].Fecha.split("-")[2].toString() == fecha.split("-")[2].toString()){ 
-          //datos_x_dias_sub5[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1]+= parseInt(local_data_brocales[b].Cantidad);     
-          datos_x_dias_sub5[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1]+= 1;
-        }
-        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="5" && id_visitados_sub5.indexOf(local_data_brocales[b].Uniqueid) == -1 && local_data_brocales[b].Demanda !="" && local_data_brocales[b].Fecha.split("-")[2].toString() == fecha.split("-")[2].toString()){
-          
-          datos_x_deseados[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1] += parseInt(local_data_brocales[b].Demanda);
-          id_visitados_sub5.push(local_data_brocales[b].Uniqueid);
-        }
-      }
-      
-      var array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
-      if(getDays(parseInt(fecha.split("-")[2]), parseInt(fecha.split("-")[1])) == 31){
-        array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
-      }
 
-      $scope.myJsonBarBrocalessub5 = bar_brocales(datos_x_deseados, datos_x_dias_sub5,array_dias ,5, "5")
 
-    }
 
-    else if($scope.typebrocal6=="anual"){
-      $scope.typebrocal5="anual"
-      var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-      var datos_x_sub5 = [0,0,0,0,0,0,0,0,0,0,0,0];
-      var fechas_vistas_sub5 =[];
-      var deseados_x_sub5 =[0,0,0,0,0,0,0,0,0,0,0,0];
-      var id_visitados_sub5 = [];
-      for (a=0; a <local_data_brocales.length ; a++){
-        if(local_data_brocales[a].Sub == "5" && local_data_brocales[a].Fecha.split("-")[2] == fecha.split("-")[2]){
-          if(id_visitados_sub5.indexOf(local_data_brocales[a].Uniqueid) == -1 ){
-            
-            mes = ObtenerMes_2(parseInt(local_data_brocales[a].Fecha.split("-")[1]));
-            datos_x_sub5[meses.indexOf(mes)] += parseInt(local_data_brocales[a].Cantidad);
-            deseados_x_sub5[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
-            id_visitados_sub5.push(local_data_brocales[a].Uniqueid);
-          }
-        }
-      }
 
-      $scope.myJsonBarBrocalessub5 = bar_brocales(deseados_x_sub5, datos_x_sub5 , ["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"] ,20, "5")    
-    }
 
-    if($scope.typebrocal6=="mensual"){
-      var dias = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"];
-      var datos_x_dias_sub6 =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-      var datos_x_deseados = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-      var fechas_visitadas =[]
-      var id_visitados_sub6 = [];
-      for(b = 0; b < local_data_brocales.length; b++){
-        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="6" && local_data_brocales[b].Ubicacion!="" && local_data_brocales[b].Cantidad != 0 && local_data_brocales[b].Fecha.split("-")[2].toString() == fecha.split("-")[2].toString()){
-          
-          datos_x_dias_sub6[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1]+=1;
-        }
-        if(local_data_brocales[b].Fecha.split("-")[1].toString() == fecha.split("-")[1].toString() && local_data_brocales[b].Sub =="6" && id_visitados_sub6.indexOf(local_data_brocales[b].Uniqueid) == -1 && local_data_brocales[b].Demanda !="" && local_data_brocales[b].Fecha.split("-")[2].toString() == fecha.split("-")[2].toString()){
-          datos_x_deseados[parseInt(local_data_brocales[b].Fecha.split("-")[0])-1] += parseInt(local_data_brocales[b].Demanda);
-          id_visitados_sub6.push(local_data_brocales[b].Uniqueid);
-        }
 
-      }
-      $scope.myJsonAnualsub6 = Chart_creator(dias, datos_x_dias_sub6, datos_x_deseados, "Limpieza de brocales Sub 6");
 
-      var array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
-      if(getDays(parseInt(fecha.split("-")[2]), parseInt(fecha.split("-")[1])) == 31){
-        array_dias = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
-      }
-      $scope.myJsonBarBrocalessub6 = bar_brocales(datos_x_deseados, datos_x_dias_sub6,array_dias ,5, "6")
-    }
-      
 
-    else if($scope.typebrocal6=="anual"){
-      var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-      var datos_x_sub6 = [0,0,0,0,0,0,0,0,0,0,0,0];
-      var fechas_vistas_sub6= [];
-      var deseados_x_sub6 = [0,0,0,0,0,0,0,0,0,0,0,0];
-      var id_visitados_sub6 = [];
-      for (a=0; a <local_data_brocales.length ; a++){
-        if(local_data_brocales[a].Sub == "6" && local_data_brocales[a].Fecha.split("-")[2].toString() == fecha.split("-")[2].toString()){
-          if(id_visitados_sub6.indexOf(local_data_brocales[a].Uniqueid) == -1 ){
-            mes = ObtenerMes_2(parseInt(local_data_brocales[a].Fecha.split("-")[1]));
-            if(local_data_brocales[a].Cantidad !="" && local_data_brocales[a].Demanda !=""){
-              datos_x_sub6[meses.indexOf(mes)] += parseInt(local_data_brocales[a].Cantidad);
-              deseados_x_sub6[meses.indexOf(mes)]+=parseInt(local_data_brocales[a].Demanda);
-            }
-            id_visitados_sub6.push(local_data_brocales[a].Uniqueid);
-          }
-          
-        }
-      }
-      $scope.myJsonBarBrocalessub6 = bar_brocales(deseados_x_sub6, datos_x_sub6 , ["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"] ,20, "6")   
-    }
+
+
+
+
+
+
 
 
     var info_sub5=[0,0];
@@ -2027,10 +2482,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     $scope.observacionessub6="";
     $scope.informacionsub5="";
     $scope.informacionsub6="";
-    $scope.miniretrosub5="";
-    $scope.miniretrosub6="";
-    $scope.levantesub5="";
-    $scope.levantesub6=""
     var entrarsub5=true;
     var entrarsub6=true;
     for(a=0; a < local_data_brocales.length ; a++){
@@ -2041,8 +2492,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
           $scope.ubicacionessub5+=local_data_brocales[a].Ubicacion;
           $scope.dotacionsub5=local_data_brocales[a].Dotacion;
           $scope.observacionessub5=local_data_brocales[a].Observaciones;
-          $scope.miniretrosub5=local_data_brocales[a].Miniretro;
-          $scope.levantesub5=local_data_brocales[a].Levante
           if(local_data_brocales[a].Demanda=="0" && entrarsub5==true){
             $scope.informacionsub5=local_data_brocales[a].Horai;
             entrarsub5=false;
@@ -2055,8 +2504,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
           $scope.ubicacionessub6+=local_data_brocales[a].Ubicacion;
           $scope.dotacionsub6=local_data_brocales[a].Dotacion;
           $scope.observacionessub6=local_data_brocales[a].Observaciones;
-          $scope.miniretrosub6=local_data_brocales[a].Miniretro;
-          $scope.levantesub6=local_data_brocales[a].Levante
           if(local_data_brocales[a].Demanda=="0" && entrarsub6==true){
             $scope.informacionsub6=local_data_brocales[a].Horai;
             entrarsub6=false;
@@ -2069,8 +2516,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     $scope.myJsondiariosub6= bar_creator(info_sub6[1], info_sub6[0], "Demanda Sub 6")
 
 
-
-
     $scope.nueva_fecha = nueva_fecha;
     $scope.nueva_fecha_2  = angular.copy($scope.nueva_fecha)
     
@@ -2079,6 +2524,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     var exact_days = get_day_numbers($scope.nueva_fecha_2);
     var array_week = [];
     var week_day = 0;
+    //console.log($scope.dateselected)
     for (a=0; a<get_day_numbers($scope.dateselected).length; a++){
       nueva_fecha_2 = new Date(exact_days[a] - $scope.dateselected.getTimezoneOffset()*60000);
       converted_date_2 = nueva_fecha_2.toISOString().split('T')[0];
@@ -2166,11 +2612,11 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       array_suma_meta.push(sorted_dictionary[a].meta)
     }
 
+
     $scope.myJsonhbar = hbar_text(array_suma_meta, name_visited)
     $scope.myJsonTest = line_chart(array_values, name_visited)
-    if(array_values.length>1){
-      $scope.myJsonSemanalDisciplina1 = Bullet_creator([array_values[0][week_day],array_values[1][week_day], array_values[2][week_day], array_values[3][week_day], array_values[4][week_day], array_values[5][week_day], array_values[6][week_day], array_values[7][week_day], array_values[8][week_day], array_values[9][week_day], array_values[10][week_day], array_values[11][week_day], array_values[12][week_day], array_values[13][week_day]], [100,100,100,100, 100, 100, 100,100,100,100,100,100,100,100], [name_visited[0], name_visited[1], name_visited[2], name_visited[3], name_visited[4], name_visited[5], name_visited[6], name_visited[7], name_visited[8], name_visited[9], name_visited[10], name_visited[11], name_visited[12], name_visited[13]])
-    }
+    $scope.myJsonSemanalDisciplina1 = Bullet_creator([array_values[0][week_day],array_values[1][week_day], array_values[2][week_day], array_values[3][week_day], array_values[4][week_day], array_values[5][week_day], array_values[6][week_day], array_values[7][week_day], array_values[8][week_day], array_values[9][week_day], array_values[10][week_day], array_values[11][week_day], array_values[12][week_day], array_values[13][week_day]], [100,100,100,100, 100, 100, 100,100,100,100,100,100,100,100], [name_visited[0], name_visited[1], name_visited[2], name_visited[3], name_visited[4], name_visited[5], name_visited[6], name_visited[7], name_visited[8], name_visited[9], name_visited[10], name_visited[11], name_visited[12], name_visited[13]])
+
 
 
     var values_1=[0];
@@ -2204,237 +2650,20 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
     var Epoch_Inicio = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"07:00:00"))*1000
     var Epoch_Final = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"17:00:00"))*1000
+
+
+    
+
+
+
     $scope.myJsonTimer1 = timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7);
-    
-
-
-
-    //---------------------------------------------------- ASISTENCIA TRASPASO----------------------------------------------------------------------------------------
-
-
-    const turnosPermitidos = ["A", "B", "C", "H", "B1", "A1", "H", "TT"];
-    var dias_asistidos = 0
-    var dias_total = 0
-    var nombre_cargos_traspaso = []
-    var asistencia_cargos = []
-    var inasistencia_cargos = []
-    $scope.headercargotraspaso = []
-
-
-    for(a=0; a < local_data_asistencia_traspaso.length; a++){
-      if( $scope.fecha_universal == local_data_asistencia_traspaso[a].Fecha){
-        if(nombre_cargos_traspaso.indexOf(local_data_asistencia_traspaso[a].Cargo.replace(/\s+/g,' ').trim()) ==-1 ){
-          nombre_cargos_traspaso.push(local_data_asistencia_traspaso[a].Cargo.replace(/\s+/g,' ').trim())
-          asistencia_cargos.push(0)
-          inasistencia_cargos.push(0)
-        }
-        if(turnosPermitidos.includes(local_data_asistencia_traspaso[a].Asistencia) ){
-          asistencia_cargos[nombre_cargos_traspaso.indexOf(local_data_asistencia_traspaso[a].Cargo.replace(/\s+/g,' ').trim())]+=1
-        }
-        else{
-          inasistencia_cargos[nombre_cargos_traspaso.indexOf(local_data_asistencia_traspaso[a].Cargo.replace(/\s+/g,' ').trim())]+=1
-        }
-        
-      }
-      
-      if(local_data_asistencia_traspaso[a].Fecha == $scope.fecha_universal){
-        $scope.asistenciatotaltraspaso.push(local_data_asistencia_traspaso[a])
-        if($scope.headercargotraspaso.indexOf(local_data_asistencia_traspaso[a].Cargo.replace(/\s+/g,' ').trim()) == -1){
-          $scope.headercargotraspaso.push(local_data_asistencia_traspaso[a].Cargo.replace(/\s+/g,' ').trim())
-        }
-      }
-
-      if(parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[1]) == parseInt($scope.fecha_universal.split("-")[1])){
-        if(turnosPermitidos.includes(local_data_asistencia_traspaso[a].Asistencia)){
-          dias_asistidos+=1
-        }
-        dias_total+=1
-      }
-    }
-
-
-    $scope.myJsonasistenciabartraspaso = asistencia_chart_traspaso(asistencia_cargos, inasistencia_cargos, nombre_cargos_traspaso, $scope.fecha_universal )
-
-    $scope.headersasistenciatraspaso = ["Nombre", "ApellidoP", "ApellidoM", "Rut", "Cargo", "Asistencia"]
-    $scope.myJsonAsistenciatraspaso1 = Pie_Asistencia_traspaso (dias_total, dias_asistidos, "mensual")
-
-    
-    
-    
-    
-
-
-
-
-    //---------------------------------------------------- DISCIPLINA TRASPASO ----------------------------------------------------------------------------------------
-
-    var array_disciplina_traspaso = []
-    var name_visited_traspaso = []
-    var diccionario_values_traspaso = []
-
-    var array_values_traspaso = []
-
-
-    for(a=0 ; a <local_data_disciplina_traspaso.length ; a++){
-      if(local_data_disciplina_traspaso[a].Fecha==array_week[0] || local_data_disciplina_traspaso[a].Fecha==array_week[1] || local_data_disciplina_traspaso[a].Fecha==array_week[2] || local_data_disciplina_traspaso[a].Fecha==array_week[3] || local_data_disciplina_traspaso[a].Fecha==array_week[4] ){
-        if(name_visited_traspaso.indexOf(local_data_disciplina_traspaso[a].Area) ==-1){
-          var aux_traspaso = []
-          name_visited_traspaso.push(local_data_disciplina_traspaso[a].Area)
-          array_disciplina_traspaso.push(parseInt(local_data_disciplina_traspaso[a].Cumplimiento))
-          aux_traspaso.push(Math.round((100*(parseInt(local_data_disciplina_traspaso[a].Meta_dia.split(":")[0])*60+parseInt(local_data_disciplina_traspaso[a].Meta_dia.split(":")[1]))/(parseFloat(local_data_disciplina_traspaso[a].Meta.split(":")[0])*60)).toFixed(8)))
-          array_values_traspaso.push(aux_traspaso)
-        }
-        else{
-          array_values_traspaso[name_visited_traspaso.indexOf(local_data_disciplina_traspaso[a].Area)].push(Math.round((100*(parseInt(local_data_disciplina_traspaso[a].Meta_dia.split(":")[0])*60+parseInt(local_data_disciplina_traspaso[a].Meta_dia.split(":")[1]))/(parseFloat(local_data_disciplina_traspaso[a].Meta.split(":")[0])*60)).toFixed(8)))
-        }
-      }
-    }
-  
-    for(a=0 ; a<array_disciplina_traspaso.length; a++){
-      var diccionario_aux = {};
-      diccionario_aux.name = name_visited_traspaso[a];
-      diccionario_aux.meta = array_disciplina_traspaso[a];
-      diccionario_aux.values = array_values_traspaso[a];
-      diccionario_values_traspaso.push(diccionario_aux)
-
-    }
-
-    var sorted_dictionary = diccionario_values_traspaso.sort(function(a,b){
-      return a.meta - b.meta
-    })
-
-    var array_disciplina_traspaso_bar = []
-    var array_name_traspaso = []
-
-    array_values_traspaso = []
-
-    for (a=0; a < sorted_dictionary.length; a++){
-      array_disciplina_traspaso_bar.push(sorted_dictionary[a].meta);
-      array_name_traspaso.push(sorted_dictionary[a].name);
-      array_values_traspaso.push(sorted_dictionary[a].values)
-
-    }
-    $scope.myJsonhbardisciplinatraspaso = hbar_text_disciplina_traspaso(array_disciplina_traspaso_bar, array_name_traspaso)
-    $scope.myJsonlinedisciplinatraspaso = line_chart_traspaso(array_values_traspaso, array_name_traspaso)
-    
-
-
-    values_1=[];
-    values_2=[];
-    values_3=[];
-    values_4=[];
-    values_5=[];
-    values_6=[];
-    values_7=[];
-
-
-    var llegada =""
-    for(a=0 ; a < local_data_disciplina_traspaso.length; a++){
-      if(local_data_disciplina_traspaso[a].Area == "Buzones" && array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)!=-1 ){
-        fecha_split = local_data_disciplina[a].Fecha.split("-")
-        fecha_invertida = fecha_split[2]+"-"+fecha_split[1]+"-"+fecha_split[0];
-        llegada = local_data_disciplina_traspaso[a].Llegada_det
-        var hora_llegada = parseInt(llegada.split(":")[0]);
-        values_1[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (parseInt(local_data_disciplina_traspaso[a].Llegada_det.split(":")[1])*60+Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+hora_llegada+":00:00")))*1000;
-        values_2[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Llegada_det,local_data_disciplina_traspaso[a].Traslado_postura ))*60*1000
-        values_3[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Traslado_postura,local_data_disciplina_traspaso[a].Ingreso_postura ))*60*1000
-        values_4[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Ingreso_postura,local_data_disciplina_traspaso[a].Salida_mina ))*60*1000
-        values_5[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Salida_mina,local_data_disciplina_traspaso[a].Almuerzo ))*60*1000
-        values_6[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Almuerzo,local_data_disciplina_traspaso[a].Traslado_buses ))*60*1000
-        values_7[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Traslado_buses,local_data_disciplina_traspaso[a].Salida_buses ))*60*1000
-      }
-    }
-
-    var hora_llegada = parseInt(llegada.split(":")[0])-1;
-
-
-    var Epoch_Inicio = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+hora_llegada.toString()+":00:00"))*1000
-    var Epoch_Final = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"17:00:00"))*1000
-    $scope.myJsonTimertraspaso1 = timer_chart_traspaso_1(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7);
-
-  //------------------------------------------------------------------ PAUTA DIARIA TRASPASO ------------------------------------------------------------------------------------
-    
-    $scope.pautadiariatotal = []
-
-    for(a=0 ; a < local_data_pauta_diaria.length; a++){
-      if(local_data_pauta_diaria[a].Fecha.toString() == $scope.fecha_universal.toString()){
-        $scope.pautadiariatotal.push(local_data_pauta_diaria[a])
-      }
-    }
-
-
-  //------------------------------------------------------------------ ASISTENCIA TTE8--------------------------------------------------------------------------------------
-
-    var nombre_cargos_tte8 = []
-    var asistencia_cargos_tte8 = []
-    var inasistencia_cargos_tte8 = []
-    const turnosPermitidos_tte8 = ["A"]
-    const turnosPermitidos_pie_tte8 = ["A", "B", "C", "De", "Pc", "V"]
-    $scope.asistenciatotaltte8 = []
-    var dias_trabajados_tte8 = 0
-    var dias_no_trabajados_tte8 = 0
-    for(a=0 ; a < local_data_asistencia_tte8.length ; a++){
-      if(local_data_asistencia_tte8[a].Fecha == $scope.fecha_universal ){
-        if(nombre_cargos_tte8.indexOf(local_data_asistencia_tte8[a].Cargo) == -1){
-          nombre_cargos_tte8.push(local_data_asistencia_tte8[a].Cargo.toUpperCase())
-          asistencia_cargos_tte8.push(0)
-          inasistencia_cargos_tte8.push(0)
-        }
-        if(turnosPermitidos_tte8.includes(local_data_asistencia_tte8[a].Tur)){
-          asistencia_cargos_tte8[nombre_cargos_tte8.indexOf(local_data_asistencia_tte8[a].Cargo.toUpperCase())]+=1
-        }
-        else{
-          inasistencia_cargos_tte8[nombre_cargos_tte8.indexOf(local_data_asistencia_tte8[a].Cargo.toUpperCase())]+=1
-        }
-        $scope.asistenciatotaltte8.push(local_data_asistencia_tte8[a])
-      }
-
-      if($scope.fecha_universal.split("-")[2]==local_data_asistencia_tte8[a].Fecha.split("-")[2] && $scope.fecha_universal.split("-")[1]==local_data_asistencia_tte8[a].Fecha.split("-")[1]){
-        if(turnosPermitidos_pie_tte8.includes(local_data_asistencia_tte8[a].Tur)){
-          dias_trabajados_tte8+=1
-        }
-        else{
-          dias_no_trabajados_tte8+=1
-        }
-      }
-      
-      
-    }
-    $scope.myJsonasistenciabartte8 = asistencia_chart_tte8(asistencia_cargos_tte8, inasistencia_cargos_tte8, nombre_cargos_tte8, $scope.fecha_universal)
-    $scope.myJsonAsistenciatte81 = Pie_Asistencia_tte8(dias_trabajados_tte8+dias_no_trabajados_tte8, dias_trabajados_tte8, "mensual")
-
-
-
-
-
-
-
-
-
-
-
-
-    
 
   }
-
-  
-
-
-  
-
-
-
-
-
-
 
 
   $scope.Asistenciatotal =[];
 
 
-
-  
 
 
 
@@ -2449,6 +2678,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     var values_5=[0];
     var values_6=[0];
     var values_7=[0];
+
     
     var name_visited = [];
     var meta = [];
@@ -2470,6 +2700,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
         fecha_split = local_data_disciplina[a].Fecha.split("-")
         fecha_invertida = fecha_split[2]+"-"+fecha_split[1]+"-"+fecha_split[0];
         llegada = local_data_disciplina[a].Llegada_Instalacion
+        console.log(llegada)
         var hora_llegada = parseInt(llegada.split(":")[0]);
         values_1[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Llegada_Instalacion.split(":")[1])*60+Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+hora_llegada.toString()+":00:00")))*1000;
         values_2[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Tiempo_Instalacion.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Instalacion.split(":")[1]))*60*1000
@@ -2480,275 +2711,17 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
         values_7[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[1]))*60*1000
       }
     }
+
+
     var hora_llegada = parseInt(llegada.split(":")[0])-1;
+
     var Epoch_Inicio = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+hora_llegada.toString()+":00:00"))*1000
     var Epoch_Final = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"17:00:00"))*1000
+
     
     $scope.myJsonTimer1 = timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7);
-  }
-
-  $scope.changegraphtimertraspaso = function(name){
-    $scope.nueva_fecha_2  = angular.copy($scope.fecha_universal)
-    nueva_fecha = new Date($scope.nueva_fecha_2.split("-")[2]+"-"+$scope.nueva_fecha_2.split("-")[1]+"-"+$scope.nueva_fecha_2.split("-")[0]);
-
-    var values_1=[0];
-    var values_2=[0];
-    var values_3=[0];
-    var values_4=[0];
-    var values_5=[0];
-    var values_6=[0];
-    var values_7=[0];
-    var values_8=[0];
-    var name_visited = [];
-    var meta = [];
-    var exact_days = get_day_numbers(nueva_fecha);
-    var array_week = [];
-    var week_day = 0;
-    for (a=0; a<get_day_numbers(nueva_fecha).length; a++){
-      nueva_fecha_2 = new Date(exact_days[a] - nueva_fecha.getTimezoneOffset()*60000);
-      converted_date_2 = nueva_fecha_2.toISOString().split('T')[0];
-      fecha_2 = converted_date_2.split("-")[2]+"-"+converted_date_2.split("-")[1]+"-"+converted_date_2.split("-")[0];
-      array_week.push(fecha_2);
-    }
 
 
-    fecha = $scope.fecha_universal;
-    var llegada = "";
-    for(a=0; a<local_data_disciplina_traspaso.length; a++){
-      if(local_data_disciplina_traspaso[a].Area == name && array_week.indexOf(local_data_disciplina_traspaso[a].Fecha) !=-1 && (name=="Buzones" || name == "Mant.Vias" )){
-        fecha_split = local_data_disciplina[a].Fecha.split("-")
-        fecha_invertida = fecha_split[2]+"-"+fecha_split[1]+"-"+fecha_split[0];
-        llegada = local_data_disciplina_traspaso[a].Llegada_det
-        var hora_llegada = parseInt(llegada.split(":")[0]);
-        values_1[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (parseInt(local_data_disciplina_traspaso[a].Llegada_det.split(":")[1])*60+Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+hora_llegada+":00:00")))*1000;
-        values_2[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Llegada_det,local_data_disciplina_traspaso[a].Traslado_postura ))*60*1000
-        values_3[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Traslado_postura,local_data_disciplina_traspaso[a].Ingreso_postura ))*60*1000
-        values_4[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Ingreso_postura,local_data_disciplina_traspaso[a].Salida_mina ))*60*1000
-        values_5[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Salida_mina,local_data_disciplina_traspaso[a].Almuerzo ))*60*1000
-        values_6[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Almuerzo,local_data_disciplina_traspaso[a].Traslado_buses ))*60*1000
-        values_7[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Traslado_buses,local_data_disciplina_traspaso[a].Salida_buses ))*60*1000
-      }
-      else if(local_data_disciplina_traspaso[a].Area == name && array_week.indexOf(local_data_disciplina_traspaso[a].Fecha) !=-1 && (name=="Locos.Carros" )){
-        fecha_split = local_data_disciplina[a].Fecha.split("-")
-        fecha_invertida = fecha_split[2]+"-"+fecha_split[1]+"-"+fecha_split[0];
-        llegada = local_data_disciplina_traspaso[a].Llegada_det
-        var hora_llegada = parseInt(llegada.split(":")[0]);
-        values_1[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (parseInt(local_data_disciplina_traspaso[a].Llegada_det.split(":")[1])*60+Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+hora_llegada+":00:00")))*1000;
-        values_2[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Llegada_det,local_data_disciplina_traspaso[a].Traslado_postura ))*60*1000
-        values_3[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Traslado_postura,local_data_disciplina_traspaso[a].Ingreso_postura ))*60*1000
-        values_4[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Ingreso_postura,local_data_disciplina_traspaso[a].Almuerzo ))*60*1000
-        values_5[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Almuerzo,local_data_disciplina_traspaso[a].Ingreso_postura_pm ))*60*1000
-        values_6[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Ingreso_postura_pm,local_data_disciplina_traspaso[a].Traslado_buses ))*60*1000
-        values_7[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Traslado_buses,local_data_disciplina_traspaso[a].Salida_buses ))*60*1000
-      }
-
-      else if(local_data_disciplina_traspaso[a].Area == name && array_week.indexOf(local_data_disciplina_traspaso[a].Fecha) !=-1 && (name=="A1" || name =="B1" )){
-        fecha_split = local_data_disciplina[a].Fecha.split("-")
-        fecha_invertida = fecha_split[2]+"-"+fecha_split[1]+"-"+fecha_split[0];
-        llegada = local_data_disciplina_traspaso[a].Llegada_det
-        var hora_llegada = parseInt(llegada.split(":")[0]);
-        values_1[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (parseInt(local_data_disciplina_traspaso[a].Llegada_det.split(":")[1])*60+Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+hora_llegada+":00:00")))*1000;
-        values_2[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Llegada_det,local_data_disciplina_traspaso[a].Traslado_postura ))*60*1000
-        values_3[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Traslado_postura,local_data_disciplina_traspaso[a].Ingreso_postura ))*60*1000
-        values_4[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Ingreso_postura,local_data_disciplina_traspaso[a].Salida_mina ))*60*1000
-        values_5[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Salida_mina,local_data_disciplina_traspaso[a].Cena ))*60*1000
-        values_6[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Cena,local_data_disciplina_traspaso[a].Ingreso_am ))*60*1000
-        values_7[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Ingreso_am,local_data_disciplina_traspaso[a].Salida_camarines ))*60*1000
-        values_8[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Salida_camarines,local_data_disciplina_traspaso[a].Salida_buses ))*60*1000
-      }
-
-    }
-    var hora_llegada = parseInt(llegada.split(":")[0])-1;
-
-
-    var Epoch_Inicio = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+hora_llegada.toString()+":00:00"))*1000
-    var Epoch_Final = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"17:00:00"))*1000
-    if(name=="Buzones" || name=="Mant.Vias"){
-      $scope.myJsonTimertraspaso1 = timer_chart_traspaso_1(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7);
-    }
-
-    else if(name=="Locos.Carros"){
-      $scope.myJsonTimertraspaso1 = timer_chart_traspaso_2(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7);  
-    }
-    else{
-      $scope.myJsonTimertraspaso1 = timer_chart_traspaso_3(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7, values_8);
-    }
-
-  }
-
-
-
-
-
-  $scope.ruttraspaso = "";
-  $scope.ruttte8 = ""
-  $scope.filltableasistenciatraspaso = function(name){
-    const turnosPermitidos = ["A", "B", "C", "H", "B1", "A1", "H", "TT"];
-    var dias_asistidos = 0
-    var dias_total = 0
-    
-    $scope.asistenciatotaltraspaso = []
-    for(a=0; a < local_data_asistencia_traspaso.length; a++){
-      if(local_data_asistencia_traspaso[a].Cargo == name){
-        $scope.asistenciatotaltraspaso.push(local_data_asistencia_traspaso[a])
-      }
-      if(parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[1]) == parseInt($scope.fecha_universal.split("-")[1])){
-        if(turnosPermitidos.includes(local_data_asistencia_traspaso[a].Asistencia)){
-          dias_asistidos+=1
-        }
-        dias_total+=1
-      }
-
-    }
-    $scope.myJsonAsistenciatraspaso1 = Pie_Asistencia_traspaso (dias_total, dias_asistidos, $scope.fecha_universal)
-
-  }
-
-
-
-  $scope.changeinassitancetraspaso = function(name){
-    const turnosPermitidos = ["A", "B", "C", "H", "B1", "A1", "H", "TT"];
-    var dias_asistidos = 0;
-    var dias_total = 0;
-    
-    for(a=0 ; a < local_data_asistencia_traspaso.length; a++){
-
-      if(name=="hoy"){
-        if(parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[0]) == parseInt($scope.fecha_universal.split("-")[0])){
-          if(turnosPermitidos.includes(local_data_asistencia_traspaso[a].Asistencia)){
-            dias_asistidos+=1
-          }
-          dias_total+=1
-        }
-      }
-      else if(name=="mensual"){
-        if(parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[1]) == parseInt($scope.fecha_universal.split("-")[1])){
-          if(turnosPermitidos.includes(local_data_asistencia_traspaso[a].Asistencia)){
-            dias_asistidos+=1
-          }
-          dias_total+=1
-        }
-      }
-      else if(name=="anual"){
-        if(parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[2]) == parseInt($scope.fecha_universal.split("-")[2])){
-          if(turnosPermitidos.includes(local_data_asistencia_traspaso[a].Asistencia)){
-            dias_asistidos+=1
-          }
-          dias_total+=1
-        }
-      }     
-    }
-    $scope.myJsonAsistenciatraspaso1 = Pie_Asistencia_traspaso (dias_total, dias_asistidos, name)
-  }
-
-  $scope.changeinassitancetraspaso2 = function(name){
-    const turnosPermitidos = ["A", "B", "C", "H", "B1", "A1", "H", "TT"];
-    var dias_asistidos = 0;
-    var dias_total = 0;
-    var nombre_traspaso = ""
-    $scope.asistenciatotaltraspasomodal = []
-    for(a=0 ; a < local_data_asistencia_traspaso.length; a++){
-      if(name == "mensual"){
-        if( local_data_asistencia_traspaso[a].Rut == $scope.ruttraspaso && parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[1]) == parseInt($scope.fecha_universal.split("-")[1])){
-          $scope.nombre_traspaso = local_data_asistencia_traspaso[a].Nombre
-          $scope.asistenciatotaltraspasomodal.push(local_data_asistencia_traspaso[a])
-          if(turnosPermitidos.includes(local_data_asistencia_traspaso[a].Asistencia)){
-            dias_asistidos+=1
-          }
-          dias_total+=1
-        }
-      }
-      if(name == "anual"){
-        if( local_data_asistencia_traspaso[a].Rut == $scope.ruttraspaso && parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[2]) == parseInt($scope.fecha_universal.split("-")[2])){
-          $scope.nombre_traspaso = local_data_asistencia_traspaso[a].Nombre
-          $scope.asistenciatotaltraspasomodal.push(local_data_asistencia_traspaso[a])
-          if(turnosPermitidos.includes(local_data_asistencia_traspaso[a].Asistencia)){
-            dias_asistidos+=1
-          }
-          dias_total+=1
-        }
-      }
-    }
-    $scope.myJsonAsistenciatrabajadortraspaso = Pie_Asistencia_traspaso (dias_total, dias_asistidos, $scope.nombre_traspaso )
-  }
-
-  $scope.changeinassitancette82 = function(name){
-    const turnosPermitidos_pie_tte8 = ["A", "B", "C", "De", "Pc", "V"]
-    var nombre_tte8 = ""
-    var dias_asistidos_tte8 = 0
-    var dias_no_asistidos_tte8 = 0
-    for(a=0; a < local_data_asistencia_tte8.length; a++){
-      if(name == "mensual"){
-        if(local_data_asistencia_tte8[a].Rut == $scope.ruttte8 && parseInt(local_data_asistencia_tte8[a].Fecha.split("-")[1]) == parseInt($scope.fecha_universal.split("-")[1]) ){
-          nombre_tte8 = local_data_asistencia_tte8[a].Nombre
-          if(turnosPermitidos_pie_tte8.includes(local_data_asistencia_tte8[a].Tur)){
-            dias_asistidos_tte8+=1
-          }
-          else{
-            dias_no_asistidos_tte8+=1
-          }
-        }
-      }
-      if(name == "anual"){
-        if(local_data_asistencia_tte8[a].Rut == $scope.ruttte8 && parseInt(local_data_asistencia_tte8[a].Fecha.split("-")[2]) == parseInt($scope.fecha_universal.split("-")[2]) ){
-          nombre_tte8 = local_data_asistencia_tte8[a].Nombre
-          if(turnosPermitidos_pie_tte8.includes(local_data_asistencia_tte8[a].Tur)){
-            dias_asistidos_tte8+=1
-          }
-          else{
-            dias_no_asistidos_tte8+=1
-          }
-        }
-      }
-    }
-    $scope.myJsonAsistenciatrabajadortte8 = Pie_Asistencia_tte8(dias_asistidos_tte8+dias_no_asistidos_tte8, dias_asistidos_tte8, nombre_tte8)
-  }
-
-  $scope.searchWorkerTraspaso = function(index){
-    var dias_asistidos = 0;
-    var dias_total = 0 ; 
-    const turnosPermitidos = ["A", "B", "C", "H", "B1", "A1", "H", "TT"];
-    $scope.asistenciatotaltraspasomodal = []
-    $scope.ruttraspaso = $scope.asistenciatotaltraspaso[index].Rut
-
-    for(a=0 ; a < local_data_asistencia_traspaso.length; a++){
-      if(local_data_asistencia_traspaso[a].Rut == $scope.asistenciatotaltraspaso[index].Rut  && parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[1]) == parseInt($scope.fecha_universal.split("-")[1])){
-        $scope.asistenciatotaltraspasomodal.push(local_data_asistencia_traspaso[a])
-        if(turnosPermitidos.includes(local_data_asistencia_traspaso[a].Asistencia)){
-          dias_asistidos+=1
-        }
-        dias_total+=1
-      }
-    }
-
-    $scope.myJsonAsistenciatrabajadortraspaso = Pie_Asistencia_traspaso (dias_total, dias_asistidos, $scope.asistenciatotaltraspaso[index].Nombre )
-  }
-
-  $scope.searchWorkerTte8 = function(index){
-    const turnosPermitidos_pie_tte8 = ["A", "B", "C", "De", "Pc", "V"]
-    var dias_trabajados_tte8_trabajador = 0
-    var dias_no_trabajados_tte8_trabajador = 0
-    $scope.ruttte8 = $scope.asistenciatotaltte8[index].Rut
-    for(a=0; a < local_data_asistencia_tte8.length; a++){
-      if(local_data_asistencia_tte8[a].Rut == $scope.asistenciatotaltte8[index].Rut && parseInt(local_data_asistencia_tte8[a].Fecha.split("-")[1]) == parseInt($scope.fecha_universal.split("-")[1])){
-        if(turnosPermitidos_pie_tte8.includes(local_data_asistencia_tte8[a].Tur)){
-          dias_trabajados_tte8_trabajador+=1
-        }
-        else{
-          dias_no_trabajados_tte8_trabajador+=1
-        }
-      }
-    }
-
-    $scope.myJsonAsistenciatrabajadortte8 = Pie_Asistencia_tte8(dias_trabajados_tte8_trabajador+dias_no_trabajados_tte8_trabajador, dias_trabajados_tte8_trabajador, $scope.asistenciatotaltte8[index].Nombre)
-
-  }
-
-  $scope.modaltraspasoasistencia = function(){
-    var myModala = new bootstrap.Modal(document.getElementById('Modalasistenciatraspaso'), {
-          keyboard: false
-      })
-      myModala.toggle()
   }
 
   $scope.filltableasistencia = function(name){
@@ -2763,7 +2736,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   $scope.searchWorker = function(index){
     $scope.rutworker = $scope.Asistenciatotal[index].Rut
     rut_worker = $scope.Asistenciatotal[index].Rut
-    $scope.name_worker = $scope.Asistenciatotal[index].Nombre
+    name_worker = $scope.Asistenciatotal[index].Nombre
     $scope.Asistenciatotal =[]
     fecha = $scope.fecha_universal;
     var dias_trabajados = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -2773,9 +2746,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     var Arr_fechas_visitadas = [];
 
     for(a=0; a<local_data_asistencia.length; a++){
-      if(local_data_asistencia[a].Rut==rut_worker ){
+      if(local_data_asistencia[a].Rut==rut_worker){
         $scope.Asistenciatotal.push(local_data_asistencia[a])
-        if(local_data_asistencia[a].Fechaingreso.split("-")[1]==fecha.split("-")[1] ){
+        if(local_data_asistencia[a].Fechaingreso.split("-")[1]==fecha.split("-")[1]){
           dias_trabajados[parseInt(local_data_asistencia[a].Fechaingreso.split("-")[0])-1]+=1;
           if(local_data_asistencia[a].Turno == "A" || local_data_asistencia[a].Turno == "B" || local_data_asistencia[a].Turno == "C" || local_data_asistencia[a].Turno == "DESCANSO"){
             turno_dias_trabajados[parseInt(local_data_asistencia[a].Fechaingreso.split("-")[0])-1]=local_data_asistencia[a].Turno;
@@ -2784,50 +2757,43 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
             turno_dias_trabajados[parseInt(local_data_asistencia[a].Fechaingreso.split("-")[0])-1]="0";
           }
         }
+
+        /*if(Arr_fechas_visitadas.indexOf(local_data_asistencia[a].Fecha) == -1){
+          Total_dias_trabajo+=1
+          Arr_fechas_visitadas.push(local_data_asistencia[a].Fecha);
+        }*/
         Total_dias_trabajo+=1;
-        if(local_data_asistencia[a].Turno == "A" || local_data_asistencia[a].Turno == "B" || local_data_asistencia[a].Turno == "C" || local_data_asistencia[a].Turno == "DESCANSO"){
+        if(local_data_asistencia[a].Turno == "A" || local_data_asistencia[a].Turno == "B"){
           Asistencia_al_trabajo+=1;
         }
       }
 
 
     }
-    $scope.myJsonasistenciaworker = line_creator(dias_trabajados,$scope.name_worker,[0,1])
-    $scope.myJsonasistenciaworkerturn = Pie_Asistencia(Total_dias_trabajo, Asistencia_al_trabajo, $scope.name_worker);
+    $scope.myJsonasistenciaworker = line_creator(dias_trabajados,name_worker,[0,1])
+    //$scope.myJsonasistenciaworkerturn = line_creator(turno_dias_trabajados,name_worker,["0","A","B","C", "DESCANSO"])
+    $scope.myJsonasistenciaworkerturn = Pie_Asistencia(Total_dias_trabajo, Asistencia_al_trabajo, name_worker);
   }
 
   $scope.changeinassitance = function(name){
     fecha = $scope.fecha_universal;
-    var Total_dias_trabajo = 0
-    var Asistencia_al_trabajo = 0
+    //Asistenciatotal
     $scope.Asistenciatotal = []
+    console.log($scope.rutworker)
     if(name == "mensual"){
       for(a=0; a<local_data_asistencia.length; a++){
-        if(local_data_asistencia[a].Rut == $scope.rutworker && local_data_asistencia[a].Fechaingreso.split("-")[1] == fecha.split("-")[1] &&  local_data_asistencia[a].Fechaingreso.split("-")[2] == fecha.split("-")[2]){
-          if(local_data_asistencia[a].Turno!="A" &&  local_data_asistencia[a].Turno!="B" && local_data_asistencia[a].Turno!="C" && local_data_asistencia[a].Turno!="DESCANSO"){
-            $scope.Asistenciatotal.push(local_data_asistencia[a])
-          }
-          Total_dias_trabajo+=1;
-          if(local_data_asistencia[a].Turno == "A" || local_data_asistencia[a].Turno == "B" || local_data_asistencia[a].Turno == "C" || local_data_asistencia[a].Turno == "DESCANSO"){
-            Asistencia_al_trabajo+=1;
-          }
+        if(local_data_asistencia[a].Rut == $scope.rutworker && local_data_asistencia[a].Fechaingreso.split("-")[1] == fecha.split("-")[1] && local_data_asistencia[a].Turno!="A" &&  local_data_asistencia[a].Turno!="B"){
+          $scope.Asistenciatotal.push(local_data_asistencia[a])
         }
       }
     }
     else{
       for(a=0; a<local_data_asistencia.length; a++){
-        if(local_data_asistencia[a].Rut == $scope.rutworker){
-          if(local_data_asistencia[a].Turno!="A" &&  local_data_asistencia[a].Turno!="B" && local_data_asistencia[a].Turno!="C" && local_data_asistencia[a].Turno!="DESCANSO"){
-            $scope.Asistenciatotal.push(local_data_asistencia[a])
-          }
-          Total_dias_trabajo+=1;
-          if(local_data_asistencia[a].Turno == "A" || local_data_asistencia[a].Turno == "B" || local_data_asistencia[a].Turno == "C" || local_data_asistencia[a].Turno == "DESCANSO"){
-            Asistencia_al_trabajo+=1;
-          }
+        if(local_data_asistencia[a].Rut == $scope.rutworker && local_data_asistencia[a].Fechaingreso.split("-")[2] == fecha.split("-")[2] && local_data_asistencia[a].Turno!="A" &&  local_data_asistencia[a].Turno!="B"){
+          $scope.Asistenciatotal.push(local_data_asistencia[a])
         }
       }
     }
-    $scope.myJsonasistenciaworkerturn = Pie_Asistencia(Total_dias_trabajo, Asistencia_al_trabajo, $scope.name_worker);
   }
 
   $scope.checkpassword = function(){
@@ -2881,6 +2847,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
     var nombre_tabla = $scope.archivostotal[index].Tabla;
     var Idingreso = $scope.archivostotal[index].Idingreso;
+    console.log(Idingreso)
     
     if (nombre_tabla == "asistencia"){
       $scope.Totalasistenciaarchivos =[]
@@ -2977,32 +2944,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       })
       myModala.toggle()
     }
-    else if (nombre_tabla == "Trabajos"){
-      $scope.Totaltrabajos =[]
-      for(a=0; a < local_data_trabajos.length; a++){
-        if(local_data_trabajos[a].Idingreso == Idingreso){
-          $scope.Totaltrabajos.push(local_data_trabajos[a])
-        }
-      }
 
-      var myModala = new bootstrap.Modal(document.getElementById('Modaltrabajos'), {
-          keyboard: false
-      })
-      myModala.toggle()
-    }
-    else if (nombre_tabla == "workpad"){
-      $scope.Totaltrabajos =[]
-      for(a=0; a < local_data_trabajos.length; a++){
-        if(local_data_trabajos[a].Idingreso == Idingreso){
-          $scope.Totaltrabajos.push(local_data_trabajos[a])
-        }
-      }
-
-      var myModala = new bootstrap.Modal(document.getElementById('Modaltrabajos'), {
-          keyboard: false
-      })
-      myModala.toggle()
-    }
 
 
 
@@ -3010,18 +2952,18 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
   $scope.SendDelete = function(){
     $scope.Archivoseliminados = {"hola" : "esto es coso"}
-    
+    console.log($scope.archivoseliminar)
     $http({
             method : 'POST',
             url : '/delete',
             data : JSON.stringify($scope.archivoseliminar)
         })
     $scope.archivoseliminar = []
-
-
-
   }
+
+  
   $scope.changearchivosdel = function(index){
+    console.log($scope.archivoseliminar)
     var nombre_tabla = $scope.archivoseliminar[index].Tabla;
     var Idingreso = $scope.archivoseliminar[index].Idingreso;
     
@@ -3039,6 +2981,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       myModala.toggle()
       
     }
+
     else if(nombre_tabla == "vimosap"){
       $scope.Totalplanificacion =[]
       for(a=0; a < local_data_sap.length; a++){
@@ -3119,124 +3062,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       })
       myModala.toggle()
     }
+
+
   }
-
-
-
-  const elementos = ["Creacion", "Modificacion", "Reporte", "Archivos", "Vistatotal"];
-  $scope.GotoPanel = function(){
-    if (options == true) {
-      elementos.forEach((elemento) => {
-        const el = document.getElementById(elemento);
-        el.style.display = "none";
-        el.classList.remove("w3-red");
-      });
-
-      document.getElementById("Vistatotal").style.display = "block";
-      document.getElementById("Vistatotal").classList.add("w3-red");
-    }
-    document.getElementById("Vistatotal").scrollIntoView({behavior: 'smooth'});
-  }
-  $scope.GotoAsistencia = function(){
-    if (options == true) {
-      elementos.forEach((elemento) => {
-        const el = document.getElementById(elemento);
-        el.style.display = "none";
-        el.classList.remove("w3-red");
-      });
-
-      document.getElementById("Vistatotal").style.display = "block";
-      document.getElementById("Vistatotal").classList.add("w3-red");
-    }
-    
-    document.getElementById("Asistencia").scrollIntoView({behavior: 'smooth'});
-  }
-  $scope.GotoPlanmatriz = function(){
-    if (options == true) {
-      elementos.forEach((elemento) => {
-        const el = document.getElementById(elemento);
-        el.style.display = "none";
-        el.classList.remove("w3-red");
-      });
-
-      document.getElementById("Vistatotal").style.display = "block";
-      document.getElementById("Vistatotal").classList.add("w3-red");
-    }
-    
-    document.getElementById("Planmatriz").scrollIntoView({behavior: 'smooth'});
-  }
-  $scope.GotoBrocales = function(){
-    if (options == true) {
-      elementos.forEach((elemento) => {
-        const el = document.getElementById(elemento);
-        el.style.display = "none";
-        el.classList.remove("w3-red");
-      });
-
-      document.getElementById("Vistatotal").style.display = "block";
-      document.getElementById("Vistatotal").classList.add("w3-red");
-    }
-    
-    document.getElementById("Brocales").scrollIntoView({behavior: 'smooth'});
-  }
-  $scope.GotoDisciplina = function(){
-    if (options == true) {
-      elementos.forEach((elemento) => {
-        const el = document.getElementById(elemento);
-        el.style.display = "none";
-        el.classList.remove("w3-red");
-      });
-
-      document.getElementById("Vistatotal").style.display = "block";
-      document.getElementById("Vistatotal").classList.add("w3-red");
-    }
-    
-    document.getElementById("Disciplina").scrollIntoView({behavior: 'smooth'});
-  }
-
-  $scope.GotoAsistenciatraspaso = function(){
-    if (options == true) {
-      elementos.forEach((elemento) => {
-        const el = document.getElementById(elemento);
-        el.style.display = "none";
-        el.classList.remove("w3-red");
-      });
-
-      document.getElementById("Vistatotal").style.display = "block";
-      document.getElementById("Vistatotal").classList.add("w3-red");
-      /*document.getElementById("Creacion").style.display = "none";
-      document.getElementById("Creacion").className.replace(" w3-red", "");
-      document.getElementById("Modificacion").style.display = "none";
-      document.getElementById("Modificacion").className.replace(" w3-red", "");
-      document.getElementById("Reporte").style.display = "none";
-      document.getElementById("Reporte").className.replace(" w3-red", "");
-      document.getElementById("Creacion").style.display = "none";
-      document.getElementById("Creacion").className.replace(" w3-red", "");
-      document.getElementById("Archivos").style.display = "none";
-      document.getElementById("Archivos").className.replace(" w3-red", "");
-      document.getElementById("Vistatotal").style.display = "block";
-      document.getElementById("Vistatotal").className+= " w3-red";*/
-    }
-    document.getElementById("Asistenciatraspaso").scrollIntoView({behavior: 'smooth'});
-  }
-
-  $scope.GotoAsistenciatte8 = function(){
-    if (options == true) {
-      elementos.forEach((elemento) => {
-        const el = document.getElementById(elemento);
-        el.style.display = "none";
-        el.classList.remove("w3-red");
-      });
-
-      document.getElementById("Vistatotal").style.display = "block";
-      document.getElementById("Vistatotal").classList.add("w3-red");
-    }
-    
-    document.getElementById("Asistenciatte8").scrollIntoView({behavior: 'smooth'});
-  }
-
-
-
   $scope.deletearchivos = function(index){
     var nombre_tabla = $scope.archivostotal[index].Tabla;
     var Idingreso = $scope.archivostotal[index].Idingreso;
@@ -3277,7 +3105,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
     for(a=0 ; a < local_data_asistencia.length; a++){
       fecha_asistencia = new Date(local_data_asistencia[a].Fechaingreso.split("-")[2].toString()+"-"+local_data_asistencia[a].Fechaingreso.split("-")[1].toString()+"-"+local_data_asistencia[a].Fechaingreso.split("-")[0].toString()+" "+"23:00:00")
-      
+     
       if(fecha_asistencia.getTime() >= Fechaaux1.getTime() && fecha_asistencia.getTime() <= Fechaaux2.getTime()){
         if($scope.sitios_visitados.indexOf(local_data_asistencia[a].Sector)==-1){
           var sitio = {}
@@ -3343,10 +3171,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     if($scope.array_sitios_visitados.length >0){
       $scope.myJsonAsistenciaReport = line_asistenciar_report($scope.sitios_visitados[0],$scope.array_sitios_visitados[0].asistenciafecha, fechas_visitadas_report)
     }
-
-    console.log($scope.sitios_visitados[0])
-    console.log($scope.array_sitios_visitados[0].asistenciafecha)
-    console.log(fechas_visitadas_report)
 
     $scope.primersector = $scope.sitios_visitados[0]
 
@@ -3426,19 +3250,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
     $scope.myJsonBrocalesreport1v2 = pie3d_brocales_reportv2(cantidad_realizada_sub5, demanda_total_sub5-cantidad_realizada_sub5, 5)
     $scope.myJsonBrocalesreport2v2 = pie3d_brocales_reportv2(cantidad_realizada_sub6, demanda_total_sub6-cantidad_realizada_sub6, 6)
-
-    $scope.Totalreportebrocales=[]
-    var brocales_visitados = []
-    for(d=0 ; d<local_data_brocales.length; d++){
-      fecha_brocales = new Date(local_data_brocales[d].Fecha.split("-")[2].toString()+"-"+local_data_brocales[d].Fecha.split("-")[1].toString()+"-"+local_data_brocales[d].Fecha.split("-")[0].toString()+" "+"23:00:00")
-      if(fecha_brocales.getTime() >= Fechaaux1.getTime() && fecha_brocales.getTime() <= Fechaaux2.getTime()){
-        if(brocales_visitados.indexOf(local_data_brocales[d].Uniqueid) == -1){
-          brocales_visitados.push(local_data_brocales[d].Uniqueid)
-          $scope.Totalreportebrocales.push(local_data_brocales[d])
-        }
-        
-      }
-    }
 
 
     //------------------------------------- PLAN MATRIZ-------------------------------------------------------------
@@ -3538,6 +3349,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       }
     }
 
+    console.log(array_values)
+    console.log(contando_feriados)
     
     for(a=0; a < array_values.length; a++){
       suma = 0;
@@ -3556,6 +3369,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       array_suma_meta[a] = Math.round((parseFloat(array_suma_meta[a]/((parseInt(meta[a].split(':')[0])*60 + parseInt(meta[a].split(':')[1]))*(contando_feriados[a])))*100).toFixed(8))
     }
 
+    console.log(array_suma_meta)
 
 
     //Bullet_creator([array_values[0][week_day],array_values[1][week_day], array_values[2][week_day], array_values[3][week_day], array_values[4][week_day], array_values[5][week_day], array_values[6][week_day], array_values[7][week_day], array_values[8][week_day], array_values[9][week_day], array_values[10][week_day], array_values[11][week_day], array_values[12][week_day], array_values[13][week_day]], [100,100,100,100, 100, 100, 100,100,100,100,100,100,100,100], [name_visited[0], name_visited[1], name_visited[2], name_visited[3], name_visited[4], name_visited[5], name_visited[6], name_visited[7], name_visited[8], name_visited[9], name_visited[10], name_visited[11], name_visited[12], name_visited[13]])
@@ -3567,10 +3381,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
   $scope.Cambiositio = function(){
     $scope.myJsonAsistenciaReport = line_asistenciar_report($scope.columnsitio ,$scope.array_sitios_visitados[$scope.sitios_visitados.indexOf($scope.columnsitio)].asistenciafecha, $scope.fechas_visitadas_report)
-  }
-
-  $scope.openTutorial = function(){
-    location.href  = window.location.href.split("/")[0]+"/"+"tutorial"
   }
 
   $scope.blurr = function(){
@@ -3618,34 +3428,297 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
   }
 
-  $scope.logout = function(){
-    location.href  = window.location.href.split("/")[0]+"/"+"logout"
-  }
-  $scope.deletename=""
-  $scope.datostrabajador=""
+  $scope.Actividadestutorial = ["Login","Loginmodal","Fecha","Archivos","ModalArchivos","Panel","Panelasistencia", "Panelplanmatriz", "Panelbrocales", "Paneldisciplina","Panel","Panelmodificacion", "Panelmodificacionmodal","Panelreporte", "Panelcreacion", "Panelarchivos", "Fin"]
+  // "Login","Loginmodal","Fecha","Archivos","ModalArchivos","Panel","Panelasistencia", "Panelplanmatriz", "Panelbrocales", "Paneldisciplina",
 
-  $scope.borrarmodal = function(index){
-     var myModala = new bootstrap.Modal(document.getElementById('modalborrar'), {
+  $scope.tutorialcontador = 0
+  $scope.backtonormal = function(){
+    location.href  = window.location.href.split("/")[0]+"/"+"dashboard"
+  }
+
+  $scope.siguiente = function(){
+    document.getElementById('pruebama').click();
+  }
+
+  $scope.gotoprueba = function(){
+    document.getElementById("Asistencia").scrollIntoView({behavior: 'smooth'});
+    console.log("hola")
+  }
+
+  $scope.tutorialcontinue = function(){
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Login"){
+      //$("*").css("filter","blur(0px)");
+      $("#probando>*:not(#blur1,#Modaltutorial,#Modallogin)").css("filter","blur(5px)");
+      $("#blur1>*:not(#blurlogin2)").css("filter","blur(5px)");
+      $("#blurlogin2>*:not(#blurlogin3)").css("filter","blur(5px)");
+      $("#blurlogin3>*:not(#loginbutton)").css("filter","blur(5px)");
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "En la parte superior derecha tenemos el boton de ingresar, al presionarlo desplegará otra pantalla donde podremos ingresar nuestros datos si es que poseemos una cuenta"
+      
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Loginmodal"){
+      var myModala = new bootstrap.Modal(document.getElementById('Modallogin'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "Para el ingreso de cuenta solo se necesita un nombre de usuario y una contraseña"
+
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Fecha"){
+      //$("*").css("filter","blur(0px)");
+      //$("#probando").css("filter","blur(0px)");
+      $("#probando>*:not(#blur1,#Modaltutorial,#Modallogin)").css("filter","blur(0px)");
+      $("#blur1>*:not(#blurlogin2)").css("filter","blur(0px)");
+      $("#blurlogin2>*:not(#blurlogin3)").css("filter","blur(0px)");
+      $("#blurlogin3>*:not(#loginbutton)").css("filter","blur(0px)");
+
+      $("#probando>*:not(#blur1,#Modaltutorial)").css("filter","blur(5px)");
+      $("#blur1>*:not(#blurfecha2)").css("filter","blur(5px)");
+      $("#blurfecha2>*:not(#blurfecha3)").css("filter","blur(5px)");
+      $("#blurfecha3>*:not(#startDate)").css("filter","blur(5px)");
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "En la parte superior izquierda tenemos la fecha, actualmente marca la fecha de hoy, pero al apretar despliega un calendario que nos permite cambiar la fecha. Al cambiar la fecha, modifica los datos que mostrará el sistema"
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Archivos"){
+      //$("*").css("filter","blur(0px)");
+      $("#probando>*:not(#blur1,#Modaltutorial)").css("filter","blur(0px)");
+      $("#blur1>*:not(#blurfecha2)").css("filter","blur(0px)");
+      $("#blurfecha2>*:not(#blurfecha3)").css("filter","blur(0px)");
+      $("#blurfecha3>*:not(#startDate)").css("filter","blur(0px)");
+
+      $("#probando>*:not(#blur1,#Modaltutorial)").css("filter","blur(5px)");
+      $("#blur1>*:not(#blurfecha2)").css("filter","blur(5px)");
+      $("#blurfecha2>*:not(#bluringreso)").css("filter","blur(5px)");
+      $("#bluringreso>*:not(#ingreso)").css("filter","blur(5px)");
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "Al costado derecho de la fecha, tenemos el botón de ingresar archivos, este boton solo les aparece a los usuarios que tienen permitido ingresar archivos"
+    
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="ModalArchivos"){
+      //$("*").css("filter","blur(0px)");
+      $("#probando>*:not(#blur1,#Modaltutorial)").css("filter","blur(0px)");
+      $("#blur1>*:not(#blurfecha2)").css("filter","blur(0px)");
+      $("#blurfecha2>*:not(#bluringreso)").css("filter","blur(0px)");
+      $("#bluringreso>*:not(#ingreso)").css("filter","blur(0px)");
+
+      $("#probando>*:not(#Modalfiles)").css("filter","blur(5px)");
+      $("#Modalfiles>*:not(#Modalfiles2)").css("filter","blur(5px)");
+      $("#Modalfiles2>*:not(#Modalfiles3)").css("filter","blur(5px)");
+      $("#Modalfiles3>*:not(#Modalfiles4,#footer)").css("filter","blur(5px)");
+      $("#Modalfiles4>*:not(#Modalfiles5)").css("filter","blur(5px)");
+      $("#Modalfiles5>*:not(#Modalfiles6)").css("filter","blur(5px)");
+      $("#Modalfiles6>*:not(#Modalfiles7)").css("filter","blur(5px)");
+      var myModala = new bootstrap.Modal(document.getElementById('Modalfiles'), {
+          keyboard: false,
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "En este panel existen varias categorias en las que se pueden ingresar archivos, por ejemplo en asistencia hay 2 recuadros, uno en donde se puede seleccionar el archivo que quiere ingresar, y otro recuadro a la derecha donde al presionarlo despliega un ejemplo del archivo que se debe ingresar"
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panel"){
+      //$("*").css("filter","blur(0px)");
+      $("#probando>*:not(#Modalfiles)").css("filter","blur(0px)");
+      $("#Modalfiles>*:not(#Modalfiles2)").css("filter","blur(0px)");
+      $("#Modalfiles2>*:not(#Modalfiles3)").css("filter","blur(0px)");
+      $("#Modalfiles3>*:not(#Modalfiles4,#footer)").css("filter","blur(0px)");
+      $("#Modalfiles4>*:not(#Modalfiles5)").css("filter","blur(0px)");
+      $("#Modalfiles5>*:not(#Modalfiles6)").css("filter","blur(0px)");
+      $("#Modalfiles6>*:not(#Modalfiles7)").css("filter","blur(0px)");
+      /*$("#probando>*:not(#sidenav1,#Modaltutorial)").css("filter","blur(5px)");
+      $("#sidenav1>*:not(#sidenav-collapse-main)").css("filter","blur(5px)");
+      $("#sidenav-collapse-main>*:not(#sidenav2)").css("filter","blur(5px)");
+      $("#sidenav2>*:not(li.nav-item)").css("filter","blur(5px)");*/
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      if($scope.tutorialcontador>7){
+        $scope.texto_tutorial = "En el panel izquierdo también contamos con un apartado que dice opciones, el cual presenta varias secciones: Modificacion, Reporte, Creacion y Archivos. Cabe destacar que estas opciones solo le aparecen a algunos usuarios."
+        
+      }
+      else{
+        $scope.texto_tutorial = "En el panel izquierdo tenemos varias opciones que podemos seleccionar, cada una representa una sección diferente"
+      }
+      
+
+    }
+
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panelasistencia"){
+      /*$("*").css("filter","blur(0px)");
+      document.getElementById("Dashboard").style.display = "none";
+      document.getElementById("Dashboard").className.replace(" w3-red", "");
+      document.getElementById("Asistencia").style.display = "block";
+      document.getElementById("Asistencia").className+= " w3-red";
+      document.getElementById('pruebaas').click();*/
+      document.getElementById("Asistencia").scrollIntoView({behavior: 'smooth'});
+      var scrollTimeout;
+      addEventListener('scroll', function(e) {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(function() {
+              var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+                  keyboard: false,
+                  backdrop: 'static'
+              })
+              myModala.toggle()
+          }, 1000);
+      });
+      
+      
+      
+      $scope.texto_tutorial = "Este es el panel de asistencia"
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panelplanmatriz"){
+      //document.getElementById("Asistencia").style.display = "none";
+      //document.getElementById("Asistencia").className.replace(" w3-red", "");
+      //document.getElementById("Planmatriz").style.display = "block";
+      //document.getElementById("Planmatriz").className+= " w3-red";
+      //document.getElementById('pruebama').click();
+      document.getElementById("Planmatriz").scrollIntoView({behavior: 'smooth'});
+      var scrollTimeout;
+      addEventListener('scroll', function(e) {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(function() {
+              var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+                  keyboard: false,
+                  backdrop: 'static'
+              })
+              myModala.toggle()
+          }, 1000);
+      });
+
+      $scope.texto_tutorial = "Este es el panel de plan matriz"
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panelbrocales"){
+      /*document.getElementById("Planmatriz").style.display = "none";
+      document.getElementById("Planmatriz").className.replace(" w3-red", "");
+      document.getElementById("Brocales").style.display = "block";
+      document.getElementById("Brocales").className+= " w3-red";*/
+      document.getElementById("Brocales").scrollIntoView({behavior: 'smooth'});
+      var scrollTimeout;
+      addEventListener('scroll', function(e) {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(function() {
+              var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+                  keyboard: false,
+                  backdrop: 'static'
+              })
+              myModala.toggle()
+          }, 1000);
+      });
+      $scope.texto_tutorial = "Este es el panel de brocales"
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Paneldisciplina"){
+      /*document.getElementById("Brocales").style.display = "none";
+      document.getElementById("Brocales").className.replace(" w3-red", "");
+      document.getElementById("Disciplina").style.display = "block";
+      document.getElementById("Disciplina").className+= " w3-red";*/
+      document.getElementById("Disciplina").scrollIntoView({behavior: 'smooth'});
+      var scrollTimeout;
+      addEventListener('scroll', function(e) {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(function() {
+              var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+                  keyboard: false,
+                  backdrop: 'static'
+              })
+              myModala.toggle()
+          }, 1000);
+      });
+      $scope.texto_tutorial = "Este es el panel de disciplina operacional"
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panelmodificacion"){
+      //$("*").css("filter","blur(0px)");
+      document.getElementById("Vistatotal").style.display = "none";
+      document.getElementById("Vistatotal").className.replace(" w3-red", "");
+      //document.getElementById("Dashboard").style.display = "none";
+      //document.getElementById("Dashboard").className.replace(" w3-red", "");
+      document.getElementById("Modificacion").style.display = "block";
+      document.getElementById("Modificacion").className+= " w3-red";
+      $scope.columnmatrizmod = "KPI colectores de polvo Junio.xlsx"
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
           keyboard: false
-    })
-    myModala.toggle()
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "Este es el panel de Modificación, actualmente está mostrando una tabla con todos los datos ingresados del Plan Matriz, para cambiar de información podemos usar el recuadro desplegable donde aparece Plan matriz. Para cambiar la información de fila que queramos, apretamos el botón de modificar de la última casilla."
+      $scope.myVar = "Planmatriz"
+    }
 
-    $scope.nombre_trabajador = $scope.Totalasistenciaarchivosmod[index].Nombre
-    $scope.datostrabajador = $scope.Totalasistenciaarchivosmod[index]
-    $scope.deletename = $scope.nombre_trabajador
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panelmodificacionmodal"){
+      var myModala = new bootstrap.Modal(document.getElementById('Modalmodplanmatriz'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+
+      $scope.texto_tutorial = "En esta sección podemos cambiar la información de la casilla que queramos"
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panelreporte"){
+      document.getElementById("Modificacion").style.display = "none";
+      document.getElementById("Modificacion").className.replace(" w3-red", "");
+      document.getElementById("Reporte").style.display = "block";
+      document.getElementById("Reporte").className+= " w3-red";
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial2'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "En la sección de Reporte, se pueden crear reportes asignando fecha de inicio y fecha de termino"
+    }
+
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panelcreacion"){
+      document.getElementById("Reporte").style.display = "none";
+      document.getElementById("Reporte").className.replace(" w3-red", "");
+      document.getElementById("Creacion").style.display = "block";
+      document.getElementById("Creacion").className+= " w3-red";
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "En esta sección de creación, el administrador va poder crear usuarios y asignarle roles, los cuales pueden realizar diferentes funcionalidades dentro de la página"
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Panelarchivos"){
+      document.getElementById("Creacion").style.display = "none";
+      document.getElementById("Creacion").className.replace(" w3-red", "");
+      document.getElementById("Archivos").style.display = "block";
+      document.getElementById("Archivos").className+= " w3-red";
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+      $scope.texto_tutorial = "En la sección de archivos se podrá ver todos los archivos que se han ingresado, tenemos 2 funcionalidades, la primera es el botón de ver detalles, el cual desplegará todos los datos que se ingresaron con ese archivo, el segundo botón es eliminar el cual moverá el archivo a la tabla de abajo y si queremos eliminarlo completamente, apretamos enviar datos"
+    }
+    if($scope.Actividadestutorial[$scope.tutorialcontador] =="Fin"){
+      var myModala = new bootstrap.Modal(document.getElementById('Modaltutorialfin'), {
+          keyboard: false,
+          backdrop: 'static'
+      })
+      myModala.toggle()
+
+      $scope.texto_tutorial_fin = "Tutorial terminado"
+
+    }
+
+    $scope.tutorialcontador+=1
+
   }
 
-  $scope.deleteworker = function(){
-    $http({
-            method : 'POST',
-            url : '/Borrartrabajador',
-            data : JSON.stringify($scope.datostrabajador)
-    }).then(function onSuccess(response) {
-        console.log(response);
-    })
-    .catch(function onError(error) {
-        console.log(error);         
-    });
+  $scope.filltablematrizmod = function(){
+    $scope.columnmatrizmod = "KPI colectores de polvo Junio.xlsx"
   }
 
   
@@ -4057,7 +4130,7 @@ function timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, va
   grafico = {
     type: 'bar',
     utc: true,
-    timezone: -3, 
+    timezone: -3, //EST time
     plot: {
       barWidth: '50%',
       stacked: true,
@@ -4072,14 +4145,15 @@ function timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, va
     scaleX: {
       labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"],
       label: {
+        //text: '12-Hour Fundraiser'
       },
       item: {
         fontSize: 10
       },
     },
     scaleY: {
-      minValue: Epoch_Inicio, 
-      maxValue: Epoch_Inicio+36000000, 
+      minValue: Epoch_Inicio, //8 AM
+      maxValue: Epoch_Inicio+36000000, //Midnight
       step: 600000, 
       transform: {
         type: 'date',
@@ -4137,267 +4211,7 @@ function timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, va
   return grafico;
 }
 
-
-function timer_chart_traspaso_1(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7){
-  var grafico = {};
-  grafico = {
-    type: 'bar',
-    utc: true,
-    timezone: -3, 
-    plot: {
-      barWidth: '50%',
-      stacked: true,
-      tooltip: {
-        text: '%plot-text : %scale-value-value',
-        transform: {
-          type: 'date',
-          all: '%g:%i %A'
-        }
-      }
-    },
-    scaleX: {
-      labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"],
-      label: {
-      },
-      item: {
-        fontSize: 10
-      },
-    },
-    scaleY: {
-      minValue: Epoch_Inicio, 
-      maxValue: Epoch_Inicio+36000000, 
-      step: 600000, 
-      transform: {
-        type: 'date',
-        all: '%g:%i %a'
-      },
-      item: {
-        fontSize: 10
-      },
-      guide: {
-        lineStyle: 'dotted'
-      }
-    },
-    plotarea: {
-      marginLeft: '15%',
-    },
-    series: [{
-        values: values_1,
-        text: 'Llegada a det',
-        backgroundColor: '#1565C0',
-      },
-      {
-        values: values_2,
-        text: 'Traslado postura',
-        backgroundColor: '#1E88E5'
-      },
-      {
-        values: values_3,
-        text: 'Ingreso Postura',
-        backgroundColor: '#42A5F5'
-      },
-      {
-        values: values_4,
-        text: 'Salida interior mina',
-        backgroundColor: '#90CAF9'
-      },
-      {
-        values: values_5,
-        text: 'Almuerzo',
-        backgroundColor: '#42A5F5'
-      },
-      {
-        values: values_6,
-        text: 'Traslado a buses',
-        backgroundColor: '#9FB2D5'
-      },
-      {
-        values: values_7,
-        text: 'Salida buses',
-        backgroundColor: '#353F52'
-      }
-    ]
-  };
-
-  
-  return grafico;
-}
-
-function timer_chart_traspaso_2(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7){
-  var grafico = {};
-  grafico = {
-    type: 'bar',
-    utc: true,
-    timezone: -3, 
-    plot: {
-      barWidth: '50%',
-      stacked: true,
-      tooltip: {
-        text: '%plot-text : %scale-value-value',
-        transform: {
-          type: 'date',
-          all: '%g:%i %A'
-        }
-      }
-    },
-    scaleX: {
-      labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"],
-      label: {
-      },
-      item: {
-        fontSize: 10
-      },
-    },
-    scaleY: {
-      minValue: Epoch_Inicio, 
-      maxValue: Epoch_Inicio+36000000, 
-      step: 600000, 
-      transform: {
-        type: 'date',
-        all: '%g:%i %a'
-      },
-      item: {
-        fontSize: 10
-      },
-      guide: {
-        lineStyle: 'dotted'
-      }
-    },
-    plotarea: {
-      marginLeft: '15%',
-    },
-    series: [{
-        values: values_1,
-        text: 'Llegada a det',
-        backgroundColor: '#1565C0',
-      },
-      {
-        values: values_2,
-        text: 'Traslado postura',
-        backgroundColor: '#1E88E5'
-      },
-      {
-        values: values_3,
-        text: 'Ingreso Postura',
-        backgroundColor: '#42A5F5'
-      },
-      {
-        values: values_4,
-        text: 'Almuerzo',
-        backgroundColor: '#90CAF9'
-      },
-      {
-        values: values_5,
-        text: 'Ingreso postura pm',
-        backgroundColor: '#42A5F5'
-      },
-      {
-        values: values_6,
-        text: 'Traslado a buses',
-        backgroundColor: '#9FB2D5'
-      },
-      {
-        values: values_7,
-        text: 'Salida buses',
-        backgroundColor: '#353F52'
-      }
-    ]
-  };
-
-  
-  return grafico;
-}
-
-function timer_chart_traspaso_3(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7, values_8){
-  var grafico = {};
-  grafico = {
-    type: 'bar',
-    utc: true,
-    timezone: -3, 
-    plot: {
-      barWidth: '50%',
-      stacked: true,
-      tooltip: {
-        text: '%plot-text : %scale-value-value',
-        transform: {
-          type: 'date',
-          all: '%g:%i %A'
-        }
-      }
-    },
-    scaleX: {
-      labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes","Sabado","Domingo"],
-      label: {
-      },
-      item: {
-        fontSize: 10
-      },
-    },
-    scaleY: {
-      minValue: Epoch_Inicio, 
-      maxValue: Epoch_Inicio+54000000, 
-      step: 600000, 
-      transform: {
-        type: 'date',
-        all: '%g:%i %a'
-      },
-      item: {
-        fontSize: 10
-      },
-      guide: {
-        lineStyle: 'dotted'
-      }
-    },
-    plotarea: {
-      marginLeft: '15%',
-    },
-    series: [{
-        values: values_1,
-        text: 'Llegada a det',
-        backgroundColor: '#1565C0',
-      },
-      {
-        values: values_2,
-        text: 'Traslado postura',
-        backgroundColor: '#1E88E5'
-      },
-      {
-        values: values_3,
-        text: 'Ingreso Postura',
-        backgroundColor: '#42A5F5'
-      },
-      {
-        values: values_4,
-        text: 'Salida interior mina',
-        backgroundColor: '#90CAF9'
-      },
-      {
-        values: values_5,
-        text: 'Comida',
-        backgroundColor: '#42A5F5'
-      },
-      {
-        values: values_6,
-        text: 'Ingreso am/pm',
-        backgroundColor: '#9FB2D5'
-      },
-      {
-        values: values_7,
-        text: 'Salida camarines',
-        backgroundColor: '#353F52'
-      },
-      {
-        values: values_8,
-        text: 'Salida buses',
-        backgroundColor: 'blue'
-      }
-    ]
-  };
-
-  
-  return grafico;
-}
-function calendar_creator(fechas, año){
+function calendar_creator(fechas){
   var grafico = {};
   grafico = {
     type:'calendar',
@@ -4432,7 +4246,7 @@ function calendar_creator(fechas, año){
     options: {
       //startMonth: 8,
       year: {
-        text: año,
+        text: '2022',
       },
       month:{
         values: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
@@ -4653,123 +4467,6 @@ function hbar_text(values, name){
 
   return grafico;
 }
-function hbar_text_disciplina_traspaso(values, name){
-  var grafico = {};
-  grafico ={
-    type: 'hbar',
-    backgroundColor: '#fff',
-    borderColor: '#dae5ec',
-    borderWidth: '1px',
-    title: {
-      text: 'Disciplina Operacional',
-      marginTop: '7px',
-      marginLeft: '9px',
-      backgroundColor: 'none',
-      fontColor: '#707d94',
-      fontFamily: 'Arial',
-      fontSize: '11px',
-      shadow: false,
-      textAlign: 'left',
-    },
-    plot: {
-      tooltip: {
-        padding: '5px 10px',
-        backgroundColor: '#707e94',
-        borderRadius: '6px',
-        fontColor: '#ffffff',
-        fontFamily: 'Arial',
-        fontSize: '11px',
-        shadow: false,
-      },
-      animation: {
-        delay: 500,
-        effect: 'ANIMATION_EXPAND_LEFT',
-      },
-      barsOverlap: '100%',
-      barWidth: '12px',
-      hoverState: {
-        backgroundColor: '#707e94',
-      }
-    },
-    plotarea: {
-      margin: '50px 15px 10px 15px',
-
-    },
-    scaleY: {
-      guide :{
-        visible : false
-      },
-      tick :{
-        visible : false
-      },
-      lineColor : 'none'
-    },
-    scaleX: {
-      values: name,
-      guide: {
-        visible: false,
-      },
-      item: {
-        paddingBottom: '8px',
-        fontColor: '#8391a5',
-        fontFamily: 'Arial',
-        fontSize: '11px',
-        offsetX: '206px',
-        offsetY: '-12px',
-        textAlign: 'left',
-        width: '200px',
-      },
-      lineColor: 'none',
-      tick: {
-        visible: false,
-      },
-    },
-    series: [
-      {
-        values: values,
-        styles: [
-          {
-            backgroundColor: '#4dbac0',
-          },
-          {
-            backgroundColor: '#4dbac0',
-          },
-          {
-            backgroundColor: '#4dbac0',
-          },
-          {
-            backgroundColor: '#4dbac0',
-          },
-          {
-            backgroundColor: '#4dbac0',
-          },        
-        ],
-        tooltipText: '%node-value %',
-        zIndex: 2,
-      },
-      {
-        values: [170, 170, 170, 170, 170],
-        valueBox: {
-          text: '%data-rvalues',
-          paddingBottom: '8px',
-          fontColor: '#8391a5',
-          fontFamily: 'Arial',
-          fontSize: '11px',
-          offsetX: '-54px',
-          offsetY: '-12px',
-          textAlign: 'right',
-          visible: true,
-        },
-        backgroundColor: '#d9e4eb',
-        dataRvalues: values,
-        maxTrackers: 0,
-        zIndex: 1,
-      },
-    ],
-  }
-
-  return grafico;
-}
 
 function asistencia_chart(Values_A, Values_B, Values_nopresente, nombres, titulo){
   var grafico = {};
@@ -4821,114 +4518,6 @@ function asistencia_chart(Values_A, Values_B, Values_nopresente, nombres, titulo
     },
     {
       values : Values_nopresente,
-      "text" : "No presente",
-      backgroundColor : "grey"
-    }
-    ]
-  }
-
-  return grafico
-}
-
-function asistencia_chart_traspaso(Valores_asistentes, Valores_inasistencia, Nombres_cargos, titulo){
-  var grafico = {};
-  grafico = {
-    type: 'bar',
-    "scroll-x": {
- 
-    },
-    title:{
-      text : "Asistencia "+ titulo,
-      "alpha": 1,
-      "adjust-layout":true,
-    },
-    plot: {
-      barWidth: 20,
-    },
-
-    "legend": {
-      "layout": "x3",
-      "overflow": "page",
-      "alpha": 0.05,
-      "shadow": false,
-      "align": "center",
-      "adjust-layout": true,
-      "marker": {
-        "type": "circle",
-        "border-color": "none",
-        "size": "10px"
-      },
-    },
-    scaleX:{
-      values : Nombres_cargos,
-      zooming: true,
-      zoomTo: [0, 6],
-      item: {
-        fontSize: 12
-      },
-    },
-
-    series:[{
-      values : Valores_asistentes,
-      "text": "Presente",
-      backgroundColor : "blue"
-    },
-    {
-      values : Valores_inasistencia,
-      "text" : "No presente",
-      backgroundColor : "grey"
-    }
-    ]
-  }
-
-  return grafico
-}
-
-function asistencia_chart_tte8(Valores_asistentes, Valores_inasistencia, Nombres_cargos, titulo){
-  var grafico = {};
-  grafico = {
-    type: 'bar',
-    "scroll-x": {
- 
-    },
-    title:{
-      text : "Asistencia "+ titulo,
-      "alpha": 1,
-      "adjust-layout":true,
-    },
-    plot: {
-      barWidth: 20,
-    },
-
-    "legend": {
-      "layout": "x3",
-      "overflow": "page",
-      "alpha": 0.05,
-      "shadow": false,
-      "align": "center",
-      "adjust-layout": true,
-      "marker": {
-        "type": "circle",
-        "border-color": "none",
-        "size": "10px"
-      },
-    },
-    scaleX:{
-      values : Nombres_cargos,
-      zooming: true,
-      zoomTo: [0, 6],
-      item: {
-        fontSize: 9
-      },
-    },
-
-    series:[{
-      values : Valores_asistentes,
-      "text": "Presente",
-      backgroundColor : "blue"
-    },
-    {
-      values : Valores_inasistencia,
       "text" : "No presente",
       backgroundColor : "grey"
     }
@@ -5352,198 +4941,6 @@ function line_chart(values, nombres){
           "shadow": 0,
         },
       }
-    ]
- }
-
- return grafico
-
-}
-
-function line_chart_traspaso(values, nombres){
-  var grafico = {};
-  grafico = {
-    type: 'line',
-    scaleY:{
-      minValue : 90,
-      maxValue : 170,
-    },
-    title :{
-      text : "Disciplina Operacional",
-      "adjust-layout":true
-    },
-    "legend": {
-
-      "layout": "float",
-      "background-color": "none",
-      "border-width": 0,
-      "shadow": 0,
-      "align": "center",
-      "adjust-layout": true,
-      "toggle-action": "remove",
-      "item": {
-        "padding": 7,
-        "marginRight": 17,
-        "cursor": "hand"
-      }
-    },
-    scaleX:{
-      labels: [
-      'Lunes',
-      'Martes',
-      'Miercoles',
-      'Jueves',
-      'Viernes'
-      ],
-    },
-    "tooltip": {
-      "visible": false
-    },
-    "crosshair-x": {
-      "line-color": "#efefef",
-      "plot-label": {
-        "border-radius": "5px",
-        "border-width": "1px",
-        "border-color": "#f6f7f8",
-        "padding": "10px",
-        "font-weight": "bold"
-      },
-      "scale-label": {
-        "font-color": "#000",
-        "background-color": "#f6f7f8",
-        "border-radius": "5px"
-      }
-    },
-    "plot": {
-      "highlight": true,
-      "tooltip-text": "%t views: %v<br>%k",
-      "shadow": 0,
-      "line-width": "2px",
-      "marker": {
-        "type": "circle",
-        "size": 3
-      },
-      "highlight-state": {
-        "line-width": 3
-      },
-      "animation": {
-        "effect": 1,
-        "sequence": 2,
-        "speed": 100,
-      }
-    },
-    series: [
-      { 
-        values: values[0],
-        "text": nombres[0],
-        "line-color": "#007790",
-        "legend-item": {
-          "background-color": "#007790",
-          "borderRadius": 5,
-          "font-color": "white",
-        },
-        "legend-marker": {
-          "visible": false
-        },
-        "marker": {
-          "background-color": "#007790",
-          "border-width": 1,
-          "shadow": 0,
-          "border-color": "#69dbf1"
-        },
-        "highlight-marker": {
-          "size": 5,
-          "background-color": "#007790",
-        }
-      },
-      { 
-        values: values[1],
-        "text":nombres[1],
-        'line-color' : 'red',
-        "legend-item": {
-          "background-color": "red",
-          "borderRadius": 5,
-          "font-color": "white"
-        },
-        "legend-marker" :{
-          'visible':false
-        },
-        "highlight-marker": {
-          "size": 5,
-          "background-color": "red",
-        },
-        "marker": {
-          "background-color": "red",
-          "border-width": 1,
-          "shadow": 0,
-        },
-      },
-      {
-        values : values[2],
-        "text" : nombres [2],
-        'line-color' : '#399A00',
-        "legend-item": {
-          "background-color": "#399A00",
-          "borderRadius": 5,
-          "font-color": "white"
-        },
-        "legend-marker" :{
-          'visible':false
-        },
-        "highlight-marker": {
-          "size": 5,
-          "background-color": "#399A00",
-        },
-        "marker": {
-          "background-color": "#399A00",
-          "border-width": 1,
-          "shadow": 0,
-        },
-      },
-      {
-        values : values[3],
-        "text" : nombres [3],
-        'line-color' : '#D98702',
-        "legend-item": {
-          "background-color": "#D98702",
-          "borderRadius": 5,
-          "font-color": "white"
-        },
-        "legend-marker" :{
-          'visible':false
-        },
-        "highlight-marker": {
-          "size": 5,
-          "background-color": "#D98702",
-        },
-        "marker": {
-          "background-color": "#D98702",
-          "border-width": 1,
-          "shadow": 0,
-        },
-      },
-      {
-        values : values[4],
-        "text" : nombres [4],
-        'line-color' : '#881EA6',
-        "legend-item": {
-          "background-color": "#881EA6",
-          "borderRadius": 5,
-          "font-color": "white"
-        },
-        "legend-marker" :{
-          'visible':false
-        },
-        "highlight-marker": {
-          "size": 5,
-          "background-color": "#881EA6",
-        },
-        "marker": {
-          "background-color": "#881EA6",
-          "border-width": 1,
-          "shadow": 0,
-        }, 
-      },
-      
     ]
  }
 
@@ -6026,70 +5423,6 @@ function Pie_Asistencia(Total, Asistencia, Nombre){
   return grafico
 }
 
-function Pie_Asistencia_traspaso(Total, Asistencia, Fecha){
-  var grafico = {};
-  grafico = {
-    "type": "pie",
-    plot: {
-      slice: 0,
-      'value-box': {
-        'font-size':13,
-        'font-weight': "normal",
-        "font-color":"black",
-      } //to make a donut
-      
-    },
-    "title": {
-      "text": "Asistencia " + Fecha.toString()
-    },
-    "series": [{
-        "values": [Total-Asistencia],
-        backgroundColor :"#ededed",
-        fontColor :"black"
-      },
-      {
-        "values": [Asistencia],
-        backgroundColor :"#4DC0CF",
-        fontColor: "black"
-
-      },
-    ]
-  };
-  return grafico
-}
-
-function Pie_Asistencia_tte8(Total, Asistencia, Fecha){
-  var grafico = {};
-  grafico = {
-    "type": "pie",
-    plot: {
-      slice: 0,
-      'value-box': {
-        'font-size':13,
-        'font-weight': "normal",
-        "font-color":"black",
-      } //to make a donut
-      
-    },
-    "title": {
-      "text": "Asistencia " + Fecha.toString()
-    },
-    "series": [{
-        "values": [Total-Asistencia],
-        backgroundColor :"#ededed",
-        fontColor :"black"
-      },
-      {
-        "values": [Asistencia],
-        backgroundColor :"#4DC0CF",
-        fontColor: "black"
-
-      },
-    ]
-  };
-  return grafico
-}
-
 function Chart_creator(datosx, valoresdatosx, meta, titulo){
   var grafico = {};
   if(meta != 0){
@@ -6387,7 +5720,8 @@ function EpochToDate(epoch) {
 function get_day_numbers(current2) {
     var week= new Array(); 
     current = current2
-
+    // Starting Monday not Sunday
+    //console.log(current)
     current.setDate((current.getDate() - current.getDay() +1));
     for (var i = 0; i < 7; i++) {
         week.push(
@@ -6410,7 +5744,9 @@ function OrderbyValue(dict){
     (e) => { return e[0] });
   return keys
 }
+//console.log("Cantidad de dias del mes")
 
+//console.log(getDays(parseInt(fecha.split("-")[2]), parseInt(fecha.split("-")[1])));
 function getDates (startDate, endDate) {
   const dates = []
   let currentDate = startDate
@@ -6424,21 +5760,4 @@ function getDates (startDate, endDate) {
     currentDate = addDays.call(currentDate, 1)
   }
   return dates
-}
-
-
-function restar_horas(hora_1, hora_2){
-  var min_1 = 0;
-  var min_2 = 0;
-  if(parseInt(hora_2.split(":")[0]) < parseInt(hora_1.split(":")[0])){
-    min_1 = parseInt(hora_1.split(":")[0]*60)+parseInt(hora_1.split(":")[1])
-    min_2 = parseInt(hora_2.split(":")[0]*60)+parseInt(hora_2.split(":")[1])+24*60
-  }
-
-  else{
-    min_1 = parseInt(hora_1.split(":")[0]*60)+parseInt(hora_1.split(":")[1])
-    min_2 = parseInt(hora_2.split(":")[0]*60)+parseInt(hora_2.split(":")[1])
-  }
-  return min_2-min_1
-  
 }

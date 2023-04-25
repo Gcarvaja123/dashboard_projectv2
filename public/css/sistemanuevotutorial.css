@@ -3,6 +3,7 @@ body {
   background-color: #ededed;
   margin: 0;
   padding: 0;
+  
   /*top: 0%;
   bottom: 0%;
   position: fixed;
@@ -11,6 +12,7 @@ body {
 
 
 }
+
 
 
 /*li.nav-item > *:not(#startDate){
@@ -50,7 +52,7 @@ body {
 }
 
 .sidenav {
-  background-color: #343a40;
+  background-color: #2A2D35;
   box-shadow: 0 14px 28px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.22)!important;
 
 }
@@ -139,7 +141,7 @@ li a {
 
 table, th, td {
             background-color: white;
-            //border:solid 1px #CCC;
+            border:solid 1px #CCC;
             padding:1px 3px;
             font:14px Tahoma;
         }
@@ -405,16 +407,8 @@ button{
 
 .sidenav-header {
   height: 60px;
-  border-bottom: 1px solid #4f5962;
+  border-bottom: 1px solid rgba(255,152,0,0.1);
   display: flex;
-}
-
-.imagen{
-  height: 50px;
-  width: 100px;
-  align-items: center;
-  margin: auto;
-
 }
 
 .sidenav-header .image{
@@ -426,19 +420,41 @@ button{
 
 
 .sidenav-footer {
-  border-top: 1px solid #4f5962;
-  margin-left: 10px;
+  border-top: 1px solid rgba(255,152,0,0.1);
+  /*margin-left: 10px;*/
+  width: 100%;
   position: absolute;
   bottom: 0;
 
 }
 
-.imagen2{
+.imagen{
   background-image: url("/imagenes/miesvec.png");
   background-repeat: no-repeat;
-  height: 70px;
+  height: 100%;
   width: 140px;
+  
+  
 }
+
+.sidenav-footer .image{
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  padding-top: 5px;
+  margin-left: 10px;
+}
+
+.imagen2{
+  background-image: url("/imagenes/codelcov2.png");
+  background-repeat: no-repeat;
+  height: 100px;
+  width: 133px;
+  margin-left: 5px;
+}
+
+
+
 
 .horizontal2{
   margin-top: 40px;

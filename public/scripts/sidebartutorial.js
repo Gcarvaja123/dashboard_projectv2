@@ -3509,18 +3509,20 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     }
     if($scope.Actividadestutorial[$scope.tutorialcontador] =="ModalArchivos"){
       //$("*").css("filter","blur(0px)");
-      $("#probando>*:not(#blur1,#Modaltutorial)").css("filter","blur(0px)");
+      $("#probando>*:not(#blur1,#Modaltutorial,#blur2)").css("filter","blur(0px)");
       $("#blur1>*:not(#blurfecha2)").css("filter","blur(0px)");
       $("#blurfecha2>*:not(#bluringreso)").css("filter","blur(0px)");
       $("#bluringreso>*:not(#ingreso)").css("filter","blur(0px)");
 
-      $("#probando>*:not(#Modalfiles)").css("filter","blur(5px)");
+      /*$("#probando>*:not(#Modalfiles)").css("filter","blur(5px)");
       $("#Modalfiles>*:not(#Modalfiles2)").css("filter","blur(5px)");
       $("#Modalfiles2>*:not(#Modalfiles3)").css("filter","blur(5px)");
-      $("#Modalfiles3>*:not(#Modalfiles4,#footer)").css("filter","blur(5px)");
+      $("#Modalfiles3>*:not(#Modalfiles4,#modalfooter)").css("filter","blur(5px)");
       $("#Modalfiles4>*:not(#Modalfiles5)").css("filter","blur(5px)");
-      $("#Modalfiles5>*:not(#Modalfiles6)").css("filter","blur(5px)");
-      $("#Modalfiles6>*:not(#Modalfiles7)").css("filter","blur(5px)");
+      $("#Modalfiles5>*:not(#nav-tabContent)").css("filter","blur(5px)");
+      $("#nav-tabContent>*:not(#nav-home)").css("filter","blur(5px)");
+      $("#nav-home>*:not(#Modalfiles7)").css("filter","blur(5px)");
+      $("#Modalfiles7>*:not(#Modalfiles8)").css("filter","blur(5px)");*/
       var myModala = new bootstrap.Modal(document.getElementById('Modalfiles'), {
           keyboard: false,
       })
@@ -3536,10 +3538,11 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       $("#Modalfiles4>*:not(#Modalfiles5)").css("filter","blur(0px)");
       $("#Modalfiles5>*:not(#Modalfiles6)").css("filter","blur(0px)");
       $("#Modalfiles6>*:not(#Modalfiles7)").css("filter","blur(0px)");
+
       /*$("#probando>*:not(#sidenav1,#Modaltutorial)").css("filter","blur(5px)");
       $("#sidenav1>*:not(#sidenav-collapse-main)").css("filter","blur(5px)");
       $("#sidenav-collapse-main>*:not(#sidenav2)").css("filter","blur(5px)");
-      $("#sidenav2>*:not(li.nav-item)").css("filter","blur(5px)");*/
+      $("#sidenav2>*:not(#sidenav3)").css("filter","blur(5px)");*/
       var myModala = new bootstrap.Modal(document.getElementById('Modaltutorial'), {
           keyboard: false,
           backdrop: 'static'

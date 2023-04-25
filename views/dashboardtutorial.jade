@@ -9,27 +9,36 @@ html
     link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css')
     script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js' integrity='sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa' crossorigin='anonymous')
     meta(name='viewport' content='width=device-width, initial-scale=1')
-    //script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js' crossorigin='anonymous')
-
+    //link(rel='stylesheet' type='text/css' href='/css/sistemanuevocopia.css')
     link(rel='stylesheet' type='text/css' href='/css/sistemanuevotutorial.css')
-    //link(rel='stylesheet' type='text/css' href='/css/logindashboard.css')
+    link(rel='stylesheet' type='text/css' href='/css/navbar-left.css')
     script(src='https://cdn.zingchart.com/zingchart.min.js')
     script(src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/374756/zingchart-angularjs-1.0.4.js')
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' )
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js' )
     script.
+      local_data_archivos = !{JSON.stringify(totalarchivos)};
+      local_data_puertas = !{JSON.stringify(totalpuertas)};
+      local_data_equipo = !{JSON.stringify(totalequipos)};
       local_data_asistencia = !{JSON.stringify(totalasistencias)};
       local_data_brocales = !{JSON.stringify(totalbrocales)};
       local_data_matriz = !{JSON.stringify(totalmatriz)};
       local_data_disciplina = !{JSON.stringify(totaldisciplina)};
-      local_data_puertas = !{JSON.stringify(totalpuertas)};
-      local_user = !{JSON.stringify(user)};
-      local_authmessage = !{JSON.stringify(authmessage)};
       local_data_usuarios = !{JSON.stringify(totalusuarios)};
       local_data_sap = !{JSON.stringify(totalsap)};
-      local_data_equipo = !{JSON.stringify(totalequipos)};
-      local_data_archivos = !{JSON.stringify(totalarchivos)};
+      local_data_trabajos = !{JSON.stringify(totaltrabajos)}
+      local_data_disciplina_traspaso = !{JSON.stringify(totaldisciplinatraspaso)}
+      local_data_pauta_diaria = !{JSON.stringify(totalpautadiaria)}
+      local_data_asistencia_traspaso = !{JSON.stringify(totalasistenciatraspaso)}
+      local_data_puertas_vimo = !{JSON.stringify(totalpuertasvimo)}
+      local_data_asistencia_tte8 = !{JSON.stringify(totalasistenciatte8)}
+
+      local_user = !{JSON.stringify(user)};
+      local_authmessage = !{JSON.stringify(authmessage)};
       local_info = !{JSON.stringify(info)};
       local_error = !{JSON.stringify(error)}
       local_ingreso = !{JSON.stringify(ingreso)}
+      
       
   
   body#probando(ng-app='myApp' ng-controller="myControllerAsistencia")
@@ -92,7 +101,7 @@ html
                         {{texto_tutorial_fin}}
                   .modal-footer
                     button.btnn(type='button' data-bs-dismiss='modal' ng-click="backtonormal()") Terminar tutorial
-    #Modalfiles.modal.fade( aria-labelledby='Modalfiles')
+    #Modalfiles.modal.fade( aria-labelledby='Modalfiles' )
           .modal-dialog#Modalfiles2
             .modal-content#Modalfiles3
               .modal-header
@@ -100,58 +109,134 @@ html
                 button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
               .modal-body#Modalfiles4
                 .container#Modalfiles5
-                  .mb-3.matrizitems
-                    .item1
-                      label.form-label(for='formFileMultiple') Plan matriz
-                      .planexample
-                        input#formFileMultiple.form-control(type='file' name="Matriz" multiple='')
-                        button.btn.btn-secondary.planbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverplan'  data-bs-content=' ')
-                          i.bi.bi-card-image
-                        button.btn.btn-secondary.vimobutton(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popovervimo'  data-bs-content=' ')
-                          i.bi.bi-card-image
-                    .item2
-                      label.form-label(for='formFileMultiple') P. Vimo SAP
-                      .sapexample
-                        input#formFileMultiple.form-control(type='file' name="Matrizsap" multiple='')
-                        button.btn.btn-secondary.sapbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoversap'  data-bs-content=' ')
-                          i.bi.bi-card-image
-                  .mb-3#Modalfiles6
-                    .item1#Modalfiles7
-                      label.form-label(for='formFileMultiple') Asistencia
-                      .asistenciaexample
-                        input#formFileMultiple.form-control(type='file' name="Asistencia" multiple='')
-                        button.btn.btn-secondary.asistenciabutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverasistencia'  data-bs-content=' ')
-                          i.bi.bi-card-image
-                      {{texto_tutorial}}
+                  nav
+                    #nav-tab.nav.nav-tabs(role='tablist')
+                      button#nav-home-tab.nav-link.active(data-bs-toggle='tab' data-bs-target='#nav-home' type='button' role='tab' aria-controls='nav-home' aria-selected='true') Infra
+                      button#nav-profile-tabtraspaso.nav-link(data-bs-toggle='tab' data-bs-target='#nav-profile' type='button' role='tab' aria-controls='nav-profile' aria-selected='false') Traspaso
+                      button#nav-profile-tabtte8.nav-link(data-bs-toggle='tab' data-bs-target='#nav-tte8' type='button' role='tab' aria-controls='nav-tte8' aria-selected='false') Tte8
+                  #nav-tabContent.tab-content
+                    #nav-home.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='nav-home-tab')
+                      .mb-3.matrizitems#Modalfiles6
+                        .item1
+                          label.form-label(for='formFileMultiple') Plan matriz
+                          .planexample
+                            input#formFileMultiplematriz.form-control(type='file' name="Matriz" multiple='')
+                            button.btn.btn-secondary.planbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverplan'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                            button.btn.btn-secondary.vimobutton(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popovervimo'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                        
+
+                        .item2#Modalfiles7
+                          label.form-label(for='formFileMultiple') P. Vimo SAP
+                          .sapexample#Modalfiles8
+                            input#formFileMultiplevimosap.form-control(type='file' name="Matrizsap" multiple='')
+                            button.btn.btn-secondary.sapbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoversap'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3#Modalfiles7
+                        .item1#Modalfiles8
+                          label.form-label(for='formFileMultiple') Asistencia
+                          .asistenciaexample
+                            input#formFileMultipleasistenciainfra.form-control(type='file' name="Asistencia" multiple='')
+                            button.btn.btn-secondary.asistenciabutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverasistencia'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                          {{texto_tutorial}}
+                      
+                      .mb-3.brocalesitems
+                        .item1
+                          label.form-label(for='formFileMultiple') Servicio y limpieza brocales sub 5
+                          .sub5example
+                            input#formFileMultiplebrocales5.form-control(type='file' name="Brocales5" multiple='')
+                            button.btn.btn-secondary.sub5button(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popoversub5'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                        .item2
+                          label.form-label(for='formFileMultiple') Servicio y limpieza brocales sub 6
+                          .sub6example
+                            input#formFileMultiplebrocales6.form-control(type='file' name="Brocales6" multiple='')
+                            button.btn.btn-secondary.sub6button(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoversub6'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Disciplina operacional
+                        .disciplinaexample
+                          input#formFileMultipledisciplinainfra.form-control(type='file' name="Disciplina" multiple='')
+                          button.btn.btn-secondary.disciplinabutton(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popoverdisciplina'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Equipos y camionetas
+                        .equiposexample
+                          input#formFileMultipleequipos.form-control(type='file' name="Equipos" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Trabajos diarios
+                        .equiposexample
+                          input#formFileMultipletrabajos.form-control(type='file' name="Trabajos" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popovertrabajos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Prueba Vimo
+                        .equiposexample
+                          input#formFileMultiplevimopuertas.form-control(type='file' name="Pruebavimo" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                    #nav-profile.tab-pane.fade(role='tabpanel' aria-labelledby='nav-profile-tab')
+                      .mb-3
+                        label.form-label(for='formFileMultiple') POD
+                        .equiposexample
+                          input#formFileMultiplepod.form-control(type='file' name="PODtraspaso" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      
+                      //.mb-3
+                      //  label.form-label(for='formFileMultiple') Asistencia
+                      //  .equiposexample
+                      //    input#formFileMultiple.form-control(type='file' name="Asistenciatraspaso" multiple='')
+                      //    button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                      //        i.bi.bi-card-image
+                      //.mb-3
+                      //  label.form-label(for='formFileMultiple') Pauta Diaria
+                      //  .equiposexample
+                      //    input#formFileMultiple.form-control(type='file' name="Pautadiaria" multiple='')
+                      //    button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                      //        i.bi.bi-card-image
+                    
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Workpad
+                        .equiposexample
+                          input#formFileMultipleworkpad.form-control(type='file' name="Workpad" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Disciplina Operacional
+                        .equiposexample
+                          input#formFileMultipledisciplinatraspaso.form-control(type='file' name="Disciplinatraspaso" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                    #nav-tte8.tab-pane.fade(role='tabpanel' aria-labelledby='nav-profile-tab')
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Asistencia
+                        .equiposexample
+                          input#formFileMultipleasistenciatte8.form-control(type='file' name="Asistenciatte8" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Disciplina
+                        .equiposexample
+                          input#formFileMultipledisciplinatte8.form-control(type='file' name="Disciplinatte8" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
+                      .mb-3
+                        label.form-label(for='formFileMultiple') Planificacion
+                        .equiposexample
+                          input#formFileMultipleplanificaciontte8.form-control(type='file' name="Planificaciontte8" multiple='')
+                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
+                              i.bi.bi-card-image
                   
-                  .mb-3.brocalesitems
-                    .item1
-                      label.form-label(for='formFileMultiple') Servicio y limpieza brocales sub 5
-                      .sub5example
-                        input#formFileMultiple.form-control(type='file' name="Brocales5" multiple='')
-                        button.btn.btn-secondary.sub5button(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popoversub5'  data-bs-content=' ')
-                          i.bi.bi-card-image
-                    .item2
-                      label.form-label(for='formFileMultiple') Servicio y limpieza brocales sub 6
-                      .sub6example
-                        input#formFileMultiple.form-control(type='file' name="Brocales6" multiple='')
-                        button.btn.btn-secondary.sub6button(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoversub6'  data-bs-content=' ')
-                          i.bi.bi-card-image
-                  .mb-3
-                    label.form-label(for='formFileMultiple') Disciplina operacional
-                    .disciplinaexample
-                      input#formFileMultiple.form-control(type='file' name="Disciplina" multiple='')
-                      button.btn.btn-secondary.disciplinabutton(type='button' data-bs-toggle='popover' data-bs-placement='bottom' data-bs-custom-class='custom-popoverdisciplina'  data-bs-content=' ')
-                          i.bi.bi-card-image
-                  .mb-3
-                    label.form-label(for='formFileMultiple') Equipos y camionetas
-                    .equiposexample
-                      input#formFileMultiple.form-control(type='file' name="Equipos" multiple='')
-                      button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
-                          i.bi.bi-card-image
-              .modal-footer#footer
-                    button.btnn(type='button' data-bs-dismiss='modal' ng-click="backtonormal()") Cerrar Tutorial
-                    button.btnn(name="probando3" value="probando4" ng-click="tutorialcontinue()" data-bs-dismiss='modal') Continuar
+
+
+              .modal-footer#modalfooter
+                button.btnn(type='button' data-bs-dismiss='modal' ng-click="backtonormal()") Cerrar Tutorial
+                button.btnn(name="probando3" value="probando4" ng-click="tutorialcontinue()" data-bs-dismiss='modal') Continuar
 
     
 
@@ -578,33 +663,94 @@ html
 
     .sidenav#sidenav1
       .sidenav-header
-
         .image
-          img.imagen(src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Codelco_logo.svg/320px-Codelco_logo.svg.png" alt='User Image')
-      #sidenav-collapse-main.navbar-collapse.w-auto.ps
-        ul.navbar-nav#sidenav2
-          li.nav-item
-            a.tablink.w3-red(ng-click="gotoprueba()") Panel
-          li.nav-item
-            a.tablink#pruebaas(onclick="openActivity(event,'Asistencia')" ) Asistencia
-          li.nav-item
-            a.tablink#pruebama(onclick="openActivity(event,'Planmatriz')") Plan matriz 
-          li.nav-item
-            a.tablink(onclick="openActivity(event,'Brocales')") Brocales
-          li.nav-item
-            a.tablink(onclick="openActivity(event,'Disciplina')") Disciplina
-          li.nav-item.has-submenu
-            a.nav-link(data-bs-toggle='collapse' data-bs-target='#menu_item1' )  Opciones
-              i.bi.small.bi-caret-down-fill
-            ul#menu_item1.submenu.collapse.show(data-bs-parent='#nav_accordion')
+          .img.imagen
+      #sidenav-collapse-main.dash-navbar-left.navbar-collapse.w-auto.ps
+        p.nb-nav-title#sidenav2 Información
+          ul.nb-nav#sidenav3
+            li
+              a.collapsed(data-toggle='collapse' href='#collapseStatistics' aria-expanded='true' aria-controls='collapseStatistics')
+                span.glyphicon.glyphicon-stats.nb-link-icon
+                span.nb-link-text Infra
+                span.fa.fa-angle-up.nb-btn-sub-collapse
+              // Dropdown level one
+              ul#collapseStatistics.nb-sub-one.collapse.show
+                li
+                  a.tablink.w3-red(ng-click="GotoPanel()")
+                    span.fa.nb-link-icon
+                    span.nb-link-text Panel
+                li
+                  a.tablink(ng-click="GotoAsistencia()")
+                    span.fa.nb-link-icon
+                    span.nb-link-text Asistencia
+                li
+                  a.tablink(ng-click="GotoPlanmatriz()")
+                    span.fa.nb-link-icon
+                    span.nb-link-text Plan Matriz
+                li
+                  a.tablink(ng-click="GotoBrocales()")
+                    span.fa.nb-link-icon
+                    span.nb-link-text Brocales
+                li
+                  a.tablink(ng-click="GotoDisciplina()")
+                    span.fa.nb-link-icon
+                    span.nb-link-text Disciplina 
+            li 
+              a.collapsed(data-toggle='collapse' href='#collapseTraspaso' aria-expanded='false' aria-controls='collapseTraspaso')
+                span.glyphicon.glyphicon-stats.nb-link-icon
+                span.nb-link-text Traspaso
+                span.fa.fa-angle-up.nb-btn-sub-collapse
+              // Dropdown level one
+              ul#collapseTraspaso.nb-sub-one.collapse
+                li
+                  a.tablink(ng-click="GotoAsistenciatraspaso()" )
+                    span.fa.fa-clock-o.nb-link-icon
+                    span.nb-link-text Asistencia
+                li
+                  a.tablink(ng-click="GotoPaneltraspaso()" )
+                    span.fa.fa-history.nb-link-icon
+                    span.nb-link-text Pauta Diaria
+                li
+                  a.tablink(ng-click="GotoDisciplinatraspaso()" )
+                    span.fa.fa-history.nb-link-icon
+                    span.nb-link-text Disciplina 
+            li 
+              a.collapsed(data-toggle='collapse' href='#collapsett8' aria-expanded='false' aria-controls='collapsett8')
+                span.glyphicon.glyphicon-stats.nb-link-icon
+                span.nb-link-text Tt8
+                span.fa.fa-angle-up.nb-btn-sub-collapse
+              // Dropdown level one
+              ul#collapsett8.nb-sub-one.collapse
+                li
+                  a.tablink(ng-click="GotoAsistenciatte8()" )
+                    span.fa.fa-clock-o.nb-link-icon
+                    span.nb-link-text Asistencia
+                li
+                  a.tablink
+                    span.fa.fa-history.nb-link-icon
+                    span.nb-link-text Pauta Diaria
+                li
+                  a.tablink
+                    span.fa.fa-history.nb-link-icon
+                    span.nb-link-text Disciplina
+        p.nb-nav-title Opciones
+          ul.nb-nav
               li
-                a.nav-link.tablink(onclick="openActivity(event,'Modificacion')" ) Modificación
+                a.nav-link.tablink(onclick="openActivity(event,'Modificacion')")
+                  span.glyphicon.glyphicon-folder-open.nb-link-icon
+                  span.nb-link-text Modificación
               li
-                a.nav-link.tablink(onclick="openActivity(event,'Reporte')" ) Reporte
+                a.nav-link.tablink(onclick="openActivity(event,'Reporte')")
+                  span.glyphicon.glyphicon-folder-open.nb-link-icon
+                  span.nb-link-text Reporte
               li
-                a.nak-link.tablink(onclick="openActivity(event,'Creacion')") Creacion
+                a.nav-link.tablink(onclick="openActivity(event,'Archivos')")
+                  span.glyphicon.glyphicon-folder-open.nb-link-icon
+                  span.nb-link-text Archivos
               li
-                a.nak-link.tablink(onclick="openActivity(event,'Archivos')") Archivos
+                a.nav-link.tablink(onclick="openActivity(event,'Creacion')")
+                  span.glyphicon.glyphicon-folder-open.nb-link-icon
+                  span.nb-link-text Creación
             
 
       .sidenav-footer
@@ -633,7 +779,7 @@ html
           else
             button#loginbutton.btnn(type='button' data-bs-toggle='modal' data-bs-target='#Modallogin') Ingresar
 
-    .main
+    #blur2.main
 
       #Modalbrocales.modal.fade( aria-labelledby='Modalbrocales' )
             .modal-dialog
@@ -2049,12 +2195,3 @@ html
 
   script(type='text/javascript' src='/scripts/sidebartutorial.js')
   script.
-    if(local_authmessage!=""){
-      document.getElementById("loginbutton").click();
-    }
-    if(local_ingreso.length !=0){
-      var myModal = new bootstrap.Modal(document.getElementById('ModalInformacion'), {
-        keyboard: false
-      })
-      myModal.toggle()
-    }

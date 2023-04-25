@@ -296,161 +296,26 @@ module.exports = {
       console.error(error);
       res.status(500).send("Internal Server Error");
     }
-
-  /*getdashboard : function(req, res, next){
-    
-    
-    modelo.brocales.findAll({
-    }).then(function(rows_brocales){
-      modelo.asistencia.findAll({
-      }).then(function(rows_asistencia){
-        modelo.disciplina.findAll({          
-        }).then(function(rows_disciplina){
-          modelo.planmatriz.findAll({
-          }).then(function(rows_matriz){
-            modelo.puertas.findAll({
-            }).then(function(rows_puertas){
-              modelo.usuario.findAll({
-              }).then(function(rows_usuarios){
-                modelo.vimosap.findAll({                  
-                }).then(function(rows_vimosap){
-                  modelo.equipos.findAll({  
-                  }).then(function(rows_equipos){
-                    modelo.archivos.findAll({  
-                    }).then(function(rows_archivos){
-                      modelo.trabajos.findAll({
-                      }).then(function(rows_trabajos){
-                        modelo.disciplina_traspaso.findAll({  
-                        }).then(function(rows_disciplina_traspaso){
-                          console.log("espera")
-                          setTimeout(() => {  console.log(req.user); }, 3000);
-                          
-                          if(req.user != undefined){
-                            return res.render("dashboard", {
-                              totaldisciplina : rows_disciplina,
-                              totalasistencias : rows_asistencia,
-                              totalbrocales : rows_brocales,
-                              totalmatriz : rows_matriz,
-                              totalpuertas : rows_puertas,
-                              totalusuarios : rows_usuarios,
-                              totalequipos : rows_equipos,
-                              totalarchivos : rows_archivos,
-                              user : req.user,
-                              totalsap : rows_vimosap,
-                              totaltrabajos : rows_trabajos,
-                              totaldisciplinatraspaso : rows_disciplina_traspaso,
-                              authmessage : req.flash('authmessage'),
-                              info: req.flash('info'),
-                              error : req.flash('error'),
-                              ingreso : req.flash('ingreso'),
-                            })
-                          }
-                          else{
-
-                            return res.render("dashboard", {
-                              totaldisciplina : rows_disciplina,
-                              totalasistencias : rows_asistencia,
-                              totalbrocales : rows_brocales,
-                              totalmatriz : rows_matriz,
-                              totalpuertas : rows_puertas,
-                              totalusuarios : rows_usuarios,
-                              totalequipos : rows_equipos,
-                              totalsap : rows_vimosap,
-                              totalarchivos : rows_archivos,
-                              totaltrabajos : rows_trabajos,
-                              totaldisciplinatraspaso : rows_disciplina_traspaso,
-                              user : "notlogged",
-                              info: req.flash('info'),
-                              authmessage : req.flash('authmessage'),
-                              error : req.flash('error'),
-                              ingreso : req.flash('ingreso')
-                            })
-                          }
-                        })
-                      
-                      })
-                      
-                    })
-                    
-                  })                 
-                })            
-              })
-              
-            })
-          });
-        })
-      })    
-    });*/
-    
   },
 
-  getTutorial : function(req, res, next){
-    modelo.brocales.findAll({
-    }).then(function(rows_brocales){
-      modelo.asistencia.findAll({
-      }).then(function(rows_asistencia){
-        modelo.disciplina.findAll({          
-        }).then(function(rows_disciplina){
-          modelo.planmatriz.findAll({
-          }).then(function(rows_matriz){
-            modelo.puertas.findAll({
-            }).then(function(rows_puertas){
-              modelo.usuario.findAll({
-              }).then(function(rows_usuarios){
-                modelo.vimosap.findAll({                  
-                }).then(function(rows_vimosap){
-                  modelo.equipos.findAll({  
-                  }).then(function(rows_equipos){
-                    modelo.archivos.findAll({  
-                    }).then(function(rows_archivos){
-                      if(req.user != undefined){
-                        console.log("aca estoy")
-                        return res.render("dashboardtutorial", {
-                          totaldisciplina : rows_disciplina,
-                          totalasistencias : rows_asistencia,
-                          totalbrocales : rows_brocales,
-                          totalmatriz : rows_matriz,
-                          totalpuertas : rows_puertas,
-                          totalusuarios : rows_usuarios,
-                          totalequipos : rows_equipos,
-                          totalarchivos : rows_archivos,
-                          user : req.user,
-                          totalsap : rows_vimosap,
-                          authmessage : req.flash('authmessage'),
-                          info: req.flash('info'),
-                          error : req.flash('error'),
-                          ingreso : req.flash('ingreso'),
-                        })
-                      }
-                      else{
-                        return res.render("dashboardtutorial", {
-                          totaldisciplina : rows_disciplina,
-                          totalasistencias : rows_asistencia,
-                          totalbrocales : rows_brocales,
-                          totalmatriz : rows_matriz,
-                          totalpuertas : rows_puertas,
-                          totalusuarios : rows_usuarios,
-                          totalequipos : rows_equipos,
-                          totalsap : rows_vimosap,
-                          totalarchivos : rows_archivos,
-                          user : "notlogged",
-                          info: req.flash('info'),
-                          authmessage : req.flash('authmessage'),
-                          error : req.flash('error'),
-                          ingreso : req.flash('ingreso')
-                        })
-                      }
-                    })
-                    
-                  })                 
-                })            
-              })
-              
-            })
-          });
-        })
-      })    
-    });
+  getTutorial : async(req, res, next)=>{
+    try {
+      const data = await getData();
+      data.authmessage = req.flash('authmessage')
+      data.info = req.flash('info')
+      data.error = req.flash('error')
+      data.ingreso = req.flash('ingreso')
+
+      if (req.session.user_id != undefined) {
+        data.user = req.session.user_id;
+      } else {
+        data.user = "notlogged";
+      }
+      return res.render("dashboardtutorial", data);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    }
   },
 
 	getSistemanuevo : function(req,res,next){
@@ -1083,7 +948,7 @@ module.exports = {
               var demandaiszero = true
               var idminiretro =""
               var idlevante = ""
-              if(file.name.toString().includes("pilar norte")){
+              if(file.name.toString().toUpperCase().includes("pilar norte")){
                 idminiretro = 3
                 idlevante = 3
               }
@@ -1157,35 +1022,46 @@ module.exports = {
                    Cantidad = 0;
 
                 }
-                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idminiretro]] != undefined){
-                  miniretro = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idminiretro]];
-                }
-                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idminiretro]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
-                  miniretro = "";
-                }
-
-                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idlevante]] != undefined){
-                  levante = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idlevante]];
-                }
-                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idlevante]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
-                  levante = "";
-                }
-
-                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] != undefined){
-                    Actividad = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]];
-                }
-                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
-                   Actividad = "";
-                }
-                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] != undefined){
-                  Observaciones = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]];
-                }
-                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
-                   Observaciones = "";
-                }
-                /*if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] != undefined){
-                    Sub = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]];
-                }*/
+                if(datos[a]["__EMPTY_16"] != undefined){
+                  //if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idminiretro]] != undefined){
+                    //miniretro = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idminiretro]];
+                    miniretro = datos[a]["__EMPTY_16"]
+                  }
+                  /*if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idminiretro]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                    miniretro = "";
+                    
+                  }*/
+                  if(datos[a]["__EMPTY_16"]!= undefined){
+                  //if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idlevante]] != undefined){
+                    //levante = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idlevante]];
+                    levante = datos[a]["__EMPTY_16"]
+                  }
+                  /*if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idlevante]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                    levante = "";
+                  }*/
+                  if(datos[a]["__EMPTY_15"] != undefined){
+                  //if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] != undefined){
+                    Actividad = datos[a]["__EMPTY_15"]
+                      //Actividad = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]];
+                  }
+                  /*if(datos[a]["__EMPTY_16"] != undefined){
+                  //if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                     Actividad = datos[a]["__EMPTY_15"]
+                  }*/
+                  if(datos[a]["__EMPTY_17"] != undefined){
+                  //if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] != undefined){
+                    //Observaciones = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]];
+                    Observaciones = datos[a]["__EMPTY_17"]
+                  }
+                  if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                     Observaciones = "";
+                  }
+                  /*if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] != undefined){
+                      Sub = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]];
+                  }*/
+                  /*if(datos[a]["__EMPTY"] == undefined && datos[a]["__EMPTY_1"] == undefined &&datos[a]["__EMPTY_2"] == undefined && datos[a]["__EMPTY_3"] == undefined && datos[a]["__EMPTY_4"] == undefined datos[a]["__EMPTY_5"] == undefined ){
+                    nadaqueagregar = true
+                  }*/
 
                 if((Object.keys(datos[a]).length > 1 && demandaiszero != true) || datos[a][Object.keys(datos[0])[0]] != undefined){
                   await modelo.brocales.findAll({
@@ -1264,7 +1140,7 @@ module.exports = {
             var miniretro = "";
             var idminiretro= ""
             var idlevante = ""
-            if(file.name.toString().includes("pilar norte")){
+            if(file.name.toString().toUpperCase().includes("pilar norte")){
               idminiretro = 3
               idlevante = 3
             }
@@ -1337,27 +1213,36 @@ module.exports = {
                  Cantidad = 0;
               }
 
-              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idminiretro]] != undefined){
-                miniretro = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idminiretro]];
+              if(datos[a]["__EMPTY_16"] != undefined){
+              //if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idminiretro]] != undefined){
+                //miniretro = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idminiretro]];
+                miniretro = datos[a]["__EMPTY_16"]
               }
-              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idminiretro]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+              /*if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idminiretro]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                 miniretro = "";
+                
+              }*/
+              if(datos[a]["__EMPTY_16"]!= undefined){
+              //if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idlevante]] != undefined){
+                //levante = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idlevante]];
+                levante = datos[a]["__EMPTY_16"]
               }
-
-              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idlevante]] != undefined){
-                levante = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idlevante]];
-              }
-              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idlevante]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+              /*if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-idlevante]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                 levante = "";
+              }*/
+              if(datos[a]["__EMPTY_15"] != undefined){
+              //if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] != undefined){
+                Actividad = datos[a]["__EMPTY_15"]
+                  //Actividad = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]];
               }
-              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] != undefined){
-                  Actividad = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]];
-              }
-              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
-                 Actividad = "";
-              }
-              if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] != undefined){
-                Observaciones = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]];
+              /*if(datos[a]["__EMPTY_16"] != undefined){
+              //if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                 Actividad = datos[a]["__EMPTY_15"]
+              }*/
+              if(datos[a]["__EMPTY_17"] != undefined){
+              //if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] != undefined){
+                //Observaciones = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]];
+                Observaciones = datos[a]["__EMPTY_17"]
               }
               if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                  Observaciones = "";
@@ -3168,7 +3053,7 @@ module.exports = {
           await modelo.disciplina_tte8.findAll({
           }).then(async function(rows_disciplina_tte8){
             if(rows_disciplina_tte8.length!=0){
-              
+
             }
 
 
