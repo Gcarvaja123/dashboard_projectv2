@@ -2862,11 +2862,11 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       else{
         $scope.msg= "";
         $scope.userbutton = false
-        if($scope.name1.length>4){
+        if($scope.name1.length>3){
           document.getElementById("buttoncrear").disabled = false
         }
         else{
-          $scope.msg = "Nombre usuario debe contener mas de 4 caracteres"
+          $scope.msg = "Nombre usuario debe contener mas de 4 o mas caracteres"
         }
         
       }
@@ -2897,8 +2897,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       $scope.msg = ""
     }
 
-    if($scope.name1.length<=5){
-      $scope.msg = "Nombre usuario debe contener mas de 4 caracteres"
+    if($scope.name1.length<4){
+      $scope.msg = "Nombre usuario debe contener mas de 4 o mas caracteres"
       document.getElementById("buttoncrear").disabled = true
     }
     else{
