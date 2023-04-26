@@ -239,24 +239,31 @@ module.exports = {
     console.log("Req session")
     console.log(req.session)
     console.log("Termino Req session")
-    modelo.usuario.findAll({
-      where:{
-        usuario : req.body.username
-      }
-    }).then(function(rows_usuarios_aux){
-      if(req.body.password == rows_usuarios_aux[0].Contraseña){
-        console.log("Usuario verificado")
-        req.session.user_id = rows_usuarios_aux[0]
-        req.session.save()
+    if(req.body.username !="" && req.body.password!="" ){
+      modelo.usuario.findAll({
+        where:{
+          usuario : req.body.username
+        }
+      }).then(function(rows_usuarios_aux){
+        if(req.body.password == rows_usuarios_aux[0].Contraseña){
+          console.log("Usuario verificado")
+          req.session.user_id = rows_usuarios_aux[0]
+          req.session.save()
 
-        return res.redirect('/dashboard');
-      }
-      else{
-        console.log("No verificado")
-        req.flash('authmessage', 'Usuario o contraseña incorrecta')
-        return res.redirect('/dashboard'); 
-      }
-    })
+          return res.redirect('/dashboard');
+        }
+        else{
+          console.log("No verificado")
+          req.flash('authmessage', 'Usuario o contraseña incorrecta')
+          return res.redirect('/dashboard'); 
+        }
+      })
+    }
+    else{
+      console.log("No verificado")
+          req.flash('authmessage', 'Usuario o contraseña incorrecta')
+          return res.redirect('/dashboard'); 
+    }
     
   },
 

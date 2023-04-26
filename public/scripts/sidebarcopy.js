@@ -84,7 +84,8 @@ var app = angular.module('myApp', ['zingchart-angularjs']);
 
 
 app.controller("myControllerAsistencia", function($scope,$filter,$http){
-
+  document.getElementById("buttoncrear").disabled = true
+  document.getElementById("aceptarusuario").disabled = true
 
   $scope.archivoseliminar = []
   $scope.authmessagestr = local_authmessage[0]
@@ -2855,12 +2856,26 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
   $scope.checkpassword = function(){
     if(angular.equals($scope.pass1, $scope.pass2)){
-      $scope.msg= "";
-      $scope.userbutton = false
+      if($scope.pass1==""){
+        document.getElementById("buttoncrear").disabled = true
+      }
+      else{
+        $scope.msg= "";
+        $scope.userbutton = false
+        if($scope.name1.length>4){
+          document.getElementById("buttoncrear").disabled = false
+        }
+        else{
+          $scope.msg = "Nombre usuario debe contener mas de 4 caracteres"
+        }
+        
+      }
+      
     }
     else{
       $scope.msg= "Contraseñas no son iguales";
       $scope.userbutton = true
+      document.getElementById("buttoncrear").disabled = true
     }
   }
 
@@ -2868,9 +2883,11 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
     if($scope.name1 == ""){
       $scope.userbutton = true
+      document.getElementById("buttoncrear").disabled = true
     }
     else{
       $scope.userbutton = false
+      document.getElementById("buttoncrear").disabled = false
     }
 
     if($scope.nombresusuarios.indexOf($scope.name1) != -1){
@@ -2880,11 +2897,18 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       $scope.msg = ""
     }
 
-    if($scope.name1.split("").length<4){
+    if($scope.name1.length<4){
       $scope.msg = "Nombre usuario debe contener mas de 4 caracteres"
+      document.getElementById("buttoncrear").disabled = true
     }
     else{
       $scope.msg = ""
+    }
+  }
+
+  $scope.checkusuariologin = function(){
+    if($scope.nombreusuario !="" && $scope.passusuario !=""){
+      document.getElementById("aceptarusuario").disabled = false
     }
   }
   $scope.EstadoArchivos = ""

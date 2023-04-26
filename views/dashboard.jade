@@ -189,15 +189,15 @@ html
                 .container
                   .mb-3
                     label() Ingresar nombre usuario
-                    input#formFileMultipleusernamelogin.form-control(type='text' name='username' placeholder='Usuario' )
+                    input#formFileMultipleusernamelogin.form-control(ng-model= "nombreusuario" ng-change = "checkusuariologin()" type='text' name='username' placeholder='Usuario' )
                   .mb-3
                     label() Ingresar contraseña
-                    input#formFileMultiplepasswordlogin.form-control(type='password' name='password'  placeholder='Contraseña')
+                    input#formFileMultiplepasswordlogin.form-control(ng-model= "passusuario" ng-change = "checkusuariologin()" type='password' name='password'  placeholder='Contraseña')
                   if authmessage!=""
                     {{authmessagestr}}
               .modal-footer
                 button.btnn(type='button' data-bs-dismiss='modal') Cerrar
-                button.btnn(name="probando3" value="probando4") Aceptar
+                button.btnn#aceptarusuario(ng-model="aceptarusuario" name="probando3" value="probando4") Aceptar
     #ModalInformacion.modal.fade( aria-labelledby='Modallogin' )
       form.formasistencias
           .modal-dialog
@@ -1770,7 +1770,7 @@ html
           .form-group.row
             label.col-sm-2.col-form-label(for='inputEmail3') Nombre usuario
             .col-sm-10
-              input#inputEmail3.form-control(type='text' name= "Usuario" placeholder='Ingresar usuario')
+              input#inputEmail3.form-control(ng-model="name1" type='text' name= "Usuario" placeholder='Ingresar usuario' ng-change="checkuser()")
           .form-group.row
             label.col-sm-2.col-form-label(for='inputPassword3') Contraseña
             .col-sm-10
@@ -1799,7 +1799,7 @@ html
                     | Rol 3 (Crea reportes)
           .form-group.row
             .col-sm-10
-              button.btn.btn-primary(type='submit') Crear
+              button.btn.btn-primary#buttoncrear(type='submit') Crear
       #Archivos.w3-container.w3-border.activity(style='display:none')
         p
         p
@@ -2761,6 +2761,7 @@ html
 
     var header = document.getElementById("blur1");
     var sticky = header.offsetTop;
+    document.getElementById("aceptarusuario").disabled = true
 
     function myFunction() {
       if (window.pageYOffset > sticky) {
