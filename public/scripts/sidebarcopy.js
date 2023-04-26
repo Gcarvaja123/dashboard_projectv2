@@ -2897,7 +2897,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       $scope.msg = ""
     }
 
-    if($scope.name1.length<4){
+    if($scope.name1.length<=5){
       $scope.msg = "Nombre usuario debe contener mas de 4 caracteres"
       document.getElementById("buttoncrear").disabled = true
     }

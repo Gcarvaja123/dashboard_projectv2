@@ -990,7 +990,7 @@ html
         li.nav-item#blurfecha3
           input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
         //if user!= 'notlogged'
-        if user.Usuario=="admin" || user.Rango=="Modificacion"
+        if user.Usuario=="admin" || user.Rango=="Modificacion" || user.Rango=="admin" 
           li.nav-item
             button.btnn(type='button' data-bs-toggle='modal' data-bs-target='#Modalfiles') Ingresar archivos
       ul.navbar-nav.ml-auto#blurlogin2
