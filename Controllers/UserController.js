@@ -1336,65 +1336,71 @@ module.exports = {
                   Nombrearchivo : file.name.toString()
                 })
               }
-              /*if(file.name.toString().includes("Consolidado")){
-                for(a=1; a< Object.keys(datos).length ; a++){
-                  var date = ExcelDateToJSDate(datos[a]["__EMPTY_2"])
-                  var converted_date = date.toISOString().split('T')[0];
-                  fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
-                  var Solicitante = "";
-                  var Tipomantencion = "";
-                  var Estado = "";
-                  if(datos[a]["__EMPTY_6"] != undefined){
-                    Solicitante = datos[a]["__EMPTY_6"]
-                  }
-
-                  if(datos[a]["__EMPTY_3"] != undefined){
-                    Tipomantencion = datos[a]["__EMPTY_3"]
-                  }
-
-                  if(datos[a]["__EMPTY_7"] != undefined){
-                    Estado = datos[a]["__EMPTY_7"]
-                  }
-
-                  await modelo.puertas.findAll({
-                    where:{
-                      Identificacion : datos[a]["__EMPTY"],
-                      Fecharevision : fecha
-                    }
-                  }).then(async function(rows_copias){
-                    if(rows_copias.length==0){
-                      await modelo.puertas.create({
-                        Identificacion : datos[a]["__EMPTY"],
-                        Ubicacion : datos[a]["__EMPTY_1"],
-                        Fecharevision : fecha,
-                        Tipomantencion : Tipomantencion,
-                        Detalles : datos[a]["__EMPTY_4"],
-                        Solicitante : Solicitante,
-                        Estado : Estado,
-                        Idingreso : random_id_matriz_multiple
-                      })
-                    }
-                  
-                  })
-                  
-                }
-              }*/
               if(area == "vimo"){
                        
                 for(a=0; a < datos.length; a++){
                   var date = ExcelDateToJSDate(datos[a][2][Object.keys(datos[a][2])[1]]);
                   var converted_date = date.toISOString().split('T')[0];
                   var Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
-                  modelo.puertas_vimo.create({
-                    Codigo : datos[a][2][Object.keys(datos[a][2])[0]],
-                    Fecha : Fecha,
-                    Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]],
-                    Nivel : datos[a][2][Object.keys(datos[a][2])[3]],
-                    Area : datos[a][2][Object.keys(datos[a][2])[4]],
-                    Horainicio : convertToHHMM(datos[a][2][Object.keys(datos[a][2])[Object.keys(datos[a][2]).length-1]]*24).toString(),
-                    Horatermino : convertToHHMM(datos[a][6][Object.keys(datos[a][6])[Object.keys(datos[a][6]).length-1]]*24).toString(),
-                    Idingreso : random_id_matriz_multiple
+                  var Descripcion = ""
+                  var guardar = false
+                  var empty = ""
+                  if(Object.keys(datos[a][0]).includes("__EMPTY_1")){
+                    empty = "__EMPTY_11"
+                  }else if(Object.keys(datos[a][0]).includes("__EMPTY")){
+                    empty ="__EMPTY_10"
+                  }
+                  for(d=0 ; d < datos[a].length; d++){
+                    
+                    if(datos[a][d][empty] == "Descripción Actividad"){
+                      guardar = true
+                    }
+                    if(guardar == true){
+                      if(Descripcion == "" && datos[a][d][empty]!=undefined ){
+                        Descripcion = datos[a][d][empty]
+                      }
+                      else if (datos[a][d][empty]!=undefined ){
+                        Descripcion+= ";"+datos[a][d][empty]
+                      }
+                    }
+                  }
+                  await modelo.puertas_vimo.findAll({
+                    where: {
+                      Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]],
+                    }
+                  }).then(async function(rows_vimo){
+                    if(rows_vimo.length==0){
+                      await modelo.puertas_vimo.create({
+                        Codigo : datos[a][2][Object.keys(datos[a][2])[0]],
+                        Fecha : Fecha,
+                        Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]],
+                        Nivel : datos[a][2][Object.keys(datos[a][2])[3]],
+                        Area : datos[a][2][Object.keys(datos[a][2])[4]],
+                        Horainicio : convertToHHMM(datos[a][2][Object.keys(datos[a][2])[Object.keys(datos[a][2]).length-1]]*24).toString(),
+                        Horatermino : convertToHHMM(datos[a][6][Object.keys(datos[a][6])[Object.keys(datos[a][6]).length-1]]*24).toString(),
+                        Descripcion : Descripcion,
+                        Idingreso : random_id_matriz_multiple
+                      })
+                    }
+                    else{
+                      await modelo.puertas_vimo.update({
+                        Codigo : datos[a][2][Object.keys(datos[a][2])[0]],
+                        Fecha : Fecha,
+                        Nivel : datos[a][2][Object.keys(datos[a][2])[3]],
+                        Area : datos[a][2][Object.keys(datos[a][2])[4]],
+                        Horainicio : convertToHHMM(datos[a][2][Object.keys(datos[a][2])[Object.keys(datos[a][2]).length-1]]*24).toString(),
+                        Horatermino : convertToHHMM(datos[a][6][Object.keys(datos[a][6])[Object.keys(datos[a][6]).length-1]]*24).toString(),
+                        Descripcion : Descripcion,
+                        Idingreso : random_id_matriz_multiple
+                      },{
+                        where : {
+                          Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]],
+                        }
+                      }
+                      )
+                    }
                   })
+                  
                 }       
               }
               else{
@@ -1497,64 +1503,72 @@ module.exports = {
                 Nombrearchivo : file.name.toString()
               })
             }
-            /*if(file.name.toString().includes("Consolidado")){
-              for(a=1; a< Object.keys(datos).length ; a++){
-                var date = ExcelDateToJSDate(datos[a]["__EMPTY_2"])
-                var converted_date = date.toISOString().split('T')[0];
-                fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
-                var Solicitante = "";
-                var Tipomantencion = "";
-                var Estado = "";
-                if(datos[a]["__EMPTY_6"] != undefined){
-                  Solicitante = datos[a]["__EMPTY_6"]
-                }
-
-                if(datos[a]["__EMPTY_3"] != undefined){
-                  Tipomantencion = datos[a]["__EMPTY_3"]
-                }
-
-                if(datos[a]["__EMPTY_7"] != undefined){
-                  Estado = datos[a]["__EMPTY_7"]
-                }                
-                await modelo.puertas.findAll({
-                  where:{
-                    Identificacion : datos[a]["__EMPTY"],
-                    Fecharevision : fecha
-                  }
-                  }).then(async function(rows_copias){
-                    if(rows_copias.length==0){
-                      await modelo.puertas.create({
-                        Identificacion : datos[a]["__EMPTY"],
-                        Ubicacion : datos[a]["__EMPTY_1"],
-                        Fecharevision : fecha,
-                        Tipomantencion : Tipomantencion,
-                        Detalles : datos[a]["__EMPTY_4"],
-                        Solicitante : Solicitante,
-                        Estado : Estado,
-                        Idingreso : random_id_matriz_single
-                      })
-                    }
-                  
-                  })
-              }
-            }*/
+            
             if(area == "vimo"){
                        
               for(a=0; a < datos.length; a++){
                 var date = ExcelDateToJSDate(datos[a][2][Object.keys(datos[a][2])[1]]);
                 var converted_date = date.toISOString().split('T')[0];
                 var Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
-                modelo.puertas_vimo.create({
-                  Codigo : datos[a][2][Object.keys(datos[a][2])[0]],
-                  Fecha : Fecha,
-                  Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]],
-                  Nivel : datos[a][2][Object.keys(datos[a][2])[3]],
-                  Area : datos[a][2][Object.keys(datos[a][2])[4]],
-                  Horainicio : convertToHHMM(datos[a][2][Object.keys(datos[a][2])[Object.keys(datos[a][2]).length-1]]*24).toString(),
-                  Horatermino : convertToHHMM(datos[a][6][Object.keys(datos[a][6])[Object.keys(datos[a][6]).length-1]]*24).toString(),
-                  Idingreso : random_id_matriz_single
+                var Descripcion = ""
+                var guardar = false
+                var empty = ""
+                if(Object.keys(datos[a][0]).includes("__EMPTY_1")){
+                  empty = "__EMPTY_11"
+                }else if(Object.keys(datos[a][0]).includes("__EMPTY")){
+                  empty ="__EMPTY_10"
+                }
+                for(d=0 ; d < datos[a].length; d++){
+                  
+                  if(datos[a][d][empty] == "Descripción Actividad"){
+                    guardar = true
+                  }
+                  if(guardar == true){
+                    if(Descripcion == "" && datos[a][d][empty]!=undefined ){
+                      Descripcion = datos[a][d][empty]
+                    }
+                    else if (datos[a][d][empty]!=undefined ){
+                      Descripcion+= ";"+datos[a][d][empty]
+                    }
+                  }
+                }
+                await modelo.puertas_vimo.findAll({
+                  where : {
+                    Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]],
+                  }
+                }).then(async function(rows_vimo){
+                  if (rows_vimo.length==0){
+                    await modelo.puertas_vimo.create({
+                      Codigo : datos[a][2][Object.keys(datos[a][2])[0]],
+                      Fecha : Fecha,
+                      Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]],
+                      Nivel : datos[a][2][Object.keys(datos[a][2])[3]],
+                      Area : datos[a][2][Object.keys(datos[a][2])[4]],
+                      Horainicio : convertToHHMM(datos[a][2][Object.keys(datos[a][2])[Object.keys(datos[a][2]).length-1]]*24).toString(),
+                      Horatermino : convertToHHMM(datos[a][6][Object.keys(datos[a][6])[Object.keys(datos[a][6]).length-1]]*24).toString(),
+                      Descripcion : Descripcion,
+                      Idingreso : random_id_matriz_single
+                    })
+                  }
+                  else{
+                    await modelo.puertas_vimo.update({
+                      Codigo : datos[a][2][Object.keys(datos[a][2])[0]],
+                      Fecha : Fecha,
+                      Nivel : datos[a][2][Object.keys(datos[a][2])[3]],
+                      Area : datos[a][2][Object.keys(datos[a][2])[4]],
+                      Horainicio : convertToHHMM(datos[a][2][Object.keys(datos[a][2])[Object.keys(datos[a][2]).length-1]]*24).toString(),
+                      Horatermino : convertToHHMM(datos[a][6][Object.keys(datos[a][6])[Object.keys(datos[a][6]).length-1]]*24).toString(),
+                      Descripcion : Descripcion,
+                      Idingreso : random_id_matriz_single
+                    },{
+                      where : {   
+                        Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]],
+                      }
+                    })
+                  }
                 })
-              }       
+                
+              }    
             }
             else{
               if (keys[0].toString().toUpperCase().includes("AIRE")){
@@ -3138,30 +3152,76 @@ module.exports = {
         }
       }
 
-      else if (datos_1[d] == "Pruebavimo"){
+      else if (datos_1[d] == "Puertasvimo"){
         try{  
-          file = req.files["Pruebavimo"];
+          var random_id_puertasvimo_single = guid();
+          file = req.files["Puertasvimo"];
           const savePath = path.join(__dirname,"../",'public','uploads',file.name);
           await file.mv(savePath);
-          var datos = leerExcelPruebavimo(file.name);
+          var datos = leerExcelVimoPlanificacion(file.name);
+          await modelo.puertas_vimo.create({
+            Tabla : "puertas_vimo",
+            Idingreso : random_id_puertasvimo_single,
+            Fechaingreso : Fecha_hoy,
+            Infoingresada : "archivo puertas vimo",
+            Nombrearchivo : file.name.toString()
+          })
           
           for(a=0; a < datos.length; a++){
             var date = ExcelDateToJSDate(datos[a][2][Object.keys(datos[a][2])[1]]);
             var converted_date = date.toISOString().split('T')[0];
             var Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
-            modelo.puertas_vimo.create({
-              Codigo : datos[a][2][Object.keys(datos[a][2])[0]],
-              Fecha : Fecha,
-              Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]],
-              Nivel : datos[a][2][Object.keys(datos[a][2])[3]],
-              Area : datos[a][2][Object.keys(datos[a][2])[4]],
-              Horainicio : convertToHHMM(datos[a][2][Object.keys(datos[a][2])[Object.keys(datos[a][2]).length-1]]*24).toString(),
-              Horatermino : convertToHHMM(datos[a][6][Object.keys(datos[a][6])[Object.keys(datos[a][6]).length-1]]*24).toString(),
+            await modelo.puertas_vimo.findAll({
+              where :{
+                Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]],
+              }
+            }).then(async function(rows_vimo){
+              if(rows_vimo.length==0){
+                await modelo.puertas_vimo.create({
+                  Codigo : datos[a][2][Object.keys(datos[a][2])[0]],
+                  Fecha : Fecha,
+                  Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]],
+                  Nivel : datos[a][2][Object.keys(datos[a][2])[3]],
+                  Area : datos[a][2][Object.keys(datos[a][2])[4]],
+                  Horainicio : convertToHHMM(datos[a][2][Object.keys(datos[a][2])[Object.keys(datos[a][2]).length-1]]*24).toString(),
+                  Horatermino : convertToHHMM(datos[a][6][Object.keys(datos[a][6])[Object.keys(datos[a][6]).length-1]]*24).toString(),
+                  Idingreso : random_id_puertasvimo_single
+                })
+              }
+              else{
+                await modelo.puertasvimo.update({
+                    Codigo : datos[a][2][Object.keys(datos[a][2])[0]],
+                    Fecha : Fecha,
+                    Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]],
+                    Nivel : datos[a][2][Object.keys(datos[a][2])[3]],
+                    Area : datos[a][2][Object.keys(datos[a][2])[4]],
+                    Horainicio : convertToHHMM(datos[a][2][Object.keys(datos[a][2])[Object.keys(datos[a][2]).length-1]]*24).toString(),
+                    Horatermino : convertToHHMM(datos[a][6][Object.keys(datos[a][6])[Object.keys(datos[a][6]).length-1]]*24).toString(),
+                    Idingreso : random_id_puertasvimo_single
+                  },{
+                    where:{
+                      Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]],
+                    }
+                })
+              }
             })
+            
           }
         }
         catch(err){
           console.log(err)
+          req.flash('error', "Error en puertas vimo "+ file.name.toString());
+          await modelo.archivos.destroy({
+            where : {
+              Idingreso : random_id_puertasvimo_single
+            }
+          })
+
+          await modelo.puertas_vimo.destroy({
+            where : {
+              Idingreso : random_id_puertasvimo_single
+            }
+          })
         }
       }
 
@@ -3361,6 +3421,13 @@ module.exports = {
       }
       else if(req.body[a].Tabla == "asistencia_tte8"){
         await modelo.asistencia_tte8.destroy({
+          where : {
+            Idingreso : req.body[a].Idingreso
+          }
+        })
+      }
+      else if(req.body[a].Tabla == "puertas_vimo"){
+        await modelo.puertas_vimo.destroy({
           where : {
             Idingreso : req.body[a].Idingreso
           }

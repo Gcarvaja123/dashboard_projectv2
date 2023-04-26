@@ -112,12 +112,12 @@ html
                           input#formFileMultipletrabajos.form-control(type='file' name="Trabajos" multiple='')
                           button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popovertrabajos'  data-bs-content=' ')
                               i.bi.bi-card-image
-                      .mb-3
-                        label.form-label(for='formFileMultiple') Prueba Vimo
-                        .equiposexample
-                          input#formFileMultiplevimopuertas.form-control(type='file' name="Pruebavimo" multiple='')
-                          button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popoverequipos'  data-bs-content=' ')
-                              i.bi.bi-card-image
+                      //.mb-3
+                      //  label.form-label(for='formFileMultiple') Puertas vimo
+                      //  .equiposexample
+                      //    input#formFileMultiplevimopuertas.form-control(type='file' name="Puertasvimo" multiple='')
+                      //    button.btn.btn-secondary.equiposbutton(type='button' data-bs-toggle='popover' data-bs-placement='top' data-bs-custom-class='custom-popovervimo'  data-bs-content=' ')
+                      //        i.bi.bi-card-image
                     #nav-profile.tab-pane.fade(role='tabpanel' aria-labelledby='nav-profile-tab')
                       .mb-3
                         label.form-label(for='formFileMultiple') POD
@@ -596,6 +596,51 @@ html
                         label {{vimo.Detalles}}
                       td
                         label {{vimo.Estado}}
+    #Modalvimo2.modal.fade(aria-labelledby='Modalbrocales')
+      .modal-dialog
+        .modal-content
+          #tablevimo2.grid-container
+              div.tabla.item1
+                table.vimo.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Codigo
+                        span.resize-handle
+                      th(data-type='text')
+                        | Fecha
+                        span.resize-handle
+                      th(data-type='text')
+                        | Num puerta
+                        span.resize-handle
+                      th(data-type='text')
+                        | Nivel
+                        span.resize-handle
+                      th(data-type='text')
+                        | Area
+                        span.resize-handle
+                      th(data-type='text')
+                        | Hora inicio
+                        span.resize-handle
+                      th(data-type='text')
+                        | Hora termino
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="vimo in Totalvimomodal")
+                      td
+                        label {{vimo.Codigo}}
+                      td
+                        label {{vimo.Fecha}}
+                      td
+                        label {{vimo.Numpuerta}}
+                      td
+                        label {{vimo.Nivel}}
+                      td
+                        label {{vimo.Area}}
+                      td
+                        label {{vimo.Horainicio}}
+                      td
+                        label {{vimo.Horatermino}}
     #Modaltrabajos.modal.fade(aria-labelledby='Modaltrabajos')
       .modal-dialog
         .modal-content
@@ -1288,11 +1333,41 @@ html
               #matriz4(zingchart='' zc-json='myMatrizPuertas' zc-width='100%' zc-height='300px' visibility="hidden" )
 
           p 
-          select.selectasistencia.form-selectfilter( ng-model='columnsa' ng-init='columnsa="Identificacion"' ng-options='e for e in headers' )
+          //-select.selectasistencia.form-selectfilter( ng-model='columnsa' ng-init='columnsa="Identificacion"' ng-options='e for e in headers' )
+          //-input.form-controlfilter( type='text' ng-model='searchtxt[columnsa]' placeholder='Ingresar valor a filtrar')
+          select.selectasistencia.form-selectfilter( ng-model='columnsa' ng-init='columnsa="Codigo"' ng-options='e for e in headers' )
           input.form-controlfilter( type='text' ng-model='searchtxt[columnsa]' placeholder='Ingresar valor a filtrar')
           p
 
           #tablecompletedvimo.grid-container
+            div.tabla.item1
+              table.Asistencia.table.caption-top
+                        thead
+                          tr
+                            th(data-type="text")
+                              | Fecha revisión
+                              span.resize-handle
+                            th(data-type='text')
+                              | Numero puerta
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Nivel
+                              span.resize-handle
+                            th(data-type='text-long')
+                              | Area
+                              span.resize-handle
+                        tbody
+                          tr(ng-repeat="vimos in vimostotalarchivo2|filter:searchtxt")
+                            td
+                              label {{vimos.Fecha}} 
+                            td
+                              label {{vimos.Numpuerta}} 
+                            td
+                              label {{vimos.Nivel}}
+                            td
+                              label {{vimos.Area}}
+
+          //-#tablecompletedvimo.grid-container
             div.tabla.item1
               table.Asistencia.table.caption-top
                         thead
@@ -1324,6 +1399,7 @@ html
                               label {{vimos.Tipomantencion}}
                             td
                               label {{vimos.Estado}}  
+          
 
         #Brocales
           .one

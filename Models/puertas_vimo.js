@@ -16,6 +16,7 @@ module.exports = function(sequelize,DataTypes){
 				Area : Sequelize.TEXT,
                 Horainicio : Sequelize.TEXT,
                 Horatermino : Sequelize.TEXT,
+				Descripcion : Sequelize.TEXT,
 				Idingreso : Sequelize.TEXT
 			},{
 				tableName: 'puertas_vimo',

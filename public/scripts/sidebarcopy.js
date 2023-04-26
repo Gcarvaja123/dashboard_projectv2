@@ -138,9 +138,14 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   $scope.vimoarray4 = vimos_array.slice(60,80)
   $scope.vimoarray5 = vimos_array.slice(80,vimos_array.length)
 
-  $scope.vimostotal = vimos_array;
+  $scope.vimostotalarchivo2 = []
+  for(a=0 ; a < local_data_puertas_vimo.length; a++){
+    $scope.vimostotalarchivo2.push(local_data_puertas_vimo[a])
+  }
+  $scope.headers = ["Fecha", "Numpuerta", "Nivel", "Area"]
+  //$scope.vimostotal = vimos_array;
 
-  $scope.headers = Object.keys($scope.vimostotal[0]);
+  //$scope.headers = Object.keys($scope.vimostotal[0]);
 
   $scope.equipostotal=[];
   for(a=0; a< local_data_equipo.length; a++){
@@ -370,12 +375,18 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
 
   var realizacion = 0;
-  for(b=0; b<local_data_puertas.length ; b++){
+  for(b=0 ; b < local_data_puertas_vimo.length; b++){
+    if(local_data_puertas_vimo[b].Fecha == $scope.fecha_universal){
+      realizacion+=1
+    }
+  }
+  console.log(realizacion)
+  /*for(b=0; b<local_data_puertas.length ; b++){
 
     if(local_data_puertas[b].Fecharevision== $scope.fecha_universal){
       realizacion+=1;
     }
-  }
+  }*/
   $scope.myJsonAnualaire = bar_creator(total_array[0],completed_array[0],"Aire Acondicionado");
   $scope.myJsonAnualpolvo = bar_creator(total_array[1],completed_array[1],"Colectores de polvo");
   $scope.myJsonAnualventilacion = bar_creator(total_array[2],completed_array[2],"Ventilación");
@@ -1525,7 +1536,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     var total_completadas = [0,0,0,0,0,0,0,0,0,0,0,0];
     fecha = $scope.fecha_universal
     for(e=0; e < local_data_matriz.length; e++){
-      if(local_data_matriz[e].Area == name && local_data_matriz[a].Fecha.split("-")[2]==fecha.split("-")[2]){
+      if(local_data_matriz[e].Area == name && local_data_matriz[e].Fecha.split("-")[2]==fecha.split("-")[2]){
         total_deseadas[parseInt(local_data_matriz[e].Fecha.split("-")[1])-1]+=1;
         if(local_data_matriz[e].Observaciones == null){
           total_completadas[parseInt(local_data_matriz[e].Fecha.split("-")[1])-1]+=1;
@@ -1680,18 +1691,24 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       }
     }
 
-    var realizado = 0 ;
+    var realizacion = 0;
+    for(b=0 ; b < local_data_puertas_vimo.length; b++){
+      if(local_data_puertas_vimo[b].Fecha == $scope.fecha_universal){
+        realizacion+=1
+      }
+    }
+    /*var realizado = 0 ;
     for(d=0; d < local_data_puertas.length; d++){
       if(local_data_puertas[d].Fecharevision == fecha){
         realizado+=1;
       }
-    }
+    }*/
     $scope.myJsonAnualaire = bar_creator(total_array[0],completed_array[0],"Aire Acondicionado");
     $scope.myJsonAnualpolvo = bar_creator(total_array[1],completed_array[1],"Colectores de polvo");
     $scope.myJsonAnualventilacion = bar_creator(total_array[2],completed_array[2],"Ventilación");
 
 
-    $scope.myJsonAnualVimo = bar_vimo(realizado, "Puertas vimo")
+    $scope.myJsonAnualVimo = bar_vimo(realizacion, "Puertas vimo")
 
 
     //-------------------------------------------------------- Cambio aire acondicionado, colectores de polvo y ventilación de la pestaña de plan matriz---------------------------------------------------------
@@ -2469,8 +2486,10 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       if(local_data_disciplina[a].Area == name && array_week.indexOf(local_data_disciplina[a].Fecha)!=-1 ){
         fecha_split = local_data_disciplina[a].Fecha.split("-")
         fecha_invertida = fecha_split[2]+"-"+fecha_split[1]+"-"+fecha_split[0];
-        llegada = local_data_disciplina[a].Llegada_Instalacion
-        var hora_llegada = parseInt(llegada.split(":")[0]);
+        if(local_data_disciplina[a].Llegada_Instalacion !="0:0"){
+          llegada = local_data_disciplina[a].Llegada_Instalacion
+          var hora_llegada = parseInt(llegada.split(":")[0]);
+        }
         values_1[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Llegada_Instalacion.split(":")[1])*60+Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+hora_llegada.toString()+":00:00")))*1000;
         values_2[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Tiempo_Instalacion.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Instalacion.split(":")[1]))*60*1000
         values_3[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Traslado_Postura.split(":")[0])*60+parseInt(local_data_disciplina[a].Traslado_Postura.split(":")[1]))*60*1000
@@ -3003,6 +3022,18 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       })
       myModala.toggle()
     }
+    else if(nombre_tabla == "puertas_vimo"){
+      $scope.Totalvimomodal = []
+      for(a=0; a < local_data_puertas_vimo.length; a++){
+        if(local_data_puertas_vimo[a].Idingreso == Idingreso){
+          $scope.Totalvimomodal.push(local_data_puertas_vimo[a])
+        }
+      }
+      var myModala = new bootstrap.Modal(document.getElementById('Modalvimo2'), {
+          keyboard: false
+      })
+      myModala.toggle()
+    } 
 
 
 
