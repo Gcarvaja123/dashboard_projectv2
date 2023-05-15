@@ -1796,8 +1796,9 @@ html
             h1 Planificación Tte8 
 
           #Planificaciontte8.grid-container
-            .table-responsive
-              table.table.table-striped.custom-table
+            div.tabla.item1
+              //table.table.table-striped.custom-table
+              table.Asistencia.tablette8.table.caption-top
                 thead
                   tr
                     th(data-type='text')
@@ -1811,11 +1812,8 @@ html
                         span.resize-handle
                     
                     th(scope='col')
-                      label.custom-control.ios-switch(style='position: relative; top: 10px;')
-                        input.ios-switch-control-input.js-ios-switch-all(type='checkbox')
-                        span.ios-switch-control-indicator
                 tbody
-                  tr(ng-repeat="planificacion in planificaciontotaltte8" ng-class="{'table-dark': planificacion.Seleccionado == '1' }")
+                  tr(ng-repeat="planificacion in planificaciontotaltte8" ng-class="{'planificacion-terminada': planificacion.Seleccionado == '1', 'planificacion-terminada2' : planificacion.Seleccionado == '1' }")
                       td
                         label {{planificacion.Fecha}} 
                       td

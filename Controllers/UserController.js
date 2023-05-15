@@ -3638,6 +3638,17 @@ module.exports = {
     
   },
 
+  postCambiarplanificaciontte8 : async(req, res, next)=>{
+    await modelo.planificaciontte8.update({
+      Seleccionado : req.body.Seleccionado
+    },{
+      where : {
+        Orden : req.body.Orden
+      }
+    }
+    )
+  },
+
   postModAsist : async(req, res, next)=>{
     await modelo.asistencia.update({
         Nombre : req.body.Nombre,

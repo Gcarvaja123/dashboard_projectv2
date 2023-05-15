@@ -94,6 +94,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   if (local_user != "notlogged"){
     $scope.username = local_user.nombre
   }
+  $scope.planificaciontotaltte8=[]
   
   
   $scope.isCollapsed = false;
@@ -1557,8 +1558,22 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   }
   $scope.actualizarSeleccionado = function(dato) {
     //dato.seleccionado = !dato.seleccionado;
-    $scope.planificaciontotaltte8.indexOf(dato).Seleccionado = 1
-    dato.Seleccionado=1
+    if($scope.planificaciontotaltte8[$scope.planificaciontotaltte8.indexOf(dato)].Seleccionado == "0"){
+      $scope.planificaciontotaltte8.indexOf(dato).Seleccionado = "1"
+      dato.Seleccionado=1
+    }
+    else{
+      $scope.planificaciontotaltte8[$scope.planificaciontotaltte8.indexOf(dato)].Seleccionado = "0"
+      dato.Seleccionado=0
+    }
+    $http({
+      method : 'POST',
+      url : '/Cambiarplanificaciontte8',
+      data : JSON.stringify($scope.planificaciontotaltte8[$scope.planificaciontotaltte8.indexOf(dato)])
+    })
+    console.log(dato)
+    console.log($scope.planificaciontotaltte8[$scope.planificaciontotaltte8.indexOf(dato)].Seleccionado)
+    
   };
   $scope.changeinformation = function(){
     nueva_fecha = new Date($scope.dateselected.getTime() - $scope.dateselected.getTimezoneOffset()*60000);

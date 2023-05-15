@@ -1648,6 +1648,12 @@ table.matriz td{
   color: #fff;
 }*/
 
-.table-dark{
-  opacity: .3;
+.planificacion-terminada{
+  opacity: .5;
+}
+
+.planificacion-terminada2{
+  
+  text-decoration: line-through;
+  color: red;
 }
