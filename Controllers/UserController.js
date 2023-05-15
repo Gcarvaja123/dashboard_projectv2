@@ -188,7 +188,7 @@ function leerExcelVimoPlanificacion(ruta){
 
 async function getData() {
   try {
-    const [rows_brocales, rows_asistencia, rows_disciplina, rows_matriz, rows_puertas, rows_usuarios, rows_vimosap, rows_equipos, rows_archivos, rows_trabajos, rows_disciplina_traspaso, rows_pauta_diaria, rows_asistencia_traspaso, rows_puertas_vimo, rows_asistencia_tte8] = await Promise.all([
+    const [rows_brocales, rows_asistencia, rows_disciplina, rows_matriz, rows_puertas, rows_usuarios, rows_vimosap, rows_equipos, rows_archivos, rows_trabajos, rows_disciplina_traspaso, rows_pauta_diaria, rows_asistencia_traspaso, rows_puertas_vimo, rows_asistencia_tte8, rows_disciplina_tte8, rows_planificacion_tte8] = await Promise.all([
       modelo.brocales.findAll({}),
       modelo.asistencia.findAll({}),
       modelo.disciplina.findAll({}),
@@ -203,7 +203,9 @@ async function getData() {
       modelo.pauta_diaria.findAll({}),
       modelo.asistencia_traspaso.findAll({}),
       modelo.puertas_vimo.findAll({}),
-      modelo.asistencia_tte8.findAll({})
+      modelo.asistencia_tte8.findAll({}),
+      modelo.disciplina_tte8.findAll({}),
+      modelo.planificaciontte8.findAll({})
     ]);
     
     const data = {
@@ -221,7 +223,9 @@ async function getData() {
       totalpautadiaria: rows_pauta_diaria,
       totalasistenciatraspaso : rows_asistencia_traspaso,
       totalpuertasvimo : rows_puertas_vimo,
-      totalasistenciatte8 : rows_asistencia_tte8
+      totalasistenciatte8 : rows_asistencia_tte8,
+      totaldisciplinatte8 : rows_disciplina_tte8,
+      totalplanificaciontte8 : rows_planificacion_tte8
     };
     
     
@@ -413,8 +417,11 @@ module.exports = {
                 var Nombre = "";
                 var Rut = "";
                 var Cargo = "";
-                
                 var Fechaingreso = "";
+                var meses_array = ["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"]
+                var dias_array = ["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","20","21","22","23","24","25","26","27","28","29","30","31"]
+                var indexmes = 0
+                var dia_mes = ""
 
                 await modelo.archivos.create({
                   Tabla : "asistencia",
@@ -424,46 +431,83 @@ module.exports = {
                   Nombrearchivo : file.name.toString()
                 })
 
+                for(mes=0; mes<meses_array.length; mes++){
+                  //if(Object.keys(datos[0])[0].toUpperCase().includes(meses_array[mes])){
+                  if(file.name.toUpperCase().includes(meses_array[mes])){  
+                    indexmes = mes+1
+                    if(indexmes < 10){
+                      indexmes = "0"+indexmes.toString()
+                    }
+                    break
+                  }
+                }
+                for(dia=0; dia < dias_array.length; dia++){
+                  if(file.name.toUpperCase().split(" ").includes(dias_array[dia])){
+                    dia_mes = dias_array[dia]
+                    break
+                  }
+                }
+
                 Fechaingreso = Object.keys(datos[0])[0].split(" ")[Object.keys(datos[0])[0].split(" ").length-1];
                 for(a=1; a < Object.keys(datos).length; a++){
-                  var Turno = ""; 
+
+                  if(datos[a]["__EMPTY"].toUpperCase() == "NOMENCLATURA"){
+                    break
+                  } 
                   let keys = Object.keys(datos[0]);
+                  /*if(Object.keys(datos[a])[4] != undefined){
+                    columnafecha = Fechaingreso.split("-")[0]+"-"+Object.keys(datos[a])[4].split("-")[1]
+                    console.log(columnafecha)
+                  }
                   
-                  if(datos[a][keys[0]] != undefined ){
+                  var Turno = " ";*/
+  
+                  if(datos[a][Object.keys(datos[0])[0]] != undefined ){
                     Sector = datos[a][keys[0]]
                   }
-                  if(datos[a][keys[1]] != undefined){
-                    Nombre = datos[a][keys[1]]
+                  if(datos[a]["__EMPTY"] != undefined){
+                    Nombre = datos[a]["__EMPTY"]
                   }
-                  if(datos[a][keys[2]] != undefined){
-                    Rut = datos[a][keys[2]]
+                  if(datos[a]["__EMPTY_1"] != undefined){
+                    Rut = datos[a]["__EMPTY_1"]
                   }
-                  if(datos[a][keys[3]] != undefined){
-                    Cargo = datos[a][keys[3]]
+                  if(datos[a]["__EMPTY_2"] != undefined){
+                    Cargo = datos[a]["__EMPTY_2"]
                   }
-                  if(datos[a][keys[4]] != undefined){
-                    Turno = datos[a][keys[4]]
+                  if(datos[a][Object.keys(datos[2])[Object.keys(datos[2]).length-7]] != undefined){
+                    Turno = datos[a][dia_mes+Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[1].toString()]
+                    //Turno = datos[a][Object.keys(datos[2])[Object.keys(datos[2]).length-7]]
                   }
-
+                  //console.log(dia_mes+"-"+Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[1].toString())
+                  //console.log(datos[a][parseInt(dia_mes).toString()+"-"+Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[1].toString()])
+  
+                  var dia_fecha=""
+                  /*if(parseInt(Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[0])<10){
+                    dia_fecha = "0"+Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[0].toString()
+                  }
+                  else{
+                    dia_fecha = Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[0].toString()
+                  }*/
                   await modelo.asistencia.findAll({
-                    where : {
-                      Fechaingreso : Fechaingreso,
-                      Nombre : Nombre,
-                    }
-                  }).then(async function(rows){
-                    if(rows.length==0){
-                      await modelo.asistencia.create({
-                        Sector : Sector,
+                      where : {
+                        Fechaingreso : dia_mes+"-"+indexmes+"-"+"2023",
                         Nombre : Nombre,
-                        Rut : Rut,
-                        Cargo : Cargo,
-                        Turno : Turno,
-                        Fechaingreso : Fechaingreso,
-                        Idingreso : random_id_asistencia_multiple
-                      })
-                    }
-                  })
-                } 
+                      }
+                    }).then(async function(rows){
+                      if(rows.length==0 ){
+                        await modelo.asistencia.create({
+                          Sector : Sector,
+                          Nombre : Nombre,
+                          Rut : Rut,
+                          Cargo : Cargo,
+                          Turno : datos[a][parseInt(dia_mes).toString()+"-"+Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[1].toString()],
+                          Fechaingreso : dia_mes+"-"+indexmes+"-"+"2023",
+                          Idingreso : random_id_asistencia_multiple
+                        })
+                      }
+                    })
+                  
+                }
               }catch(err){
                 req.flash('error', file.name.toString());
                 await modelo.archivos.destroy({
@@ -495,13 +539,22 @@ module.exports = {
               var Fechaingreso = "";
               var random_id_asistencia_single = guid()
               var meses_array = ["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"]
+              var dias_array = ["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","20","21","22","23","24","25","26","27","28","29","30","31"]
               var indexmes = 0
+              var dia_mes = ""
               for(mes=0; mes<meses_array.length; mes++){
-                if(Object.keys(datos[0])[0].toUpperCase().includes(meses_array[mes])){
+                //if(Object.keys(datos[0])[0].toUpperCase().includes(meses_array[mes])){
+                if(file.name.toUpperCase().includes(meses_array[mes])){  
                   indexmes = mes+1
                   if(indexmes < 10){
                     indexmes = "0"+indexmes.toString()
                   }
+                  break
+                }
+              }
+              for(dia=0; dia < dias_array.length; dia++){
+                if(file.name.toUpperCase().split(" ").includes(dias_array[dia])){
+                  dia_mes = dias_array[dia]
                   break
                 }
               }
@@ -542,19 +595,22 @@ module.exports = {
                   Cargo = datos[a]["__EMPTY_2"]
                 }
                 if(datos[a][Object.keys(datos[2])[Object.keys(datos[2]).length-7]] != undefined){
-                  Turno = datos[a][Object.keys(datos[2])[Object.keys(datos[2]).length-7]]
+                  Turno = datos[a][dia_mes+Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[1].toString()]
+                  //Turno = datos[a][Object.keys(datos[2])[Object.keys(datos[2]).length-7]]
                 }
+                //console.log(dia_mes+"-"+Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[1].toString())
+                //console.log(datos[a][parseInt(dia_mes).toString()+"-"+Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[1].toString()])
 
                 var dia_fecha=""
-                if(parseInt(Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[0])<10){
+                /*if(parseInt(Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[0])<10){
                   dia_fecha = "0"+Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[0].toString()
                 }
                 else{
                   dia_fecha = Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[0].toString()
-                }
+                }*/
                 await modelo.asistencia.findAll({
                     where : {
-                      Fechaingreso : dia_fecha+"-"+indexmes+"-"+"2023",
+                      Fechaingreso : dia_mes+"-"+indexmes+"-"+"2023",
                       Nombre : Nombre,
                     }
                   }).then(async function(rows){
@@ -564,8 +620,8 @@ module.exports = {
                         Nombre : Nombre,
                         Rut : Rut,
                         Cargo : Cargo,
-                        Turno : Turno,
-                        Fechaingreso : dia_fecha+"-"+indexmes+"-"+"2023",
+                        Turno : datos[a][parseInt(dia_mes).toString()+"-"+Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[1].toString()],
+                        Fechaingreso : dia_mes+"-"+indexmes+"-"+"2023",
                         Idingreso : random_id_asistencia_single
                       })
                     }
@@ -612,9 +668,10 @@ module.exports = {
                 var Horaf = "";
                 var Fecha_aux= "";
                 var id = "";
-                var demandaiszero = true
-                var miniretro ="";
+                var miniretro = "";
                 var levante = "";
+
+                var demandaiszero = true
                 await modelo.archivos.create({
                   Tabla : "brocales",
                   Idingreso : random_id_brocales5_multiple,
@@ -625,7 +682,6 @@ module.exports = {
                 for(a=1; a < Object.keys(datos).length; a++){
                   let keys = Object.keys(datos[a]);
                   if(datos[a][Object.keys(datos[0])[0]] != undefined){
-                    console.log(datos[a][Object.keys(datos[0])[0]]);
                     var date = ExcelDateToJSDate(datos[a][Object.keys(datos[0])[0]])
                     var converted_date = date.toISOString().split('T')[0];
                     Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
@@ -633,69 +689,69 @@ module.exports = {
                     id = guid();
                   }
                   if(datos[a]["__EMPTY"] != undefined){
-                    Turno = datos[a]["__EMPTY"];
+                      Turno = datos[a]["__EMPTY"];
                   }
                   if(datos[a]["__EMPTY_1"] != undefined){
                       Dotacion = datos[a]["__EMPTY_1"];
                   }
-
-                  if(datos[a]["__EMPTY_4"] != undefined){
-                      Ubicacion = datos[a]["__EMPTY_4"];
+                  
+                  if(datos[a]["__EMPTY_3"] != undefined){
+                      Ubicacion = datos[a]["__EMPTY_3"];
                   }
-
                   else{
                     Ubicacion ="";
                   }
-                  if(datos[a]["__EMPTY_4"] == undefined && demandaiszero==false){
+                  if(datos[a]["__EMPTY_3"] == undefined && demandaiszero==false){
                     demandaiszero=true
                   }
-                  if(datos[a]["__EMPTY_5"] != undefined){
+                  if(datos[a]["__EMPTY_4"] != undefined){
                       demandaiszero = false
-                      Demanda = datos[a]["__EMPTY_5"];
+                      Demanda = datos[a]["__EMPTY_4"];
                   }
-                  if(datos[a]["__EMPTY_5"] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                  if(datos[a]["__EMPTY_4"] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                     Demanda = 0;
-
+  
                   }
-
-                  if(datos[a]["__EMPTY_6"] != undefined){
-                      Horai = convertToHHMM(datos[a]["__EMPTY_6"]*24).toString()
+  
+                  if(datos[a]["__EMPTY_5"] != undefined){
+                      Horai = convertToHHMM(datos[a]["__EMPTY_5"]*24).toString()
                   }
                   else{
                     Horai = "0";
                   }
-                  if(datos[a]["__EMPTY_7"] != undefined){
-                      Horaf = convertToHHMM(datos[a]["__EMPTY_7"]*24).toString();
+                  if(datos[a]["__EMPTY_6"] != undefined){
+                      Horaf = convertToHHMM(datos[a]["__EMPTY_6"]*24).toString();
                   }
                   else{
                     Horaf = "0";
                   }
+                  if(datos[a]["__EMPTY_9"] != undefined){
+                      Unidad = datos[a]["__EMPTY_9"];
+                  }
                   if(datos[a]["__EMPTY_10"] != undefined){
-                      Unidad = datos[a]["__EMPTY_10"];
-                  }
-                  if(datos[a]["__EMPTY_11"] != undefined){
-                      Cantidad = datos[a]["__EMPTY_11"];
+                      Cantidad = datos[a]["__EMPTY_10"];
                     }
-                  if(datos[a]["__EMPTY_11"] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                  if(datos[a]["__EMPTY_10"] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                     Cantidad = 0;
+  
                   }
+  
                   if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-7]] != undefined){
                     miniretro = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-7]];
                   }
                   if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-7]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                     miniretro = "";
                   }
-
-
+  
+  
                   if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-4]] != undefined){
                     levante = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-4]];
                   }
                   if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-4]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                     levante = "";
                   }
-
                   if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-10]] != undefined){
-                    Actividad = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-10]];
+                      Actividad = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-10]];
                   }
                   if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-10]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                     Actividad = "";
@@ -706,9 +762,9 @@ module.exports = {
                   if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                     Observaciones = "";
                   }
-
-                  
-
+                  /*if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] != undefined){
+                      Sub = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]];
+                  }*/
                   if((Object.keys(datos[a]).length > 1 && demandaiszero != true) || datos[a][Object.keys(datos[0])[0]] != undefined){
                     await modelo.brocales.findAll({
                       where : {
@@ -3074,24 +3130,96 @@ module.exports = {
             const savePath = path.join(__dirname,"../",'public','uploads',file.name);
             await file.mv(savePath);
             var datos = leerExcel(file.name)
+            await modelo.archivos.create({
+              Tabla : "disciplina_tte8",
+              Idingreso : random_id_disciplina_tte8_single,
+              Fechaingreso : Fecha_hoy,
+              Infoingresada : "archivos disciplina tte8",
+              Nombrearchivo : file.name.toString()
+            })
             await modelo.disciplina_tte8.findAll({
             }).then(async function(rows_disciplina_tte8){
               if(rows_disciplina_tte8.length!=0){
-
+                var string=JSON.stringify(rows_disciplina_tte8);
+                var json=JSON.parse(string);
+                var dato_a = datos.length-json.length
+                console.log(dato_a)
+                for(a=json.length; a < datos.length; a++){
+                  var date = ExcelDateToJSDate(datos[a]["Fecha"]);
+                  var converted_date = date.toISOString().split('T')[0];
+                  var Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
+                  
+                  modelo.disciplina_tte8.create({
+                    Fecha : Fecha,
+                    Area : datos[a]["Area"],
+                    Tipo_trabajo : datos[a]["Tipo Trabajo"],
+                    Cuadrilla : datos[a]["Cuadrilla"],
+                    Capataz : datos[a]["Capataz"],
+                    Llega_nivel : convertToHHMM(datos[a]["Llega a nivel"]*24).toString(),
+                    Charla : convertToHHMM(datos[a]["Charla, Coordinaciones"]*24).toString(),
+                    Traslado_postura : convertToHHMM(datos[a]["Traslado a Postura"]*24).toString(),
+                    Ingreso_postura : convertToHHMM(datos[a]["Ingreso a postura"]*24).toString(),
+                    Estandar_iap : convertToHHMM(datos[a]["Estandar IaP"]*24).toString(),
+                    Colacion_inicio : convertToHHMM(datos[a]["Horario de Colacion inicio"]*24).toString(),
+                    Colacion_termino : convertToHHMM(datos[a]["Horario de Colacion Termino"]*24).toString(),
+                    Result_colacion : convertToHHMM(datos[a]["Result Colacion"]*24).toString(),
+                    Estandar_colacion : convertToHHMM(datos[a]["Estandar Colacion"]*24).toString(),
+                    Trabajo_terreno : convertToHHMM(datos[a]["Trabajo en terreno Tarde"]*24).toString(),
+                    Retiro_postura : convertToHHMM(datos[a]["Retiro de Postura"]*24).toString(),
+                    Estandar_rdp : convertToHHMM(datos[a]["Estandar RdP"]*24).toString(),
+                    Cord_siguiente : convertToHHMM(datos[a]["Coordinaciones dia Siguente"]*24).toString(),
+                    Estandar_te : convertToHHMM(datos[a]["Estandar TE"]*24).toString(),
+                    Tiempo_efectivo : convertToHHMM(datos[a]["Tiempo Efectivo"]*24).toString(),
+                    Idingreso : random_id_disciplina_tte8_single
+                  })
+                }
+                //console.log(json[json.length-1]["Fecha"]);
               }
-
-
+              else{
+                for(a=0; a < datos.length; a++){
+                  var date = ExcelDateToJSDate(datos[a]["Fecha"]);
+                  var converted_date = date.toISOString().split('T')[0];
+                  var Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
+                  modelo.disciplina_tte8.create({
+                      Fecha : Fecha,
+                      Area : datos[a]["Area"],
+                      Tipo_trabajo : datos[a]["Tipo Trabajo"],
+                      Cuadrilla : datos[a]["Cuadrilla"],
+                      Capataz : datos[a]["Capataz"],
+                      Llega_nivel : convertToHHMM(datos[a]["Llega a nivel"]*24).toString(),
+                      Charla : convertToHHMM(datos[a]["Charla, Coordinaciones"]*24).toString(),
+                      Traslado_postura : convertToHHMM(datos[a]["Traslado a Postura"]*24).toString(),
+                      Ingreso_postura : convertToHHMM(datos[a]["Ingreso a postura"]*24).toString(),
+                      Estandar_iap : convertToHHMM(datos[a]["Estandar IaP"]*24).toString(),
+                      Colacion_inicio : convertToHHMM(datos[a]["Horario de Colacion inicio"]*24).toString(),
+                      Colacion_termino : convertToHHMM(datos[a]["Horario de Colacion Termino"]*24).toString(),
+                      Result_colacion : convertToHHMM(datos[a]["Result Colacion"]*24).toString(),
+                      Estandar_colacion : convertToHHMM(datos[a]["Estandar Colacion"]*24).toString(),
+                      Trabajo_terreno : convertToHHMM(datos[a]["Trabajo en terreno Tarde"]*24).toString(),
+                      Retiro_postura : convertToHHMM(datos[a]["Retiro de Postura"]*24).toString(),
+                      Estandar_rdp : convertToHHMM(datos[a]["Estandar RdP"]*24).toString(),
+                      Cord_siguiente : convertToHHMM(datos[a]["Coordinaciones dia Siguente"]*24).toString(),
+                      Estandar_te : convertToHHMM(datos[a]["Estandar TE"]*24).toString(),
+                      Tiempo_efectivo : convertToHHMM(datos[a]["Tiempo Efectivo"]*24).toString(),
+                      Idingreso : random_id_disciplina_tte8_single
+                  })
+                }
+              }
             })
-            for(a=0; a < datos.length; a++){
-              var date = ExcelDateToJSDate(datos[a]["Fecha"]);
-              var converted_date = date.toISOString().split('T')[0];
-              var Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
-              if(Fecha.split("-")[2]=="2023"){
-                //convertToHHMM(datos[a][b][llaves[3]]*24).toString()
-              }
-            }
+            
           }catch(err){
             console.log(err)
+            await modelo.archivos.destroy({
+              where : {
+                Tabla : "disciplina_tte8",
+                Idingreso : random_id_disciplina_tte8_single
+              }
+            })
+            await modelo.disciplina_tte8.destroy({
+              where : {
+                Idingreso : random_id_disciplina_tte8_single
+              }
+            })
           }
         }
 
@@ -3144,6 +3272,7 @@ module.exports = {
                 Clasificacion : datos[a]["__EMPTY_6"],
                 Fecha : fechas[array_fechas.indexOf(dia)],
                 Totalhrs : datos[a][dia],
+                Seleccionado : "0",
                 Idingreso : random_id_planificacion_tte8_single
               })
             }
@@ -3448,6 +3577,13 @@ module.exports = {
           }
         })
       }
+      else if(req.body[a].Tabla == "disciplina_tte8"){
+        await modelo.disciplina_tte8.destroy({
+          where : {
+            Idingreso : req.body[a].Idingreso
+          }
+        })
+      }
 
 
       await modelo.archivos.destroy({
@@ -3670,6 +3806,9 @@ function minTommss(minutes){
 }
 
 function convertToHHMM(info) {
+  if(info==undefined){
+    return ""
+  }
   if(isNaN(info) || info > 100){
     return 0+':'+0
   }

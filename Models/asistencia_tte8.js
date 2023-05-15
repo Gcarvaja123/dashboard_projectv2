@@ -18,7 +18,7 @@ module.exports = function(sequelize,DataTypes){
 				Turno : Sequelize.TEXT,
 				Hn : Sequelize.TEXT,
 				Tur : Sequelize.TEXT,
-				Idingreso : Sequelize.TEXT
+				Idingreso : Sequelize.TEXT,
 			},{
 				tableName: 'asistencia_tte8',
 				freezeTableName: true,

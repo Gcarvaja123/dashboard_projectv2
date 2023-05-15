@@ -1,6 +1,13 @@
 doctype html
 html
   head
+    link(rel='stylesheet' type='text/css' href='/css/tabletemplate/owl.carousel.min.css')
+    // Bootstrap CSS
+    //link(rel='stylesheet' type='text/css' href='/css/tabletemplate/bootstrap.min.css')
+    // Style
+    link(rel='stylesheet' type='text/css' href='/css/tabletemplate/style.css')
+    
+    
     script(type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
     script(type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js')
     script(type='text/javascript' src='https://unpkg.com/@popperjs/core@2')
@@ -16,6 +23,10 @@ html
     script(src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/374756/zingchart-angularjs-1.0.4.js')
     link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' )
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js' )
+
+    
+
+
     script.
       local_data_asistencia = !{JSON.stringify(totalasistencias)};
       local_data_brocales = !{JSON.stringify(totalbrocales)};
@@ -37,6 +48,8 @@ html
       local_data_asistencia_traspaso = !{JSON.stringify(totalasistenciatraspaso)}
       local_data_puertas_vimo = !{JSON.stringify(totalpuertasvimo)}
       local_data_asistencia_tte8 = !{JSON.stringify(totalasistenciatte8)}
+      local_data_disciplina_tte8 = !{JSON.stringify(totaldisciplinatte8)}
+      local_data_planificacion_tte8 = !{JSON.stringify(totalplanificaciontte8)}
       
   
   body#probando(ng-app='myApp' ng-controller="myControllerAsistencia")
@@ -1764,7 +1777,59 @@ html
                 .buttoninnasistance
                   button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancette82('mensual')") Mensual
                   button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancette82('anual')") Anual
-          
+        
+        #Disciplinatte8
+          .one
+            h1 Disciplina Tte8
+
+          #Disciplinaubicacionestte8.grid-container
+            select.selectdisciplinatte8.form-selectfilter( ng-model='columndisctte8' ng-init='columnasist=""' ng-options='e for e in headersdisciplinatte8' ng-change="filltimette8(columndisctte8)" )
+            #grid-disciplinatte8.grid-container
+              #chart67(zingchart='' zc-json='myJsonhbartte8' zc-width='200px' zc-height='300px' visibility='hidden')
+              #timer-tte8.grid-container
+                div
+                  #chart69(zingchart='' zc-json='myJsonTimertte8' zc-width='100%' zc-height='300px' visibility="hidden" )
+                div
+                  #chart68(zingchart='' zc-json='myJsonlinedisciplinatte8' zc-width='100%' zc-height='440px' visibility="hidden" )
+        #Disciplinatte8
+          .one
+            h1 Planificación Tte8 
+
+          #Planificaciontte8.grid-container
+            .table-responsive
+              table.table.table-striped.custom-table
+                thead
+                  tr
+                    th(data-type='text')
+                        | Fecha
+                        span.resize-handle
+                    th(data-type="text")
+                        | Equipo
+                        span.resize-handle
+                    th(data-type='text')
+                        | Actividad
+                        span.resize-handle
+                    
+                    th(scope='col')
+                      label.custom-control.ios-switch(style='position: relative; top: 10px;')
+                        input.ios-switch-control-input.js-ios-switch-all(type='checkbox')
+                        span.ios-switch-control-indicator
+                tbody
+                  tr(ng-repeat="planificacion in planificaciontotaltte8" ng-class="{'table-dark': planificacion.Seleccionado == '1' }")
+                      td
+                        label {{planificacion.Fecha}} 
+                      td
+                        label {{planificacion.Equipo}} 
+                      td
+                        label {{planificacion.Actividad}}
+                      td
+                        label.custom-control.ios-switch
+                          input.ios-switch-control-input(type='checkbox' ng-checked="planificacion.Seleccionado == '1' " ng-model="planificaciones" ng-click="actualizarSeleccionado(planificacion)"  )
+                          span.ios-switch-control-indicator
+
+
+
+      
       #Creacion.w3-container.w3-border.activity(style='display:none')
         form.formulariocreacion(action='/crearusuario' method='post' enctype='multipart/form-data')
           .form-group.row
@@ -2746,6 +2811,10 @@ html
 
 
   script(type='text/javascript' src='/scripts/sidebarcopy.js')
+  //script(src='/scripts/tablescript/jquery-3.3.1.min.js')
+  //script(src='/scripts/tablescript/popper.min.js')
+  //script(src='/scripts/tablescript/bootstrap.min.js')
+  //script(src='/scripts/tablescript/main.js')
   script.
     if(local_authmessage!=""){
       document.getElementById("loginbutton").click();

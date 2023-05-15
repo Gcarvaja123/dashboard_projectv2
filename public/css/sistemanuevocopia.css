@@ -981,7 +981,16 @@ hr{
   
 }
 
+#Disciplinaubicacionestte8 {
+  display: grid;
+  
+}
+
 #grid-disciplina{
+  display: grid;
+  grid-template-columns: 13% auto;
+}
+#grid-disciplinatte8{
   display: grid;
   grid-template-columns: 13% auto;
 }
@@ -1632,4 +1641,13 @@ table.matriz td{
   display: inline-block;
   width: 100%;
 
+}
+
+/*.table-dark {
+  background-color: #343a40;
+  color: #fff;
+}*/
+
+.table-dark{
+  opacity: .3;
 }

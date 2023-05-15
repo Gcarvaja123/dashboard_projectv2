@@ -10,10 +10,11 @@ module.exports = function(sequelize,DataTypes){
 		        	autoIncrement:true
 		    	},
 				Fecha : Sequelize.TEXT,
+				Tipo_trabajo : Sequelize.TEXT,
 		    	Area: Sequelize.TEXT,
 				Cuadrilla : Sequelize.TEXT,
 				Capataz : Sequelize.TEXT,
-				llega_nivel : Sequelize.TEXT,
+				Llega_nivel : Sequelize.TEXT,
 				Charla : Sequelize.TEXT,
 				Traslado_postura : Sequelize.TEXT,
 				Ingreso_postura :  Sequelize.TEXT,
@@ -25,8 +26,10 @@ module.exports = function(sequelize,DataTypes){
 				Trabajo_terreno : Sequelize.TEXT,
 				Retiro_postura : Sequelize.TEXT,
 				Estandar_rdp : Sequelize.TEXT,
+				Cord_siguiente : Sequelize.TEXT,
 				Estandar_te : Sequelize.TEXT,
-				Tiempo_ejectivo : Sequelize.TEXT
+				Tiempo_efectivo : Sequelize.TEXT,
+				Idingreso : Sequelize.TEXT
 			},{
 				tableName: 'disciplina_tte8',
 				freezeTableName: true,

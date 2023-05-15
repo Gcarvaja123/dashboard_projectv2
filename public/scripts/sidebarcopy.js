@@ -1549,8 +1549,17 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   }
 
 
-
-  
+  for(d=0; d < local_data_asistencia_tte8.length; d++){
+    if(local_data_asistencia_tte8[d].Fecha=="12-04-2023"){
+      console.log(local_data_asistencia_tte8[d])
+      break
+    }
+  }
+  $scope.actualizarSeleccionado = function(dato) {
+    //dato.seleccionado = !dato.seleccionado;
+    $scope.planificaciontotaltte8.indexOf(dato).Seleccionado = 1
+    dato.Seleccionado=1
+  };
   $scope.changeinformation = function(){
     nueva_fecha = new Date($scope.dateselected.getTime() - $scope.dateselected.getTimezoneOffset()*60000);
     converted_date = nueva_fecha.toISOString().split('T')[0];
@@ -2186,6 +2195,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
 
     $scope.myJsonhbar = hbar_text(array_suma_meta, name_visited)
     $scope.myJsonTest = line_chart(array_values, name_visited)
+    console.log(array_values)
     if(array_values.length>1){
       $scope.myJsonSemanalDisciplina1 = Bullet_creator([array_values[0][week_day],array_values[1][week_day], array_values[2][week_day], array_values[3][week_day], array_values[4][week_day], array_values[5][week_day], array_values[6][week_day], array_values[7][week_day], array_values[8][week_day], array_values[9][week_day], array_values[10][week_day], array_values[11][week_day], array_values[12][week_day], array_values[13][week_day]], [100,100,100,100, 100, 100, 100,100,100,100,100,100,100,100], [name_visited[0], name_visited[1], name_visited[2], name_visited[3], name_visited[4], name_visited[5], name_visited[6], name_visited[7], name_visited[8], name_visited[9], name_visited[10], name_visited[11], name_visited[12], name_visited[13]])
     }
@@ -2424,18 +2434,82 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     $scope.myJsonasistenciabartte8 = asistencia_chart_tte8(asistencia_cargos_tte8, inasistencia_cargos_tte8, nombre_cargos_tte8, $scope.fecha_universal)
     $scope.myJsonAsistenciatte81 = Pie_Asistencia_tte8(dias_trabajados_tte8+dias_no_trabajados_tte8, dias_trabajados_tte8, "mensual")
 
+    //---------------------------------------------------------DISCIPLINA TTE8---------------------------------------------------------------------
 
 
+    var array_name_disciplina_tte8 = []
+    var array_meta_tte8 = []
+    var array_values_tte8 = [];
+    var values_1_tte8=[0,0,0,0,0];
+    var values_2_tte8=[0,0,0,0,0];
+    var values_3_tte8=[0,0,0,0,0];
+    var values_4_tte8=[0,0,0,0,0];
+    var values_5_tte8=[0,0,0,0,0];
+    var values_6_tte8=[0,0,0,0,0];
+    var values_7_tte8=[0,0,0,0,0];
+    var values_8_tte8=[0,0,0,0,0];
+    for(a=0 ; a < local_data_disciplina_tte8.length ; a++){
+      if(array_week.includes(local_data_disciplina_tte8[a].Fecha)){
+        if(array_name_disciplina_tte8.indexOf(local_data_disciplina_tte8[a].Area + " - " + local_data_disciplina_tte8[a].Cuadrilla) == -1){
+          var array_aux = []
+          array_aux.push(parseInt(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[0])*60+parseInt(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[1]))
+          array_name_disciplina_tte8.push(local_data_disciplina_tte8[a].Area + " - " + local_data_disciplina_tte8[a].Cuadrilla)
+          //array_name_disciplina_tte8.push(local_data_disciplina_tte8[a].Area + " - " + local_data_disciplina_tte8[a].Cuadrilla)
+          //array_meta_tte8.push(Math.round((100*(parseInt(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[0])*60+parseInt(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[1]))/(parseFloat(local_data_disciplina_tte8[a].Estandar_te.split(":")[0])*60+parseFloat(local_data_disciplina_tte8[a].Estandar_te.split(":")[1]))).toFixed(8)))
+          array_meta_tte8.push(array_aux)
+          array_values_aux_tte8 = [0,0,0,0,0]
+          array_values_aux_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = Math.round(100*(parseFloat(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[0])*60+parseFloat(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[1]))/(parseFloat(local_data_disciplina_tte8[a].Estandar_te.split(":")[0])*60+parseFloat(local_data_disciplina_tte8[a].Estandar_te.split(":")[1])))
+          array_values_tte8.push(array_values_aux_tte8)
+        }
+        else{
+          array_meta_tte8[array_name_disciplina_tte8.indexOf(local_data_disciplina_tte8[a].Area + " - " + local_data_disciplina_tte8[a].Cuadrilla)].push(parseInt(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[0])*60+parseInt(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[1]))
+          array_values_tte8[array_name_disciplina_tte8.indexOf(local_data_disciplina_tte8[a].Area + " - " + local_data_disciplina_tte8[a].Cuadrilla)][array_week.indexOf(local_data_disciplina_tte8[a].Fecha)]= Math.round(100*(parseFloat(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[0])*60+parseFloat(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[1]))/(parseFloat(local_data_disciplina_tte8[a].Estandar_te.split(":")[0])*60+parseFloat(local_data_disciplina_tte8[a].Estandar_te.split(":")[1])))
+        }
+        if(array_name_disciplina_tte8[0]==(local_data_disciplina_tte8[a].Area + " - " + local_data_disciplina_tte8[a].Cuadrilla)){
+          llegada = local_data_disciplina_tte8[a].Llega_nivel
+          var hora_llegada = parseInt(llegada.split(":")[0]);
+          values_1_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (parseInt(local_data_disciplina_tte8[a].Llega_nivel.split(":")[1])*60+Epoch(new Date($scope.fecha_universal.split("-")[2]+"-"+$scope.fecha_universal.split("-")[1]+"-"+$scope.fecha_universal.split("-")[0]+" "+hora_llegada+":00:00")))*1000;
+          values_2_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Llega_nivel,local_data_disciplina_tte8[a].Charla ))*60*1000
+          values_3_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Charla,local_data_disciplina_tte8[a].Traslado_postura ))*60*1000
+          values_4_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Traslado_postura,local_data_disciplina_tte8[a].Ingreso_postura ))*60*1000
+          values_5_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Ingreso_postura,local_data_disciplina_tte8[a].Colacion_inicio ))*60*1000
+          values_6_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Colacion_inicio,local_data_disciplina_tte8[a].Colacion_termino ))*60*1000
+          values_7_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Colacion_termino,local_data_disciplina_tte8[a].Trabajo_terreno ))*60*1000
+          values_8_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Trabajo_terreno,local_data_disciplina_tte8[a].Retiro_postura ))*60*1000
+  
+        }
+      }
+      
+           
+    }
 
+    var array_prom_tte8 = []
+    for(c=0 ; c < array_meta_tte8.length; c++){
+      array_prom_tte8.push(Math.round(100*(parseFloat(array_meta_tte8[c].reduce((a, b) => a + b, 0))/parseFloat(array_meta_tte8[c].length)/parseFloat(290))))
+    }
 
-
-
-
-
-
-
-
+    var hora_llegada = parseInt(llegada.split(":")[0])-1;
+    var Epoch_Inicio = Epoch(new Date($scope.fecha_universal.split("-")[2]+"-"+$scope.fecha_universal.split("-")[1]+"-"+$scope.fecha_universal.split("-")[0]+" "+hora_llegada.toString()+":00:00"))*1000
+    var Epoch_Final = Epoch(new Date($scope.fecha_universal.split("-")[2]+"-"+$scope.fecha_universal.split("-")[1]+"-"+$scope.fecha_universal.split("-")[0]+" "+"15:00:00"))*1000
     
+    $scope.myJsonTimertte8 = timer_chart_tte8(Epoch_Inicio, Epoch_Final, values_1_tte8, values_2_tte8, values_3_tte8, values_4_tte8, values_5_tte8, values_6_tte8, values_7_tte8, values_8_tte8, array_name_disciplina_tte8[0]);
+
+    $scope.myJsonhbartte8 = hbar_text_disciplina_tte8(array_prom_tte8, array_name_disciplina_tte8)
+    $scope.myJsonlinedisciplinatte8 = line_chart_tte8(array_values_tte8, array_name_disciplina_tte8)
+    $scope.headersdisciplinatte8 = array_name_disciplina_tte8
+    $scope.columndisctte8 = array_name_disciplina_tte8[0]
+
+  //--------------------------------------------------------------------------------PLANIFICACIONTTE8------------------------------------------------------------
+
+    $scope.planificaciontotaltte8 =[]
+    for(a=0 ; a < local_data_planificacion_tte8.length; a ++){
+      if(array_week.includes(local_data_planificacion_tte8[a].Fecha)){
+        $scope.planificaciontotaltte8.push(local_data_planificacion_tte8[a])
+      }
+    }
+    
+
+
 
   }
 
@@ -2598,6 +2672,82 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       $scope.myJsonTimertraspaso1 = timer_chart_traspaso_3(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7, values_8);
     }
 
+  }
+
+  $scope.filltimette8 = function(name){
+    $scope.nueva_fecha_2  = angular.copy($scope.fecha_universal)
+    nueva_fecha = new Date($scope.nueva_fecha_2.split("-")[2]+"-"+$scope.nueva_fecha_2.split("-")[1]+"-"+$scope.nueva_fecha_2.split("-")[0]);
+
+    var exact_days = get_day_numbers(nueva_fecha);
+    var array_week = [];
+    for (a=0; a<get_day_numbers(nueva_fecha).length; a++){
+      nueva_fecha_2 = new Date(exact_days[a] - nueva_fecha.getTimezoneOffset()*60000);
+      converted_date_2 = nueva_fecha_2.toISOString().split('T')[0];
+      fecha_2 = converted_date_2.split("-")[2]+"-"+converted_date_2.split("-")[1]+"-"+converted_date_2.split("-")[0];
+      array_week.push(fecha_2);
+    }
+    var llegada = "";
+    var array_name_disciplina_tte8 = []
+    var array_meta_tte8 = []
+    var array_values_tte8 = [];
+    var values_1_tte8=[0,0,0,0,0];
+    var values_2_tte8=[0,0,0,0,0];
+    var values_3_tte8=[0,0,0,0,0];
+    var values_4_tte8=[0,0,0,0,0];
+    var values_5_tte8=[0,0,0,0,0];
+    var values_6_tte8=[0,0,0,0,0];
+    var values_7_tte8=[0,0,0,0,0];
+    var values_8_tte8=[0,0,0,0,0];
+    for(a=0 ; a < local_data_disciplina_tte8.length ; a++){
+      if(array_week.includes(local_data_disciplina_tte8[a].Fecha)){
+        if(array_name_disciplina_tte8.indexOf(local_data_disciplina_tte8[a].Area + " - " + local_data_disciplina_tte8[a].Cuadrilla) == -1){
+          var array_aux = []
+          array_aux.push(parseInt(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[0])*60+parseInt(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[1]))
+          array_name_disciplina_tte8.push(local_data_disciplina_tte8[a].Area + " - " + local_data_disciplina_tte8[a].Cuadrilla)
+          //array_name_disciplina_tte8.push(local_data_disciplina_tte8[a].Area + " - " + local_data_disciplina_tte8[a].Cuadrilla)
+          //array_meta_tte8.push(Math.round((100*(parseInt(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[0])*60+parseInt(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[1]))/(parseFloat(local_data_disciplina_tte8[a].Estandar_te.split(":")[0])*60+parseFloat(local_data_disciplina_tte8[a].Estandar_te.split(":")[1]))).toFixed(8)))
+          array_meta_tte8.push(array_aux)
+          array_values_aux_tte8 = [0,0,0,0,0]
+          array_values_aux_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = Math.round(100*(parseFloat(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[0])*60+parseFloat(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[1]))/(parseFloat(local_data_disciplina_tte8[a].Estandar_te.split(":")[0])*60+parseFloat(local_data_disciplina_tte8[a].Estandar_te.split(":")[1])))
+          array_values_tte8.push(array_values_aux_tte8)
+        }
+        else{
+          array_meta_tte8[array_name_disciplina_tte8.indexOf(local_data_disciplina_tte8[a].Area + " - " + local_data_disciplina_tte8[a].Cuadrilla)].push(parseInt(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[0])*60+parseInt(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[1]))
+          array_values_tte8[array_name_disciplina_tte8.indexOf(local_data_disciplina_tte8[a].Area + " - " + local_data_disciplina_tte8[a].Cuadrilla)][array_week.indexOf(local_data_disciplina_tte8[a].Fecha)]= Math.round(100*(parseFloat(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[0])*60+parseFloat(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[1]))/(parseFloat(local_data_disciplina_tte8[a].Estandar_te.split(":")[0])*60+parseFloat(local_data_disciplina_tte8[a].Estandar_te.split(":")[1])))
+        }
+        if(name==(local_data_disciplina_tte8[a].Area + " - " + local_data_disciplina_tte8[a].Cuadrilla)){
+          llegada = local_data_disciplina_tte8[a].Llega_nivel
+          var hora_llegada = parseInt(llegada.split(":")[0]);
+          values_1_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (parseInt(local_data_disciplina_tte8[a].Llega_nivel.split(":")[1])*60+Epoch(new Date($scope.fecha_universal.split("-")[2]+"-"+$scope.fecha_universal.split("-")[1]+"-"+$scope.fecha_universal.split("-")[0]+" "+hora_llegada+":00:00")))*1000;
+          values_2_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Llega_nivel,local_data_disciplina_tte8[a].Charla ))*60*1000
+          values_3_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Charla,local_data_disciplina_tte8[a].Traslado_postura ))*60*1000
+          values_4_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Traslado_postura,local_data_disciplina_tte8[a].Ingreso_postura ))*60*1000
+          values_5_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Ingreso_postura,local_data_disciplina_tte8[a].Colacion_inicio ))*60*1000
+          values_6_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Colacion_inicio,local_data_disciplina_tte8[a].Colacion_termino ))*60*1000
+          values_7_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Colacion_termino,local_data_disciplina_tte8[a].Trabajo_terreno ))*60*1000
+          values_8_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Trabajo_terreno,local_data_disciplina_tte8[a].Retiro_postura ))*60*1000
+  
+        }
+      }
+      
+           
+    }
+
+    var array_prom_tte8 = []
+    for(c=0 ; c < array_meta_tte8.length; c++){
+      array_prom_tte8.push(Math.round(100*(parseFloat(array_meta_tte8[c].reduce((a, b) => a + b, 0))/parseFloat(array_meta_tte8[c].length)/parseFloat(290))))
+    }
+
+    var hora_llegada = parseInt(llegada.split(":")[0])-1;
+    var Epoch_Inicio = Epoch(new Date($scope.fecha_universal.split("-")[2]+"-"+$scope.fecha_universal.split("-")[1]+"-"+$scope.fecha_universal.split("-")[0]+" "+hora_llegada.toString()+":00:00"))*1000
+    var Epoch_Final = Epoch(new Date($scope.fecha_universal.split("-")[2]+"-"+$scope.fecha_universal.split("-")[1]+"-"+$scope.fecha_universal.split("-")[0]+" "+"15:00:00"))*1000
+    
+    $scope.myJsonTimertte8 = timer_chart_tte8(Epoch_Inicio, Epoch_Final, values_1_tte8, values_2_tte8, values_3_tte8, values_4_tte8, values_5_tte8, values_6_tte8, values_7_tte8, values_8_tte8, name);
+
+    //$scope.myJsonhbartte8 = hbar_text_disciplina_tte8(array_prom_tte8, array_name_disciplina_tte8)
+    //$scope.myJsonlinedisciplinatte8 = line_chart_tte8(array_values_tte8, array_name_disciplina_tte8)
+    $scope.headersdisciplinatte8 = array_name_disciplina_tte8
+    $scope.columndisctte8 = array_name_disciplina_tte8[0]
   }
 
 
@@ -4456,6 +4606,100 @@ function timer_chart_traspaso_3(Epoch_Inicio, Epoch_Final, values_1, values_2, v
   
   return grafico;
 }
+
+function timer_chart_tte8(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7, values_8, titulo){
+  var grafico = {};
+  grafico = {
+    type: 'bar',
+    utc: true,
+    timezone: -3, 
+    plot: {
+      barWidth: '50%',
+      stacked: true,
+      tooltip: {
+        text: '%plot-text : %scale-value-value',
+        transform: {
+          type: 'date',
+          all: '%g:%i %A'
+        }
+      }
+    },
+    title :{
+      text : "Disciplina "+titulo,
+      align : 'center'
+    },
+    scaleX: {
+      labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes","Sabado","Domingo"],
+      label: {
+      },
+      item: {
+        fontSize: 10
+      },
+    },
+    scaleY: {
+      minValue: Epoch_Inicio, 
+      maxValue: Epoch_Inicio+54000000, 
+      step: 600000, 
+      transform: {
+        type: 'date',
+        all: '%g:%i %a'
+      },
+      item: {
+        fontSize: 10
+      },
+      guide: {
+        lineStyle: 'dotted'
+      }
+    },
+    plotarea: {
+      marginLeft: '15%',
+    },
+    series: [{
+        values: values_1,
+        text: 'Llegada a nivel',
+        backgroundColor: '#1565C0',
+      },
+      {
+        values: values_2,
+        text: 'Charla, coordinaciones',
+        backgroundColor: '#1E88E5'
+      },
+      {
+        values: values_3,
+        text: 'Traslado a Postura',
+        backgroundColor: '#42A5F5'
+      },
+      {
+        values: values_4,
+        text: 'Ingreso a postura',
+        backgroundColor: '#90CAF9'
+      },
+      {
+        values: values_5,
+        text: 'Horario colación inicio',
+        backgroundColor: '#42A5F5'
+      },
+      {
+        values: values_6,
+        text: 'Termino colación',
+        backgroundColor: '#9FB2D5'
+      },
+      {
+        values: values_7,
+        text: 'Trabajo en terreno tarde',
+        backgroundColor: '#353F52'
+      },
+      {
+        values: values_8,
+        text: 'Retiro de postura',
+        backgroundColor: 'blue'
+      }
+    ]
+  };
+
+  
+  return grafico;
+}
 function calendar_creator(fechas, año){
   var grafico = {};
   grafico = {
@@ -4808,6 +5052,127 @@ function hbar_text_disciplina_traspaso(values, name){
       },
       {
         values: [170, 170, 170, 170, 170],
+        valueBox: {
+          text: '%data-rvalues',
+          paddingBottom: '8px',
+          fontColor: '#8391a5',
+          fontFamily: 'Arial',
+          fontSize: '11px',
+          offsetX: '-54px',
+          offsetY: '-12px',
+          textAlign: 'right',
+          visible: true,
+        },
+        backgroundColor: '#d9e4eb',
+        dataRvalues: values,
+        maxTrackers: 0,
+        zIndex: 1,
+      },
+    ],
+  }
+
+  return grafico;
+}
+
+function hbar_text_disciplina_tte8(values, name){
+  var grafico = {};
+  grafico ={
+    type: 'hbar',
+    backgroundColor: '#fff',
+    borderColor: '#dae5ec',
+    borderWidth: '1px',
+    title: {
+      text: 'Disciplina Operacional',
+      marginTop: '7px',
+      marginLeft: '9px',
+      backgroundColor: 'none',
+      fontColor: '#707d94',
+      fontFamily: 'Arial',
+      fontSize: '11px',
+      shadow: false,
+      textAlign: 'left',
+    },
+    plot: {
+      tooltip: {
+        padding: '5px 10px',
+        backgroundColor: '#707e94',
+        borderRadius: '6px',
+        fontColor: '#ffffff',
+        fontFamily: 'Arial',
+        fontSize: '11px',
+        shadow: false,
+      },
+      animation: {
+        delay: 500,
+        effect: 'ANIMATION_EXPAND_LEFT',
+      },
+      barsOverlap: '100%',
+      barWidth: '12px',
+      hoverState: {
+        backgroundColor: '#707e94',
+      }
+    },
+    plotarea: {
+      margin: '50px 15px 10px 15px',
+
+    },
+    scaleY: {
+      guide :{
+        visible : false
+      },
+      tick :{
+        visible : false
+      },
+      lineColor : 'none'
+    },
+    scaleX: {
+      values: name,
+      guide: {
+        visible: false,
+      },
+      item: {
+        paddingBottom: '8px',
+        fontColor: '#8391a5',
+        fontFamily: 'Arial',
+        fontSize: '11px',
+        offsetX: '206px',
+        offsetY: '-12px',
+        textAlign: 'left',
+        width: '200px',
+      },
+      lineColor: 'none',
+      tick: {
+        visible: false,
+      },
+    },
+    series: [
+      {
+        values: values,
+        styles: [
+          {
+            backgroundColor: '#4dbac0',
+          },
+          {
+            backgroundColor: '#4dbac0',
+          },
+          {
+            backgroundColor: '#4dbac0',
+          },
+          {
+            backgroundColor: '#4dbac0',
+          },
+          {
+            backgroundColor: '#4dbac0',
+          },
+          {
+            backgroundColor: '#4dbac0',
+          }        
+        ],
+        tooltipText: '%node-value %',
+        zIndex: 2,
+      },
+      {
+        values: [170, 170, 170, 170, 170,170, 170, 170, 170, 170, 170],
         valueBox: {
           text: '%data-rvalues',
           paddingBottom: '8px',
@@ -5603,6 +5968,220 @@ function line_chart_traspaso(values, nombres){
         }, 
       },
       
+    ]
+ }
+
+ return grafico
+
+}
+
+
+function line_chart_tte8(values, nombres){
+  var grafico = {};
+  grafico = {
+    type: 'line',
+    scaleY:{
+      minValue : 80,
+      maxValue : 180,
+    },
+    title :{
+      text : "Disciplina Operacional",
+      "adjust-layout":true
+    },
+    "legend": {
+
+      "layout": "float",
+      "background-color": "none",
+      "border-width": 0,
+      "shadow": 0,
+      "align": "center",
+      "adjust-layout": true,
+      "toggle-action": "remove",
+      "item": {
+        "padding": 7,
+        "marginRight": 17,
+        "cursor": "hand"
+      }
+    },
+    scaleX:{
+      labels: [
+      'Lunes',
+      'Martes',
+      'Miercoles',
+      'Jueves',
+      'Viernes'
+      ],
+    },
+    "tooltip": {
+      "visible": false
+    },
+    "crosshair-x": {
+      "line-color": "#efefef",
+      "plot-label": {
+        "border-radius": "5px",
+        "border-width": "1px",
+        "border-color": "#f6f7f8",
+        "padding": "10px",
+        "font-weight": "bold"
+      },
+      "scale-label": {
+        "font-color": "#000",
+        "background-color": "#f6f7f8",
+        "border-radius": "5px"
+      }
+    },
+    "plot": {
+      "highlight": true,
+      "tooltip-text": "%t views: %v<br>%k",
+      "shadow": 0,
+      "line-width": "2px",
+      "marker": {
+        "type": "circle",
+        "size": 3
+      },
+      "highlight-state": {
+        "line-width": 3
+      },
+      "animation": {
+        "effect": 1,
+        "sequence": 2,
+        "speed": 100,
+      }
+    },
+    series: [
+      { 
+        values: values[0],
+        "text": nombres[0],
+        "line-color": "#007790",
+        "legend-item": {
+          "background-color": "#007790",
+          "borderRadius": 5,
+          "font-color": "white",
+        },
+        "legend-marker": {
+          "visible": false
+        },
+        "marker": {
+          "background-color": "#007790",
+          "border-width": 1,
+          "shadow": 0,
+          "border-color": "#69dbf1"
+        },
+        "highlight-marker": {
+          "size": 5,
+          "background-color": "#007790",
+        }
+      },
+      { 
+        values: values[1],
+        "text":nombres[1],
+        'line-color' : 'red',
+        "legend-item": {
+          "background-color": "red",
+          "borderRadius": 5,
+          "font-color": "white"
+        },
+        "legend-marker" :{
+          'visible':false
+        },
+        "highlight-marker": {
+          "size": 5,
+          "background-color": "red",
+        },
+        "marker": {
+          "background-color": "red",
+          "border-width": 1,
+          "shadow": 0,
+        },
+      },
+      {
+        values : values[2],
+        "text" : nombres [2],
+        'line-color' : '#399A00',
+        "legend-item": {
+          "background-color": "#399A00",
+          "borderRadius": 5,
+          "font-color": "white"
+        },
+        "legend-marker" :{
+          'visible':false
+        },
+        "highlight-marker": {
+          "size": 5,
+          "background-color": "#399A00",
+        },
+        "marker": {
+          "background-color": "#399A00",
+          "border-width": 1,
+          "shadow": 0,
+        },
+      },
+      {
+        values : values[3],
+        "text" : nombres [3],
+        'line-color' : '#D98702',
+        "legend-item": {
+          "background-color": "#D98702",
+          "borderRadius": 5,
+          "font-color": "white"
+        },
+        "legend-marker" :{
+          'visible':false
+        },
+        "highlight-marker": {
+          "size": 5,
+          "background-color": "#D98702",
+        },
+        "marker": {
+          "background-color": "#D98702",
+          "border-width": 1,
+          "shadow": 0,
+        },
+      },
+      {
+        values : values[4],
+        "text" : nombres [4],
+        'line-color' : '#881EA6',
+        "legend-item": {
+          "background-color": "#881EA6",
+          "borderRadius": 5,
+          "font-color": "white"
+        },
+        "legend-marker" :{
+          'visible':false
+        },
+        "highlight-marker": {
+          "size": 5,
+          "background-color": "#881EA6",
+        },
+        "marker": {
+          "background-color": "#881EA6",
+          "border-width": 1,
+          "shadow": 0,
+        }, 
+      },
+      {
+        values : values[5],
+        "text" : nombres [5],
+        'line-color' : '#874D00',
+        "legend-item": {
+          "background-color": "#874D00",
+          "borderRadius": 5,
+          "font-color": "white"
+        },
+        "legend-marker" :{
+          'visible':false
+        },
+        "highlight-marker": {
+          "size": 5,
+          "background-color": "#874D00",
+        },
+        "marker": {
+          "background-color": "#874D00",
+          "border-width": 1,
+          "shadow": 0,
+        }, 
+      },   
     ]
  }
 

@@ -18,6 +18,7 @@ module.exports = function(sequelize,DataTypes){
                 Clasificacion : Sequelize.TEXT,
                 Fecha : Sequelize.TEXT,
                 Totalhrs : Sequelize.TEXT,
+				Seleccionado : Sequelize.TEXT,
                 Idingreso : Sequelize.TEXT
 			},{
 				tableName: 'planificaciontte8',
