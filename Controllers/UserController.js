@@ -736,18 +736,18 @@ module.exports = {
   
                   }
   
-                  if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-7]] != undefined){
-                    miniretro = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-7]];
+                  if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] != undefined){
+                    miniretro = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]];
                   }
-                  if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-7]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                  if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                     miniretro = "";
                   }
   
   
-                  if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-4]] != undefined){
-                    levante = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-4]];
+                  if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-2]] != undefined){
+                    levante = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-2]];
                   }
-                  if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-4]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                  if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-2]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                     levante = "";
                   }
                   if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-10]] != undefined){
@@ -904,18 +904,18 @@ module.exports = {
 
                 }
 
-                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-7]] != undefined){
-                  miniretro = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-7]];
+                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] != undefined){
+                  miniretro = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]];
                 }
-                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-7]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                   miniretro = "";
                 }
 
 
-                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-4]] != undefined){
-                  levante = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-4]];
+                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-2]] != undefined){
+                  levante = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-2]];
                 }
-                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-4]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-2]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                   levante = "";
                 }
                 if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-10]] != undefined){
