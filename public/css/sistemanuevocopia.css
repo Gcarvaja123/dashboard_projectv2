@@ -1652,8 +1652,8 @@ table.matriz td{
   opacity: .5;
 }
 
-.planificacion-terminada2{
+.planificacion2 .td{
   
   text-decoration: line-through;
-  color: red;
+  
 }

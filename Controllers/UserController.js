@@ -3645,8 +3645,7 @@ module.exports = {
       where : {
         Orden : req.body.Orden
       }
-    }
-    )
+    })
   },
 
   postModAsist : async(req, res, next)=>{
