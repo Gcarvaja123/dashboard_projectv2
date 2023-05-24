@@ -1798,7 +1798,7 @@ html
           #Planificaciontte8.grid-container
             div.tabla.item1
               //table.table.table-striped.custom-table
-              table.Asistencia.tablette8.table.caption-top
+              table.Planificaciontte8.tablette8.table.caption-top
                 thead
                   tr
                     th(data-type='text')
@@ -1824,7 +1824,37 @@ html
                         label.custom-control.ios-switch
                           input.ios-switch-control-input(type='checkbox' ng-checked="planificacion.Seleccionado == '1' " ng-model="planificaciones" ng-click="actualizarSeleccionado(planificacion)"  )
                           span.ios-switch-control-indicator
+          p 
 
+          #Planificaciontte8.grid-container
+            div.tabla.item1
+              //table.table.table-striped.custom-table
+              table.Planificaciontte8.tablette8.table.caption-top
+                thead
+                  tr
+                    th(data-type='text')
+                        | Fecha
+                        span.resize-handle
+                    th(data-type="text")
+                        | Equipo
+                        span.resize-handle
+                    th(data-type='text')
+                        | Actividad
+                        span.resize-handle
+                    
+                    th(scope='col')
+                tbody
+                  tr(ng-repeat="planificacion in planificaciontotaltte8noco" ng-class="{'planificacion-terminada': planificacion.Seleccionado == '1', 'planificacion2' : planificacion.Seleccionado == '1' }")
+                      td
+                        label {{planificacion.Fecha}} 
+                      td
+                        label {{planificacion.Equipo}} 
+                      td
+                        label {{planificacion.Actividad}}
+                      td
+                        label.custom-control.ios-switch
+                          input.ios-switch-control-input(type='checkbox' ng-checked="planificacion.Seleccionado == '1' " ng-model="planificaciones" ng-click="actualizarSeleccionado(planificacion)"  )
+                          span.ios-switch-control-indicator
 
 
       

@@ -656,6 +656,53 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   $scope.myJsonAsistenciatte81 = Pie_Asistencia_tte8(dias_trabajados_tte8+dias_no_trabajados_tte8, dias_trabajados_tte8, "mensual")
 
 
+  //------------------------------------------------------PLANIFICACION TTE8------------------------------------------------------------//
+
+  $scope.planificaciontotaltte8 =[]
+  $scope.planificaciontotaltte8noco = []
+
+
+  for(a=0 ; a < local_data_planificacion_tte8.length; a ++){
+    if(array_week.includes(local_data_planificacion_tte8[a].Fecha)){
+      $scope.planificaciontotaltte8.push(local_data_planificacion_tte8[a])
+    }
+  }
+
+  for(b=0 ; b < $scope.planificaciontotaltte8.length; b++){
+    $scope.planificaciontotaltte8[b].Fecha = $scope.planificaciontotaltte8[b].Fecha.split("-")[2]+"-"+$scope.planificaciontotaltte8[b].Fecha.split("-")[1]+"-"+$scope.planificaciontotaltte8[b].Fecha.split("-")[0]
+  }
+  
+  $scope.planificaciontotaltte8.sort(function(a,b){
+    return new Date(a.Fecha) - new Date(b.Fecha)
+  })
+  
+  for(b=0 ; b < $scope.planificaciontotaltte8.length; b++){
+    $scope.planificaciontotaltte8[b].Fecha = $scope.planificaciontotaltte8[b].Fecha.split("-")[2]+"-"+$scope.planificaciontotaltte8[b].Fecha.split("-")[1]+"-"+$scope.planificaciontotaltte8[b].Fecha.split("-")[0]
+  }
+
+  for(a=0; a < local_data_planificacion_tte8.length; a++){
+    if(array_week.includes(local_data_planificacion_tte8[a].Fecha) != true && local_data_planificacion_tte8[a].Seleccionado == "0" ){
+      $scope.planificaciontotaltte8noco.push(local_data_planificacion_tte8[a])
+    }
+  }
+
+  for(b=0 ; b < $scope.planificaciontotaltte8noco.length; b++){
+    $scope.planificaciontotaltte8noco[b].Fecha = $scope.planificaciontotaltte8noco[b].Fecha.split("-")[2]+"-"+$scope.planificaciontotaltte8noco[b].Fecha.split("-")[1]+"-"+$scope.planificaciontotaltte8noco[b].Fecha.split("-")[0]
+  }
+  
+  $scope.planificaciontotaltte8noco.sort(function(a,b){
+    return new Date(a.Fecha) - new Date(b.Fecha)
+  })
+  
+  for(b=0 ; b < $scope.planificaciontotaltte8noco.length; b++){
+    $scope.planificaciontotaltte8noco[b].Fecha = $scope.planificaciontotaltte8noco[b].Fecha.split("-")[2]+"-"+$scope.planificaciontotaltte8noco[b].Fecha.split("-")[1]+"-"+$scope.planificaciontotaltte8noco[b].Fecha.split("-")[0]
+  }
+
+ 
+
+
+
+
   //------------------------------------------------------MODIFICACION DE DATOS---------------------------------------------------------//
 
   $scope.Totalasistenciaarchivosmod = [];
@@ -2517,11 +2564,46 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   //--------------------------------------------------------------------------------PLANIFICACIONTTE8------------------------------------------------------------
 
     $scope.planificaciontotaltte8 =[]
+    $scope.planificaciontotaltte8noco = []
+
+
     for(a=0 ; a < local_data_planificacion_tte8.length; a ++){
       if(array_week.includes(local_data_planificacion_tte8[a].Fecha)){
         $scope.planificaciontotaltte8.push(local_data_planificacion_tte8[a])
       }
     }
+
+    for(b=0 ; b < $scope.planificaciontotaltte8.length; b++){
+      $scope.planificaciontotaltte8[b].Fecha = $scope.planificaciontotaltte8[b].Fecha.split("-")[2]+"-"+$scope.planificaciontotaltte8[b].Fecha.split("-")[1]+"-"+$scope.planificaciontotaltte8[b].Fecha.split("-")[0]
+    }
+  
+    $scope.planificaciontotaltte8.sort(function(a,b){
+      return new Date(a.Fecha) - new Date(b.Fecha)
+    })
+  
+    for(b=0 ; b < $scope.planificaciontotaltte8.length; b++){
+      $scope.planificaciontotaltte8[b].Fecha = $scope.planificaciontotaltte8[b].Fecha.split("-")[2]+"-"+$scope.planificaciontotaltte8[b].Fecha.split("-")[1]+"-"+$scope.planificaciontotaltte8[b].Fecha.split("-")[0]
+    }
+
+    for(a=0; a < local_data_planificacion_tte8.length; a++){
+      if(array_week.includes(local_data_planificacion_tte8[a].Fecha) != true && local_data_planificacion_tte8[a].Seleccionado == "0" ){
+        $scope.planificaciontotaltte8noco.push(local_data_planificacion_tte8[a])
+      }
+    }
+
+    for(b=0 ; b < $scope.planificaciontotaltte8noco.length; b++){
+      $scope.planificaciontotaltte8noco[b].Fecha = $scope.planificaciontotaltte8noco[b].Fecha.split("-")[2]+"-"+$scope.planificaciontotaltte8noco[b].Fecha.split("-")[1]+"-"+$scope.planificaciontotaltte8noco[b].Fecha.split("-")[0]
+    }
+  
+    $scope.planificaciontotaltte8noco.sort(function(a,b){
+      return new Date(a.Fecha) - new Date(b.Fecha)
+    })
+  
+    for(b=0 ; b < $scope.planificaciontotaltte8noco.length; b++){
+      $scope.planificaciontotaltte8noco[b].Fecha = $scope.planificaciontotaltte8noco[b].Fecha.split("-")[2]+"-"+$scope.planificaciontotaltte8noco[b].Fecha.split("-")[1]+"-"+$scope.planificaciontotaltte8noco[b].Fecha.split("-")[0]
+    }
+
+
     
 
 

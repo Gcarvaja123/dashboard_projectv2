@@ -259,7 +259,12 @@ table {
   width: 90%;
   background-color: white;
 }
-
+.Planificaciontte8{
+  margin-left: 0px;
+  width: 100%;
+  background-color: white;
+  height: 500px;
+}
 
 
 
@@ -1134,6 +1139,9 @@ table.matriz td{
   font-size: 12px;
 }
 
+#Planificaciontte8.grid-container{
+  height: 500px;
+}
 #tablebrocales.grid-container{
   height: 700px;
 }
