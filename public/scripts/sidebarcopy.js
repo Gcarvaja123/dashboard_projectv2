@@ -605,11 +605,15 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   //------------------------------------------------------ PAUTA DIARIA ----------------------------------------------------------------//
 
   $scope.pautadiariatotal = []
+  $scope.pautadiariatotalnoco = []
 
   for(a=0 ; a < local_data_pauta_diaria.length; a++){
-
-    if(local_data_pauta_diaria[a].Fecha == $scope.fecha_universal){
+    console.log(local_data_pauta_diaria[a].Fecha)
+    if(local_data_pauta_diaria[a].Fecha.toString() == $scope.fecha_universal.toString()){
       $scope.pautadiariatotal.push(local_data_pauta_diaria[a])
+    }
+    else if(local_data_pauta_diaria[a].Fecha.toString() != $scope.fecha_universal.toString() && local_data_pauta_diaria[a].Seleccionado=="0"){
+      $scope.pautadiariatotalnoco.push(local_data_pauta_diaria[a])
     }
   }
 
@@ -1622,6 +1626,36 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
     console.log($scope.planificaciontotaltte8[$scope.planificaciontotaltte8.indexOf(dato)].Seleccionado)
     
   };
+
+  $scope.actualizarSeleccionadoPauta = function(dato){
+    if(dato.Seleccionado=="0"){
+      $scope.pautadiariatotal.indexOf(dato).Seleccionado = "1"
+      dato.Seleccionado="1"
+    }else{
+      $scope.pautadiariatotal.indexOf(dato).Seleccionado = "0"
+      dato.Seleccionado="0"
+    }
+    $http({
+      method : 'POST',
+      url : '/Cambiarseleccionadotraspaso',
+      data : JSON.stringify(local_data_pauta_diaria[local_data_pauta_diaria.indexOf(dato)])
+    })
+  }
+
+  $scope.actualizarSeleccionadoPautanoco = function(dato){
+    if(dato.Seleccionado=="0"){
+      $scope.pautadiariatotalnoco.indexOf(dato).Seleccionado = "1"
+      dato.Seleccionado="1"
+    }else{
+      $scope.pautadiariatotalnoco.indexOf(dato).Seleccionado = "0"
+      dato.Seleccionado="0"
+    }
+    $http({
+      method : 'POST',
+      url : '/Cambiarseleccionadotraspaso',
+      data : JSON.stringify(local_data_pauta_diaria[local_data_pauta_diaria.indexOf(dato)])
+    })
+  }
   $scope.changeinformation = function(){
     nueva_fecha = new Date($scope.dateselected.getTime() - $scope.dateselected.getTimezoneOffset()*60000);
     converted_date = nueva_fecha.toISOString().split('T')[0];
@@ -2448,13 +2482,17 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
   //------------------------------------------------------------------ PAUTA DIARIA TRASPASO ------------------------------------------------------------------------------------
     
     $scope.pautadiariatotal = []
+    $scope.pautadiariatotalnoco = []
 
     for(a=0 ; a < local_data_pauta_diaria.length; a++){
+      console.log(local_data_pauta_diaria[a].Fecha)
       if(local_data_pauta_diaria[a].Fecha.toString() == $scope.fecha_universal.toString()){
         $scope.pautadiariatotal.push(local_data_pauta_diaria[a])
       }
+      else if(local_data_pauta_diaria[a].Fecha.toString() != $scope.fecha_universal.toString() && local_data_pauta_diaria[a].Seleccionado=="0"){
+        $scope.pautadiariatotalnoco.push(local_data_pauta_diaria[a])
+      }
     }
-
 
   //------------------------------------------------------------------ ASISTENCIA TTE8--------------------------------------------------------------------------------------
 

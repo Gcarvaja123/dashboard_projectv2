@@ -25,7 +25,8 @@ module.exports = function(sequelize,DataTypes){
 				Area : Sequelize.TEXT,
 				Coordinador : Sequelize.TEXT,
 				Apr : Sequelize.TEXT,
-				Idingreso : Sequelize.TEXT
+				Idingreso : Sequelize.TEXT,
+				Seleccionado : Sequelize.TEXT
 			},{
 				tableName: 'pauta_diaria',
 				freezeTableName: true,

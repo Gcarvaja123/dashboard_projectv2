@@ -2820,10 +2820,10 @@ module.exports = {
             var Area = "";
             var Coordinador = "";
             var Apr = "";
-            Area = datos_pauta[0]["__EMPTY_4"].toUpperCase().split("AREA:")[1].replace(/\s+/g,' ').trim()
-            Fecha = datos_pauta[1]["__EMPTY_4"].toUpperCase().split("FECHA:")[1].replace(/\s+/g,' ').trim()
-            Coordinador = datos_pauta[2]["__EMPTY_4"].toUpperCase().split("COORDINADOR:")[1].replace(/\s+/g,' ').trim()
-            Apr = datos_pauta[3]["__EMPTY_4"].toUpperCase().split("APR:")[1].replace(/\s+/g,' ').trim()
+            Area = datos_pauta[0]["__EMPTY_4"].toUpperCase().split(":")[1].replace(/\s+/g,' ').trim()
+            Fecha = datos_pauta[1]["__EMPTY_4"].toUpperCase().split(":")[1].replace(/\s+/g,' ').trim()
+            Coordinador = datos_pauta[2]["__EMPTY_4"].toUpperCase().split(":")[1].replace(/\s+/g,' ').trim()
+            Apr = datos_pauta[3]["__EMPTY_4"].toUpperCase().split(":")[1].replace(/\s+/g,' ').trim()
             for(a=6; a<datos_pauta.length; a++){
               if(datos_pauta[a]["__EMPTY_2"] !=undefined){
                 Cuadrilla = datos_pauta[a]["__EMPTY_2"]
@@ -2891,7 +2891,7 @@ module.exports = {
                     Auspervac : Auspervac,
                     Area : Area,
                     Coordinador : Coordinador,
-                    Apr : Apr
+                    Apr : Apr,
                   }
                 }).then(async function(rows_pod){
                   if(rows_pod.length==0){
@@ -2912,7 +2912,8 @@ module.exports = {
                       Area : Area,
                       Coordinador : Coordinador,
                       Apr : Apr,
-                      Idingreso : random_id_pauta_single
+                      Idingreso : random_id_pauta_single,
+                      Seleccionado : "0"
                     })
                     Instructivo=""
                     Mantenedor=""
@@ -3457,7 +3458,8 @@ module.exports = {
                   Auspervac : Auspervac,
                   Area : Area,
                   Coordinador : Coordinador,
-                  Apr : Apr
+                  Apr : Apr,
+                  Seleccionado : "0"
                 })
                 Instructivo=""
                 Mantenedor=""
@@ -3644,6 +3646,18 @@ module.exports = {
     },{
       where : {
         Orden : req.body.Orden
+      }
+    })
+  },
+
+  postCambiarSelecciontraspaso : async(req, res, next) =>{
+    await modelo.pauta_diaria.update({
+      Seleccionado : req.body.Seleccionado
+    },{
+      where : {
+        Descripcion : req.body.Descripcion,
+        Ubicacion : req.body.Ubicacion,
+        Supervisor : req.body.Supervisor
       }
     })
   },

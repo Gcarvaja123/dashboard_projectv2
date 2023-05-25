@@ -1665,3 +1665,7 @@ table.matriz td{
   text-decoration: line-through;
   
 }
+
+.pauta-terminada{
+  opacity: .5;
+}

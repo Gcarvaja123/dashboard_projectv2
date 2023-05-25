@@ -1676,6 +1676,7 @@ html
         #Pautadiaria
           .one
             h1 Pauta Diaria Traspaso
+          p
           #tablepautadiaria
               div.tabla.item1
                 table.pautadiaria.tabletraspaso.table.caption-top
@@ -1694,7 +1695,7 @@ html
                         | Ver Detalles
                         span.resize-handle
                   tbody
-                    tr(ng-repeat="pauta in pautadiariatotal|filter:searchtxt")
+                    tr(ng-repeat="pauta in pautadiariatotal|filter:searchtxt" ng-class="{'pauta-terminada': pauta.Seleccionado == '1', 'pauta2' : pauta.Seleccionado == '1' }")
                       td
                         label {{pauta.Fecha}} 
                       td
@@ -1704,10 +1705,47 @@ html
                       td
                         button.btn.btn-secondary.archivobutton(type='button' ng-click="changearchivos($index)" )
                           i.bi.bi-card-text
+                      td
+                        label.custom-control.ios-switch
+                          input.ios-switch-control-input(type='checkbox' ng-checked="pauta.Seleccionado == '1' " ng-model="pautasdiarias" ng-click="actualizarSeleccionadoPauta(pauta)"  )
+                          span.ios-switch-control-indicator
+          p
+          #tablepautadiaria
+              div.tabla.item1
+                table.pautadiaria.tabletraspaso.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Fecha
+                        span.resize-handle
+                      th(data-type='text')
+                        | Descripción
+                        span.resize-handle
+                      th(data-type='text')
+                        | Supervisor
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ver Detalles
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="pauta in pautadiariatotalnoco|filter:searchtxt" ng-class="{'pauta-terminada': pauta.Seleccionado == '1', 'pauta2' : pauta.Seleccionado == '1' }")
+                      td
+                        label {{pauta.Fecha}} 
+                      td
+                        label {{pauta.Descripcion}} 
+                      td
+                        label {{pauta.Supervisor}}
+                      td
+                        button.btn.btn-secondary.archivobutton(type='button' ng-click="changearchivos($index)" )
+                          i.bi.bi-card-text
+                      td
+                        label.custom-control.ios-switch
+                          input.ios-switch-control-input(type='checkbox' ng-checked="pauta.Seleccionado == '1' " ng-model="pautasdiarias" ng-click="actualizarSeleccionadoPautanoco(pauta)"  )
+                          span.ios-switch-control-indicator
 
 
                 
-          
+          p
         #Disciplinatraspaso
           .one
             h1 Disciplina Operacional Traspaso
