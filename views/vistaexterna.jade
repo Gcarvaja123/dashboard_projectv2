@@ -1,0 +1,24 @@
+doctype html
+html
+  head 
+    script(type='text/javascript' src='/scripts/vistaexternascript.js')
+     
+  body(ng-app='myAppexterno' ng-controller="Controladorexterno")  
+      #tablebrocales2.grid-container
+        .tabla.item1
+          table.brocales.table.caption-top
+            thead
+              tr
+                th(data-type='text')
+                  | Fecha
+                  span.resize-handle
+                th(data-type='text')
+                  | Turno
+                  span.resize-handle
+            tbody
+              tr(ng-repeat='brocal in Totalbrocalesexterno')
+                td
+                  label {{brocal.Fecha}}
+                td
+                  label {{brocal.Turno}}
+  

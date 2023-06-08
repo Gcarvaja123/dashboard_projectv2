@@ -280,6 +280,10 @@ module.exports = {
     return res.render('dashboardtest');
   },
 
+  getVistaexterna : async (req, res, next)=>{
+    return res.render("vistaexterna");
+  },
+
   getLogin : function(req, res, next){
     return res.render('login');
   },
@@ -1114,10 +1118,10 @@ module.exports = {
                     //if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                       Actividad = datos[a]["__EMPTY_15"]
                     }*/
-                    if(datos[a]["__EMPTY_17"] != undefined){
+                    if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] != undefined){
                     //if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] != undefined){
                       //Observaciones = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]];
-                      Observaciones = datos[a]["__EMPTY_17"]
+                      Observaciones = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]]
                     }
                     if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                       Observaciones = "";
@@ -1305,10 +1309,10 @@ module.exports = {
                 //if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-3]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                   Actividad = datos[a]["__EMPTY_15"]
                 }*/
-                if(datos[a]["__EMPTY_17"] != undefined){
+                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] != undefined){
                 //if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] != undefined){
                   //Observaciones = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]];
-                  Observaciones = datos[a]["__EMPTY_17"]
+                  Observaciones = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]]
                 }
                 if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                   Observaciones = "";
@@ -1354,6 +1358,8 @@ module.exports = {
                   })
                 }
               }
+              req.flash('ingreso', file.name.toString());
+
             }catch(err){
               req.flash('error', file.name.toString());
               await modelo.brocales.destroy({
@@ -3474,7 +3480,7 @@ module.exports = {
         
           
       }
-      req.flash('ingreso', 'Archivos ingreados')
+      //req.flash('ingreso', 'Archivos ingreados')
     }
     else{
       req.flash('ingreso', 'Ingresar archivos')

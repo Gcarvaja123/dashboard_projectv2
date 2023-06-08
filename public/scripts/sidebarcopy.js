@@ -7,6 +7,7 @@ const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]
 const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 
 document.addEventListener("DOMContentLoaded", function(){
+  
   document.querySelectorAll('.sidebar .nav-link').forEach(function(element){
     
     element.addEventListener('click', function (e) {
@@ -79,11 +80,9 @@ function openViewsub7(evt, selectedview){
 
 
 
-var app = angular.module('myApp', ['zingchart-angularjs']);
+var app = angular.module('myApp', ['zingchart-angularjs', 'ngSanitize']);
 
-
-
-app.controller("myControllerAsistencia", function($scope,$filter,$http){
+app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout, $templateRequest, $compile, $sce){
   document.getElementById("buttoncrear").disabled = true
   document.getElementById("aceptarusuario").disabled = true
 
@@ -3196,19 +3195,76 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http){
       document.getElementById("aceptarusuario").disabled = false
     }
   }
+
+  $scope.cargarVistaExterna = function(ruta) {
+    $http.get(ruta).then(function(response) {
+      console.log(response.data);
+      angular.element('#Tablaexterna').html(response.data);
+    });
+  };
+
+
+  //_---------------------------------------------------------------------- INGRESO ARCHIVOS ----------------------------------------------------------------
   $scope.EstadoArchivos = ""
-  if(local_error.length!=0){
-    $scope.Estado  =  "Se encontraron errores en los siguientes archivos :"
-    for(a=0 ; a < local_error.length; a++){
-      $scope.EstadoArchivos+= "-"
-      $scope.EstadoArchivos += local_error[a]
-      $scope.EstadoArchivos += "\n"
+  $scope.Totalbrocalesexterno = []
+  /*for(a=0 ; a < local_data_archivos.length; a++){
+    if(local_data_archivos[a].Nombrearchivo == local_ingreso[0]){
+      if(local_data_archivos[a].Tabla == "brocales"){
+        for(b=0 ; b < local_data_brocales.length; b++){
+          if(local_data_brocales[b].Idingreso == local_data_archivos[a].Idingreso){
+            $scope.Totalbrocalesexterno.push(local_data_brocales[b])
+          }
+        }
+      }
+    }
+  }*/
+  if(local_error.length !=0){
+    if(local_error.length!=0){
+      $scope.Estado  =  "Se encontraron errores en los siguientes archivos :"
+      for(a=0 ; a < local_error.length; a++){
+        $scope.EstadoArchivos+= "-"
+        $scope.EstadoArchivos += local_error[a]
+        $scope.EstadoArchivos += "\n"
+      }
+      var myModal = new bootstrap.Modal(document.getElementById('ModalInformacionError'), {
+        keyboard: false
+      })
+      myModal.toggle()
     }
   }
-  else{
+  
+  
+  else if(local_ingreso.length!=0){
+    $scope.Totalbrocales = []
+    for(a=0 ; a < local_data_archivos.length; a++){
+      if(local_data_archivos[a].Nombrearchivo == local_ingreso[0]){
+        if(local_data_archivos[a].Tabla == "brocales"){
+          for(b=0 ; b < local_data_brocales.length; b++){
+            if(local_data_brocales[b].Idingreso == local_data_archivos[a].Idingreso){
+              $scope.Totalbrocales.push(local_data_brocales[b])
+            }
+          }
+        }
+      }
+    }
+
+    $scope.brocalesContent = angular.element(document.querySelector('#tablebrocales')).html();
+    $scope.trustedHtmlContent = $sce.trustAsHtml($scope.brocalesContent);
+    console.log($scope.Totalbrocales)
+
+    
+    var myModal = new bootstrap.Modal(document.getElementById('ModalInformacionOk'), {
+      keyboard: false
+    })
+    myModal.toggle()
     $scope.Estado = "Archivos ingresados correctamente"
 
   }
+  $scope.zaza = function(){
+    $scope.Totalbrocalesexterno.push(local_data_brocales[3])
+    console.log($scope.Totalbrocalesexterno)
+  }
+  //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   $scope.changearchivos = function(index){
 
     var nombre_tabla = $scope.archivostotal[index].Tabla;
@@ -7214,4 +7270,10 @@ function restar_horas(hora_1, hora_2){
   }
   return min_2-min_1
   
+}
+
+function obtenerContenidoDiv(html) {
+  var regex = /<div id="ExternoBrocalessub6">([\s\S]*?)<\/div>/;
+  var match = html.match(regex);
+  return match ? match[1] : '';
 }

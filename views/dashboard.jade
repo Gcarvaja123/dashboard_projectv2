@@ -23,6 +23,7 @@ html
     script(src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/374756/zingchart-angularjs-1.0.4.js')
     link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' )
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js' )
+    script(data-require='sanitize@1.4.8' data-semver='1.4.8' src='https://code.angularjs.org/1.4.8/angular-sanitize.js')
 
     
 
@@ -211,7 +212,23 @@ html
               .modal-footer
                 button.btnn(type='button' data-bs-dismiss='modal') Cerrar
                 button.btnn#aceptarusuario(ng-model="aceptarusuario" name="probando3" value="probando4") Aceptar
-    #ModalInformacion.modal.fade( aria-labelledby='Modallogin' )
+    #ModalInformacionOk.modal.fade( aria-labelledby='Modallogin' )
+      form.formasistencias
+          .modal-dialog
+            .modal-content
+              .modal-header
+                h5#exampleModalLabel.modal-title Información del ingreso de archivos
+                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+              .modal-body
+                .container
+                  p
+                  span {{Estado}}
+                  p
+                  span(style='white-space: pre;') {{EstadoArchivos}}
+              .modal-footer
+                button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                button.btnn(name="probando3" value="probando4") Aceptar
+    #ModalInformacionError.modal.fade( aria-labelledby='Modallogin' )
       form.formasistencias
           .modal-dialog
             .modal-content
@@ -883,7 +900,25 @@ html
                       td
                         label {{asistencia.Cargo}}
                       td
-                        label {{asistencia.Asistencia}} 
+                        label {{asistencia.Asistencia}}
+    #probandoid2.modal.fade(aria-labelledby='Modalbrocales')
+          #tablebrocales.grid-container
+              div.tabla.item1
+                table.brocales.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Fecha
+                        span.resize-handle
+                      th(data-type='text')
+                        | Turno
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="brocal in Totalbrocalesprueba")
+                      td
+                        label {{brocal.Fecha}}
+                      td
+                        label {{brocal.Turno}}
 
     #Tutorial.modal.fade( aria-labelledby='Modaltutorial' )
               .modal-dialog
@@ -992,7 +1027,7 @@ html
               li
                 a.nav-link.tablink(onclick="openActivity(event,'Creacion')")
                   span.glyphicon.glyphicon-folder-open.nb-link-icon
-                  span.nb-link-text creación
+                  span.nb-link-text Creación
             
 
       .sidenav-footer
@@ -2885,12 +2920,12 @@ html
     if(local_authmessage!=""){
       document.getElementById("loginbutton").click();
     }
-    if(local_ingreso.length !=0){
+    /*if(local_ingreso.length !=0){
       var myModal = new bootstrap.Modal(document.getElementById('ModalInformacion'), {
         keyboard: false
       })
       myModal.toggle()
-    }
+    }*/
 
     window.onscroll = function() {myFunction()};
 
