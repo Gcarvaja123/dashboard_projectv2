@@ -853,6 +853,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   //$scope.headersbroc = Object.keys(local_data_brocales[0])
   //$scope.headermatriz = Object.keys(local_data_matriz[0])
   //$scope.headerdisciplina = Object.keys(local_data_disciplina[0])
+  if(local_data_equipo.length>0)
   $scope.headerequipo = Object.keys(local_data_equipo[0])
   $scope.headervimo = Object.keys(local_data_puertas[0])
   $scope.headersap = Object.keys(local_data_sap[0])

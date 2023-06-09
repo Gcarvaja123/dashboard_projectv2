@@ -11,7 +11,8 @@ module.exports = function(sequelize,DataTypes){
 		    	},
 		    	Usuario: Sequelize.TEXT,
 				Contraseña : Sequelize.TEXT,
-				Rango : Sequelize.TEXT
+				Rango : Sequelize.TEXT,
+				Sector : Sequelize.TEXT
 			},{
 				tableName: 'usuario',
 				freezeTableName: true,

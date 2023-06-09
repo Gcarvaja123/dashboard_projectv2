@@ -95,6 +95,19 @@ function leerExcelMatriz(ruta){
   return dataExcel;  
 }
 
+function leerExcelEquipos(ruta){
+  const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
+  const workbooksheet = workbook.SheetNames;
+  var datos_equipos = [];
+  const sheet_1 = workbooksheet[0];
+  const dataExcel_1 = reader.utils.sheet_to_json(workbook.Sheets[sheet_1]);
+  const sheet_2 = workbooksheet[2];
+  const dataExcel_2 = reader.utils.sheet_to_json(workbook.Sheets[sheet_2]);
+  datos_equipos.push(dataExcel_1)
+  datos_equipos.push(dataExcel_2)
+  return datos_equipos
+}
+
 function leerExcelTraspaso(ruta){
   /*const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
   const workbooksheet = workbook.SheetNames;
@@ -240,9 +253,6 @@ async function getData() {
 module.exports = {
 
   postLogin : function(req, res, next){
-    console.log("Req session")
-    console.log(req.session)
-    console.log("Termino Req session")
     if(req.body.username !="" && req.body.password!="" ){
       modelo.usuario.findAll({
         where:{
@@ -1862,191 +1872,174 @@ module.exports = {
           }
         }
         else if (datos_1[d] == "Equipos"){
-          if (req.files["Equipos"].length !=undefined){
-            for (e=0; e<req.files["Equipo"].length ; e++){
-              var random_id_equipos_multiple = guid()
-              try{
-                file = req.files["Equipos"];
-                const savePath = path.join(__dirname,"../",'public','uploads',file.name);
-                await file.mv(savePath);
-                var datos = leerExcel(file.name);
-                modelo.archivos.create({
-                  Tabla : "equipos",
-                  Idingreso : random_id_equipos_multiple,
-                  Fechaingreso : Fecha_hoy,
-                  Infoingresada : "Datos de equipos y camionetas",
-                  Nombrearchivo : file.name.toString()
-                })
-                for(a=0; a < datos.length ; a++){
-                  var equipo="";
-                  var patente="";
-                  var cartola="";
-                  var ultimamantencionkms="";
-                  var proxmantkms="";
-                  var kmactual="";
-                  var semaforo="";
-                  var estadoactual="";
-                  fecha1="";
-                  if(datos[a]["ULTIMA MANTENCION FECHA"]!=undefined && Number.isInteger(datos[a]["ULTIMA MANTENCION FECHA"]) ){
-                    var date1 = ExcelDateToJSDate(datos[a]["ULTIMA MANTENCION FECHA"]);
-                    var converted_date1 = date1.toISOString().split('T')[0];
-                    fecha1 = converted_date1.split("-")[2]+"-"+converted_date1.split("-")[1]+"-"+converted_date1.split("-")[0]
-                  }
-                  fecha2="";
-                  if(datos[a]["FECHA CHEQUEO DE GASES "]!=undefined && Number.isInteger(datos[a]["FECHA CHEQUEO DE GASES "])){
-                    var date2 = ExcelDateToJSDate(datos[a]["FECHA CHEQUEO DE GASES "]);
-                    var converted_date2 = date2.toISOString().split('T')[0];
-                    fecha2 = converted_date2.split("-")[2]+"-"+converted_date2.split("-")[1]+"-"+converted_date2.split("-")[0]
-                  }
-                  if(datos[a]["EQUIPO"]!=undefined){
-                    equipo = datos[a]["EQUIPO"];
-                  }
-                  if(datos[a]["PATENTE"]!=undefined){
-                    patente = datos[a]["PATENTE"];
-                  }
-                  if(datos[a]["CARTOLA"]!=undefined){
-                    cartola = datos[a]["CARTOLA"];
-                  }
-                  if(datos[a]["ULTIMA MANTENCION KMS"]!=undefined){
-                    var str = datos[a]["ULTIMA MANTENCION KMS"].split(" ");
-                    ultimamantencionkms = str[0]+" "+str[1];
-                  }
-                  if(datos[a]["PROXIMA MANT. KMS"]!=undefined){
-                    proxmantkms = datos[a]["PROXIMA MANT. KMS"]
-                  }
-                  if(datos[a]["KILOMETRAJE ACTUAL "]!=undefined){
-                    kmactual = datos[a]["KILOMETRAJE ACTUAL "];
-                  }
-                  if(datos[a]["SEMAFORO"]!=undefined){
-                    semaforo = datos[a]["SEMAFORO"];
-                  }
-                  if(datos[a]["ESTADO ACTUAL"]!=undefined){
-                    estadoactual = datos[a]["ESTADO ACTUAL"];
-                  }
-                  await modelo.equipos.create({
-                    Equipo : equipo,
-                    Patente : patente,
-                    Cartola : cartola,
-                    Ultimamantencion : fecha1,
-                    Ultimokms : ultimamantencionkms,
-                    Proximakms : proxmantkms,
-                    Kilometrajeactual : kmactual,
-                    Semaforo : semaforo,
-                    Estado : estadoactual,
-                    Fechagas : fecha2,
-                    Idingreso : random_id_equipos_multiple
-                  })
-                  
-                }
-              }
-              catch(err){
-                console.error(err);
-                req.flash('error', file.name.toString());
-                await modelo.equipos.destroy({
-                  where :{
-                    Idingreso : random_id_equipos_multiple
-                  }
-                })
-                await modelo.archivos.destroy({
-                  where : {
-                    Idingreso : random_id_equipos_multiple
-                  }
-                })
-              }
+          if(req.files["Equipos"].length !=undefined){
+            for (e=0; e<req.files["Equipos"].length ; e++){
 
             }
           }
           else{
+            file = req.files["Equipos"];
+            const savePath = path.join(__dirname,"../",'public','uploads',file.name);
+            await file.mv(savePath);
+            var datos = leerExcelEquipos(file.name);
             try{
               var random_id_equipos_single = guid()
-              file = req.files["Equipos"];
-              const savePath = path.join(__dirname,"../",'public','uploads',file.name);
-              await file.mv(savePath);
-              var datos = leerExcel(file.name);
-              modelo.archivos.create({
+              var columnas = ["CONTRATO", "TIPO DE EQUIPO", "PATENTE", "NÚMERO INTERNO", "CARTOLA", "NOMBRE RESPONSABLE", "RUT RESPONSABLE", "RÉGIMEN DE MANTENCIÓN", "ÚLTIMA FECHA MANTENCIÓN", "PRÓXIMA FECHA DE MANTENCIÓN", "ÚLTIMA MANT KMS", "PRÓXIMA MANT KMS", "KILOMETRAJE ACTUAL", "KILOMETRAJE FALTANTE", "ESTADO ACTUAL", "FECHA CHEQUEO DE GASES", "COMENTARIOS"]
+              await modelo.archivos.create({
                 Tabla : "equipos",
                 Idingreso : random_id_equipos_single,
                 Fechaingreso : Fecha_hoy,
-                Infoingresada : "Datos de equipos y camionetas",
+                Infoingresada : "Información equipos",
                 Nombrearchivo : file.name.toString()
               })
-              for(a=0; a < datos.length ; a++){
-                var equipo="";
-                var patente="";
-                var cartola="";
-                var ultimamantencionkms="";
-                var proxmantkms="";
-                var kmactual="";
-                var semaforo="";
-                var estadoactual="";
-                fecha1="";
-                if(datos[a]["ULTIMA MANTENCION FECHA"]!=undefined && Number.isInteger(datos[a]["ULTIMA MANTENCION FECHA"]) ){
-                  var date1 = ExcelDateToJSDate(datos[a]["ULTIMA MANTENCION FECHA"]);
-                  var converted_date1 = date1.toISOString().split('T')[0];
-                  fecha1 = converted_date1.split("-")[2]+"-"+converted_date1.split("-")[1]+"-"+converted_date1.split("-")[0]
+
+              for(a = 0; a < datos[0].length; a++ ){
+                if(datos[0][a][columnas[8]] != undefined){
+                  var date = ExcelDateToJSDate(datos[0][a][columnas[8]]);
+                  var converted_date = date.toISOString().split('T')[0];
+                  Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
                 }
-                fecha2="";
-                if(datos[a]["FECHA CHEQUEO DE GASES "]!=undefined && Number.isInteger(datos[a]["FECHA CHEQUEO DE GASES "])){
-                  var date2 = ExcelDateToJSDate(datos[a]["FECHA CHEQUEO DE GASES "]);
-                  var converted_date2 = date2.toISOString().split('T')[0];
-                  fecha2 = converted_date2.split("-")[2]+"-"+converted_date2.split("-")[1]+"-"+converted_date2.split("-")[0]
+                else{
+                  Fecha = ""
                 }
-                if(datos[a]["EQUIPO"]!=undefined){
-                  equipo = datos[a]["EQUIPO"];
-                }
-                if(datos[a]["PATENTE"]!=undefined){
-                  patente = datos[a]["PATENTE"];
-                }
-                if(datos[a]["CARTOLA"]!=undefined){
-                  cartola = datos[a]["CARTOLA"];
-                }
-                if(datos[a]["ULTIMA MANTENCION KMS"]!=undefined){
-                  var str = datos[a]["ULTIMA MANTENCION KMS"].split(" ");
-                  ultimamantencionkms = str[0]+" "+str[1];
-                }
-                if(datos[a]["PROXIMA MANT. KMS"]!=undefined){
-                  proxmantkms = datos[a]["PROXIMA MANT. KMS"]
-                }
-                if(datos[a]["KILOMETRAJE ACTUAL "]!=undefined){
-                  kmactual = datos[a]["KILOMETRAJE ACTUAL "];
-                }
-                if(datos[a]["SEMAFORO"]!=undefined){
-                  semaforo = datos[a]["SEMAFORO"];
-                }
-                if(datos[a]["ESTADO ACTUAL"]!=undefined){
-                  estadoactual = datos[a]["ESTADO ACTUAL"];
-                }
-                await modelo.equipos.create({
-                  Equipo : equipo,
-                  Patente : patente,
-                  Cartola : cartola,
-                  Ultimamantencion : fecha1,
-                  Ultimokms : ultimamantencionkms,
-                  Proximakms : proxmantkms,
-                  Kilometrajeactual : kmactual,
-                  Semaforo : semaforo,
-                  Estado : estadoactual,
-                  Fechagas : fecha2,
-                  Idingreso : random_id_equipos_single
-                })
                 
+                await modelo.equipos.findAll({
+                  where:{
+                    Patente : datos[0][a][columnas[2]]
+                  }
+                }).then(async function(rows_patentes){
+                  if(rows_patentes.length!=0){
+                    await modelo.equipos.update({
+                      Contrato : datos[0][a][columnas[0]],
+                      Equipo : datos[0][a][columnas[1]],
+                      Numinterno : datos[0][a][columnas[3]],
+                      Cartola : datos[0][a][columnas[4]],
+                      Nomresp : datos[0][a][columnas[5]],
+                      Rutresp : datos[0][a][columnas[6]],
+                      Regimen : datos[0][a][columnas[7]],
+                      Ultimamantencion : Fecha,
+                      Proxmant : datos[0][a][columnas[9]],
+                      Ultimokms : datos[0][a][columnas[10]],
+                      Proximakms : datos[0][a][columnas[11]],
+                      Kilometrajeactual : datos[0][a][columnas[12]],
+                      Kilometrajefaltante : datos[0][a][columnas[13]],
+                      Estado : datos[0][a][columnas[14]],
+                      Fechagas : datos[0][a][columnas[15]],
+                      Comentarios : datos[0][a][columnas[16]],
+                      Idingreso : random_id_equipos_single
+                    },{
+                    where:{
+                      Patente : datos[0][a][columnas[2]]
+                    }
+                    })
+                  }
+                  else{
+                    await modelo.equipos.create({
+                      Contrato : datos[0][a][columnas[0]],
+                      Equipo : datos[0][a][columnas[1]],
+                      Patente : datos[0][a][columnas[2]].replace(/\s+/g,' ').trim(),
+                      Numinterno : datos[0][a][columnas[3]],
+                      Cartola : datos[0][a][columnas[4]],
+                      Nomresp : datos[0][a][columnas[5]],
+                      Rutresp : datos[0][a][columnas[6]],
+                      Regimen : datos[0][a][columnas[7]],
+                      Ultimamantencion : Fecha,
+                      Proxmant : datos[0][a][columnas[9]],
+                      Ultimokms : datos[0][a][columnas[10]],
+                      Proximakms : datos[0][a][columnas[11]],
+                      Kilometrajeactual : datos[0][a][columnas[12]],
+                      Kilometrajefaltante : datos[0][a][columnas[13]],
+                      Estado : datos[0][a][columnas[14]],
+                      Fechagas : datos[0][a][columnas[15]],
+                      Comentarios : datos[0][a][columnas[16]],
+                      Idingreso : random_id_equipos_single
+                    })
+                  }
+                })
               }
-            }
-            catch(err){
-              console.error(err);
+            }catch(err){
+              console.log(err)
               req.flash('error', file.name.toString());
-              await modelo.equipos.destroy({
-                where :{
-                  Idingreso : random_id_equipos_single
-                }
-              })
               await modelo.archivos.destroy({
                 where : {
                   Idingreso : random_id_equipos_single
                 }
               })
+
+              await modelo.equipos.destroy({
+                where : {
+                  Idingreso : random_id_equipos_single
+                }
+              })
+
             }
-            
+            try{
+              
+              var random_id_conductores_single = guid()
+              var columnas_conductores = ["UNIDAD", "PROCESO", "NOMBRE CONDUCTOR", "RUT CONDUCTOR", "SAP CONDUCTOR", "FECHA PSICOSENSOTECNICO", "FECHA VENCIMIENTO LICENCIA DE CONDUCIR MUNICIPAL", "FECHA VENCIMIENTO LICENCIA DE CONDUCIR ALTA MONTAÑA", "FECHA VENCIMIENTO LICENCIA DE CONDUCIR INTERIOR MINA", "COMENTARIOS"]
+              await modelo.archivos.create({
+                Tabla : "conductores",
+                Idingreso : random_id_conductores_single,
+                Fechaingreso : Fecha_hoy,
+                Infoingresada : "Información conductores",
+                Nombrearchivo : file.name.toString()
+              })
+              for(a=0 ; a < datos[1].length ; a++){
+                await modelo.conductores.findAll({
+                  where : {
+                    Nombre : datos[1][a][columnas_conductores[2]],
+                    Rut : datos[1][a][columnas_conductores[3]]
+                  }
+                }).then(async function(rows_conductores){
+                  if(rows_conductores.length != 0){
+                    await modelo.conductores.update({
+                      Unidad : datos[1][a][columnas_conductores[0]],
+                      Proceso : datos[1][a][columnas_conductores[1]],
+                      Sap : datos[1][a][columnas_conductores[4]],
+                      FechaPsico : datos[1][a][columnas_conductores[5]],
+                      FechaVen : datos[1][a][columnas_conductores[6]],
+                      FechaVenMon : datos[1][a][columnas_conductores[7]],
+                      FechaVenMina : datos[1][a][columnas_conductores[8]],
+                      Comentarios : datos[1][a][columnas_conductores[9]],
+                      Idingreso : random_id_conductores_single
+                    },{
+                      where : {
+                        Nombre : datos[1][a][columnas_conductores[2]].replace(/\s+/g,' ').trim(),
+                        Rut : datos[1][a][columnas_conductores[3]].replace(/\s+/g,' ').trim()
+                      }
+                    })
+                  }
+                  else{
+                    await modelo.conductores.create({
+                      Unidad : datos[1][a][columnas_conductores[0]],
+                      Proceso : datos[1][a][columnas_conductores[1]],
+                      Nombre : datos[1][a][columnas_conductores[2]].replace(/\s+/g,' ').trim(),
+                      Rut : datos[1][a][columnas_conductores[3]].replace(/\s+/g,' ').trim(),
+                      Sap : datos[1][a][columnas_conductores[4]],
+                      FechaPsico : datos[1][a][columnas_conductores[5]],
+                      FechaVen : datos[1][a][columnas_conductores[6]],
+                      FechaVenMon : datos[1][a][columnas_conductores[7]],
+                      FechaVenMina : datos[1][a][columnas_conductores[8]],
+                      Comentarios : datos[1][a][columnas_conductores[9]],
+                      Idingreso : random_id_conductores_single
+                    })
+                  }
+                })
+              }
+            }catch(err){
+              console.log(err)
+              req.flash('error', file.name.toString());
+              modelo.archivos.destroy({
+                where : {
+                  Idingreso : random_id_conductores_single
+                }
+              })
+              modelo.conductores.destroy({
+                where : {
+                  Idingreso : random_id_conductores_single
+                }
+              })
+            }
           }
         }
         else if (datos_1[d] == "Matrizsap"){
@@ -2415,7 +2408,7 @@ module.exports = {
                 }
               })
 
-              if (datos[a]["__EMPTY_1"] != undefined){
+              /*if (datos[a]["__EMPTY_1"] != undefined){
                 await modelo.equipos.findAll({
                   where:{
                     Patente : Estadolevante.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Estadolevante.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1]
@@ -2489,7 +2482,7 @@ module.exports = {
                     })
                   }
                 })
-              }
+              }*/
               
             }
           }catch(err){
@@ -3548,6 +3541,13 @@ module.exports = {
           }
         })
       }
+      else if(req.body[a].Tabla == "equipos"){
+        await modelo.equipos.destroy({
+          where : {
+            Idingreso : req.body[a].Idingreso
+          }
+        })
+      }
 
       else if (req.body[a].Tabla == "workpad"){
         await modelo.workpad.destroy({
@@ -3872,4 +3872,27 @@ function comparar_fechas(fecha1, fecha2){
       }
   }
   return false
+}
+
+function eliminarTildes(texto) {
+  var tildes = {
+    'á': 'a',
+    'é': 'e',
+    'í': 'i',
+    'ó': 'o',
+    'ú': 'u',
+    'Á': 'A',
+    'É': 'E',
+    'Í': 'I',
+    'Ó': 'O',
+    'Ú': 'U',
+    'ü': 'u',
+    'Ü': 'U',
+    'ñ': 'n',
+    'Ñ': 'N'
+  };
+
+  return texto.replace(/[áéíóúÁÉÍÓÚüÜñÑ]/g, function(match) {
+    return tildes[match];
+  });
 }

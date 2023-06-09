@@ -1394,7 +1394,7 @@ table.matriz td{
   --bs-popover-body-padding-x: 1rem;
   --bs-popover-body-padding-y: .5rem;
   --bs-popover-width:  200px;
-  background-image: url("/imagenes/equipos_example.png");
+  background-image: url("/imagenes/equipos_examples.png");
   background-repeat: no-repeat;
 }
 
@@ -1411,7 +1411,7 @@ table.matriz td{
   --bs-popover-body-padding-x: 1rem;
   --bs-popover-body-padding-y: .5rem;
   --bs-popover-width:  200px;
-  background-image: url("/imagenes/trabajos_example.png");
+  background-image: url("/imagenes/trabajos_examples.png");
   background-repeat: no-repeat;
 }
 

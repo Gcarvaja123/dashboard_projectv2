@@ -65,9 +65,12 @@ html
                 .container#Modalfiles5
                   nav
                     #nav-tab.nav.nav-tabs(role='tablist')
-                      button#nav-home-tab.nav-link.active(data-bs-toggle='tab' data-bs-target='#nav-home' type='button' role='tab' aria-controls='nav-home' aria-selected='true') Infra
-                      button#nav-profile-tabtraspaso.nav-link(data-bs-toggle='tab' data-bs-target='#nav-profile' type='button' role='tab' aria-controls='nav-profile' aria-selected='false') Traspaso
-                      button#nav-profile-tabtte8.nav-link(data-bs-toggle='tab' data-bs-target='#nav-tte8' type='button' role='tab' aria-controls='nav-tte8' aria-selected='false') Tte8
+                      if user.Sector == "infra" || user.Sector == "admin"
+                        button#nav-home-tab.nav-link.active(data-bs-toggle='tab' data-bs-target='#nav-home' type='button' role='tab' aria-controls='nav-home' aria-selected='true') Infra
+                      if user.Sector == "traspaso" || user.Sector == "admin"
+                        button#nav-profile-tabtraspaso.nav-link(data-bs-toggle='tab' data-bs-target='#nav-profile' type='button' role='tab' aria-controls='nav-profile' aria-selected='false') Traspaso
+                      if user.Sector == "tte8" || user.Sector == "admin"
+                        button#nav-profile-tabtte8.nav-link(data-bs-toggle='tab' data-bs-target='#nav-tte8' type='button' role='tab' aria-controls='nav-tte8' aria-selected='false') Tte8
                   #nav-tabContent.tab-content
                     #nav-home.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='nav-home-tab')
                       .mb-3.matrizitems#Modalfiles6
@@ -940,73 +943,77 @@ html
           .img.imagen
           
       #sidenav-collapse-main.dash-navbar-left.navbar-collapse.w-auto.ps
+
         p.nb-nav-title Información
           ul.nb-nav
-            li
-              a.collapsed(data-toggle='collapse' href='#collapseStatistics' aria-expanded='false' aria-controls='collapseStatistics')
-                span.glyphicon.glyphicon-stats.nb-link-icon
-                span.nb-link-text Infra
-                span.fa.fa-angle-up.nb-btn-sub-collapse
-              // Dropdown level one
-              ul#collapseStatistics.nb-sub-one.collapse
-                li
-                  a.tablink.w3-red(ng-click="GotoPanel()")
-                    span.fa.nb-link-icon
-                    span.nb-link-text Panel
-                li
-                  a.tablink(ng-click="GotoAsistencia()")
-                    span.fa.nb-link-icon
-                    span.nb-link-text Asistencia
-                li
-                  a.tablink(ng-click="GotoPlanmatriz()")
-                    span.fa.nb-link-icon
-                    span.nb-link-text Plan Matriz
-                li
-                  a.tablink(ng-click="GotoBrocales()")
-                    span.fa.nb-link-icon
-                    span.nb-link-text Brocales
-                li
-                  a.tablink(ng-click="GotoDisciplina()")
-                    span.fa.nb-link-icon
-                    span.nb-link-text Disciplina 
-            li 
-              a.collapsed(data-toggle='collapse' href='#collapseTraspaso' aria-expanded='false' aria-controls='collapseTraspaso')
-                span.glyphicon.glyphicon-stats.nb-link-icon
-                span.nb-link-text Traspaso
-                span.fa.fa-angle-up.nb-btn-sub-collapse
-              // Dropdown level one
-              ul#collapseTraspaso.nb-sub-one.collapse
-                li
-                  a.tablink(ng-click="GotoAsistenciatraspaso()" )
-                    span.fa.fa-clock-o.nb-link-icon
-                    span.nb-link-text Asistencia
-                li
-                  a.tablink(ng-click="GotoPaneltraspaso()" )
-                    span.fa.fa-history.nb-link-icon
-                    span.nb-link-text Pauta Diaria
-                li
-                  a.tablink(ng-click="GotoDisciplinatraspaso()" )
-                    span.fa.fa-history.nb-link-icon
-                    span.nb-link-text Disciplina 
-            li 
-              a.collapsed(data-toggle='collapse' href='#collapsett8' aria-expanded='false' aria-controls='collapsett8')
-                span.glyphicon.glyphicon-stats.nb-link-icon
-                span.nb-link-text Tt8
-                span.fa.fa-angle-up.nb-btn-sub-collapse
-              // Dropdown level one
-              ul#collapsett8.nb-sub-one.collapse
-                li
-                  a.tablink(ng-click="GotoAsistenciatte8()" )
-                    span.fa.fa-clock-o.nb-link-icon
-                    span.nb-link-text Asistencia
-                li
-                  a.tablink
-                    span.fa.fa-history.nb-link-icon
-                    span.nb-link-text Pauta Diaria
-                li
-                  a.tablink
-                    span.fa.fa-history.nb-link-icon
-                    span.nb-link-text Disciplina
+            if user.Sector == "infra" || user.Sector == "admin"
+              li
+                a.collapsed(data-toggle='collapse' href='#collapseStatistics' aria-expanded='false' aria-controls='collapseStatistics')
+                  span.glyphicon.glyphicon-stats.nb-link-icon
+                  span.nb-link-text Infra
+                  span.fa.fa-angle-up.nb-btn-sub-collapse
+                // Dropdown level one
+                ul#collapseStatistics.nb-sub-one.collapse
+                  li
+                    a.tablink.w3-red(ng-click="GotoPanel()")
+                      span.fa.nb-link-icon
+                      span.nb-link-text Panel
+                  li
+                    a.tablink(ng-click="GotoAsistencia()")
+                      span.fa.nb-link-icon
+                      span.nb-link-text Asistencia
+                  li
+                    a.tablink(ng-click="GotoPlanmatriz()")
+                      span.fa.nb-link-icon
+                      span.nb-link-text Plan Matriz
+                  li
+                    a.tablink(ng-click="GotoBrocales()")
+                      span.fa.nb-link-icon
+                      span.nb-link-text Brocales
+                  li
+                    a.tablink(ng-click="GotoDisciplina()")
+                      span.fa.nb-link-icon
+                      span.nb-link-text Disciplina 
+            if user.Sector == "traspaso" || user.Sector == "admin"
+              li 
+                a.collapsed(data-toggle='collapse' href='#collapseTraspaso' aria-expanded='false' aria-controls='collapseTraspaso')
+                  span.glyphicon.glyphicon-stats.nb-link-icon
+                  span.nb-link-text Traspaso
+                  span.fa.fa-angle-up.nb-btn-sub-collapse
+                // Dropdown level one
+                ul#collapseTraspaso.nb-sub-one.collapse
+                  li
+                    a.tablink(ng-click="GotoAsistenciatraspaso()" )
+                      span.fa.fa-clock-o.nb-link-icon
+                      span.nb-link-text Asistencia
+                  li
+                    a.tablink(ng-click="GotoPaneltraspaso()" )
+                      span.fa.fa-history.nb-link-icon
+                      span.nb-link-text Pauta Diaria
+                  li
+                    a.tablink(ng-click="GotoDisciplinatraspaso()" )
+                      span.fa.fa-history.nb-link-icon
+                      span.nb-link-text Disciplina
+            if user.Sector == "tte8" || user.Sector == "admin" 
+              li 
+                a.collapsed(data-toggle='collapse' href='#collapsett8' aria-expanded='false' aria-controls='collapsett8')
+                  span.glyphicon.glyphicon-stats.nb-link-icon
+                  span.nb-link-text Tt8
+                  span.fa.fa-angle-up.nb-btn-sub-collapse
+                // Dropdown level one
+                ul#collapsett8.nb-sub-one.collapse
+                  li
+                    a.tablink(ng-click="GotoAsistenciatte8()" )
+                      span.fa.fa-clock-o.nb-link-icon
+                      span.nb-link-text Asistencia
+                  li
+                    a.tablink
+                      span.fa.fa-history.nb-link-icon
+                      span.nb-link-text Pauta Diaria
+                  li
+                    a.tablink
+                      span.fa.fa-history.nb-link-icon
+                      span.nb-link-text Disciplina
         if user.Rango=="Modificacion" || user.Rango=="Reportes" || user.Rango=="admin"
           p.nb-nav-title Opciones
           ul.nb-nav
@@ -1630,6 +1637,12 @@ html
                                   | Cartola
                                   span.resize-handle
                                 th(data-type='text-long')
+                                  | Nombre Resp.
+                                  span.resize-handle
+                                th(data-type='text-long')
+                                  | Régimen
+                                  span.resize-handle 
+                                th(data-type='text-long')
                                   | Ult. Mant.
                                   span.resize-handle
                                 th(data-type='text-long')
@@ -1642,7 +1655,7 @@ html
                                   | Km actual
                                   span.resize-handle
                                 th(data-type='text-long')
-                                  | Semaforo
+                                  | Km faltante
                                   span.resize-handle
                                 th(data-type='text-long')
                                   | Est. actual
@@ -1659,18 +1672,22 @@ html
                                 td
                                   label {{equipo.Cartola}}
                                 td
+                                  label {{equipo.Nomresp}}
+                                td 
+                                  label {{equipo.Regimen}}
+                                td 
                                   label {{equipo.Ultimamantencion}}
-                                td
+                                td 
                                   label {{equipo.Ultimokms}}
-                                td
+                                td 
                                   label {{equipo.Proximakms}}
-                                td
+                                td 
                                   label {{equipo.Kilometrajeactual}}
-                                td
-                                  label {{equipo.Semaforo}}
-                                td
+                                td 
+                                  label {{equipo.Kilometrajefaltante}}
+                                td 
                                   label {{equipo.Estado}}
-                                td
+                                td 
                                   label {{equipo.Fechagas}}
 
           
@@ -1704,289 +1721,291 @@ html
                   #chart54(zingchart='' zc-json='myJsonTimer1' zc-width='100%' zc-height='300px' visibility="hidden" )
                 div
                   #chart55(zingchart='' zc-json='myJsonTest' zc-width='100%' zc-height='440px' visibility="hidden")
-        #Asistenciatraspaso
-          .one
-            h1 Asistencia Traspaso
-          #asistenciabar.grid-container
-            #chart61(zingchart='' zc-json='myJsonasistenciabartraspaso' zc-width='100%' zc-height='300px')
-          p
-          select.selectasistenciatraspaso.form-selectfilter( ng-model='columncargotraspaso' ng-init='columnasistenciatraspaso="Nombre"' ng-options='e for e in headercargotraspaso' ng-change="filltableasistenciatraspaso(columncargotraspaso)")
-          p
-          select.selectasistenciatraspaso.form-selectfilter( ng-model='columnasistenciatraspaso' ng-init='columnasistenciatraspaso="Nombre"' ng-options='e for e in headersasistenciatraspaso' )
-          input.form-controlfilter( type='text' ng-model='searchtxt[columnasistenciatraspaso]' placeholder='Ingresar valor a filtrar')
-          p
 
-          //#asistenciagrid2.grid-container
-          #asistenciatraspasogrid.grid-container
-            #tablecompletedasistenciatraspaso.grid-container
+        if user.Sector != "infra" || user.Sector == "admin"            
+          #Asistenciatraspaso
+            .one
+              h1 Asistencia Traspaso
+            #asistenciabar.grid-container
+              #chart61(zingchart='' zc-json='myJsonasistenciabartraspaso' zc-width='100%' zc-height='300px')
+            p
+            select.selectasistenciatraspaso.form-selectfilter( ng-model='columncargotraspaso' ng-init='columnasistenciatraspaso="Nombre"' ng-options='e for e in headercargotraspaso' ng-change="filltableasistenciatraspaso(columncargotraspaso)")
+            p
+            select.selectasistenciatraspaso.form-selectfilter( ng-model='columnasistenciatraspaso' ng-init='columnasistenciatraspaso="Nombre"' ng-options='e for e in headersasistenciatraspaso' )
+            input.form-controlfilter( type='text' ng-model='searchtxt[columnasistenciatraspaso]' placeholder='Ingresar valor a filtrar')
+            p
+
+            //#asistenciagrid2.grid-container
+            #asistenciatraspasogrid.grid-container
+              #tablecompletedasistenciatraspaso.grid-container
+                div.tabla.item1
+                  table.Asistencia.tabletraspaso.table.caption-top
+                    thead
+                      tr
+                        th(data-type="text")
+                          | Nombre
+                          span.resize-handle
+                        th(data-type='text')
+                          | Apellido P
+                          span.resize-handle
+                        th(data-type='text')
+                          | Apellido M
+                          span.resize-handle
+                        th(data-type='text-long')
+                          | Rut
+                          span.resize-handle
+                        th(data-type='text-long')
+                          | Cargo
+                          span.resize-handle
+                        th(data-type='text-long')
+                          | Asistencia
+                          span.resize-handle
+                    tbody
+                      tr(ng-repeat="asistencia in asistenciatotaltraspaso|filter:searchtxt")
+                        td
+                          label {{asistencia.Nombre}} 
+                        td
+                          label {{asistencia.ApellidoP}} 
+                        td
+                          label {{asistencia.ApellidoM}}
+                        td(ng-click="searchWorkerTraspaso(asistenciatotaltraspaso.indexOf(asistencia))")
+                          label {{asistencia.Rut}} 
+                        td
+                          label {{asistencia.Cargo}}
+                        td
+                          label {{asistencia.Asistencia}} 
+              #asistenciatraspasograficos.grid-container
+                div
+                  #chart62(zingchart='' zc-json='myJsonAsistenciatraspaso1' zc-width='100%' zc-height='232px' visibility="hidden" )
+                  .buttoninnasistance
+                    button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancetraspaso('hoy')") Hoy
+                    button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancetraspaso('mensual')") Mensual
+                    button.buttoninassistance2(ng-model='inassistance2' ng-click="changeinassitancetraspaso('anual')") Anual
+                div()
+                  #chart63(zingchart='' zc-json='myJsonAsistenciatrabajadortraspaso' zc-width='100%' zc-height='232px' visibility="hidden" ng-click="modaltraspasoasistencia()")
+                  .buttoninnasistance
+                    button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancetraspaso2('mensual')") Mensual
+                    button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancetraspaso2('anual')") Anual
+          #Pautadiaria
+            .one
+              h1 Pauta Diaria Traspaso
+            p
+            #tablepautadiaria
+                div.tabla.item1
+                  table.pautadiaria.tabletraspaso.table.caption-top
+                    thead
+                      tr
+                        th(data-type="text")
+                          | Fecha
+                          span.resize-handle
+                        th(data-type='text')
+                          | Descripción
+                          span.resize-handle
+                        th(data-type='text')
+                          | Supervisor
+                          span.resize-handle
+                        th(data-type='text')
+                          | Ver Detalles
+                          span.resize-handle
+                    tbody
+                      tr(ng-repeat="pauta in pautadiariatotal|filter:searchtxt" ng-class="{'pauta-terminada': pauta.Seleccionado == '1', 'pauta2' : pauta.Seleccionado == '1' }")
+                        td
+                          label {{pauta.Fecha}} 
+                        td
+                          label {{pauta.Descripcion}} 
+                        td
+                          label {{pauta.Supervisor}}
+                        td
+                          button.btn.btn-secondary.archivobutton(type='button' ng-click="changearchivos($index)" )
+                            i.bi.bi-card-text
+                        td
+                          label.custom-control.ios-switch
+                            input.ios-switch-control-input(type='checkbox' ng-checked="pauta.Seleccionado == '1' " ng-model="pautasdiarias" ng-click="actualizarSeleccionadoPauta(pauta)"  )
+                            span.ios-switch-control-indicator
+            p
+            #tablepautadiaria
+                div.tabla.item1
+                  table.pautadiaria.tabletraspaso.table.caption-top
+                    thead
+                      tr
+                        th(data-type="text")
+                          | Fecha
+                          span.resize-handle
+                        th(data-type='text')
+                          | Descripción
+                          span.resize-handle
+                        th(data-type='text')
+                          | Supervisor
+                          span.resize-handle
+                        th(data-type='text')
+                          | Ver Detalles
+                          span.resize-handle
+                    tbody
+                      tr(ng-repeat="pauta in pautadiariatotalnoco|filter:searchtxt" ng-class="{'pauta-terminada': pauta.Seleccionado == '1', 'pauta2' : pauta.Seleccionado == '1' }")
+                        td
+                          label {{pauta.Fecha}} 
+                        td
+                          label {{pauta.Descripcion}} 
+                        td
+                          label {{pauta.Supervisor}}
+                        td
+                          button.btn.btn-secondary.archivobutton(type='button' ng-click="changearchivos($index)" )
+                            i.bi.bi-card-text
+                        td
+                          label.custom-control.ios-switch
+                            input.ios-switch-control-input(type='checkbox' ng-checked="pauta.Seleccionado == '1' " ng-model="pautasdiarias" ng-click="actualizarSeleccionadoPautanoco(pauta)"  )
+                            span.ios-switch-control-indicator
+
+
+                  
+            p
+          #Disciplinatraspaso
+            .one
+              h1 Disciplina Operacional Traspaso
+            #Disciplinaubicaciones.grid-container
+              #grid-disciplina.grid-container
+                #chart57(zingchart='' zc-json='myJsonhbardisciplinatraspaso' zc-width='200px' zc-height='300px')
+                #timer-traspaso.grid-container
+                  div
+                    div.buttonstimer
+                      button.airebutton(ng-model='sub5selector' ng-click="changegraphtimertraspaso('Buzones')") Buzones
+                      button.polvobutton(ng-model='pipanselector' ng-click="changegraphtimertraspaso('Mant.Vias')") Mant. Vias 
+                      button.ventilacionbutton(ng-model='diabloselector' ng-click="changegraphtimertraspaso('Locos.Carros')") Locos Carros
+                      button.airebutton(ng-model='sub5selector' ng-click="changegraphtimertraspaso('A1')") A1
+                      button.polvobutton(ng-model='lajuntaselector' ng-click="changegraphtimertraspaso('B1')") A2
+                    #chart59(zingchart='' zc-json='myJsonTimertraspaso1' zc-width='100%' zc-height='300px' visibility="hidden" )
+
+                  div
+                    #chart58(zingchart='' zc-json='myJsonlinedisciplinatraspaso' zc-width='100%' zc-height='440px' visibility="hidden" )
+          #Asistenciatte8
+            .one
+              h1 Asistencia Tte8
+            #asistenciabar.grid-container
+              #chart64(zingchart='' zc-json='myJsonasistenciabartte8' zc-width='100%' zc-height='300px')
+            #asistenciatte8grid.grid-container
+              #tablecompletedasistenciatte8.grid-container
+                div.tabla.item1
+                  table.Asistencia.tablette8.table.caption-top
+                    thead
+                      tr
+                        th(data-type="text")
+                          | Nombre
+                          span.resize-handle
+                        th(data-type='text')
+                          | Apellido P
+                          span.resize-handle
+                        th(data-type='text')
+                          | Apellido M
+                          span.resize-handle
+                        th(data-type='text-long')
+                          | Rut
+                          span.resize-handle
+                        th(data-type='text-long')
+                          | Cargo
+                          span.resize-handle
+                        th(data-type='text-long')
+                          | Asistencia
+                          span.resize-handle
+                    tbody
+                      tr(ng-repeat="asistencia in asistenciatotaltte8|filter:searchtxt")
+                        td
+                          label {{asistencia.Nombre}} 
+                        td
+                          label {{asistencia.ApellidoP}} 
+                        td
+                          label {{asistencia.ApellidoM}}
+                        td(ng-click="searchWorkerTte8(asistenciatotaltte8.indexOf(asistencia))")
+                          label {{asistencia.Rut}} 
+                        td
+                          label {{asistencia.Cargo}}
+                        td
+                          label {{asistencia.Tur}} 
+              #asistenciatte8graficos.grid-container
+                div
+                  #chart65(zingchart='' zc-json='myJsonAsistenciatte81' zc-width='100%' zc-height='232px' visibility="hidden" )
+                div
+                  #chart66(zingchart='' zc-json='myJsonAsistenciatrabajadortte8' zc-width='100%' zc-height='232px' visibility="hidden" ng-click="modaltte8asistencia()")
+                  .buttoninnasistance
+                    button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancette82('mensual')") Mensual
+                    button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancette82('anual')") Anual
+          
+          #Disciplinatte8
+            .one
+              h1 Disciplina Tte8
+
+            #Disciplinaubicacionestte8.grid-container
+              select.selectdisciplinatte8.form-selectfilter( ng-model='columndisctte8' ng-init='columnasist=""' ng-options='e for e in headersdisciplinatte8' ng-change="filltimette8(columndisctte8)" )
+              #grid-disciplinatte8.grid-container
+                #chart67(zingchart='' zc-json='myJsonhbartte8' zc-width='200px' zc-height='300px' visibility='hidden')
+                #timer-tte8.grid-container
+                  div
+                    #chart69(zingchart='' zc-json='myJsonTimertte8' zc-width='100%' zc-height='300px' visibility="hidden" )
+                  div
+                    #chart68(zingchart='' zc-json='myJsonlinedisciplinatte8' zc-width='100%' zc-height='440px' visibility="hidden" )
+          #Disciplinatte8
+            .one
+              h1 Planificación Tte8 
+
+            #Planificaciontte8.grid-container
               div.tabla.item1
-                table.Asistencia.tabletraspaso.table.caption-top
+                //table.table.table-striped.custom-table
+                table.Planificaciontte8.tablette8.table.caption-top
                   thead
                     tr
+                      th(data-type='text')
+                          | Fecha
+                          span.resize-handle
                       th(data-type="text")
-                        | Nombre
-                        span.resize-handle
+                          | Equipo
+                          span.resize-handle
                       th(data-type='text')
-                        | Apellido P
-                        span.resize-handle
-                      th(data-type='text')
-                        | Apellido M
-                        span.resize-handle
-                      th(data-type='text-long')
-                        | Rut
-                        span.resize-handle
-                      th(data-type='text-long')
-                        | Cargo
-                        span.resize-handle
-                      th(data-type='text-long')
-                        | Asistencia
-                        span.resize-handle
+                          | Actividad
+                          span.resize-handle
+                      
+                      th(scope='col')
                   tbody
-                    tr(ng-repeat="asistencia in asistenciatotaltraspaso|filter:searchtxt")
-                      td
-                        label {{asistencia.Nombre}} 
-                      td
-                        label {{asistencia.ApellidoP}} 
-                      td
-                        label {{asistencia.ApellidoM}}
-                      td(ng-click="searchWorkerTraspaso(asistenciatotaltraspaso.indexOf(asistencia))")
-                        label {{asistencia.Rut}} 
-                      td
-                        label {{asistencia.Cargo}}
-                      td
-                        label {{asistencia.Asistencia}} 
-            #asistenciatraspasograficos.grid-container
-              div
-                #chart62(zingchart='' zc-json='myJsonAsistenciatraspaso1' zc-width='100%' zc-height='232px' visibility="hidden" )
-                .buttoninnasistance
-                  button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancetraspaso('hoy')") Hoy
-                  button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancetraspaso('mensual')") Mensual
-                  button.buttoninassistance2(ng-model='inassistance2' ng-click="changeinassitancetraspaso('anual')") Anual
-              div()
-                #chart63(zingchart='' zc-json='myJsonAsistenciatrabajadortraspaso' zc-width='100%' zc-height='232px' visibility="hidden" ng-click="modaltraspasoasistencia()")
-                .buttoninnasistance
-                  button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancetraspaso2('mensual')") Mensual
-                  button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancetraspaso2('anual')") Anual
-        #Pautadiaria
-          .one
-            h1 Pauta Diaria Traspaso
-          p
-          #tablepautadiaria
+                    tr(ng-repeat="planificacion in planificaciontotaltte8" ng-class="{'planificacion-terminada': planificacion.Seleccionado == '1', 'planificacion2' : planificacion.Seleccionado == '1' }")
+                        td
+                          label {{planificacion.Fecha}} 
+                        td
+                          label {{planificacion.Equipo}} 
+                        td
+                          label {{planificacion.Actividad}}
+                        td
+                          label.custom-control.ios-switch
+                            input.ios-switch-control-input(type='checkbox' ng-checked="planificacion.Seleccionado == '1' " ng-model="planificaciones" ng-click="actualizarSeleccionado(planificacion)"  )
+                            span.ios-switch-control-indicator
+            p 
+
+            #Planificaciontte8.grid-container
               div.tabla.item1
-                table.pautadiaria.tabletraspaso.table.caption-top
+                //table.table.table-striped.custom-table
+                table.Planificaciontte8.tablette8.table.caption-top
                   thead
                     tr
+                      th(data-type='text')
+                          | Fecha
+                          span.resize-handle
                       th(data-type="text")
-                        | Fecha
-                        span.resize-handle
+                          | Equipo
+                          span.resize-handle
                       th(data-type='text')
-                        | Descripción
-                        span.resize-handle
-                      th(data-type='text')
-                        | Supervisor
-                        span.resize-handle
-                      th(data-type='text')
-                        | Ver Detalles
-                        span.resize-handle
+                          | Actividad
+                          span.resize-handle
+                      
+                      th(scope='col')
                   tbody
-                    tr(ng-repeat="pauta in pautadiariatotal|filter:searchtxt" ng-class="{'pauta-terminada': pauta.Seleccionado == '1', 'pauta2' : pauta.Seleccionado == '1' }")
-                      td
-                        label {{pauta.Fecha}} 
-                      td
-                        label {{pauta.Descripcion}} 
-                      td
-                        label {{pauta.Supervisor}}
-                      td
-                        button.btn.btn-secondary.archivobutton(type='button' ng-click="changearchivos($index)" )
-                          i.bi.bi-card-text
-                      td
-                        label.custom-control.ios-switch
-                          input.ios-switch-control-input(type='checkbox' ng-checked="pauta.Seleccionado == '1' " ng-model="pautasdiarias" ng-click="actualizarSeleccionadoPauta(pauta)"  )
-                          span.ios-switch-control-indicator
-          p
-          #tablepautadiaria
-              div.tabla.item1
-                table.pautadiaria.tabletraspaso.table.caption-top
-                  thead
-                    tr
-                      th(data-type="text")
-                        | Fecha
-                        span.resize-handle
-                      th(data-type='text')
-                        | Descripción
-                        span.resize-handle
-                      th(data-type='text')
-                        | Supervisor
-                        span.resize-handle
-                      th(data-type='text')
-                        | Ver Detalles
-                        span.resize-handle
-                  tbody
-                    tr(ng-repeat="pauta in pautadiariatotalnoco|filter:searchtxt" ng-class="{'pauta-terminada': pauta.Seleccionado == '1', 'pauta2' : pauta.Seleccionado == '1' }")
-                      td
-                        label {{pauta.Fecha}} 
-                      td
-                        label {{pauta.Descripcion}} 
-                      td
-                        label {{pauta.Supervisor}}
-                      td
-                        button.btn.btn-secondary.archivobutton(type='button' ng-click="changearchivos($index)" )
-                          i.bi.bi-card-text
-                      td
-                        label.custom-control.ios-switch
-                          input.ios-switch-control-input(type='checkbox' ng-checked="pauta.Seleccionado == '1' " ng-model="pautasdiarias" ng-click="actualizarSeleccionadoPautanoco(pauta)"  )
-                          span.ios-switch-control-indicator
-
-
-                
-          p
-        #Disciplinatraspaso
-          .one
-            h1 Disciplina Operacional Traspaso
-          #Disciplinaubicaciones.grid-container
-            #grid-disciplina.grid-container
-              #chart57(zingchart='' zc-json='myJsonhbardisciplinatraspaso' zc-width='200px' zc-height='300px')
-              #timer-traspaso.grid-container
-                div
-                  div.buttonstimer
-                    button.airebutton(ng-model='sub5selector' ng-click="changegraphtimertraspaso('Buzones')") Buzones
-                    button.polvobutton(ng-model='pipanselector' ng-click="changegraphtimertraspaso('Mant.Vias')") Mant. Vias 
-                    button.ventilacionbutton(ng-model='diabloselector' ng-click="changegraphtimertraspaso('Locos.Carros')") Locos Carros
-                    button.airebutton(ng-model='sub5selector' ng-click="changegraphtimertraspaso('A1')") A1
-                    button.polvobutton(ng-model='lajuntaselector' ng-click="changegraphtimertraspaso('B1')") A2
-                  #chart59(zingchart='' zc-json='myJsonTimertraspaso1' zc-width='100%' zc-height='300px' visibility="hidden" )
-
-                div
-                  #chart58(zingchart='' zc-json='myJsonlinedisciplinatraspaso' zc-width='100%' zc-height='440px' visibility="hidden" )
-        #Asistenciatte8
-          .one
-            h1 Asistencia Tte8
-          #asistenciabar.grid-container
-            #chart64(zingchart='' zc-json='myJsonasistenciabartte8' zc-width='100%' zc-height='300px')
-          #asistenciatte8grid.grid-container
-            #tablecompletedasistenciatte8.grid-container
-              div.tabla.item1
-                table.Asistencia.tablette8.table.caption-top
-                  thead
-                    tr
-                      th(data-type="text")
-                        | Nombre
-                        span.resize-handle
-                      th(data-type='text')
-                        | Apellido P
-                        span.resize-handle
-                      th(data-type='text')
-                        | Apellido M
-                        span.resize-handle
-                      th(data-type='text-long')
-                        | Rut
-                        span.resize-handle
-                      th(data-type='text-long')
-                        | Cargo
-                        span.resize-handle
-                      th(data-type='text-long')
-                        | Asistencia
-                        span.resize-handle
-                  tbody
-                    tr(ng-repeat="asistencia in asistenciatotaltte8|filter:searchtxt")
-                      td
-                        label {{asistencia.Nombre}} 
-                      td
-                        label {{asistencia.ApellidoP}} 
-                      td
-                        label {{asistencia.ApellidoM}}
-                      td(ng-click="searchWorkerTte8(asistenciatotaltte8.indexOf(asistencia))")
-                        label {{asistencia.Rut}} 
-                      td
-                        label {{asistencia.Cargo}}
-                      td
-                        label {{asistencia.Tur}} 
-            #asistenciatte8graficos.grid-container
-              div
-                #chart65(zingchart='' zc-json='myJsonAsistenciatte81' zc-width='100%' zc-height='232px' visibility="hidden" )
-              div
-                #chart66(zingchart='' zc-json='myJsonAsistenciatrabajadortte8' zc-width='100%' zc-height='232px' visibility="hidden" ng-click="modaltte8asistencia()")
-                .buttoninnasistance
-                  button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancette82('mensual')") Mensual
-                  button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancette82('anual')") Anual
-        
-        #Disciplinatte8
-          .one
-            h1 Disciplina Tte8
-
-          #Disciplinaubicacionestte8.grid-container
-            select.selectdisciplinatte8.form-selectfilter( ng-model='columndisctte8' ng-init='columnasist=""' ng-options='e for e in headersdisciplinatte8' ng-change="filltimette8(columndisctte8)" )
-            #grid-disciplinatte8.grid-container
-              #chart67(zingchart='' zc-json='myJsonhbartte8' zc-width='200px' zc-height='300px' visibility='hidden')
-              #timer-tte8.grid-container
-                div
-                  #chart69(zingchart='' zc-json='myJsonTimertte8' zc-width='100%' zc-height='300px' visibility="hidden" )
-                div
-                  #chart68(zingchart='' zc-json='myJsonlinedisciplinatte8' zc-width='100%' zc-height='440px' visibility="hidden" )
-        #Disciplinatte8
-          .one
-            h1 Planificación Tte8 
-
-          #Planificaciontte8.grid-container
-            div.tabla.item1
-              //table.table.table-striped.custom-table
-              table.Planificaciontte8.tablette8.table.caption-top
-                thead
-                  tr
-                    th(data-type='text')
-                        | Fecha
-                        span.resize-handle
-                    th(data-type="text")
-                        | Equipo
-                        span.resize-handle
-                    th(data-type='text')
-                        | Actividad
-                        span.resize-handle
-                    
-                    th(scope='col')
-                tbody
-                  tr(ng-repeat="planificacion in planificaciontotaltte8" ng-class="{'planificacion-terminada': planificacion.Seleccionado == '1', 'planificacion2' : planificacion.Seleccionado == '1' }")
-                      td
-                        label {{planificacion.Fecha}} 
-                      td
-                        label {{planificacion.Equipo}} 
-                      td
-                        label {{planificacion.Actividad}}
-                      td
-                        label.custom-control.ios-switch
-                          input.ios-switch-control-input(type='checkbox' ng-checked="planificacion.Seleccionado == '1' " ng-model="planificaciones" ng-click="actualizarSeleccionado(planificacion)"  )
-                          span.ios-switch-control-indicator
-          p 
-
-          #Planificaciontte8.grid-container
-            div.tabla.item1
-              //table.table.table-striped.custom-table
-              table.Planificaciontte8.tablette8.table.caption-top
-                thead
-                  tr
-                    th(data-type='text')
-                        | Fecha
-                        span.resize-handle
-                    th(data-type="text")
-                        | Equipo
-                        span.resize-handle
-                    th(data-type='text')
-                        | Actividad
-                        span.resize-handle
-                    
-                    th(scope='col')
-                tbody
-                  tr(ng-repeat="planificacion in planificaciontotaltte8noco" ng-class="{'planificacion-terminada': planificacion.Seleccionado == '1', 'planificacion2' : planificacion.Seleccionado == '1' }")
-                      td
-                        label {{planificacion.Fecha}} 
-                      td
-                        label {{planificacion.Equipo}} 
-                      td
-                        label {{planificacion.Actividad}}
-                      td
-                        label.custom-control.ios-switch
-                          input.ios-switch-control-input(type='checkbox' ng-checked="planificacion.Seleccionado == '1' " ng-model="planificaciones" ng-click="actualizarSeleccionado(planificacion)"  )
-                          span.ios-switch-control-indicator
+                    tr(ng-repeat="planificacion in planificaciontotaltte8noco" ng-class="{'planificacion-terminada': planificacion.Seleccionado == '1', 'planificacion2' : planificacion.Seleccionado == '1' }")
+                        td
+                          label {{planificacion.Fecha}} 
+                        td
+                          label {{planificacion.Equipo}} 
+                        td
+                          label {{planificacion.Actividad}}
+                        td
+                          label.custom-control.ios-switch
+                            input.ios-switch-control-input(type='checkbox' ng-checked="planificacion.Seleccionado == '1' " ng-model="planificaciones" ng-click="actualizarSeleccionado(planificacion)"  )
+                            span.ios-switch-control-indicator
 
 
       
@@ -2022,6 +2041,22 @@ html
                   input#gridRadios3.form-check-input(type='radio' name='gridRadios' value='Reportes' )
                   label.form-check-label(for='gridRadios3')
                     | Rol 3 (Crea reportes)
+          fieldset.form-group
+            .row
+              legend.col-form-label.col-sm-2.pt-0 Sector
+              .col-sm-10
+                .form-check
+                  input#gridRadios1.form-check-input(type='radio' name='gridRadios' value='infra' checked='')
+                  label.form-check-label(for='gridRadios4')
+                    | Infra
+                .form-check
+                  input#gridRadios2.form-check-input(type='radio' name='gridRadios' value='traspaso')
+                  label.form-check-label(for='gridRadios5')
+                    | Traspaso
+                .form-check.disabled
+                  input#gridRadios3.form-check-input(type='radio' name='gridRadios' value='tte8' )
+                  label.form-check-label(for='gridRadios6')
+                    | Tte8
           .form-group.row
             .col-sm-10
               button.btn.btn-primary#buttoncrear(type='submit') Crear
