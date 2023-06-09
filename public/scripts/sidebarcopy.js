@@ -80,7 +80,7 @@ function openViewsub7(evt, selectedview){
 
 
 
-var app = angular.module('myApp', ['zingchart-angularjs', 'ngSanitize']);
+var app = angular.module('myApp', ['zingchart-angularjs']);
 
 app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout, $templateRequest, $compile, $sce){
   document.getElementById("buttoncrear").disabled = true
@@ -147,6 +147,14 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   //$scope.vimostotal = vimos_array;
 
   //$scope.headers = Object.keys($scope.vimostotal[0]);
+
+  $scope.trabajostotal = [];
+
+  for(a=0; a < local_data_trabajos.length; a++){
+    if(local_data_trabajos[a].Fecha == $scope.fecha_universal){
+      $scope.trabajostotal.push(local_data_trabajos[a])
+    }
+  }
 
   $scope.equipostotal=[];
   for(a=0; a< local_data_equipo.length; a++){
@@ -1768,6 +1776,13 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
     $scope.myJsonasistenciabar = asistencia_chart(asistencia_A, asistencia_B, asistencia_nopresente, all_sector, $scope.fecha_universal);
 
+    $scope.trabajostotal = [];
+
+    for(a=0; a < local_data_trabajos.length; a++){
+      if(local_data_trabajos[a].Fecha == $scope.fecha_universal){
+        $scope.trabajostotal.push(local_data_trabajos[a])
+      }
+    }
 
 
 
@@ -3693,7 +3708,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
           var dic_trabajadores = {}
           dic_trabajadores.Nombre = local_data_asistencia[a].Nombre
           dic_trabajadores.Rut = local_data_asistencia[a].Rut
-          if(local_data_asistencia[a].Turno != "A" && local_data_asistencia[a].Turno !="B" && local_data_asistencia[a].Turno != "DESCANSO" ){
+          if(local_data_asistencia[a].Turno != "A" && local_data_asistencia[a].Turno !="B" && local_data_asistencia[a].Turno != "VA" && local_data_asistencia[a].Turno != "TT" ){
             dic_trabajadores.Falta = 1
           }
           else{
@@ -3707,7 +3722,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
         }
         else{
-          if(local_data_asistencia[a].Turno != "A" && local_data_asistencia[a].Turno !="B" && local_data_asistencia[a].Turno != "DESCANSO" ){
+          if(local_data_asistencia[a].Turno != "A" && local_data_asistencia[a].Turno !="B" && local_data_asistencia[a].Turno != "VA" && local_data_asistencia[a].Turno != "TT" ){
             array_trabajadores[trabajadores_visitados.indexOf(local_data_asistencia[a].Nombre.replace(/\s+/g,' ').trim().toUpperCase())].Falta+=1;
           }
           else{
@@ -3853,7 +3868,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     for(d=0; d < local_data_matriz.length ; d++){
       fecha_matriz = new Date(local_data_matriz[d].Fecha.split("-")[2].toString()+"-"+local_data_matriz[d].Fecha.split("-")[1].toString()+"-"+local_data_matriz[d].Fecha.split("-")[0].toString()+" "+"23:00:00")
       if(fecha_matriz.getTime() >= Fechaaux1.getTime() && fecha_matriz.getTime() <= Fechaaux2.getTime()){
-        if(local_data_matriz[d].Programado == local_data_matriz[d].Realizado){
+        if(local_data_matriz[d].Observaciones == null){
           if(local_data_matriz[d].Area == "Colectores de polvo"){
             realizado_polvo+= 1;
           }
@@ -3885,8 +3900,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
     var contando_revision = 0
     var contando_operativo = 0
-    for(e=0; e < local_data_puertas.length; e++){
-      fecha_puertas = new Date(local_data_puertas[e].Fecharevision.split("-")[2].toString()+"-"+local_data_puertas[e].Fecharevision.split("-")[1].toString()+"-"+local_data_puertas[e].Fecharevision.split("-")[0].toString()+" "+"23:00:00")
+    for(e=0; e < local_data_puertas_vimo.length; e++){
+      fecha_puertas = new Date(local_data_puertas_vimo[e].Fecha.split("-")[2].toString()+"-"+local_data_puertas_vimo[e].Fecha.split("-")[1].toString()+"-"+local_data_puertas_vimo[e].Fecha.split("-")[0].toString()+" "+"23:00:00")
       if(fecha_puertas.getTime() >= Fechaaux1.getTime() && fecha_puertas.getTime() <= Fechaaux2.getTime()){
         contando_revision +=1;
         if(local_data_puertas[e].Estado.replace(/\s+/g,' ').trim().toUpperCase() == "OPERATIVA"){
@@ -3895,8 +3910,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
       }
     }
-    $scope.myJsonMatrizreport4 = bar_puertas_report(contando_revision, contando_operativo)
-
+    //$scope.myJsonMatrizreport4 = bar_puertas_report(contando_revision, contando_operativo)
+    $scope.myJsonMatrizreport4 = bar_puertas_report(contando_revision)
 
     //---------------------------------------------------DISCIPLINA OPERACIONAL---------------------------------------------------
     var contando_feriados = [];
@@ -4441,11 +4456,11 @@ function bar_puertas_report(correctivos, estados){
       }
     },
     scaleX : {
-      labels : ["Controles realizados", "Puertas Operativas"]
+      labels : ["Controles realizados"]
     },
     series :[
     {
-      values : [correctivos, estados]
+      values : [correctivos]
     }]
   }
 
