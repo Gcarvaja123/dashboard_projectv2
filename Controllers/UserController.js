@@ -294,7 +294,88 @@ module.exports = {
     return res.render("vistaexterna");
   },
 
-  getLogin : function(req, res, next){
+  getLogin : async (req, res, next)=> {
+    /*await modelo.asistencia.update({
+      Turno : "VA"
+    },{
+      where : {
+        Turno : "VACACIONES "
+      }
+    })*/
+
+    /*await modelo.asistencia.update({
+      Turno : "PA"
+    },{
+      where : {
+        TURNO : "PERMISO ADMINISTRATIVO"
+      }
+    })*/
+    /*await modelo.asistencia.update({
+      Turno : "CU"
+    },{
+      where : {
+        TURNO : "CURS0 CISSO"
+      }
+    })*/
+    /*await modelo.asistencia.update({
+      Turno : "CU"
+    },{
+      where : {
+        TURNO : "CURSO BEL"
+      }
+    })*/
+    /*await modelo.asistencia.update({
+      Turno : "TT"
+    },{
+      where : {
+        turno : "TELETRABAJO"
+      }
+    })*/
+    /*await modelo.asistencia.update({
+      Turno : "AU"
+    },{
+      where : {
+        turno : "AUSENCIA "
+      }
+    })*/
+    /*await modelo.asistencia.update({
+      Turno : "PA"
+    },{
+      where : {
+        turno : "COMPENSADO"
+      }
+    })*/
+    /*await modelo.asistencia.update({
+      Turno : "LI"
+    },{
+      where : {
+        turno : "LICENCIA "
+      }
+    })*/
+    /*await modelo.asistencia.update({
+      Turno : "EX"
+    },{
+      where : {
+        turno : "EXAMEN LICENCIA"
+      }
+    })
+    await modelo.asistencia.update({
+      Turno : "EX"
+    },{
+      where : {
+        turno : "EXAMEN EVALUACION ACHS"
+      }
+    })
+    await modelo.asistencia.update({
+      Turno : "EX"
+    },{
+      where : {
+        turno : "EXAMEN "
+      }
+    })*/
+
+    
+
     return res.render('login');
   },
 
@@ -981,6 +1062,7 @@ module.exports = {
                   })
                 }
               }
+              req.flash('ingreso', file.name.toString());
             }catch(err){
               req.flash('error', file.name.toString());
               console.log(err)
@@ -3549,6 +3631,14 @@ module.exports = {
         })
       }
 
+      else if(req.body[a].Tabla == "conductores"){
+        await modelo.conductores.destroy({
+          where : {
+            Idingreso : req.body[a].Idingreso
+          }
+        })
+      }
+
       else if (req.body[a].Tabla == "workpad"){
         await modelo.workpad.destroy({
           where : {
@@ -3600,6 +3690,10 @@ module.exports = {
         }
       })
     }
+  },
+
+  postChangeasistencia : async(req, res, next) =>{
+    
   },
     
   postCrearusuario : async (req, res, next)=>{

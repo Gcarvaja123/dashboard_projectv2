@@ -83,9 +83,32 @@ function openViewsub7(evt, selectedview){
 var app = angular.module('myApp', ['zingchart-angularjs']);
 
 app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout, $templateRequest, $compile, $sce){
+
+  $scope.archivosingresados = local_ingreso
+
+
   document.getElementById("buttoncrear").disabled = true
   document.getElementById("aceptarusuario").disabled = true
 
+  $scope.datos_norepetidos = []
+  for(x=0 ; x < local_data_asistencia.length; x++){
+    if(local_data_asistencia[x].Turno!=" " && local_data_asistencia[x].Turno != null && $scope.datos_norepetidos.indexOf(local_data_asistencia[x].Turno.replace(/\s+/g,' ').trim()) == -1){
+      $scope.datos_norepetidos.push(local_data_asistencia[x].Turno.replace(/\s+/g,' ').trim())
+    }
+
+    
+  }
+  
+  if(local_data_user == "notlogged"){
+    var myModal = new bootstrap.Modal(document.getElementById('Modallogin'), {
+      keyboard: false,
+      backdrop: 'static'
+    })
+    myModal.toggle()
+    
+  }
+  
+  
   $scope.archivoseliminar = []
   $scope.authmessagestr = local_authmessage[0]
   $scope.userbutton = true
@@ -3090,6 +3113,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     $scope.name_worker = $scope.Asistenciatotal[index].Nombre
     $scope.Asistenciatotal =[]
     fecha = $scope.fecha_universal;
+    var nomenclatura = ["A", "B", "C", "CU", "EX", "TT", "FA", "LI", "AU", "VA", "PA", "PC"];
+    var nomen_values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     var dias_trabajados = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
     var turno_dias_trabajados =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
     var Total_dias_trabajo = 0;
@@ -3112,12 +3137,23 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
         if(local_data_asistencia[a].Turno == "A" || local_data_asistencia[a].Turno == "B" || local_data_asistencia[a].Turno == "C" || local_data_asistencia[a].Turno == "DESCANSO"){
           Asistencia_al_trabajo+=1;
         }
+
+        if(nomenclatura.includes(local_data_asistencia[a].Turno.toUpperCase().replace(/\s+/g,' ').trim())){
+          nomen_values[nomenclatura.indexOf(local_data_asistencia[a].Turno.toUpperCase().replace(/\s+/g,' ').trim())]+=1
+        }
+        
+
+
+
       }
 
 
     }
+    console.log(nomen_values)
     $scope.myJsonasistenciaworker = line_creator(dias_trabajados,$scope.name_worker,[0,1])
-    $scope.myJsonasistenciaworkerturn = Pie_Asistencia(Total_dias_trabajo, Asistencia_al_trabajo, $scope.name_worker);
+    //$scope.myJsonasistenciaworkerturn = Pie_Asistencia(Total_dias_trabajo, Asistencia_al_trabajo, $scope.name_worker);
+    $scope.myJsonasistenciaworkerturn = pie3d_asistencia(nomen_values[0],nomen_values[1],nomen_values[2],nomen_values[3],nomen_values[4],nomen_values[5],nomen_values[6],nomen_values[7],nomen_values[8],nomen_values[9],nomen_values[10],nomen_values[11], $scope.name_worker)
+    
   }
 
   $scope.changeinassitance = function(name){
@@ -3125,33 +3161,58 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     var Total_dias_trabajo = 0
     var Asistencia_al_trabajo = 0
     $scope.Asistenciatotal = []
+    var nomenclatura = ["A", "B", "C", "CU", "EX", "TT", "FA", "LI", "AU", "VA", "PA", "PC"];
+    var nomen_values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     if(name == "mensual"){
       for(a=0; a<local_data_asistencia.length; a++){
         if(local_data_asistencia[a].Rut == $scope.rutworker && local_data_asistencia[a].Fechaingreso.split("-")[1] == fecha.split("-")[1] &&  local_data_asistencia[a].Fechaingreso.split("-")[2] == fecha.split("-")[2]){
-          if(local_data_asistencia[a].Turno!="A" &&  local_data_asistencia[a].Turno!="B" && local_data_asistencia[a].Turno!="C" && local_data_asistencia[a].Turno!="DESCANSO"){
+          if(local_data_asistencia[a].Turno!="A" &&  local_data_asistencia[a].Turno!="B" && local_data_asistencia[a].Turno!="C" && local_data_asistencia[a].Turno!="DE"){
             $scope.Asistenciatotal.push(local_data_asistencia[a])
           }
           Total_dias_trabajo+=1;
-          if(local_data_asistencia[a].Turno == "A" || local_data_asistencia[a].Turno == "B" || local_data_asistencia[a].Turno == "C" || local_data_asistencia[a].Turno == "DESCANSO"){
+          if(local_data_asistencia[a].Turno == "A" || local_data_asistencia[a].Turno == "B" || local_data_asistencia[a].Turno == "C" || local_data_asistencia[a].Turno == "DE"){
             Asistencia_al_trabajo+=1;
           }
+          if(nomenclatura.includes(local_data_asistencia[a].Turno.toUpperCase().replace(/\s+/g,' ').trim())){
+            nomen_values[nomenclatura.indexOf(local_data_asistencia[a].Turno.toUpperCase().replace(/\s+/g,' ').trim())]+=1
+          }
         }
+        
+
+      }
+    }
+    else if(name == "anual"){
+      for(a=0; a<local_data_asistencia.length; a++){
+        if(local_data_asistencia[a].Rut == $scope.rutworker && local_data_asistencia[a].Fechaingreso.split("-")[2] == $scope.fecha_universal.split("-")[2]){
+          if(local_data_asistencia[a].Turno!="A" &&  local_data_asistencia[a].Turno!="B" && local_data_asistencia[a].Turno!="C" && local_data_asistencia[a].Turno!="DE"){
+            $scope.Asistenciatotal.push(local_data_asistencia[a])
+          }
+          Total_dias_trabajo+=1;
+          if(local_data_asistencia[a].Turno == "A" || local_data_asistencia[a].Turno == "B" || local_data_asistencia[a].Turno == "C" || local_data_asistencia[a].Turno == "DE"){
+            Asistencia_al_trabajo+=1;
+          }
+          if(nomenclatura.includes(local_data_asistencia[a].Turno.toUpperCase().replace(/\s+/g,' ').trim())){
+            nomen_values[nomenclatura.indexOf(local_data_asistencia[a].Turno.toUpperCase().replace(/\s+/g,' ').trim())]+=1
+          }
+        }
+        
       }
     }
     else{
       for(a=0; a<local_data_asistencia.length; a++){
         if(local_data_asistencia[a].Rut == $scope.rutworker){
-          if(local_data_asistencia[a].Turno!="A" &&  local_data_asistencia[a].Turno!="B" && local_data_asistencia[a].Turno!="C" && local_data_asistencia[a].Turno!="DESCANSO"){
+          if(local_data_asistencia[a].Turno!="A" &&  local_data_asistencia[a].Turno!="B" && local_data_asistencia[a].Turno!="C" && local_data_asistencia[a].Turno!="DE"){
             $scope.Asistenciatotal.push(local_data_asistencia[a])
           }
-          Total_dias_trabajo+=1;
-          if(local_data_asistencia[a].Turno == "A" || local_data_asistencia[a].Turno == "B" || local_data_asistencia[a].Turno == "C" || local_data_asistencia[a].Turno == "DESCANSO"){
-            Asistencia_al_trabajo+=1;
+          if(nomenclatura.includes(local_data_asistencia[a].Turno.toUpperCase().replace(/\s+/g,' ').trim())){
+            nomen_values[nomenclatura.indexOf(local_data_asistencia[a].Turno.toUpperCase().replace(/\s+/g,' ').trim())]+=1
           }
-        }
+        }   
       }
     }
-    $scope.myJsonasistenciaworkerturn = Pie_Asistencia(Total_dias_trabajo, Asistencia_al_trabajo, $scope.name_worker);
+    //$scope.myJsonasistenciaworkerturn = Pie_Asistencia(Total_dias_trabajo, Asistencia_al_trabajo, $scope.name_worker);
+    $scope.myJsonasistenciaworkerturn = pie3d_asistencia(nomen_values[0],nomen_values[1],nomen_values[2],nomen_values[3],nomen_values[4],nomen_values[5],nomen_values[6],nomen_values[7],nomen_values[8],nomen_values[9],nomen_values[10],nomen_values[11], $scope.name_worker)
+    
   }
 
   $scope.checkpassword = function(){
@@ -3222,7 +3283,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
   //_---------------------------------------------------------------------- INGRESO ARCHIVOS ----------------------------------------------------------------
   $scope.EstadoArchivos = ""
+  $scope.contadoringreso = 0 ;
   $scope.Totalbrocalesexterno = []
+  $scope.mymodalarchivos
   /*for(a=0 ; a < local_data_archivos.length; a++){
     if(local_data_archivos[a].Nombrearchivo == local_ingreso[0]){
       if(local_data_archivos[a].Tabla == "brocales"){
@@ -3251,8 +3314,12 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   
   
   else if(local_ingreso.length!=0){
-    $scope.Totalbrocales = []
-    for(a=0 ; a < local_data_archivos.length; a++){
+    /*console.log(local_ingreso)
+    
+    $scope.contadoringreso+=1;
+
+    $scope.Totalbrocales = []*/
+    /*for(a=0 ; a < local_data_archivos.length; a++){
       if(local_data_archivos[a].Nombrearchivo == local_ingreso[0]){
         if(local_data_archivos[a].Tabla == "brocales"){
           for(b=0 ; b < local_data_brocales.length; b++){
@@ -3266,19 +3333,56 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
     $scope.brocalesContent = angular.element(document.querySelector('#tablebrocales')).html();
     $scope.trustedHtmlContent = $sce.trustAsHtml($scope.brocalesContent);
-    console.log($scope.Totalbrocales)
+    console.log($scope.Totalbrocales)*/
+    /*for(a = 0 ; a < local_data_archivos.length ; a++){
+      if(local_data_archivos[a].Nombrearchivo == local_ingreso[0]){
+        if(local_data_archivos[a].Tabla == "brocales"){
+          for(b=0 ; b < local_data_brocales.length; b++){
+            if(local_data_brocales[b].Idingreso == local_data_archivos[a].Idingreso){
+              $scope.Totalbrocales.push(local_data_brocales[b])
+            }
+          }
+        }
+      }
+    }
+    $scope.mymodalarchivos = new bootstrap.Modal(document.getElementById('ModalInformacionBrocal'), {
+      keyboard: false
+    }) 
+    $scope.mymodalarchivos.toggle()*/
+    $scope.Estado = "Archivos ingresados correctamente"
+    
 
     
     var myModal = new bootstrap.Modal(document.getElementById('ModalInformacionOk'), {
       keyboard: false
     })
     myModal.toggle()
-    $scope.Estado = "Archivos ingresados correctamente"
 
   }
-  $scope.zaza = function(){
-    $scope.Totalbrocalesexterno.push(local_data_brocales[3])
-    console.log($scope.Totalbrocalesexterno)
+
+  $scope.acceptfile = function(){
+    $scope.mymodalarchivos.hide()
+    if(local_ingreso.length > $scope.contadoringreso){
+      for(a = 0 ; a < local_data_archivos.length ; a++){
+        if(local_data_archivos[a].Nombrearchivo == local_ingreso[$scope.contadoringreso]){
+          if(local_data_archivos[a].Tabla == "brocales"){
+            $scope.Totalbrocales = []
+            for(b=0 ; b < local_data_brocales.length; b++){
+              if(local_data_brocales[b].Idingreso == local_data_archivos[a].Idingreso){
+                $scope.Totalbrocales.push(local_data_brocales[b])
+              }
+            }
+          }
+        }
+      }
+      $scope.contadoringreso+=1
+      $scope.mymodalarchivos = new bootstrap.Modal(document.getElementById('ModalInformacionBrocal'), {
+        keyboard: false
+      }) 
+      $scope.mymodalarchivos.toggle()
+    }
+    
+
   }
   //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   $scope.changearchivos = function(index){
@@ -4435,6 +4539,116 @@ function pie3d_matriz_report(dato1, dato2, area){
         "text" : "Faltó por cumplir"
       }
     ]
+  }
+  return grafico
+}
+
+function pie3d_asistencia(dato1, dato2, dato3, dato4, dato5, dato6, dato7, dato8, dato9, dato10, dato11, dato12, nombre){
+  var grafico = {}
+  grafico = {
+    "type": "pie3d", //"pie", "pie3d", "ring", or "ring3d"
+    "title": {
+      "text": "Asistencia "+ nombre,
+      'font-size' : 12
+    },
+    "scale": {
+        "size-factor": 0.6
+    },
+    plot: {
+      showZero: true,
+      'value-box': {
+        text: '%t\n%npv%',
+        'font-size':10,
+        'font-weight': "normal",
+        "font-color":"black",
+        placement: "out"
+      }
+    },
+    "legend": {
+      align : "left",
+      "vertical-align" : "bottom"
+    },
+    "series":[],
+  }
+  if (dato1 !== 0) {
+    grafico.series.push({
+      "values": [dato1],
+      "text": "A"
+    });
+  }
+  
+  if (dato2 !== 0) {
+    grafico.series.push({
+      "values": [dato2],
+      "text": "B"
+    });
+  }
+  
+  if (dato3 !== 0) {
+    grafico.series.push({
+      "values": [dato3],
+      "text": "C"
+    });
+  }
+  if (dato4 !== 0) {
+    grafico.series.push({
+      "values": [dato4],
+      "text": "CU"
+    });
+  }
+  
+  if (dato5 !== 0) {
+    grafico.series.push({
+      "values": [dato5],
+      "text": "EX"
+    });
+  }
+  
+  if (dato6 !== 0) {
+    grafico.series.push({
+      "values": [dato6],
+      "text": "TT"
+    });
+  }
+  if (dato7 !== 0) {
+    grafico.series.push({
+      "values": [dato7],
+      "text": "FA"
+    });
+  }
+  
+  if (dato8 !== 0) {
+    grafico.series.push({
+      "values": [dato8],
+      "text": "LI"
+    });
+  }
+  
+  if (dato9 !== 0) {
+    grafico.series.push({
+      "values": [dato9],
+      "text": "AU"
+    });
+  }
+  if (dato10 !== 0) {
+    grafico.series.push({
+      "values": [dato10],
+      "text": "VA"
+    });
+  }
+  
+  if (dato11 !== 0) {
+    grafico.series.push({
+      "values": [dato11],
+      "text": "PA"
+    });
+  }
+  
+  if (dato12 !== 0) {
+    grafico.series.push({
+      "values": [dato12],
+      "text": "PC"
+    });
   }
   return grafico
 }

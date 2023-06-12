@@ -478,6 +478,17 @@ button{
   padding: 0px
 }
 
+#ModalInformacionBrocal .modal-dialog{
+  max-width: 1400px;
+  width: 1400px;
+}
+
+#ModalInformacionBrocal .grid-container{
+  padding: 0px
+}
+
+
+
 #Modalvimo .modal-dialog{
   max-width: 1400px;
   width: 1400px;
@@ -1053,7 +1064,7 @@ hr{
 }
 
 #asistenciagrid2 .tabla{
-  height: 540px;
+  height: 580px;
 }
 
 #tablecompletedvimo {

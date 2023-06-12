@@ -48,6 +48,7 @@ router.post("/modsap", controllers.UserController.postModSap)
 router.post("/Borrartrabajador", controllers.UserController.postBorrartrabajador)
 router.post("/Cambiarplanificaciontte8", controllers.UserController.postCambiarplanificaciontte8)
 router.post("/Cambiarseleccionadotraspaso", controllers.UserController.postCambiarSelecciontraspaso)
+router.post("/Changeasistencia", controllers.UserController.postChangeasistencia)
 
 
 
