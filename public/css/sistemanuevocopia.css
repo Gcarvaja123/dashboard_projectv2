@@ -478,12 +478,66 @@ button{
   padding: 0px
 }
 
+#ModalInformacionAsistencia .modal-dialog{
+  max-width: 1400px;
+  width: 1400px;
+}
+
+#ModalInformacionAsistencia .grid-container{
+  padding: 0px
+}
+
 #ModalInformacionBrocal .modal-dialog{
   max-width: 1400px;
   width: 1400px;
 }
 
 #ModalInformacionBrocal .grid-container{
+  padding: 0px
+}
+
+#ModalInformacionPlanmatriz .modal-dialog{
+  max-width: 1400px;
+  width: 1400px;
+}
+
+#ModalInformacionPlanmatriz .grid-container{
+  padding: 0px
+}
+
+#ModalInformacionPuertasvimo .modal-dialog{
+  max-width: 1400px;
+  width: 1400px;
+}
+
+#ModalInformacionPuertasvimo .grid-container{
+  padding: 0px
+}
+
+#ModalInformacionDisciplina .modal-dialog{
+  max-width: 1400px;
+  width: 1400px;
+}
+
+#ModalInformacionDisciplina .grid-container{
+  padding: 0px
+}
+
+#ModalInformacionEquipos .modal-dialog{
+  max-width: 1400px;
+  width: 1400px;
+}
+
+#ModalInformacionEquipos .grid-container{
+  padding: 0px
+}
+
+#ModalInformacionTrabajos .modal-dialog{
+  max-width: 1400px;
+  width: 1400px;
+}
+
+#ModalInformacionTrabajos .grid-container{
   padding: 0px
 }
 

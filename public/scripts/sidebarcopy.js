@@ -3314,49 +3314,111 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   
   
   else if(local_ingreso.length!=0){
-    /*console.log(local_ingreso)
+    //console.log(local_ingreso)
     
     $scope.contadoringreso+=1;
 
-    $scope.Totalbrocales = []*/
-    /*for(a=0 ; a < local_data_archivos.length; a++){
-      if(local_data_archivos[a].Nombrearchivo == local_ingreso[0]){
+    
+    for(a=0 ; a < local_data_archivos.length; a++){
+      if(local_data_archivos[a].Idingreso == local_ingreso[0]){
         if(local_data_archivos[a].Tabla == "brocales"){
+          $scope.Totalbrocales = []
           for(b=0 ; b < local_data_brocales.length; b++){
             if(local_data_brocales[b].Idingreso == local_data_archivos[a].Idingreso){
               $scope.Totalbrocales.push(local_data_brocales[b])
             }
-          }
+          }    
+          $scope.mymodalarchivos = new bootstrap.Modal(document.getElementById('ModalInformacionBrocal'), {
+            keyboard: false
+          })
+          $scope.mymodalarchivos.toggle()
         }
-      }
-    }
-
-    $scope.brocalesContent = angular.element(document.querySelector('#tablebrocales')).html();
-    $scope.trustedHtmlContent = $sce.trustAsHtml($scope.brocalesContent);
-    console.log($scope.Totalbrocales)*/
-    /*for(a = 0 ; a < local_data_archivos.length ; a++){
-      if(local_data_archivos[a].Nombrearchivo == local_ingreso[0]){
-        if(local_data_archivos[a].Tabla == "brocales"){
-          for(b=0 ; b < local_data_brocales.length; b++){
-            if(local_data_brocales[b].Idingreso == local_data_archivos[a].Idingreso){
-              $scope.Totalbrocales.push(local_data_brocales[b])
+        else if(local_data_archivos[a].Tabla == "asistencia"){
+          $scope.Totalasistencia = []
+          for(b=0; b < local_data_asistencia.length; b++){
+            if(local_data_asistencia[b].Idingreso == local_data_archivos[a].Idingreso){
+              $scope.Totalasistencia.push(local_data_asistencia[b])
             }
           }
+          $scope.mymodalarchivos = new bootstrap.Modal(document.getElementById('ModalInformacionAsistencia'), {
+            keyboard: false
+          }) 
+          $scope.mymodalarchivos.toggle()
+        }
+        else if(local_data_archivos[a].Tabla == "planmatriz"){
+          $scope.Totalmatrices = []
+          for(b=0 ; b < local_data_matriz.length ; b++){
+            if(local_data_matriz[b].Idingreso == local_data_archivos[a].Idingreso){
+              $scope.Totalmatrices.push(local_data_matriz[b])
+            }
+          }
+          $scope.mymodalarchivos = new bootstrap.Modal(document.getElementById('ModalInformacionPlanmatriz'), {
+            keyboard: false
+          }) 
+          $scope.mymodalarchivos.toggle()
+        }
+        else if(local_data_archivos[a].Tabla == "puertas_vimo"){
+          $scope.Totalvimo = []
+          for(b=0 ; b < local_data_puertas_vimo.length ; b++){
+            if(local_data_puertas_vimo[b].Idingreso == local_data_archivos[a].Idingreso){
+              $scope.Totalvimo.push(local_data_puertas_vimo[b])
+            }
+          }
+          $scope.mymodalarchivos = new bootstrap.Modal(document.getElementById('ModalInformacionPuertasvimo'), {
+            keyboard: false
+          }) 
+          $scope.mymodalarchivos.toggle()
+        }
+        else if(local_data_archivos[a].Tabla == "disciplina"){
+          $scope.Totaldisciplina = []
+          for(b=0 ; b < local_data_disciplina.length ; b++){
+            if(local_data_disciplina[b].Idingreso == local_data_archivos[a].Idingreso){
+              $scope.Totaldisciplina.push(local_data_disciplina[b])
+            }
+          }
+          $scope.mymodalarchivos = new bootstrap.Modal(document.getElementById('ModalInformacionDisciplina'), {
+            keyboard: false
+          }) 
+          $scope.mymodalarchivos.toggle()
+        }
+        else if(local_data_archivos[a].Tabla == "equipos"){
+          $scope.Totalequipos = []
+          for(b=0 ; b < local_data_equipo.length ; b++){
+            if(local_data_equipo[b].Idingreso == local_data_archivos[a].Idingreso){
+              $scope.Totalequipos.push(local_data_equipo[b])
+            }
+          }
+          $scope.mymodalarchivos = new bootstrap.Modal(document.getElementById('ModalInformacionEquipos'), {
+            keyboard: false
+          }) 
+          $scope.mymodalarchivos.toggle()
+        }
+        else if(local_data_archivos[a].Tabla == "trabajos"){
+          $scope.Totalequipos = []
+          for(b=0 ; b < local_data_trabajos.length ; b++){
+            if(local_data_trabajos[b].Idingreso == local_data_archivos[a].Idingreso){
+              $scope.Totalequipos.push(local_data_trabajos[b])
+            }
+          }
+          $scope.mymodalarchivos = new bootstrap.Modal(document.getElementById('ModalInformacionTrabajos'), {
+            keyboard: false
+          }) 
+          $scope.mymodalarchivos.toggle()
         }
       }
-    }
-    $scope.mymodalarchivos = new bootstrap.Modal(document.getElementById('ModalInformacionBrocal'), {
-      keyboard: false
-    }) 
-    $scope.mymodalarchivos.toggle()*/
+    } 
     $scope.Estado = "Archivos ingresados correctamente"
     
 
     
-    var myModal = new bootstrap.Modal(document.getElementById('ModalInformacionOk'), {
+    /*var myModal = new bootstrap.Modal(document.getElementById('ModalInformacionOk'), {
       keyboard: false
     })
-    myModal.toggle()
+    myModal.toggle()*/
+
+    $scope.brocalesContent = angular.element(document.querySelector('#tablebrocales')).html();
+    $scope.trustedHtmlContent = $sce.trustAsHtml($scope.brocalesContent);
+    console.log($scope.Totalbrocales)
 
   }
 
@@ -3364,7 +3426,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     $scope.mymodalarchivos.hide()
     if(local_ingreso.length > $scope.contadoringreso){
       for(a = 0 ; a < local_data_archivos.length ; a++){
-        if(local_data_archivos[a].Nombrearchivo == local_ingreso[$scope.contadoringreso]){
+        if(local_data_archivos[a].Idingreso == local_ingreso[$scope.contadoringreso]){
           if(local_data_archivos[a].Tabla == "brocales"){
             $scope.Totalbrocales = []
             for(b=0 ; b < local_data_brocales.length; b++){
@@ -3372,14 +3434,88 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
                 $scope.Totalbrocales.push(local_data_brocales[b])
               }
             }
+            $scope.mymodalarchivos = new bootstrap.Modal(document.getElementById('ModalInformacionBrocal'), {
+              keyboard: false
+            }) 
+            $scope.mymodalarchivos.toggle()
           }
+          else if(local_data_archivos[a].Tabla == "asistencia"){
+            $scope.Totalasistencia = []
+            for(b=0; b < local_data_asistencia.length; b++){
+              if(local_data_asistencia[b].Idingreso == local_data_archivos[a].Idingreso){
+                $scope.Totalasistencia.push(local_data_asistencia[b])
+              }
+            }
+            $scope.mymodalarchivos = new bootstrap.Modal(document.getElementById('ModalInformacionAsistencia'), {
+              keyboard: false
+            }) 
+            $scope.mymodalarchivos.toggle()
+          }
+          else if(local_data_archivos[a].Tabla == "planmatriz"){
+            $scope.Totalmatrices = []
+            for(b=0 ; b < local_data_matriz.length ; b++){
+              if(local_data_matriz[b].Idingreso == local_data_archivos[a].Idingreso){
+                $scope.Totalmatrices.push(local_data_matriz[b])
+              }
+            }
+            $scope.mymodalarchivos = new bootstrap.Modal(document.getElementById('ModalInformacionPlanmatriz'), {
+              keyboard: false
+            }) 
+            $scope.mymodalarchivos.toggle()
+          }
+          else if(local_data_archivos[a].Tabla == "puertas_vimo"){
+            $scope.Totalvimo = []
+            for(b=0 ; b < local_data_puertas_vimo.length ; b++){
+              if(local_data_puertas_vimo[b].Idingreso == local_data_archivos[a].Idingreso){
+                $scope.Totalvimo.push(local_data_puertas_vimo[b])
+              }
+            }
+            $scope.mymodalarchivos = new bootstrap.Modal(document.getElementById('ModalInformacionPuertasvimo'), {
+              keyboard: false
+            }) 
+            $scope.mymodalarchivos.toggle()
+          }
+          else if(local_data_archivos[a].Tabla == "disciplina"){
+            $scope.Totaldisciplina = []
+            for(b=0 ; b < local_data_disciplina.length ; b++){
+              if(local_data_disciplina[b].Idingreso == local_data_archivos[a].Idingreso){
+                $scope.Totaldisciplina.push(local_data_disciplina[b])
+              }
+            }
+            $scope.mymodalarchivos = new bootstrap.Modal(document.getElementById('ModalInformacionDisciplina'), {
+              keyboard: false
+            }) 
+            $scope.mymodalarchivos.toggle()
+          }
+          else if(local_data_archivos[a].Tabla == "equipos"){
+            $scope.Totalequipos = []
+            for(b=0 ; b < local_data_equipo.length ; b++){
+              if(local_data_equipo[b].Idingreso == local_data_archivos[a].Idingreso){
+                $scope.Totalequipos.push(local_data_equipo[b])
+              }
+            }
+            $scope.mymodalarchivos = new bootstrap.Modal(document.getElementById('ModalInformacionEquipos'), {
+              keyboard: false
+            }) 
+            $scope.mymodalarchivos.toggle()
+          }
+          else if(local_data_archivos[a].Tabla == "Trabajos"){
+            $scope.Totaltrabajos = []
+            for(b=0 ; b < local_data_trabajos.length ; b++){
+              if(local_data_trabajos[b].Idingreso == local_data_archivos[a].Idingreso){
+                $scope.Totaltrabajos.push(local_data_trabajos[b])
+              }
+            }
+            $scope.mymodalarchivos = new bootstrap.Modal(document.getElementById('ModalInformacionTrabajos'), {
+              keyboard: false
+            }) 
+            $scope.mymodalarchivos.toggle()
+          }
+          
         }
       }
       $scope.contadoringreso+=1
-      $scope.mymodalarchivos = new bootstrap.Modal(document.getElementById('ModalInformacionBrocal'), {
-        keyboard: false
-      }) 
-      $scope.mymodalarchivos.toggle()
+      
     }
     
 

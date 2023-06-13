@@ -603,6 +603,7 @@ module.exports = {
                     })
                   
                 }
+                req.flash('ingreso', random_id_asistencia_multiple);
               }catch(err){
                 req.flash('error', file.name.toString());
                 await modelo.archivos.destroy({
@@ -723,6 +724,7 @@ module.exports = {
                   })
                 
               }
+              req.flash('ingreso', random_id_asistencia_single);
             }catch(err){
               req.flash('error', file.name.toString());
               await modelo.asistencia.destroy({
@@ -894,6 +896,7 @@ module.exports = {
                     })
                   }
                 }
+                req.flash('ingreso', random_id_brocales6_multiple);
               }catch(err){
                 req.flash('error', file.name.toString());
                 await modelo.brocales.destroy({
@@ -1062,7 +1065,7 @@ module.exports = {
                   })
                 }
               }
-              req.flash('ingreso', file.name.toString());
+              req.flash('ingreso', random_id_brocales5_single);
             }catch(err){
               req.flash('error', file.name.toString());
               console.log(err)
@@ -1259,6 +1262,7 @@ module.exports = {
                     })
                   }
                 }
+                req.flash('ingreso', random_id_brocales6_multiple);
               }catch(err){
                 req.flash('error', file.name.toString());
                 await modelo.brocales.destroy({
@@ -1450,7 +1454,7 @@ module.exports = {
                   })
                 }
               }
-              req.flash('ingreso', file.name.toString());
+              req.flash('ingreso', random_id_brocales6_single);
 
             }catch(err){
               req.flash('error', file.name.toString());
@@ -1479,6 +1483,7 @@ module.exports = {
                 
                 var area ="";
                 var random_id_matriz_multiple = guid()
+                var random_id_matriz_vimo_multiple = guid()
                 if(file.name.toString().includes("Consolidado") || file.name.toString().toUpperCase().includes("INFORME")){
                   area = "vimo"
                   datos = leerExcelVimoPlanificacion(file.name)
@@ -1565,16 +1570,18 @@ module.exports = {
                       }
                     })
                     
-                  }       
+                  }
+                  req.flash('ingreso', random_id_matriz_vimo_multiple);       
                 }
                 else{
-                  if (keys[0].toString().toUpperCase().includes("AIRE")){
+                  
+                  if (Object.keys(datos[0]).toString().toUpperCase().includes("AIRE")){
                     area = "Aire Acondicionado";
                   }
-                  else if (keys[0].toString().toUpperCase().includes("POLVO")){
+                  else if (Object.keys(datos[0]).toString().toUpperCase().includes("POLVO")){
                     area = "Colectores de polvo";
                   }
-                  else if (keys[0].toString().toUpperCase().includes("VENTILACIÓN") || datos[0][keys[0]].includes("ventilación") ){
+                  else if (Object.keys(datos[0]).toString().toUpperCase().includes("VENTILACIÓN") || datos[0][keys[0]].includes("ventilación") ){
                     area = "Ventilación";
                   }
 
@@ -1592,8 +1599,8 @@ module.exports = {
                       if(keys.length==1 || (datos[a]["__EMPTY_1"] == undefined && datos[a]["__EMPTY_2"] == undefined)){
                         await modelo.planmatriz.create({
                           Fecha : fecha,
-                          Realizado : datos[a]["__EMPTY_1"],
-                          Observaciones : observacion,
+                          Realizado : datos[a]["__EMPTY"],
+                          Observaciones : datos[a]["__EMPTY_1"],
                           Area : area,
                           Idingreso : random_id_matriz_multiple
                         })
@@ -1601,8 +1608,8 @@ module.exports = {
                       else{
                         await modelo.planmatriz.create({
                           Fecha : fecha,
-                          Realizado : datos[a]["__EMPTY_1"],
-                          Observaciones : datos[a]["__EMPTY_2"],
+                          Realizado : datos[a]["__EMPTY"],
+                          Observaciones : datos[a]["__EMPTY_1"],
                           Area : area,
                           Idingreso : random_id_matriz_multiple
                         })
@@ -1611,30 +1618,31 @@ module.exports = {
                     }
                   }
                 }
+                req.flash('ingreso', random_id_matriz_multiple);
               }catch(err){
                 req.flash('error', file.name.toString());
+                console.log(err)
                 if(area=="vimo"){
                   await modelo.puertas_vimo.destroy({
                     where : {
-                      Idingreso : random_id_matriz_single
+                      Idingreso : random_id_matriz_multiple
                     }
                   })
                 }
                 else{
                   await modelo.planmatriz.destroy({
                     where : {
-                      Idingreso : random_id_matriz_single
+                      Idingreso : random_id_matriz_multiple
                     }
                   })
                 }
                 await modelo.archivos.destroy({
                   where : {
-                    Idingreso : random_id_matriz_single
+                    Idingreso : random_id_matriz_multiple
                   }
                 })
               }
-            }
-          
+            }         
           }
           else{
             try{
@@ -1645,13 +1653,14 @@ module.exports = {
               var area ="";
               //let keys = Object.keys(datos[0]);
               var random_id_matriz_single = guid()
+              var random_id_matriz_vimo_single = guid()
               if(file.name.toString().includes("Consolidado") || file.name.toString().toUpperCase().includes("INFORME")){
                 
                 area = "vimo"
                 datos = leerExcelVimoPlanificacion(file.name)
                 await modelo.archivos.create({
                   Tabla : "puertas_vimo",
-                  Idingreso : random_id_matriz_single,
+                  Idingreso : random_id_matriz_vimo_single,
                   Fechaingreso : Fecha_hoy,
                   Infoingresada : "Puertas vimo",
                   Nombrearchivo : file.name.toString()
@@ -1731,17 +1740,19 @@ module.exports = {
                       })
                     }
                   })
-                  
-                }    
+                }
+                req.flash('ingreso', random_id_matriz_vimo_single);
+                    
+
               }
               else{
-                if (keys[0].toString().toUpperCase().includes("AIRE")){
+                if (Object.keys(datos[0])[0].toString().toUpperCase().includes("AIRE")){
                   area = "Aire Acondicionado";
                 }
-                else if (keys[0].toString().toUpperCase().includes("POLVO")){
+                else if (Object.keys(datos[0])[0].toString().toUpperCase().includes("POLVO")){
                   area = "Colectores de polvo";
                 }
-                else if (keys[0].toString().toUpperCase().includes("VENTILACIÓN") || datos[0][keys[0]].toUpperCase().includes("VENTILACIÓN") ){
+                else if (Object.keys(datos[0])[0].toString().toUpperCase().includes("VENTILACIÓN")){
                   area = "Ventilación";
                 }
 
@@ -1780,13 +1791,14 @@ module.exports = {
                   }
                 }
               }
+              req.flash('ingreso', random_id_matriz_single);
             }catch(err){
               req.flash('error', file.name.toString());
               console.log(err)
               if(area=="vimo"){
                 await modelo.puertas_vimo.destroy({
                   where : {
-                    Idingreso : random_id_matriz_single
+                    Idingreso : random_id_matriz_vimo_single
                   }
                 })
               }
@@ -1864,6 +1876,7 @@ module.exports = {
                     })
                   }
                 }
+                req.flash('ingreso', random_id_disciplina_multiple);
               }catch(err){
                 req.flash('error', file.name.toString());
                 await modelo.archivos.destroy({
@@ -1935,6 +1948,7 @@ module.exports = {
                     })
                   }
                 }
+                req.flash('ingreso', random_id_disciplina_single);
               }catch(err){
                 req.flash('error', file.name.toString());
                 await modelo.disciplina.destroy({
@@ -2039,6 +2053,7 @@ module.exports = {
                   }
                 })
               }
+              req.flash('ingreso', random_id_equipos_single);
             }catch(err){
               console.log(err)
               req.flash('error', file.name.toString());
@@ -2108,6 +2123,7 @@ module.exports = {
                   }
                 })
               }
+              req.flash('ingreso', random_id_conductores_single);
             }catch(err){
               console.log(err)
               req.flash('error', file.name.toString());
@@ -2232,6 +2248,7 @@ module.exports = {
                     })
                   }*/
                 }
+                req.flash('ingreso', random_id_vimosap_multiple);
               }catch(err){
                 req.flash('error', file.name.toString());
                 await modelo.vimosap.destroy({
@@ -2344,6 +2361,7 @@ module.exports = {
                   })
                 }
               }
+              req.flash('ingreso', random_id_vimosap_single);
             }catch(err){
               req.flash('error', file.name.toString());
               await modelo.archivos.destroy({
@@ -2489,84 +2507,9 @@ module.exports = {
                   console.log("no pasa nada")
                 }
               })
-
-              /*if (datos[a]["__EMPTY_1"] != undefined){
-                await modelo.equipos.findAll({
-                  where:{
-                    Patente : Estadolevante.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Estadolevante.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1]
-                  }
-                }).then(async function(rows_levante){
-                  if(rows_levante.length>0){
-                    await modelo.equipos.update({
-                      Estado : Estadolevante_x,
-                      Idingreso : random_id_trabajo_single
-                    },{
-                      where :{
-                        Patente : Estadolevante.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Estadolevante.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1]
-                      }
-                    })
-                  }
-                  else{
-                    await modelo.equipos.create({
-                      Patente : Estadolevante.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Estadolevante.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1],
-                      Equipo : "Levante",
-                      Estado : Estadolevante_x,
-                      Idingreso : random_id_trabajo_single
-                    })
-                  }
-                })
-                await modelo.equipos.findAll({
-                  where:{
-                    Patente : Estadominiretro.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Estadominiretro.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1]
-                  }
-                }).then(async function(rows_miniretro){
-                  if(rows_miniretro.length>0){
-                    await modelo.equipos.update({
-                      Estado : Estadominiretro_x,
-                      Idingreso : random_id_trabajo_single
-                    },{
-                      where :{
-                        Patente : Estadominiretro.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Estadominiretro.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1]
-                      }
-                    })
-                  }
-                  else{
-                    await modelo.equipos.create({
-                      Patente : Estadominiretro.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Estadominiretro.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1],
-                      Equipo : "Mini Retro",
-                      Estado : Estadominiretro_x,
-                      Idingreso : random_id_trabajo_single
-                    })
-                  }
-                })
-                //Minicargador.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Minicargador.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1]
-                await modelo.equipos.findAll({
-                  where:{
-                    Patente : "T-40"
-                  }
-                }).then(async function(rows_minicargador){
-                  if(rows_minicargador.length>0){
-                    await modelo.equipos.update({
-                      Estado : Minicargador_x,
-                      Idingreso : random_id_trabajo_single
-                    },{
-                      where :{
-                        Patente : "T-40"
-                      }
-                    })
-                  }
-                  else{
-                    await modelo.equipos.create({
-                      Patente : Minicargador.replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Minicargador.replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1],
-                      Equipo : "Mini Cargador",
-                      Estado : Minicargador_x,
-                      Idingreso : random_id_trabajo_single
-                    })
-                  }
-                })
-              }*/
               
             }
+            req.flash('ingreso', random_id_trabajo_single);
           }catch(err){
             req.flash('error', file.name.toString());
             console.log(err)

@@ -232,6 +232,53 @@ html
               .modal-footer
                 button.btnn(type='button' data-bs-dismiss='modal') Cerrar
                 button.btnn(name="probando3" value="probando4") Aceptar
+    #ModalInformacionAsistencia.modal.fade(aria-labelledby='Modallogin')
+      .modal-dialog
+        .modal-content
+          .modal-header
+                h5#exampleModalLabel.modal-title Información del ingreso de archivos
+                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+          .modal-body
+            #tablebrocales.grid-container
+              div.tabla.item1
+                table.Asistencia.table.caption-top
+                      thead
+                        tr
+                          th(data-type="text")
+                            | Sector
+                            span.resize-handle
+                          th(data-type='text')
+                            | Nombre
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Rut
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Cargo
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Turno
+                            span.resize-handle
+                          th(data-type='text-long')
+                            | Fecha ingreso
+                            span.resize-handle
+                      tbody
+                        tr(ng-repeat="asistencia in Totalasistencia")
+                          td
+                            label {{asistencia.Sector}} 
+                          td
+                            label {{asistencia.Nombre}} 
+                          td
+                            label {{asistencia.Rut}}
+                          td
+                            label {{asistencia.Cargo}}
+                          td
+                            label {{asistencia.Turno}}
+                          td
+                            label {{asistencia.Fechaingreso}}
+          .modal-footer
+                //button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
     #ModalInformacionBrocal.modal.fade(aria-labelledby='Modallogin')
       .modal-dialog
         .modal-content
@@ -300,6 +347,374 @@ html
                           label {{brocal.Horaf}}
                         td
                           label {{brocal.Observaciones}}
+          .modal-footer
+                //button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
+    #ModalInformacionPlanmatriz.modal.fade(aria-labelledby='Modallogin')
+      .modal-dialog
+        .modal-content
+          .modal-header
+                h5#exampleModalLabel.modal-title Información del ingreso de archivos
+                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+          .modal-body
+            #tablebrocales.grid-container
+              div.tabla.item1
+                table.matriz.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Fecha
+                        span.resize-handle
+                      th(data-type='text')
+                        | Realizado
+                        span.resize-handle
+                      th(data-type='text')
+                        | Observaciones
+                        span.resize-handle
+                      th(data-type='text')
+                        | Area
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="matriz in Totalmatrices")
+                      td
+                        label {{matriz.Fecha}}
+                      td
+                        label {{matriz.Realizado}}
+                      td
+                        label {{matriz.Observaciones}}
+                      td
+                        label {{matriz.Area}}
+          .modal-footer
+                //button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
+    #ModalInformacionPuertasvimo.modal.fade(aria-labelledby='Modallogin')
+      .modal-dialog
+        .modal-content
+          .modal-header
+                h5#exampleModalLabel.modal-title Información del ingreso de archivos
+                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+          .modal-body
+            #tablebrocales.grid-container
+              div.tabla.item1
+                table.matriz.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Fecha
+                        span.resize-handle
+                      th(data-type='text')
+                        | N° puerta
+                        span.resize-handle
+                      th(data-type='text')
+                        | Nivel
+                        span.resize-handle
+                      th(data-type='text')
+                        | Area
+                        span.resize-handle
+                      th(data-type='text')
+                        | Hora inicio
+                        span.resize-handle
+                      th(data-type='text')
+                        | Hora termino
+                        span.resize-handle
+                      th(data-type='text')
+                        | Descripcion
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="vimo in Totalvimo")
+                      td
+                        label {{vimo.Fecha}}
+                      td
+                        label {{vimo.Numpuerta}}
+                      td
+                        label {{vimo.Nivel}}
+                      td
+                        label {{vimo.Area}}
+                      td
+                        label {{vimo.Horainicio}}
+                      td
+                        label {{vimo.Horatermino}}
+                      td
+                        label {{vimo.Descripcion}}
+          .modal-footer
+                //button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
+    #ModalInformacionDisciplina.modal.fade(aria-labelledby='Modallogin')
+      .modal-dialog
+        .modal-content
+          .modal-header
+                h5#exampleModalLabel.modal-title Información del ingreso de archivos
+                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+          .modal-body
+            #tablebrocales.grid-container
+              div.tabla.item1
+                table.disciplina.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Area
+                        span.resize-handle
+                      th(data-type='text')
+                        | Dia
+                        span.resize-handle
+                      th(data-type='text')
+                        | Fecha
+                        span.resize-handle
+                      th(data-type='text')
+                        | Lleg. inst.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Sal. inst.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Inicio Act Am.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Térm. Act. Am.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Almuerzo
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ini. Act. Pm
+                        span.resize-handle
+                      th(data-type='text')
+                        | Term. Act. Pm
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tiem. Inst.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tras. Post.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tiem. Disp. Am
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tras. Col.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Tiem. Disp. Pm
+                        span.resize-handle
+                      th(data-type='text')
+                        | Almuerzo
+                        span.resize-handle
+                      th(data-type='text')
+                        | 
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="disciplina in Totaldisciplina")
+                      td
+                        label {{disciplina.Area}}
+                      td
+                        label {{disciplina.Dia}}
+                      td
+                        label {{disciplina.Fecha}}
+                      td
+                        label {{disciplina.Llegada_Instalacion}}
+                      td
+                        label {{disciplina.Salida_Instalacion}}
+                      td
+                        label {{disciplina.Inicio_Act_Am}}
+                      td
+                        label {{disciplina.Termino_Act_Am}}
+                      td
+                        label {{disciplina.Almuerzo}}
+                      td
+                        label {{disciplina.Inicio_Act_Pm}}
+                      td
+                        label {{disciplina.Termino_Act_Pm}}
+                      td
+                        label {{disciplina.Tiempo_Instalacion}}
+                      td
+                        label {{disciplina.Traslado_Postura}}
+                      td
+                        label {{disciplina.Tiempo_Disponible_Am}}
+                      td
+                        label {{disciplina.Traslado_Colacion}}
+                      td
+                        label {{disciplina.Tiempo_Disponible_Pm}}
+                      td
+                        label {{disciplina.Almuerzo_2}}
+          .modal-footer
+                //button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
+    #ModalInformacionEquipos.modal.fade(aria-labelledby='Modallogin')
+      .modal-dialog
+        .modal-content
+          .modal-header
+                h5#exampleModalLabel.modal-title Información del ingreso de archivos
+                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+          .modal-body
+            #tablebrocales.grid-container
+              div.tabla.item1
+                table.matriz.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Equipo
+                        span.resize-handle
+                      th(data-type='text')
+                        | Patente
+                        span.resize-handle
+                      th(data-type='text')
+                        | N° interno
+                        span.resize-handle
+                      th(data-type='text')
+                        | Cartola
+                        span.resize-handle
+                      th(data-type='text')
+                        | N. Resp
+                        span.resize-handle
+                      th(data-type='text')
+                        | Rut Resp
+                        span.resize-handle
+                      th(data-type='text')
+                        | Regimen
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ult. Mant.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Prox. Mant.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ult. Kms
+                        span.resize-handle
+                      th(data-type='text')
+                        | Prox. Kms
+                        span.resize-handle
+                      th(data-type='text')
+                        | K. Actual
+                        span.resize-handle
+                      th(data-type='text')
+                        | K. Faltante
+                        span.resize-handle
+                      th(data-type='text')
+                        | Estado
+                        span.resize-handle
+                      th(data-type='text')
+                        | Cheq. Gas
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="equipo in Totalequipos")
+                      td
+                        label {{equipo.Equipo}}
+                      td
+                        label {{equipo.Patente}}
+                      td
+                        label {{equipo.Numinterno}}
+                      td
+                        label {{equipo.Cartola}}
+                      td
+                        label {{equipo.Nomresp}}
+                      td
+                        label {{equipo.Rutresp}}
+                      td
+                        label {{equipo.Regimen}}
+                      td
+                        label {{equipo.Ultimamantecion}}
+                      td
+                        label {{equipo.Proxmant}}
+                      td
+                        label {{equipo.Ultimokms}}
+                      td
+                        label {{equipo.Proximakms}}
+                      td
+                        label {{equipo.Kilometrajeactual}}
+                      td
+                        label {{equipo.Kilometrajefaltante}}
+                      td
+                        label {{equipo.Estado}}
+                      td
+                        label {{equipo.Fechagas}}
+          .modal-footer
+                //button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
+    #ModalInformacionTrabajos.modal.fade(aria-labelledby='Modallogin')
+      .modal-dialog
+        .modal-content
+          .modal-header
+                h5#exampleModalLabel.modal-title Información del ingreso de archivos
+                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+          .modal-body
+            #tablebrocales.grid-container
+              div.tabla.item1
+                table.matriz.table.caption-top
+                  thead
+                    tr
+                      th(data-type="text")
+                        | Fecha
+                        span.resize-handle
+                      th(data-type='text')
+                        | Turno
+                        span.resize-handle
+                      th(data-type='text')
+                        | Dotacion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Jdt Det
+                        span.resize-handle
+                      th(data-type='text')
+                        | Jdt Mies
+                        span.resize-handle
+                      th(data-type='text')
+                        | Ubicacion
+                        span.resize-handle
+                      th(data-type='text')
+                        | Actividad
+                        span.resize-handle
+                      th(data-type='text')
+                        | Horo. Levante
+                        span.resize-handle
+                      th(data-type='text')
+                        | Est. Levante
+                        span.resize-handle
+                      th(data-type='text')
+                        | Horo. Minir.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Est. Minir.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Obs.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Horo. Minic.
+                        span.resize-handle
+                      th(data-type='text')
+                        | Minicargador
+                        span.resize-handle
+                  tbody
+                    tr(ng-repeat="trabajo in Totaltrabajos")
+                      td
+                        label {{trabajo.Fecha}}
+                      td
+                        label {{trabajo.Turno}}
+                      td
+                        label {{trabajo.Dotacion}}
+                      td
+                        label {{trabajo.JdtDet}}
+                      td
+                        label {{trabajo.JdtMies}}
+                      td
+                        label {{trabajo.Ubicacion}}
+                      td
+                        label {{trabajo.Actividad}}
+                      td
+                        label {{trabajo.Horometrolevante}}
+                      td
+                        label {{trabajo.Estadolevante}}
+                      td
+                        label {{trabajo.Horometromini}}
+                      td
+                        label {{trabajo.Estadominiretro}}
+                      td
+                        label {{trabajo.Observaciones}}
+                      td
+                        label {{trabajo.Horometrominicargador}}
+                      td
+                        label {{trabajo.Minicargador}}
           .modal-footer
                 //button.btnn(type='button' data-bs-dismiss='modal') Cerrar
                 button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
