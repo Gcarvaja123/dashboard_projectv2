@@ -296,6 +296,21 @@ module.exports = {
 
   getLogin : async (req, res, next)=> {
     /*await modelo.asistencia.update({
+      Turno : "DE"
+    },{
+      where : {
+        Turno : "DESCANSO"
+      }
+      
+    })*/
+    /*await modelo.asistencia.update({
+      Turno : "LI"
+    },{
+      where : {
+        turno : "Lm"
+      }
+    })
+    await modelo.asistencia.update({
       Turno : "VA"
     },{
       where : {
@@ -741,6 +756,51 @@ module.exports = {
             }
             
           }
+        }
+        else if (datos_1[d] == "Asistencianueva"){
+          file = req.files["Asistencianueva"]
+          const savePath = path.join(__dirname,"../",'public','uploads',file.name);
+          await file.mv(savePath);
+          var datos = leerExcel(file.name);
+          modelo.archivos.create({
+            Tabla : "asistencia",
+            Idingreso : 3,
+            Fechaingreso : Fecha_hoy,
+            Infoingresada : "asistencianueva",
+            Nombrearchivo : file.name.toString()
+          })
+          
+          for( a=6 ; a < datos.length ; a++ ){
+            var contadorfecha = 0
+            for(b=8 ; b <Object.keys(datos[a]).length; b+=2){
+              if (b>68){
+                break
+              }
+              var date = ExcelDateToJSDate(Object.values(datos[3])[contadorfecha])
+              var converted_date = date.toISOString().split('T')[0];
+              var Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
+              contadorfecha+=1
+              await modelo.asistencia.findAll({
+                where : {
+                  Fechaingreso : Fecha,
+                  Rut : Object.values(datos[a])[4].replace(/\s+/g,' ').trim()
+                }
+              }).then(async function(rows_asistencia){
+                if(rows_asistencia.length==0){
+                  await modelo.asistencia.create({
+                    Fechaingreso : Fecha,
+                    Nombre : Object.values(datos[a])[1].replace(/\s+/g,' ').trim()+" "+Object.values(datos[a])[2].replace(/\s+/g,' ').trim()+" "+ Object.values(datos[a])[3].replace(/\s+/g,' ').trim(),
+                    Rut : Object.values(datos[a])[4].replace(/\s+/g,' ').trim(),
+                    Turno : Object.values(datos[a])[b].toUpperCase().replace(/\s+/g,' ').trim(),
+                    Cargo : Object.values(datos[a])[5].replace(/\s+/g,' ').trim(),
+                    Idingreso : 3
+                  })
+                }
+              })
+              
+            }
+          }
+          
         }
         else if (datos_1[d] == "Brocales5") {
           if (req.files["Brocales5"].length != undefined){

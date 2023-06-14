@@ -397,7 +397,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     }
   }
 
-  $scope.myMatrizPuertas = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], array_total_mes_vimo , Anual_puertas, "Puertas Vimo")
+  $scope.myMatrizPuertas = bar_planmatrizvimo(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], Anual_puertas, "Puertas Vimo")
   $scope.myMatrizAire = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], total_deseadas_aire, Anual_aire, "Aire Acondicionado");
   $scope.myMatrizColectores = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], total_deseadas_polvo, Anual_polvo, "Colectores de polvo");
   $scope.myMatrizVentilacion = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], total_deseadas_ventilacion, Anual_ventilacion, "Ventilación");
@@ -1325,7 +1325,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
         }
       }
 
-      $scope.myMatrizPuertas = bar_planmatriz(array_dias, [0,0,0,0,0,0,0,0,0,0,0,0], datos_x_vimo_completados, "Puertas Vimo" )
+      $scope.myMatrizPuertas = bar_planmatrizvimo(array_dias, datos_x_vimo_completados, "Puertas Vimo" )
     }
 
     else{
@@ -1348,7 +1348,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
         array_total_mes_vimo[nummes]+=1;
       }*/
       var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-      $scope.myMatrizPuertas = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], array_total_mes_vimo, anual_vimo_completados, "Puertas Vimo")
+      $scope.myMatrizPuertas = bar_planmatrizvimo(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"],  anual_vimo_completados, "Puertas Vimo")
 
     }
   }
@@ -1722,6 +1722,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
       } 
     }
 
+    console.log($scope.nombre_sectores_array)
+
 
     $scope.myJsonpieasistencia1 = Pie_creator($scope.total_trabajadores_array[0], $scope.asistencia_total_trabajadores_array[0], $scope.nombre_sectores_array[0]);
     $scope.myJsonpieasistencia2 = Pie_creator($scope.total_trabajadores_array[1], $scope.asistencia_total_trabajadores_array[1], $scope.nombre_sectores_array[1]);
@@ -1748,6 +1750,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     $scope.myJsonpieasistencia23 = Pie_creator($scope.total_trabajadores_array[22], $scope.asistencia_total_trabajadores_array[22], $scope.nombre_sectores_array[22]);
     $scope.myJsonpieasistencia24 = Pie_creator($scope.total_trabajadores_array[23], $scope.asistencia_total_trabajadores_array[23], $scope.nombre_sectores_array[23]);
     $scope.myJsonpieasistencia25 = Pie_creator($scope.total_trabajadores_array[24], $scope.asistencia_total_trabajadores_array[24], $scope.nombre_sectores_array[24]);
+    $scope.myJsonpieasistencia26 = Pie_creator($scope.total_trabajadores_array[25], $scope.asistencia_total_trabajadores_array[25], $scope.nombre_sectores_array[25]);
+    $scope.myJsonpieasistencia27 = Pie_creator($scope.total_trabajadores_array[26], $scope.asistencia_total_trabajadores_array[26], $scope.nombre_sectores_array[26]);
+    $scope.myJsonpieasistencia28 = Pie_creator($scope.total_trabajadores_array[27], $scope.asistencia_total_trabajadores_array[27], $scope.nombre_sectores_array[27]);
 
     
 
@@ -1982,7 +1987,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
         }
       }
 
-      $scope.myMatrizPuertas = bar_planmatriz(array_dias, [0,0,0,0,0,0,0,0,0,0,0,0], datos_x_vimo_completados, "Puertas Vimo" )
+      $scope.myMatrizPuertas = bar_planmatrizvimo(array_dias,  datos_x_vimo_completados, "Puertas Vimo" )
     }
 
     else{
@@ -2005,7 +2010,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
         array_total_mes_vimo[nummes]+=1;
       }*/
       var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-      $scope.myMatrizPuertas = bar_planmatriz(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], array_total_mes_vimo, anual_vimo_completados, "Puertas Vimo")
+      $scope.myMatrizPuertas = bar_planmatrizvimo(["En", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"], anual_vimo_completados, "Puertas Vimo")
 
     }
 
@@ -3166,11 +3171,11 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     if(name == "mensual"){
       for(a=0; a<local_data_asistencia.length; a++){
         if(local_data_asistencia[a].Rut == $scope.rutworker && local_data_asistencia[a].Fechaingreso.split("-")[1] == fecha.split("-")[1] &&  local_data_asistencia[a].Fechaingreso.split("-")[2] == fecha.split("-")[2]){
-          if(local_data_asistencia[a].Turno!="A" &&  local_data_asistencia[a].Turno!="B" && local_data_asistencia[a].Turno!="C" && local_data_asistencia[a].Turno!="DE"){
+          if(local_data_asistencia[a].Turno!="A" &&  local_data_asistencia[a].Turno!="B" && local_data_asistencia[a].Turno!="C" && local_data_asistencia[a].Turno!="DE" && local_data_asistencia[a].Turno!="De"){
             $scope.Asistenciatotal.push(local_data_asistencia[a])
           }
           Total_dias_trabajo+=1;
-          if(local_data_asistencia[a].Turno == "A" || local_data_asistencia[a].Turno == "B" || local_data_asistencia[a].Turno == "C" || local_data_asistencia[a].Turno == "DE"){
+          if(local_data_asistencia[a].Turno == "A" || local_data_asistencia[a].Turno == "B" || local_data_asistencia[a].Turno == "C" || local_data_asistencia[a].Turno == "DE" || local_data_asistencia[a].Turno!="De"){
             Asistencia_al_trabajo+=1;
           }
           if(nomenclatura.includes(local_data_asistencia[a].Turno.toUpperCase().replace(/\s+/g,' ').trim())){
@@ -3184,11 +3189,11 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     else if(name == "anual"){
       for(a=0; a<local_data_asistencia.length; a++){
         if(local_data_asistencia[a].Rut == $scope.rutworker && local_data_asistencia[a].Fechaingreso.split("-")[2] == $scope.fecha_universal.split("-")[2]){
-          if(local_data_asistencia[a].Turno!="A" &&  local_data_asistencia[a].Turno!="B" && local_data_asistencia[a].Turno!="C" && local_data_asistencia[a].Turno!="DE"){
+          if(local_data_asistencia[a].Turno!="A" &&  local_data_asistencia[a].Turno!="B" && local_data_asistencia[a].Turno!="C" && local_data_asistencia[a].Turno!="DE" && local_data_asistencia[a].Turno!="De"){
             $scope.Asistenciatotal.push(local_data_asistencia[a])
           }
           Total_dias_trabajo+=1;
-          if(local_data_asistencia[a].Turno == "A" || local_data_asistencia[a].Turno == "B" || local_data_asistencia[a].Turno == "C" || local_data_asistencia[a].Turno == "DE"){
+          if(local_data_asistencia[a].Turno == "A" || local_data_asistencia[a].Turno == "B" || local_data_asistencia[a].Turno == "C" || local_data_asistencia[a].Turno == "DE" || local_data_asistencia[a].Turno!="De"){
             Asistencia_al_trabajo+=1;
           }
           if(nomenclatura.includes(local_data_asistencia[a].Turno.toUpperCase().replace(/\s+/g,' ').trim())){
@@ -3201,7 +3206,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     else{
       for(a=0; a<local_data_asistencia.length; a++){
         if(local_data_asistencia[a].Rut == $scope.rutworker){
-          if(local_data_asistencia[a].Turno!="A" &&  local_data_asistencia[a].Turno!="B" && local_data_asistencia[a].Turno!="C" && local_data_asistencia[a].Turno!="DE"){
+          if(local_data_asistencia[a].Turno!="A" &&  local_data_asistencia[a].Turno!="B" && local_data_asistencia[a].Turno!="C" && local_data_asistencia[a].Turno!="DE" && local_data_asistencia[a].Turno!="De"){
             $scope.Asistenciatotal.push(local_data_asistencia[a])
           }
           if(nomenclatura.includes(local_data_asistencia[a].Turno.toUpperCase().replace(/\s+/g,' ').trim())){
@@ -7177,6 +7182,62 @@ function bar_planmatriz(x_values, deseados, realizado, nombre){
       text : "Demanda",
       backgroundColor: 'blue',
     },
+      {
+        values : realizado,
+        text : "Realizado",
+      backgroundColor : "orange",
+
+      } 
+    ]
+  };
+   
+  return grafico;
+}
+
+function bar_planmatrizvimo(x_values, realizado, nombre){
+  grafico = {};
+
+  grafico = {
+    type: 'bar',
+    "title": {
+      "text": "Plan matriz "+ nombre
+    },
+    "legend": {
+    },
+    scaleY:{
+      lineColor: "black",
+      lineWidth: "1px",
+      tick: {
+        lineColor: "#ededed",
+        lineWidth: "1px"
+      },
+      guide: {
+        lineStyle: "solid",
+        lineColor: "black"
+      },
+      item: {
+        fontColor: "black"
+      },
+    },
+
+    scaleX :{
+      values : x_values,
+      maxItems : 31,
+      "items-overlap" : true,
+      lineColor: "black",
+      lineWidth: "1px",
+      tick: {
+        lineColor: "black",
+        lineWidth: "1px"
+      },
+      item: {
+        fontColor: "black"
+      },
+      guide: {
+        visible: false
+      }
+    },
+    series: [
       {
         values : realizado,
         text : "Realizado",
