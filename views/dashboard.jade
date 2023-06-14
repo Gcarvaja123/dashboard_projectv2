@@ -6,8 +6,12 @@ html
     //link(rel='stylesheet' type='text/css' href='/css/tabletemplate/bootstrap.min.css')
     // Style
     link(rel='stylesheet' type='text/css' href='/css/tabletemplate/style.css')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.1/purify.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js')
+    script(src='https://html2canvas.hertzen.com/dist/html2canvas.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js')
     
-    
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js')
     script(type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
     script(type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js')
     script(type='text/javascript' src='https://unpkg.com/@popperjs/core@2')
@@ -24,6 +28,7 @@ html
     link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' )
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js' )
     //script(data-require='sanitize@1.4.8' data-semver='1.4.8' src='https://code.angularjs.org/1.4.8/angular-sanitize.js')
+    
 
     
 
@@ -276,9 +281,12 @@ html
                             label {{asistencia.Turno}}
                           td
                             label {{asistencia.Fechaingreso}}
-          .modal-footer
-                //button.btnn(type='button' data-bs-dismiss='modal') Cerrar
-                button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
+          .modal-footer.justify-content-between
+            .left-section.d-flex.align-items-center.gap-2
+              button.btnn#borrardoc(ng-model="botonmodalbrocaldelete" ng-click="deletefilemodal()" ng-disabled="botonDeshabilitado" name="probando3" value="probando4") Borrar
+              input.form-control.filter(type='text' ng-model='deleting' ng-change="checkdelete()"  placeholder='Escribir borrar')
+            .right-section
+              button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
     #ModalInformacionBrocal.modal.fade(aria-labelledby='Modallogin')
       .modal-dialog
         .modal-content
@@ -347,9 +355,12 @@ html
                           label {{brocal.Horaf}}
                         td
                           label {{brocal.Observaciones}}
-          .modal-footer
-                //button.btnn(type='button' data-bs-dismiss='modal') Cerrar
-                button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
+          .modal-footer.justify-content-between
+            .left-section.d-flex.align-items-center.gap-2
+              button.btnn#borrardoc(ng-model="botonmodalbrocaldelete" ng-click="deletefilemodal()" ng-disabled="botonDeshabilitado" name="probando3" value="probando4") Borrar
+              input.form-control.filter(type='text' ng-model='deleting' ng-change="checkdelete()"  placeholder='Escribir borrar')
+            .right-section
+              button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
     #ModalInformacionPlanmatriz.modal.fade(aria-labelledby='Modallogin')
       .modal-dialog
         .modal-content
@@ -384,9 +395,12 @@ html
                         label {{matriz.Observaciones}}
                       td
                         label {{matriz.Area}}
-          .modal-footer
-                //button.btnn(type='button' data-bs-dismiss='modal') Cerrar
-                button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
+          .modal-footer.justify-content-between
+            .left-section.d-flex.align-items-center.gap-2
+              button.btnn#borrardoc(ng-model="botonmodalbrocaldelete" ng-click="deletefilemodal()" ng-disabled="botonDeshabilitado" name="probando3" value="probando4") Borrar
+              input.form-control.filter(type='text' ng-model='deleting' ng-change="checkdelete()"  placeholder='Escribir borrar')
+            .right-section
+              button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
     #ModalInformacionPuertasvimo.modal.fade(aria-labelledby='Modallogin')
       .modal-dialog
         .modal-content
@@ -436,9 +450,12 @@ html
                         label {{vimo.Horatermino}}
                       td
                         label {{vimo.Descripcion}}
-          .modal-footer
-                //button.btnn(type='button' data-bs-dismiss='modal') Cerrar
-                button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
+          .modal-footer.justify-content-between
+            .left-section.d-flex.align-items-center.gap-2
+              button.btnn#borrardoc(ng-model="botonmodalbrocaldelete" ng-click="deletefilemodal()" ng-disabled="botonDeshabilitado" name="probando3" value="probando4") Borrar
+              input.form-control.filter(type='text' ng-model='deleting' ng-change="checkdelete()"  placeholder='Escribir borrar')
+            .right-section
+              button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
     #ModalInformacionDisciplina.modal.fade(aria-labelledby='Modallogin')
       .modal-dialog
         .modal-content
@@ -536,9 +553,12 @@ html
                         label {{disciplina.Tiempo_Disponible_Pm}}
                       td
                         label {{disciplina.Almuerzo_2}}
-          .modal-footer
-                //button.btnn(type='button' data-bs-dismiss='modal') Cerrar
-                button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
+          .modal-footer.justify-content-between
+            .left-section.d-flex.align-items-center.gap-2
+              button.btnn#borrardoc(ng-model="botonmodalbrocaldelete" ng-click="deletefilemodal()" ng-disabled="botonDeshabilitado" name="probando3" value="probando4") Borrar
+              input.form-control.filter(type='text' ng-model='deleting' ng-change="checkdelete()"  placeholder='Escribir borrar')
+            .right-section
+              button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
     #ModalInformacionEquipos.modal.fade(aria-labelledby='Modallogin')
       .modal-dialog
         .modal-content
@@ -628,9 +648,12 @@ html
                         label {{equipo.Estado}}
                       td
                         label {{equipo.Fechagas}}
-          .modal-footer
-                //button.btnn(type='button' data-bs-dismiss='modal') Cerrar
-                button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
+          .modal-footer.justify-content-between
+            .left-section.d-flex.align-items-center.gap-2
+              button.btnn#borrardoc(ng-model="botonmodalbrocaldelete" ng-click="deletefilemodal()" ng-disabled="botonDeshabilitado" name="probando3" value="probando4") Borrar
+              input.form-control.filter(type='text' ng-model='deleting' ng-change="checkdelete()"  placeholder='Escribir borrar')
+            .right-section
+              button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
     #ModalInformacionTrabajos.modal.fade(aria-labelledby='Modallogin')
       .modal-dialog
         .modal-content
@@ -715,9 +738,12 @@ html
                         label {{trabajo.Horometrominicargador}}
                       td
                         label {{trabajo.Minicargador}}
-          .modal-footer
-                //button.btnn(type='button' data-bs-dismiss='modal') Cerrar
-                button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
+          .modal-footer.justify-content-between
+            .left-section.d-flex.align-items-center.gap-2
+              button.btnn#borrardoc(ng-model="botonmodalbrocaldelete" ng-click="deletefilemodal()" ng-disabled="botonDeshabilitado" name="probando3" value="probando4") Borrar
+              input.form-control.filter(type='text' ng-model='deleting' ng-change="checkdelete()"  placeholder='Escribir borrar')
+            .right-section
+              button.btnn#aceptarusuario(ng-model="botonmodalbrocal" ng-click="acceptfile()" name="probando3" value="probando4") Aceptar
     #ModalInformacionError.modal.fade( aria-labelledby='Modallogin' )
       form.formasistencias
           .modal-dialog
@@ -3502,6 +3528,7 @@ html
   //script(src='/scripts/tablescript/bootstrap.min.js')
   //script(src='/scripts/tablescript/main.js')
   script.
+    
     if(local_authmessage!=""){
       document.getElementById("loginbutton").click();
     }

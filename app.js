@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 require("date-format-lite");
 var upload_2 = require("express-fileupload");
 const session = require('express-session')
+const { jsPDF } = require("jspdf");
 app.use(upload_2());
 
 
@@ -72,8 +73,9 @@ passport.deserializerUser(Function(id, done){
 })*/
 
 
-
+app.use(bodyParser.text())
 app.use(bodyParser.json());
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 

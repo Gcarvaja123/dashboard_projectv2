@@ -2449,7 +2449,7 @@ module.exports = {
             var datos = leerExcelTrabajos(file.name);
             console.log(datos)
             await modelo.archivos.create({
-              Tabla : "Trabajos",
+              Tabla : "trabajos",
               Idingreso : random_id_trabajo_single,
               Fechaingreso : Fecha_hoy,
               Infoingresada : "Trabajos realizados",
@@ -2563,9 +2563,6 @@ module.exports = {
                     Idingreso : random_id_trabajo_single
                   })
                 }
-                else{
-                  console.log("no pasa nada")
-                }
               })
               
             }
@@ -2575,7 +2572,6 @@ module.exports = {
             console.log(err)
             await modelo.archivos.destroy({
               where : {
-                Tabla : "Trabajos",
                 Idingreso : random_id_trabajo_single
               }
             })
@@ -3088,7 +3084,7 @@ module.exports = {
             var Fecha_sin_guion = Object.keys(datos[0])[Object.keys(datos[0]).length-1]
             var Fecha_definitiva = Fecha_sin_guion.split("/")[1]+"-"+Fecha_sin_guion.split("/")[0]+"-20"+Fecha_sin_guion.split("/")[2]
             for(a=0; a <datos.length; a++){
-              await modelo.trabajos.findAll({
+              await modelo.asistencia_traspaso.findAll({
                 where:{
                   Fecha : Fecha,
                   Cuadrilla : Cuadrilla,
@@ -3619,7 +3615,7 @@ module.exports = {
           }
         })
       }
-      else if (req.body[a].Tabla == "Trabajos"){
+      else if (req.body[a].Tabla == "trabajos"){
         await modelo.trabajos.destroy({
           where : {
             idIngreso : req.body[a].Idingreso
@@ -3697,6 +3693,84 @@ module.exports = {
 
   postChangeasistencia : async(req, res, next) =>{
     
+  },
+
+  postDeleteFileModal : async(req, res, next) =>{
+    if(req.body.Tabla == "asistencia"){
+      await modelo.asistencia.destroy({
+        where : {
+          Idingreso : req.body.Idingreso
+        }
+      })
+    }
+    else if(req.body.Tabla == "brocales"){
+      await modelo.brocales.destroy({
+        where : {
+          Idingreso : req.body.Idingreso
+        }
+      })
+    }
+    else if(req.body.Tabla == "disciplina"){
+      await modelo.disciplina.destroy({
+        where : {
+          Idingreso : req.body.Idingreso
+        }
+      })
+    }
+    else if(req.body.Tabla == "equipos"){
+      await modelo.equipos.destroy({
+        where : {
+          Idingreso : req.body.Idingreso
+        }
+      })
+    }
+    else if(req.body.Tabla == "planmatriz"){
+      await modelo.planmatriz.destroy({
+        where : {
+          Idingreso : req.body.Idingreso
+        }
+      })
+    }
+    else if(req.body.Tabla == "puertas"){
+      await modelo.puertas.destroy({
+        where : {
+          Idingreso : req.body.Idingreso
+        }
+      })
+    }
+    else if(req.body.Tabla == "vimosap"){
+      await modelo.vimosap.destroy({
+        where : {
+          Idingreso : req.body.Idingreso
+        }
+      })
+    }
+    else if (req.body.Tabla == "trabajos"){
+      await modelo.trabajos.destroy({
+        where : {
+          Idingreso : req.body.Idingreso
+        }
+      })
+    }
+    else if(req.body.Tabla == "conductores"){
+      await modelo.conductores.destroy({
+        where : {
+          Idingreso : req.body.Idingreso
+        }
+      })
+    }
+    else if(req.body.Tabla == "puertas_vimo"){
+      await modelo.puertas_vimo.destroy({
+        where : {
+          Idingreso : req.body.Idingreso
+        }
+      })
+    }
+    await modelo.archivos.destroy({
+      where : {
+        Idingreso : req.body.Idingreso 
+      }
+    })
   },
     
   postCrearusuario : async (req, res, next)=>{

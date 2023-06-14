@@ -84,11 +84,15 @@ var app = angular.module('myApp', ['zingchart-angularjs']);
 
 app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout, $templateRequest, $compile, $sce){
 
+  window.jsPDF = window.jspdf.jsPDF;
+  $scope.doc = new jsPDF();
+
   $scope.archivosingresados = local_ingreso
 
 
   document.getElementById("buttoncrear").disabled = true
   document.getElementById("aceptarusuario").disabled = true
+  $scope.botonDeshabilitado = true;
 
   $scope.datos_norepetidos = []
   for(x=0 ; x < local_data_asistencia.length; x++){
@@ -238,7 +242,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   }
 
   //Asistencia pie
-  for (var i = 0; i < 25; i++) {
+  for (var i = 0; i < 28; i++) {
   $scope["myJsonpieasistencia" + (i+1)] = Pie_creator(
     $scope.total_trabajadores_array[i],
     $scope.asistencia_total_trabajadores_array[i],
@@ -3220,6 +3224,15 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     
   }
 
+  $scope.checkdelete = function(){
+    if($scope.deleting == "borrar"){
+      $scope.botonDeshabilitado = false
+    }
+    else{
+      $scope.botonDeshabilitado = true
+    }
+  }
+
   $scope.checkpassword = function(){
     if(angular.equals($scope.pass1, $scope.pass2)){
       if($scope.pass1==""){
@@ -3290,6 +3303,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   $scope.EstadoArchivos = ""
   $scope.contadoringreso = 0 ;
   $scope.Totalbrocalesexterno = []
+  $scope.idarchivoingresado = "";
   $scope.mymodalarchivos
   /*for(a=0 ; a < local_data_archivos.length; a++){
     if(local_data_archivos[a].Nombrearchivo == local_ingreso[0]){
@@ -3320,12 +3334,12 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   
   else if(local_ingreso.length!=0){
     //console.log(local_ingreso)
-    
     $scope.contadoringreso+=1;
 
     
     for(a=0 ; a < local_data_archivos.length; a++){
       if(local_data_archivos[a].Idingreso == local_ingreso[0]){
+        $scope.idarchivoingresado = local_data_archivos[a]
         if(local_data_archivos[a].Tabla == "brocales"){
           $scope.Totalbrocales = []
           for(b=0 ; b < local_data_brocales.length; b++){
@@ -3399,10 +3413,10 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
           $scope.mymodalarchivos.toggle()
         }
         else if(local_data_archivos[a].Tabla == "trabajos"){
-          $scope.Totalequipos = []
+          $scope.Totaltrabajos = []
           for(b=0 ; b < local_data_trabajos.length ; b++){
             if(local_data_trabajos[b].Idingreso == local_data_archivos[a].Idingreso){
-              $scope.Totalequipos.push(local_data_trabajos[b])
+              $scope.Totaltrabajos.push(local_data_trabajos[b])
             }
           }
           $scope.mymodalarchivos = new bootstrap.Modal(document.getElementById('ModalInformacionTrabajos'), {
@@ -3421,9 +3435,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     })
     myModal.toggle()*/
 
-    $scope.brocalesContent = angular.element(document.querySelector('#tablebrocales')).html();
+    /*$scope.brocalesContent = angular.element(document.querySelector('#tablebrocales')).html();
     $scope.trustedHtmlContent = $sce.trustAsHtml($scope.brocalesContent);
-    console.log($scope.Totalbrocales)
+    console.log($scope.Totalbrocales)*/
 
   }
 
@@ -3432,6 +3446,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     if(local_ingreso.length > $scope.contadoringreso){
       for(a = 0 ; a < local_data_archivos.length ; a++){
         if(local_data_archivos[a].Idingreso == local_ingreso[$scope.contadoringreso]){
+          $scope.idarchivoingresado = local_data_archivos[a]
           if(local_data_archivos[a].Tabla == "brocales"){
             $scope.Totalbrocales = []
             for(b=0 ; b < local_data_brocales.length; b++){
@@ -3504,7 +3519,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
             }) 
             $scope.mymodalarchivos.toggle()
           }
-          else if(local_data_archivos[a].Tabla == "Trabajos"){
+          else if(local_data_archivos[a].Tabla == "trabajos"){
             $scope.Totaltrabajos = []
             for(b=0 ; b < local_data_trabajos.length ; b++){
               if(local_data_trabajos[b].Idingreso == local_data_archivos[a].Idingreso){
@@ -3519,11 +3534,18 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
           
         }
       }
-      $scope.contadoringreso+=1
-      
-    }
-    
+      $scope.contadoringreso+=1     
+    } 
+  }
 
+  $scope.deletefilemodal = function(){
+    
+    $http({
+      method : 'POST',
+      url : '/postdeletefilemodal',
+      data : $scope.idarchivoingresado
+    })
+    $scope.acceptfile()
   }
   //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   $scope.changearchivos = function(index){
@@ -3910,6 +3932,34 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     $scope.archivoseliminar.splice(index,1)
 
   }
+  $scope.agregarElementosPDF = function() {
+    /*// Obtener el contenido HTML de los elementos que deseas agregar al PDF
+    var contenidoHTML = document.getElementById("divinvisible").outerHTML;
+  
+    // Agregar el contenido HTML al PDF
+    $scope.doc.html(contenidoHTML, {
+      callback: function () {
+        // Guardar el PDF
+        $scope.doc.save("reporte.pdf");
+      }
+    });*/
+    // Create a hidden div element
+    // Get the content HTML element you want to include in the PDF
+    var contenidoHTML = document.getElementById("divinvisible");
+
+    // Create a configuration object for html2pdf
+    var config = {
+      filename: 'reporte.pdf', // Specify the filename for the PDF
+      margin: [15, 15, 15, 15], // Specify the margins (top, left, bottom, right)
+      image: { type: 'jpeg', quality: 0.98 }, // Specify the image type and quality
+      html2canvas: { scale: 2 }, // Scale the content for better quality
+      jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' } // Set the PDF properties
+    };
+
+    // Use html2pdf to generate the PDF
+    html2pdf().from(contenidoHTML).set(config).save();
+  }
+
   $scope.CreateReport = function(){
     document.getElementById("divinvisible").style.display = "block";
     var Fecha_reporte_ingreso = new Date($scope.dateselectedstart.getTime() - $scope.dateselectedstart.getTimezoneOffset()*60000);
@@ -4224,6 +4274,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
     $scope.myJsonDisciplinareport = Bullet_creator([array_suma_meta[0], array_suma_meta[1], array_suma_meta[2], array_suma_meta[3], array_suma_meta[4], array_suma_meta[5], array_suma_meta[6], array_suma_meta[7], array_suma_meta[8], array_suma_meta[9], array_suma_meta[10], array_suma_meta[11], array_suma_meta[12], array_suma_meta[13]], [100,100,100,100, 100, 100, 100,100,100,100,100,100,100,100], [name_visited[0], name_visited[1], name_visited[2], name_visited[3], name_visited[4], name_visited[5], name_visited[6], name_visited[7], name_visited[8], name_visited[9], name_visited[10], name_visited[11], name_visited[12], name_visited[13]])
 
+    //$scope.agregarElementosPDF();
   }
 
   $scope.Cambiositio = function(){
@@ -7704,3 +7755,4 @@ function obtenerContenidoDiv(html) {
   var match = html.match(regex);
   return match ? match[1] : '';
 }
+

@@ -51,6 +51,7 @@
     "jade": "^1.11.0",
     "jade-bootstrap": "^1.0.14",
     "jquery": "^3.6.1",
+    "jspdf": "^2.5.1",
     "length": "0.0.1",
     "local": "^0.3.3",
     "mdb-ui-kit": "^5.0.0",
