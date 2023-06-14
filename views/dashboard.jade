@@ -1514,6 +1514,7 @@ html
                 a.nav-link.tablink(onclick="openActivity(event,'Reporte')")
                   span.glyphicon.glyphicon-folder-open.nb-link-icon
                   span.nb-link-text Reporte
+            if user.Rango=="admin"
               li
                 a.nav-link.tablink(onclick="openActivity(event,'Archivos')")
                   span.glyphicon.glyphicon-folder-open.nb-link-icon
@@ -2526,33 +2527,27 @@ html
               legend.col-form-label.col-sm-2.pt-0 Roles
               .col-sm-10
                 .form-check
-                  input#gridRadios1.form-check-input(type='radio' name='gridRadios' value='Visualizacion' checked='')
-                  label.form-check-label(for='gridRadios1')
-                    | Rol 1 (Visualización de información)
+                  input#roleRadios1.form-check-input(type='radio' name='gridRadios' value='Visualizacion' checked='')
+                  label.form-check-label(for='roleRadios1') Rol 1 (Visualización de información)
                 .form-check
-                  input#gridRadios2.form-check-input(type='radio' name='gridRadios' value='Modificacion')
-                  label.form-check-label(for='gridRadios2')
-                    | Rol 2 (Ingreso información y modificación)
+                  input#roleRadios2.form-check-input(type='radio' name='gridRadios' value='Modificacion')
+                  label.form-check-label(for='roleRadios2') Rol 2 (Ingreso información y modificación)
                 .form-check.disabled
-                  input#gridRadios3.form-check-input(type='radio' name='gridRadios' value='Reportes' )
-                  label.form-check-label(for='gridRadios3')
-                    | Rol 3 (Crea reportes)
+                  input#roleRadios3.form-check-input(type='radio' name='gridRadios' value='Reportes')
+                  label.form-check-label(for='roleRadios3') Rol 3 (Crea reportes)
           fieldset.form-group
             .row
               legend.col-form-label.col-sm-2.pt-0 Sector
               .col-sm-10
                 .form-check
-                  input#gridRadios1.form-check-input(type='radio' name='gridRadios' value='infra' checked='')
-                  label.form-check-label(for='gridRadios4')
-                    | Infra
+                  input#sectorRadios1.form-check-input(type='radio' name='sectorRadios' value='infra' checked='')
+                  label.form-check-label(for='sectorRadios1') Infra
                 .form-check
-                  input#gridRadios2.form-check-input(type='radio' name='gridRadios' value='traspaso')
-                  label.form-check-label(for='gridRadios5')
-                    | Traspaso
+                  input#sectorRadios2.form-check-input(type='radio' name='sectorRadios' value='traspaso')
+                  label.form-check-label(for='sectorRadios2') Traspaso
                 .form-check.disabled
-                  input#gridRadios3.form-check-input(type='radio' name='gridRadios' value='tte8' )
-                  label.form-check-label(for='gridRadios6')
-                    | Tte8
+                  input#sectorRadios3.form-check-input(type='radio' name='sectorRadios' value='tte8')
+                  label.form-check-label(for='sectorRadios3') Tte8
           .form-group.row
             .col-sm-10
               button.btn.btn-primary#buttoncrear(type='submit') Crear

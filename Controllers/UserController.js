@@ -3716,7 +3716,8 @@ module.exports = {
             await modelo.usuario.create({
               Usuario : req.body.Usuario,
               Contraseña : req.body.Contrasena,
-              Rango : req.body.gridRadios
+              Rango : req.body.gridRadios,
+              Sector : req.body.sectorRadios
             })
             req.flash('info', 'Se ha registrado correctamente');
           }
