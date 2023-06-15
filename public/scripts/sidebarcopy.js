@@ -181,16 +181,15 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     }
   }
 
-  for(c=0; c < $scope.vimostotalarchivo2.length; c++){
+  /*for(c=0; c < $scope.vimostotalarchivo2.length; c++){
     $scope.vimostotalarchivo2[c].Fecha = $scope.vimostotalarchivo2[c].Fecha.split("-")[2]+"-"+$scope.vimostotalarchivo2[c].Fecha.split("-")[1]+"-"+$scope.vimostotalarchivo2[c].Fecha.split("-")[0]
-  }
+  }*/
   $scope.vimostotalarchivo2.sort(function(a, b) {
     var fechaA = new Date(a.Fecha);
     var fechaB = new Date(b.Fecha);
     return fechaA - fechaB;
   });
 
-  console.log($scope.vimostotalarchivo2)
 
   
   $scope.headers = ["Fecha", "Numpuerta", "Nivel", "Area"]
@@ -439,7 +438,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
       realizacion+=1
     }
   }
-  console.log(realizacion)
   /*for(b=0; b<local_data_puertas.length ; b++){
 
     if(local_data_puertas[b].Fecharevision== $scope.fecha_universal){
@@ -512,6 +510,19 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
   $scope.typebrocal5 = "anual";
   $scope.typebrocal6 = "anual";
+
+  var total_deseadas = [0,0,0,0,0,0,0,0,0,0,0,0];
+  var total_completadas = [0,0,0,0,0,0,0,0,0,0,0,0];
+  fecha = $scope.fecha_universal
+  for(e=0; e < local_data_matriz.length; e++){
+    if(local_data_matriz[e].Area == "Aire Acondicionado" && local_data_matriz[e].Fecha.split("-")[2]==fecha.split("-")[2]){
+      total_deseadas[parseInt(local_data_matriz[e].Fecha.split("-")[1])-1]+=1;
+      if(local_data_matriz[e].Observaciones == null){
+        total_completadas[parseInt(local_data_matriz[e].Fecha.split("-")[1])-1]+=1;
+      }
+    }
+  }
+  $scope.myJsonpieCumplimiento = Pie_Cumplimiento(total_deseadas[parseInt(fecha.split("-")[1])-1], total_completadas[parseInt(fecha.split("-")[1])-1], "Aire Acondicionado" )
 
 
 
@@ -1868,6 +1879,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     }
 
     var realizacion = 0;
+    
     for(b=0 ; b < local_data_puertas_vimo.length; b++){
       if(local_data_puertas_vimo[b].Fecha == $scope.fecha_universal){
         realizacion+=1
@@ -2107,6 +2119,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     }
 
     $scope.myJsonAnualmatriz = mixed_creator(total_deseadas,total_completadas, "Aire Acondicionado");
+
+    
 
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
