@@ -166,10 +166,26 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   $scope.vimoarray4 = vimos_array.slice(60,80)
   $scope.vimoarray5 = vimos_array.slice(80,vimos_array.length)
 
+
+  var puertas_visitadas = []
   $scope.vimostotalarchivo2 = []
   for(a=0 ; a < local_data_puertas_vimo.length; a++){
-    $scope.vimostotalarchivo2.push(local_data_puertas_vimo[a])
+    if(puertas_visitadas.indexOf(local_data_puertas_vimo[a].Numpuerta)==-1){
+      puertas_visitadas.push(local_data_puertas_vimo[a].Numpuerta)
+      $scope.vimostotalarchivo2.push(local_data_puertas_vimo[a])
+    }
+    else{
+      console.log(local_data_puertas_vimo[a].Fecha)
+      console.log($scope.vimostotalarchivo2[puertas_visitadas.indexOf(local_data_puertas_vimo[a].Numpuerta)].Fecha)
+      console.log(comparar_fechas(local_data_puertas_vimo[a].Fecha, $scope.vimostotalarchivo2[puertas_visitadas.indexOf(local_data_puertas_vimo[a].Numpuerta)].Fecha))
+      if(comparar_fechas(local_data_puertas_vimo[a].Fecha, $scope.vimostotalarchivo2[puertas_visitadas.indexOf(local_data_puertas_vimo[a].Numpuerta)].Fecha)){
+        $scope.vimostotalarchivo2[puertas_visitadas.indexOf(local_data_puertas_vimo[a].Numpuerta)] = local_data_puertas_vimo[a]
+      }
+    }
+    
   }
+
+  
   $scope.headers = ["Fecha", "Numpuerta", "Nivel", "Area"]
   //$scope.vimostotal = vimos_array;
 
@@ -3945,7 +3961,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     });*/
     // Create a hidden div element
     // Get the content HTML element you want to include in the PDF
-    var contenidoHTML = document.getElementById("divinvisible");
+    var contenidoHTML = document.getElementById("gridbrocalesreport");
 
     // Create a configuration object for html2pdf
     var config = {
@@ -4274,7 +4290,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
     $scope.myJsonDisciplinareport = Bullet_creator([array_suma_meta[0], array_suma_meta[1], array_suma_meta[2], array_suma_meta[3], array_suma_meta[4], array_suma_meta[5], array_suma_meta[6], array_suma_meta[7], array_suma_meta[8], array_suma_meta[9], array_suma_meta[10], array_suma_meta[11], array_suma_meta[12], array_suma_meta[13]], [100,100,100,100, 100, 100, 100,100,100,100,100,100,100,100], [name_visited[0], name_visited[1], name_visited[2], name_visited[3], name_visited[4], name_visited[5], name_visited[6], name_visited[7], name_visited[8], name_visited[9], name_visited[10], name_visited[11], name_visited[12], name_visited[13]])
 
-    //$scope.agregarElementosPDF();
+    $scope.agregarElementosPDF();
   }
 
   $scope.Cambiositio = function(){
@@ -4879,7 +4895,7 @@ function timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, va
   grafico = {
     type: 'bar',
     utc: true,
-    timezone: -3, 
+    timezone: -4, 
     plot: {
       barWidth: '50%',
       stacked: true,

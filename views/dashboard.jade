@@ -3455,13 +3455,14 @@ html
           select.selectsitio.form-selectfilter( ng-model='columnsitio' ng-init='columnsitio="Fecha"' ng-options='e for e in headersitio' ng-change="Cambiositio()" )
           p
           #lineasistenciareport.grid-container2
-            #chart100(zingchart='' zc-json='myJsonAsistenciaReport' zc-width='1700px' zc-height='300px')
+            #chart100(zingchart='' zc-json='myJsonAsistenciaReport' zc-width='360px' zc-height='300px')
 
           #gridbrocalesreport.grid-container
             div
               #chart101(zingchart='' zc-json='myJsonBrocalesreport1' zc-width='360px' zc-height='300px')
             div
               #chart102(zingchart='' zc-json='myJsonBrocalesreport2' zc-width='360px' zc-height='300px')
+            
             div
               #chart103(zingchart='' zc-json='myJsonBrocalesreportbar' zc-width='900px' zc-height='300px')
           #gridbrocalesreport2.grid-container

@@ -1593,7 +1593,18 @@ module.exports = {
                         }
                       }
                     }
-                    await modelo.puertas_vimo.findAll({
+                    await modelo.puertas_vimo.create({
+                      Codigo : datos[a][2][Object.keys(datos[a][2])[0]],
+                      Fecha : Fecha,
+                      Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]].toString(),
+                      Nivel : datos[a][2][Object.keys(datos[a][2])[3]],
+                      Area : datos[a][2][Object.keys(datos[a][2])[4]],
+                      Horainicio : convertToHHMM(datos[a][2][Object.keys(datos[a][2])[Object.keys(datos[a][2]).length-1]]*24).toString(),
+                      Horatermino : convertToHHMM(datos[a][6][Object.keys(datos[a][6])[Object.keys(datos[a][6]).length-1]]*24).toString(),
+                      Descripcion : Descripcion,
+                      Idingreso : random_id_matriz_vimo_multiple
+                    })
+                    /*await modelo.puertas_vimo.findAll({
                       where: {
                         Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]],
                       }
@@ -1628,7 +1639,7 @@ module.exports = {
                         }
                         )
                       }
-                    })
+                    })*/
                     
                   }
                   req.flash('ingreso', random_id_matriz_vimo_multiple);       
@@ -1738,7 +1749,7 @@ module.exports = {
               }
               
               if(area == "vimo"){
-                        
+                //console.log(datos)
                 for(a=0; a < datos.length; a++){
                   var date = ExcelDateToJSDate(datos[a][2][Object.keys(datos[a][2])[1]]);
                   var converted_date = date.toISOString().split('T')[0];
@@ -1765,16 +1776,27 @@ module.exports = {
                       }
                     }
                   }
-                  await modelo.puertas_vimo.findAll({
+                  await modelo.puertas_vimo.create({
+                    Codigo : datos[a][2][Object.keys(datos[a][2])[0]],
+                    Fecha : Fecha,
+                    Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]].toString(),
+                    Nivel : datos[a][2][Object.keys(datos[a][2])[3]],
+                    Area : datos[a][2][Object.keys(datos[a][2])[4]],
+                    Horainicio : convertToHHMM(datos[a][2][Object.keys(datos[a][2])[Object.keys(datos[a][2]).length-1]]*24).toString(),
+                    Horatermino : convertToHHMM(datos[a][6][Object.keys(datos[a][6])[Object.keys(datos[a][6]).length-1]]*24).toString(),
+                    Descripcion : Descripcion,
+                    Idingreso : random_id_matriz_vimo_single
+                  })
+                  /*await modelo.puertas_vimo.findAll({
                     where : {
-                      Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]],
+                      Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]].toString(),
                     }
                   }).then(async function(rows_vimo){
                     if (rows_vimo.length==0){
                       await modelo.puertas_vimo.create({
                         Codigo : datos[a][2][Object.keys(datos[a][2])[0]],
                         Fecha : Fecha,
-                        Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]],
+                        Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]].toString(),
                         Nivel : datos[a][2][Object.keys(datos[a][2])[3]],
                         Area : datos[a][2][Object.keys(datos[a][2])[4]],
                         Horainicio : convertToHHMM(datos[a][2][Object.keys(datos[a][2])[Object.keys(datos[a][2]).length-1]]*24).toString(),
@@ -1795,11 +1817,11 @@ module.exports = {
                         Idingreso : random_id_matriz_single
                       },{
                         where : {   
-                          Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]],
+                          Numpuerta : datos[a][2][Object.keys(datos[a][2])[2]].toString(),
                         }
                       })
                     }
-                  })
+                  })*/
                 }
                 req.flash('ingreso', random_id_matriz_vimo_single);
                     
