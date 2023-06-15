@@ -175,15 +175,22 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
       $scope.vimostotalarchivo2.push(local_data_puertas_vimo[a])
     }
     else{
-      console.log(local_data_puertas_vimo[a].Fecha)
-      console.log($scope.vimostotalarchivo2[puertas_visitadas.indexOf(local_data_puertas_vimo[a].Numpuerta)].Fecha)
-      console.log(comparar_fechas(local_data_puertas_vimo[a].Fecha, $scope.vimostotalarchivo2[puertas_visitadas.indexOf(local_data_puertas_vimo[a].Numpuerta)].Fecha))
       if(comparar_fechas(local_data_puertas_vimo[a].Fecha, $scope.vimostotalarchivo2[puertas_visitadas.indexOf(local_data_puertas_vimo[a].Numpuerta)].Fecha)){
         $scope.vimostotalarchivo2[puertas_visitadas.indexOf(local_data_puertas_vimo[a].Numpuerta)] = local_data_puertas_vimo[a]
       }
     }
-    
   }
+
+  for(c=0; c < $scope.vimostotalarchivo2.length; c++){
+    $scope.vimostotalarchivo2[c].Fecha = $scope.vimostotalarchivo2[c].Fecha.split("-")[2]+"-"+$scope.vimostotalarchivo2[c].Fecha.split("-")[1]+"-"+$scope.vimostotalarchivo2[c].Fecha.split("-")[0]
+  }
+  $scope.vimostotalarchivo2.sort(function(a, b) {
+    var fechaA = new Date(a.Fecha);
+    var fechaB = new Date(b.Fecha);
+    return fechaA - fechaB;
+  });
+
+  console.log($scope.vimostotalarchivo2)
 
   
   $scope.headers = ["Fecha", "Numpuerta", "Nivel", "Area"]
