@@ -13,7 +13,8 @@ module.exports = function(sequelize,DataTypes){
 				Idingreso : Sequelize.TEXT,
 				Fechaingreso : Sequelize.TEXT,
 				Infoingresada : Sequelize.TEXT,
-				Nombrearchivo : Sequelize.TEXT
+				Nombrearchivo : Sequelize.TEXT,
+				Usuario : Sequelize.TEXT
 			},{
 				tableName: 'archivos',
 				freezeTableName: true,

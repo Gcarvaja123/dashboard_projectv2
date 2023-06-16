@@ -2081,7 +2081,27 @@ module.exports = {
                   Fecha = ""
                 }
                 
-                await modelo.equipos.findAll({
+                await modelo.equipos.create({
+                  Contrato : datos[0][a][columnas[0]],
+                  Equipo : datos[0][a][columnas[1]],
+                  Patente : datos[0][a][columnas[2]].replace(/\s+/g,' ').trim(),
+                  Numinterno : datos[0][a][columnas[3]],
+                  Cartola : datos[0][a][columnas[4]],
+                  Nomresp : datos[0][a][columnas[5]],
+                  Rutresp : datos[0][a][columnas[6]],
+                  Regimen : datos[0][a][columnas[7]],
+                  Ultimamantencion : Fecha,
+                  Proxmant : datos[0][a][columnas[9]],
+                  Ultimokms : datos[0][a][columnas[10]],
+                  Proximakms : datos[0][a][columnas[11]],
+                  Kilometrajeactual : datos[0][a][columnas[12]],
+                  Kilometrajefaltante : datos[0][a][columnas[13]],
+                  Estado : datos[0][a][columnas[14]],
+                  Fechagas : datos[0][a][columnas[15]],
+                  Comentarios : datos[0][a][columnas[16]],
+                  Idingreso : random_id_equipos_single
+                })
+                /*await modelo.equipos.findAll({
                   where:{
                     Patente : datos[0][a][columnas[2]]
                   }
@@ -2133,7 +2153,7 @@ module.exports = {
                       Idingreso : random_id_equipos_single
                     })
                   }
-                })
+                })*/
               }
               req.flash('ingreso', random_id_equipos_single);
             }catch(err){
@@ -2469,13 +2489,14 @@ module.exports = {
             const savePath = path.join(__dirname,"../",'public','uploads',file.name);
             await file.mv(savePath);
             var datos = leerExcelTrabajos(file.name);
-            console.log(datos)
+            console.log(req.session.user_id)
             await modelo.archivos.create({
               Tabla : "trabajos",
               Idingreso : random_id_trabajo_single,
               Fechaingreso : Fecha_hoy,
               Infoingresada : "Trabajos realizados",
-              Nombrearchivo : file.name.toString() 
+              Nombrearchivo : file.name.toString(),
+              Usuario : req.session.user_id.Usuario 
             })
             var Fecha = ""
             var Turno = ""

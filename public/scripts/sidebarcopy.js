@@ -94,6 +94,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   document.getElementById("aceptarusuario").disabled = true
   $scope.botonDeshabilitado = true;
 
+  $scope.headerdisciplina = ["SUB 6", "PIPA N", "DIABLO", "ACCU", "SALVATAJE", "VENT", "P M", "LA JUNTA", "AC", "COLEC", "TTE 7", "CH COLON", "TTE 6", "SUB 5"];
+  $scope.columndisc ="SUB 6"
+
   $scope.datos_norepetidos = []
   for(x=0 ; x < local_data_asistencia.length; x++){
     if(local_data_asistencia[x].Turno!=" " && local_data_asistencia[x].Turno != null && $scope.datos_norepetidos.indexOf(local_data_asistencia[x].Turno.replace(/\s+/g,' ').trim()) == -1){
@@ -544,8 +547,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
       week_day=a;
     }
   }
-  console.log(array_week)
-
     
   var array_suma_meta =[];
   var array_values = [];
@@ -616,7 +617,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   
 
   $scope.dateselected = new Date()
-  $scope.myJsonTest = line_chart(array_values, name_visited)
+  $scope.myJsonTest = line_chart(array_values, name_visited, $scope.columndisc)
 
 
   //------------------------------------------------------- ASISTENCIA TRASPASO--------------------------------------------------------------//
@@ -1652,8 +1653,10 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     }
   }
   
+  $scope.graphviewvalue = ""
   // CAMBIAR DATOS DEL PLAN MATRIZ EN PANEL PRINCIPAL
   $scope.changegraphview = function(name){
+    $scope.graphviewvalue = name
     var total_deseadas = [0,0,0,0,0,0,0,0,0,0,0,0];
     var total_completadas = [0,0,0,0,0,0,0,0,0,0,0,0];
     fecha = $scope.fecha_universal
@@ -2374,8 +2377,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     }
 
     $scope.myJsonhbar = hbar_text(array_suma_meta, name_visited)
-    $scope.myJsonTest = line_chart(array_values, name_visited)
-    console.log(array_values)
+    $scope.myJsonTest = line_chart(array_values[name_visited.indexOf($scope.columndisc)], name_visited[name_visited.indexOf($scope.columndisc)], $scope.columndisc)
+    
     if(array_values.length>1){
       $scope.myJsonSemanalDisciplina1 = Bullet_creator([array_values[0][week_day],array_values[1][week_day], array_values[2][week_day], array_values[3][week_day], array_values[4][week_day], array_values[5][week_day], array_values[6][week_day], array_values[7][week_day], array_values[8][week_day], array_values[9][week_day], array_values[10][week_day], array_values[11][week_day], array_values[12][week_day], array_values[13][week_day]], [100,100,100,100, 100, 100, 100,100,100,100,100,100,100,100], [name_visited[0], name_visited[1], name_visited[2], name_visited[3], name_visited[4], name_visited[5], name_visited[6], name_visited[7], name_visited[8], name_visited[9], name_visited[10], name_visited[11], name_visited[12], name_visited[13]])
     }
@@ -2396,7 +2399,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
    
     for(a=0; a<local_data_disciplina.length; a++){
-      if(local_data_disciplina[a].Area == "SUB 6" && array_week.indexOf(local_data_disciplina[a].Fecha)!=-1  ){
+      if(local_data_disciplina[a].Area == $scope.columndisc && array_week.indexOf(local_data_disciplina[a].Fecha)!=-1  ){
         fecha_split = local_data_disciplina[a].Fecha.split("-")
         fecha_invertida = fecha_split[2]+"-"+fecha_split[1]+"-"+fecha_split[0];
         if(local_data_disciplina[a].Llegada_Instalacion!="0:0"){
@@ -2415,7 +2418,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
     var Epoch_Inicio = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"07:00:00"))*1000
     var Epoch_Final = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"17:00:00"))*1000
-    $scope.myJsonTimer1 = timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7);
+    $scope.myJsonTimer1 = timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7, $scope.columndisc);
     
 
 
@@ -2747,9 +2750,179 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   $scope.Asistenciatotal =[];
 
 
+  $scope.non_completionmatriz = function(){
+    $scope.Totalmatrices = []
+    for(a=0 ; a < local_data_matriz.length ; a++){
+      if(local_data_matriz[a].Area == $scope.graphviewvalue && local_data_matriz[a].Observaciones!=null && local_data_matriz[a].Fecha.split("-")[2] == $scope.fecha_universal.split("-")[2]){
+        $scope.Totalmatrices.push(local_data_matriz[a])
+      }
+    }
 
+    var Modalmatriz = new bootstrap.Modal(document.getElementById('Modalmatriz'), {
+      keyboard: false
+    })
+    Modalmatriz.toggle()
+  }
+
+  $scope.non_completionmatrizplan = function(name){
+    $scope.Totalmatrices = []
+    for(a=0 ; a < local_data_matriz.length ; a++){
+      if(local_data_matriz[a].Area == name && local_data_matriz[a].Observaciones!=null && local_data_matriz[a].Fecha.split("-")[2] == $scope.fecha_universal.split("-")[2]){
+        $scope.Totalmatrices.push(local_data_matriz[a])
+      }
+    }
+
+    var Modalmatriz = new bootstrap.Modal(document.getElementById('Modalmatriz'), {
+      keyboard: false
+    })
+    Modalmatriz.toggle()
+  }
   
+  $scope.changegraphs = function(){
 
+    
+    $scope.nueva_fecha_2  = angular.copy($scope.fecha_universal)
+    nueva_fecha = new Date($scope.nueva_fecha_2.split("-")[2]+"-"+$scope.nueva_fecha_2.split("-")[1]+"-"+$scope.nueva_fecha_2.split("-")[0]);
+    var name_visited = [];
+    var meta = [];
+    var exact_days = get_day_numbers(nueva_fecha);
+    var array_week = [];
+    var week_day = 0;
+    for (a=0; a<get_day_numbers($scope.dateselected).length; a++){
+      nueva_fecha_2 = new Date(exact_days[a] - $scope.dateselected.getTimezoneOffset()*60000);
+      converted_date_2 = nueva_fecha_2.toISOString().split('T')[0];
+      fecha_2 = converted_date_2.split("-")[2]+"-"+converted_date_2.split("-")[1]+"-"+converted_date_2.split("-")[0];
+      array_week.push(fecha_2);
+      if(fecha_2==fecha){
+        week_day=a;
+      }
+    }
+    var contando_feriados = [];
+    var array_suma_meta =[];
+    var array_values = [];
+    for (a=0; a<local_data_disciplina.length; a++){
+      if(local_data_disciplina[a].Fecha==array_week[0] || local_data_disciplina[a].Fecha==array_week[1] || local_data_disciplina[a].Fecha==array_week[2] || local_data_disciplina[a].Fecha==array_week[3] || local_data_disciplina[a].Fecha==array_week[4] ){
+        if(name_visited.indexOf(local_data_disciplina[a].Area) == -1){
+          name_visited.push(local_data_disciplina[a].Area);
+          meta.push(local_data_disciplina[a].Meta)
+          contando_feriados.push(0)
+          var aux_arr = [0,0,0,0,0];
+          aux_arr[array_week.indexOf(local_data_disciplina[a].Fecha)] = parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[[1]]) + parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[1])
+          if(aux_arr[array_week.indexOf(local_data_disciplina[a].Fecha)]==NaN){
+            aux_arr[array_week.indexOf(local_data_disciplina[a].Fecha)] = 0;
+          }
+          
+          array_values.push(aux_arr);
+
+        }
+        else{
+          array_values[name_visited.indexOf(local_data_disciplina[a].Area)][array_week.indexOf(local_data_disciplina[a].Fecha)] = parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[[1]]) + parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[1])
+          //array_float[name_visited.indexOf(local_data_disciplina[a].Area)][array_week.indexOf(local_data_disciplina[a].Fecha)] = parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[[1]]) + parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[1])
+          if(local_data_disciplina[a].Meta != "0:0"){
+            meta[name_visited.indexOf(local_data_disciplina[a].Area)] = local_data_disciplina[a].Meta
+          }
+        }
+
+        if(local_data_disciplina[a].Meta == "0:0"){
+          contando_feriados[name_visited.indexOf(local_data_disciplina[a].Area)]+=1
+        }
+        
+
+      }
+    }
+    
+    for(a=0; a < array_values.length; a++){
+      suma = 0;
+      for(b=0; b < array_values[a].length; b++){
+        suma+= array_values[a][b];
+        
+        array_values[a][b] = Math.round(parseFloat(array_values[a][b]/(parseInt(meta[a].split(":")[0])*60 + parseInt(meta[a].split(":")[1]) ))*100);
+        
+        //array_float[a][b] = parseFloat(array_values[a][b]/(meta[a].split(":")[0]*60 + meta[a].split(":")[1]*6 ))*100;
+      }
+      array_suma_meta.push(suma);
+    }
+
+    for(a=0; a<array_suma_meta.length; a++){
+
+      array_suma_meta[a] = Math.round((parseFloat(array_suma_meta[a]/((parseInt(meta[a].split(':')[0])*60 + parseInt(meta[a].split(':')[1]))*(5-contando_feriados[a])))*100).toFixed(8))
+    }
+
+    var meta_semanal = [];
+    var diccionario_values =[];
+    
+
+    for(a=0 ; a<array_values.length ; a++){
+      var diccionario_aux = {};
+      diccionario_aux.values = array_values[a];
+      diccionario_aux.name = name_visited[a];
+      diccionario_aux.meta = array_suma_meta[a];
+      diccionario_values.push(diccionario_aux);
+    }
+
+
+    var sorted_dictionary = diccionario_values.sort(function(a,b){
+      return a.meta - b.meta
+    })
+
+    var array_values = [];
+    var array_suma_meta = [];
+    var name_visited = [];
+
+    for (a=0; a < sorted_dictionary.length; a++){
+      array_values.push(sorted_dictionary[a].values);
+      name_visited.push(sorted_dictionary[a].name);
+      array_suma_meta.push(sorted_dictionary[a].meta)
+    }
+
+    //$scope.myJsonhbar = hbar_text(array_suma_meta, name_visited)
+    $scope.myJsonTest = line_chart(array_values[name_visited.indexOf($scope.columndisc)], name_visited[name_visited.indexOf($scope.columndisc)], $scope.columndisc)
+    
+    if(array_values.length>1){
+      $scope.myJsonSemanalDisciplina1 = Bullet_creator([array_values[0][week_day],array_values[1][week_day], array_values[2][week_day], array_values[3][week_day], array_values[4][week_day], array_values[5][week_day], array_values[6][week_day], array_values[7][week_day], array_values[8][week_day], array_values[9][week_day], array_values[10][week_day], array_values[11][week_day], array_values[12][week_day], array_values[13][week_day]], [100,100,100,100, 100, 100, 100,100,100,100,100,100,100,100], [name_visited[0], name_visited[1], name_visited[2], name_visited[3], name_visited[4], name_visited[5], name_visited[6], name_visited[7], name_visited[8], name_visited[9], name_visited[10], name_visited[11], name_visited[12], name_visited[13]])
+    }
+
+
+    var values_1=[0];
+    var values_2=[0];
+    var values_3=[0];
+    var values_4=[0];
+    var values_5=[0];
+    var values_6=[0];
+    var values_7=[0];
+
+    
+    converted_date = nueva_fecha.toISOString().split('T')[0];
+    fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
+
+
+   
+    for(a=0; a<local_data_disciplina.length; a++){
+      if(local_data_disciplina[a].Area == $scope.columndisc && array_week.indexOf(local_data_disciplina[a].Fecha)!=-1  ){
+        fecha_split = local_data_disciplina[a].Fecha.split("-")
+        fecha_invertida = fecha_split[2]+"-"+fecha_split[1]+"-"+fecha_split[0];
+        if(local_data_disciplina[a].Llegada_Instalacion!="0:0"){
+          values_1[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Llegada_Instalacion.split(":")[1])*60+Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"08:00:00")))*1000;
+          values_2[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Tiempo_Instalacion.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Instalacion.split(":")[1]))*60*1000
+          values_3[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Traslado_Postura.split(":")[0])*60+parseInt(local_data_disciplina[a].Traslado_Postura.split(":")[1]))*60*1000
+          values_4[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[1]))*60*1000
+          values_5[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Traslado_Colacion.split(":")[0])*60+parseInt(local_data_disciplina[a].Traslado_Colacion.split(":")[1]))*60*1000
+          values_6[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Almuerzo_2.split(":")[0])*60+parseInt(local_data_disciplina[a].Almuerzo_2.split(":")[1]))*60*1000
+          values_7[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[1]))*60*1000
+        }
+        
+      }
+    }
+
+
+    var Epoch_Inicio = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"07:00:00"))*1000
+    var Epoch_Final = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"17:00:00"))*1000
+    $scope.myJsonTimer1 = timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7, $scope.columndisc);
+    
+
+
+    
+  }
 
 
   $scope.changegraphtimer = function(name){
@@ -2801,7 +2974,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     var Epoch_Inicio = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+hora_llegada.toString()+":00:00"))*1000
     var Epoch_Final = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"17:00:00"))*1000
     
-    $scope.myJsonTimer1 = timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7);
+    $scope.myJsonTimer1 = timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7, $scope.columndisc);
   }
 
   $scope.changegraphtimertraspaso = function(name){
@@ -4911,10 +5084,13 @@ function bar_puertas_report(correctivos, estados){
   return grafico
 }
 
-function timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7){
+function timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7, nombre){
   var grafico = {};
   grafico = {
     type: 'bar',
+    "title" : {
+      "text" : "Disciplina operacional "+nombre.toString()
+    },
     utc: true,
     timezone: -4, 
     plot: {
@@ -6012,6 +6188,119 @@ function asistencia_chart_tte8(Valores_asistentes, Valores_inasistencia, Nombres
   return grafico
 }
 
+/*function line_chart(values, nombres){
+  var grafico = {
+    type: 'line',
+    scaleY: {
+      minValue: 90,
+      maxValue: 120,
+    },
+    title: {
+      text: "Disciplina Operacional",
+      "adjust-layout": true
+    },
+    "legend": {
+      "layout": "float",
+      "background-color": "none",
+      "border-width": 0,
+      "shadow": 0,
+      "align": "center",
+      "adjust-layout": true,
+      "toggle-action": "remove",
+      "item": {
+        "padding": 7,
+        "marginRight": 17,
+        "cursor": "hand"
+      }
+    },
+    scaleX: {
+      labels: [
+        'Lunes',
+        'Martes',
+        'Miércoles',
+        'Jueves',
+        'Viernes'
+      ],
+    },
+    "tooltip": {
+      "visible": false
+    },
+    "crosshair-x": {
+      "line-color": "#efefef",
+      "plot-label": {
+        "border-radius": "5px",
+        "border-width": "1px",
+        "border-color": "#f6f7f8",
+        "padding": "10px",
+        "font-weight": "bold"
+      },
+      "scale-label": {
+        "font-color": "#000",
+        "background-color": "#f6f7f8",
+        "border-radius": "5px"
+      }
+    },
+    "plot": {
+      "highlight": true,
+      "tooltip-text": "%t views: %v<br>%k",
+      "shadow": 0,
+      "line-width": "2px",
+      "highlight-state": {
+        "line-width": 3
+      },
+      "animation": {
+        "effect": 1,
+        "sequence": 2,
+        "speed": 100,
+      }
+    },
+    "series": []
+  };
+
+  for (var i = 0; i < values.length; i++) {
+    var serie = {
+      values: values[i],
+      "text": nombres[i],
+      "line-color": getColorByIndex(i),
+      "legend-item": {
+        "background-color": getColorByIndex(i),
+        "borderRadius": 5,
+        "font-color": "white",
+      },
+      "marker": {
+        "type": null
+      },
+      "highlight-marker": {
+        "size": 5,
+        "background-color": getColorByIndex(i),
+      }
+    };
+    grafico.series.push(serie);
+  }
+
+  return grafico
+}
+
+function getColorByIndex(index) {
+  var colors = [
+    "#007790",
+    "red",
+    "#399A00",
+    "#D98702",
+    "#881EA6",
+    "#874D00",
+    "#0C5BD7",
+    "#485364",
+    "#55B930",
+    "#369FD8",
+    "#FC7466",
+    "#ABEE32",
+    "#295552",
+    "#444304"
+  ];
+  return colors[index % colors.length];
+}*/
+
 function Pie_Cumplimiento(values_total, values_completed, nombre){
   var grafico = {};
   grafico = {
@@ -6044,7 +6333,7 @@ function Pie_Cumplimiento(values_total, values_completed, nombre){
   return grafico
 }
 
-function line_chart(values, nombres){
+function line_chart(values, nombres, titulo){
   var grafico = {};
   grafico = {
     type: 'line',
@@ -6053,23 +6342,8 @@ function line_chart(values, nombres){
       maxValue : 120,
     },
     title :{
-      text : "Disciplina Operacional",
+      text : "Disciplina Operacional "+titulo.toString(),
       "adjust-layout":true
-    },
-    "legend": {
-
-      "layout": "float",
-      "background-color": "none",
-      "border-width": 0,
-      "shadow": 0,
-      "align": "center",
-      "adjust-layout": true,
-      "toggle-action": "remove",
-      "item": {
-        "padding": 7,
-        "marginRight": 17,
-        "cursor": "hand"
-      }
     },
     scaleX:{
       labels: [
@@ -6118,314 +6392,10 @@ function line_chart(values, nombres){
     },
     series: [
       { 
-        values: values[0],
-        "text": nombres[0],
+        values: values,
+        "text": nombres,
         "line-color": "#007790",
-        "legend-item": {
-          "background-color": "#007790",
-          "borderRadius": 5,
-          "font-color": "white",
-        },
-        "legend-marker": {
-          "visible": false
-        },
-        "marker": {
-          "background-color": "#007790",
-          "border-width": 1,
-          "shadow": 0,
-          "border-color": "#69dbf1"
-        },
-        "highlight-marker": {
-          "size": 5,
-          "background-color": "#007790",
-        }
       },
-      { 
-        values: values[1],
-        "text":nombres[1],
-        'line-color' : 'red',
-        "legend-item": {
-          "background-color": "red",
-          "borderRadius": 5,
-          "font-color": "white"
-        },
-        "legend-marker" :{
-          'visible':false
-        },
-        "highlight-marker": {
-          "size": 5,
-          "background-color": "red",
-        },
-        "marker": {
-          "background-color": "red",
-          "border-width": 1,
-          "shadow": 0,
-        },
-      },
-      {
-        values : values[2],
-        "text" : nombres [2],
-        'line-color' : '#399A00',
-        "legend-item": {
-          "background-color": "#399A00",
-          "borderRadius": 5,
-          "font-color": "white"
-        },
-        "legend-marker" :{
-          'visible':false
-        },
-        "highlight-marker": {
-          "size": 5,
-          "background-color": "#399A00",
-        },
-        "marker": {
-          "background-color": "#399A00",
-          "border-width": 1,
-          "shadow": 0,
-        },
-      },
-      {
-        values : values[3],
-        "text" : nombres [3],
-        'line-color' : '#D98702',
-        "legend-item": {
-          "background-color": "#D98702",
-          "borderRadius": 5,
-          "font-color": "white"
-        },
-        "legend-marker" :{
-          'visible':false
-        },
-        "highlight-marker": {
-          "size": 5,
-          "background-color": "#D98702",
-        },
-        "marker": {
-          "background-color": "#D98702",
-          "border-width": 1,
-          "shadow": 0,
-        },
-      },
-      {
-        values : values[4],
-        "text" : nombres [4],
-        'line-color' : '#881EA6',
-        "legend-item": {
-          "background-color": "#881EA6",
-          "borderRadius": 5,
-          "font-color": "white"
-        },
-        "legend-marker" :{
-          'visible':false
-        },
-        "highlight-marker": {
-          "size": 5,
-          "background-color": "#881EA6",
-        },
-        "marker": {
-          "background-color": "#881EA6",
-          "border-width": 1,
-          "shadow": 0,
-        }, 
-      },
-      {
-        values : values[5],
-        "text" : nombres [5],
-        'line-color' : '#874D00',
-        "legend-item": {
-          "background-color": "#874D00",
-          "borderRadius": 5,
-          "font-color": "white"
-        },
-        "legend-marker" :{
-          'visible':false
-        },
-        "highlight-marker": {
-          "size": 5,
-          "background-color": "#874D00",
-        },
-        "marker": {
-          "background-color": "#874D00",
-          "border-width": 1,
-          "shadow": 0,
-        }, 
-      },
-      {
-        values : values[6],
-        "text" : nombres [6],
-        'line-color' : '#0C5BD7',
-        "legend-item": {
-          "background-color": "#0C5BD7",
-          "borderRadius": 5,
-          "font-color": "white"
-        },
-        "legend-marker" :{
-          'visible':false
-        },
-        "highlight-marker": {
-          "size": 5,
-          "background-color": "#0C5BD7",
-        },
-        "marker": {
-          "background-color": "#0C5BD7",
-          "border-width": 1,
-          "shadow": 0,
-        }, 
-      },
-      {
-        values : values[7],
-        "text" : nombres [7],
-        'line-color' : '#485364',
-        "legend-item": {
-          "background-color": "#485364",
-          "borderRadius": 5,
-          "font-color": "white"
-        },
-        "legend-marker" :{
-          'visible':false
-        },
-        "highlight-marker": {
-          "size": 5,
-          "background-color": "#485364",
-        },
-        "marker": {
-          "background-color": "#485364",
-          "border-width": 1,
-          "shadow": 0,
-        }, 
-      },
-      {
-        values : values[8],
-        "text" : nombres [8],
-        'line-color' : '#55B930',
-        "legend-item": {
-          "background-color": "#55B930",
-          "borderRadius": 5,
-          "font-color": "white"
-        },
-        "legend-marker" :{
-          'visible':false
-        },
-        "highlight-marker": {
-          "size": 5,
-          "background-color": "#55B930",
-        },
-        "marker": {
-          "background-color": "#55B930",
-          "border-width": 1,
-          "shadow": 0,
-        }, 
-      },
-      {
-        values : values[9],
-        "text" : nombres [9],
-        'line-color' : '#369FD8',
-        "legend-item": {
-          "background-color": "#369FD8",
-          "borderRadius": 5,
-          "font-color": "white"
-        },
-        "legend-marker" :{
-          'visible':false
-        },
-        "highlight-marker": {
-          "size": 5,
-          "background-color": "#369FD8",
-        },
-        "marker": {
-          "background-color": "#369FD8",
-          "border-width": 1,
-          "shadow": 0,
-        }, 
-      },
-      {
-        values : values[10],
-        "text" : nombres [10],
-        'line-color' : '#FC7466',
-        "legend-item": {
-          "background-color": "#FC7466",
-          "borderRadius": 5,
-          "font-color": "white"
-        },
-        "legend-marker" :{
-          'visible':false
-        },
-        "highlight-marker": {
-          "size": 5,
-          "background-color": "#FC7466",
-        },
-        "marker": {
-          "background-color": "#FC7466",
-          "border-width": 1,
-          "shadow": 0,
-        }, 
-      },
-      {
-        values : values[11],
-        "text" : nombres [11],
-        'line-color' : '#ABEE32',
-        "legend-item": {
-          "background-color": "#ABEE32",
-          "borderRadius": 5,
-          "font-color": "white"
-        },
-        "legend-marker" :{
-          'visible':false
-        },
-        "highlight-marker": {
-          "size": 5,
-          "background-color": "#ABEE32",
-        },
-        "marker": {
-          "background-color": "#ABEE32",
-          "border-width": 1,
-          "shadow": 0,
-        }, 
-      },
-      {
-        values : values[12],
-        "text" : nombres [12],
-        'line-color' : '#295552',
-        "legend-item": {
-          "background-color": "#295552",
-          "borderRadius": 5,
-          "font-color": "white"
-        },
-        "legend-marker" :{
-          'visible':false
-        },
-        "highlight-marker": {
-          "size": 5,
-          "background-color": "#295552",
-        },
-        "marker": {
-          "background-color": "#295552",
-          "border-width": 1,
-          "shadow": 0,
-        },
-      },
-      {
-        values : values[13],
-        "text" : nombres [13],
-        "line-color" : '#444304',
-        "legend-item": {
-          "background-color": "#444304",
-          "borderRadius": 5,
-          "font-color": "white"
-        },
-        "legend-marker" :{
-          'visible':false
-        },
-        "highlight-marker": {
-          "size": 5,
-          "background-color": "#444304",
-        },
-        "marker": {
-          "background-color": "#444304",
-          "border-width": 1,
-          "shadow": 0,
-        },
-      }
     ]
  }
 

@@ -1730,7 +1730,7 @@ html
                   #chart1(zingchart='' zc-json='myJsonasistenciabar' zc-width='100%' zc-height='400px')
               #planmatrizgrid1.grid-container
                 div
-                  #chart71(zingchart='' zc-json='myJsonpieCumplimiento' zc-width='100%' zc-height='300px')
+                  #chart71(ng-model="matrizcomp" zingchart='' zc-json='myJsonpieCumplimiento' zc-width='100%' zc-height='300px' ng-click="non_completionmatriz()")
                 div(ng-controller='MainControllermatriz' class="border" )
                   button.airebutton(ng-model='aireselector' ng-click="changegraphview('Aire Acondicionado')") Aire
                   button.polvobutton(ng-model='polvoselector' ng-click="changegraphview('Colectores de polvo')") Polvo
@@ -1892,17 +1892,17 @@ html
                 button.anualbuttonmatriz1aire(ng-model='sub6selector1' ng-click="changeaire('anual')") Anual
                 button.anualbuttonmatriz2aire(ng-model='sub6selector2' ng-click="changeaire('mensual')") Mensual
                 p
-                #matriz1(zingchart='' zc-json='myMatrizAire' zc-width='100%' zc-height='300px' visibility="hidden" )
+                #matriz110(ng-model="airenoncomplete" zingchart='' zc-json='myMatrizAire' zc-width='100%' zc-height='300px' visibility="hidden" ng-click="non_completionmatrizplan('Aire Acondicionado')")
               #matriz2
                 button.anualbuttonmatriz1polvo(ng-model='sub6selector1' ng-click="changepolvo('anual')") Anual
                 button.anualbuttonmatriz2polvo(ng-model='sub6selector2' ng-click="changepolvo('mensual')") Mensual
                 p
-                #matriz2(zingchart='' zc-json='myMatrizColectores' zc-width='100%' zc-height='300px' visibility="hidden" )
+                #matriz111(ng-model="polvononcomplete" zingchart='' zc-json='myMatrizColectores' zc-width='100%' zc-height='300px' visibility="hidden" ng-click="non_completionmatrizplan('Colectores de polvo')" )
               #matriz3
                 button.anualbutton1ventilacion(ng-model='sub6selector1' ng-click="changeventilacion('anual')") Anual
                 button.anualbutton2ventilacion(ng-model='sub6selector2' ng-click="changeventilacion('mensual')") Mensual
                 p
-                #matriz3(zingchart='' zc-json='myMatrizVentilacion' zc-width='100%' zc-height='300px' visibility="hidden" )
+                #matriz112(ng-model="ventilaciononcomplete" zingchart='' zc-json='myMatrizVentilacion' zc-width='100%' zc-height='300px' visibility="hidden" ng-click="non_completionmatrizplan('Ventilación')" )
               #matriz4
                 button.anualmatriz1puertas(ng-model='sub6selector1' ng-click="changepuertas('anual')") Anual
                 button.anualmatriz2puertas(ng-model='sub6selector2' ng-click="changepuertas('mensual')") Mensual
@@ -2220,12 +2220,14 @@ html
               h1 Disciplina Operacional
             //input#startDate.form-control(ng-model="dateselected" type='date' ng-change="changeinformation()")
 
+
+            select.selectsap.form-selectfilter( ng-model='columndisc' ng-init='columndisc="SUB 6"' ng-options='e for e in headerdisciplina' ng-change="changegraphs()" )
             #Disciplinaubicaciones.grid-container
               #grid-disciplina.grid-container
                 #chart56(zingchart='' zc-json='myJsonhbar' zc-width='200px' zc-height='800px' visibility='hidden')
                 #timer-test.grid-container
                   div
-                    div.buttonstimer
+                    //div.buttonstimer
                       button.airebutton(ng-model='sub5selector' ng-click="changegraphtimer('SUB 6')") SUB 6
                       button.polvobutton(ng-model='pipanselector' ng-click="changegraphtimer('PIPA N')") PIPA N 
                       button.ventilacionbutton(ng-model='diabloselector' ng-click="changegraphtimer('DIABLO')") DIABLO
