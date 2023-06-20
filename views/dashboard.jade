@@ -1449,6 +1449,20 @@ html
                     button.btnn(type='button' data-bs-dismiss='modal' ) Cerrar 
                     button.btnn(name="probando3" value="probando4" ng-click="openTutorial()" data-bs-dismiss='modal') Aceptar
 
+    #Modaldisciplinagraph.modal.fade( aria-labelledby='Modaltutorial')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            h5#exampleModalLabel.modal-title Detalles de disciplina operacional
+            button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+          .modal-body
+            #chart120(zingchart='' zc-json='myJsonLlegada' zc-width='1400px' zc-height='300px' visibility="hidden" )
+            #chart121(zingchart='' zc-json='myJsonSalida' zc-width='1400px' zc-height='300px' visibility="hidden" )
+            #chart122(zingchart='' zc-json='myJsonInicioAm' zc-width='1400px' zc-height='300px' visibility="hidden" )
+            #chart123(zingchart='' zc-json='myJsonTerminoAm' zc-width='1400px' zc-height='300px' visibility="hidden" )
+            #chart124(zingchart='' zc-json='myJsonAlmuerzo' zc-width='1400px' zc-height='300px' visibility="hidden" )
+            #chart125(zingchart='' zc-json='myJsonInicioPm' zc-width='1400px' zc-height='300px' visibility="hidden" )
+            #chart126(zingchart='' zc-json='myJsonTerminoPm' zc-width='1400px' zc-height='300px' visibility="hidden" )
 
     .sidenav#sidenav1
       .sidenav-header
@@ -2243,6 +2257,9 @@ html
                       button.polvobutton(ng-model='colecselector' ng-click="changegraphtimer('COLEC')") Colec
                       button.ventilacionbutton(ng-model='chcolonselector' ng-click="changegraphtimer('CH COLON')") CH colon
                     #chart54(zingchart='' zc-json='myJsonTimer1' zc-width='100%' zc-height='300px' visibility="hidden" )
+                    hr.graphr
+                    .graphfooter2(ng-model='openmodaldisciplina' ng-click="modaldisciplina()" type='button' data-bs-toggle='modal')
+                      div Ver detalles
                   div
                     #chart55(zingchart='' zc-json='myJsonTest' zc-width='100%' zc-height='440px' visibility="hidden")
 

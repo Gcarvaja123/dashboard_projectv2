@@ -52,7 +52,7 @@ function openActivity(evt, actividad) {
 function openViewsub6(evt, selectedview){
   var i, x, tablinks;
   x = document.getElementsByClassName("viewsub6");
-  //console.log(x);
+  
   for (i = 0; i < x.length; i++) {
     x[i].style.display = "none";
   }
@@ -66,7 +66,7 @@ function openViewsub6(evt, selectedview){
 function openViewsub7(evt, selectedview){
   var i, x, tablinks;
   x = document.getElementsByClassName("viewsub7");
-  //console.log(x);
+  
   for (i = 0; i < x.length; i++) {
     x[i].style.display = "none";
   }
@@ -536,7 +536,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   var meta = [];
   var week_day = 0;
   var exact_days = get_day_numbers(nueva_fecha);
-  console.log(exact_days)
   var array_week = [];
   for (a=0; a<get_day_numbers($scope.dateselected).length; a++){
     nueva_fecha_2 = new Date(exact_days[a] - $scope.dateselected.getTimezoneOffset()*60000);
@@ -677,7 +676,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   $scope.pautadiariatotalnoco = []
 
   for(a=0 ; a < local_data_pauta_diaria.length; a++){
-    console.log(local_data_pauta_diaria[a].Fecha)
     if(local_data_pauta_diaria[a].Fecha.toString() == $scope.fecha_universal.toString()){
       $scope.pautadiariatotal.push(local_data_pauta_diaria[a])
     }
@@ -1675,7 +1673,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
   for(d=0; d < local_data_asistencia_tte8.length; d++){
     if(local_data_asistencia_tte8[d].Fecha=="12-04-2023"){
-      console.log(local_data_asistencia_tte8[d])
       break
     }
   }
@@ -1694,8 +1691,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
       url : '/Cambiarplanificaciontte8',
       data : JSON.stringify($scope.planificaciontotaltte8[$scope.planificaciontotaltte8.indexOf(dato)])
     })
-    console.log(dato)
-    console.log($scope.planificaciontotaltte8[$scope.planificaciontotaltte8.indexOf(dato)].Seleccionado)
     
   };
 
@@ -1763,7 +1758,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
       } 
     }
 
-    console.log($scope.nombre_sectores_array)
 
 
     $scope.myJsonpieasistencia1 = Pie_creator($scope.total_trabajadores_array[0], $scope.asistencia_total_trabajadores_array[0], $scope.nombre_sectores_array[0]);
@@ -1867,7 +1861,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
         }
       }
       else if(local_data_matriz[d].Area == "Colectores de polvo" && local_data_matriz[d].Fecha == fecha){
-        //console.log("por aca ando")
+        
         total_array[1]+=1;
         if(local_data_matriz[d].Observaciones == null){
           completed_array[1]+=1;
@@ -2398,7 +2392,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
 
    
-    for(a=0; a<local_data_disciplina.length; a++){
+    /*for(a=0; a<local_data_disciplina.length; a++){
       if(local_data_disciplina[a].Area == $scope.columndisc && array_week.indexOf(local_data_disciplina[a].Fecha)!=-1  ){
         fecha_split = local_data_disciplina[a].Fecha.split("-")
         fecha_invertida = fecha_split[2]+"-"+fecha_split[1]+"-"+fecha_split[0];
@@ -2413,13 +2407,51 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
         }
         
       }
+    }*/
+
+    for(a=0; a<local_data_disciplina.length; a++){
+      if(local_data_disciplina[a].Area == $scope.columndisc && array_week.indexOf(local_data_disciplina[a].Fecha)!=-1  ){
+        fecha_split = local_data_disciplina[a].Fecha.split("-")
+        fecha_invertida = fecha_split[2]+"-"+fecha_split[1]+"-"+fecha_split[0];
+        if(local_data_disciplina[a].Llegada_Instalacion!="0:0"){
+          //values_1[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Llegada_Instalacion.split(":")[1])*60+Epoch(new Date(array_week[0].split("-")[2]+"-"+array_week[0].split("-")[1]+"-"+array_week[0].split("-")[0]+" "+"08:00:00")))*1000;
+          values_1[array_week.indexOf(local_data_disciplina[a].Fecha)] = new Date(array_week[0].split("-")[2]+"-"+array_week[0].split("-")[1]+"-"+array_week[0].split("-")[0]+ "T" + completar_fecha(local_data_disciplina[a].Llegada_Instalacion)+ ":00").getTime()
+          values_2[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Tiempo_Instalacion.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Instalacion.split(":")[1]))*60*1000
+          values_3[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Traslado_Postura.split(":")[0])*60+parseInt(local_data_disciplina[a].Traslado_Postura.split(":")[1]))*60*1000
+          values_4[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[1]))*60*1000
+          values_5[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Traslado_Colacion.split(":")[0])*60+parseInt(local_data_disciplina[a].Traslado_Colacion.split(":")[1]))*60*1000
+          values_6[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Almuerzo_2.split(":")[0])*60+parseInt(local_data_disciplina[a].Almuerzo_2.split(":")[1]))*60*1000
+          values_7[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[1]))*60*1000
+        }
+        
+      }
+    }
+    var fechaInicio = new Date(parseInt(array_week[0].split("-")[2]), parseInt(array_week[0].split("-")[1])-1, parseInt(array_week[0].split("-")[0]), new Date(Math.min.apply(null, values_1)).getHours(), 0, 0, 0);
+    var Epoch_Inicio_test = fechaInicio.getTime();
+    var valor_maximo = Math.max.apply(null, values_2)+Math.max.apply(null, values_3)+Math.max.apply(null, values_4)+Math.max.apply(null, values_5)+Math.max.apply(null, values_6)+Math.max.apply(null, values_7)
+    
+    if(new Date(Math.max.apply(null, values_1)).getHours() > new Date(Math.max.apply(null, values_1)+parseInt(valor_maximo)).getHours()){
+      $scope.myJsonTimer1 = timer_chart(Epoch_Inicio_test, parseInt(new Date(Math.max.apply(null, values_1)+parseInt(valor_maximo)).getHours())-parseInt(new Date(Math.min.apply(null, values_1)).getHours())+1+24-Math.max.apply(null, values_1).getHours, values_1, values_2, values_3, values_4, values_5, values_6, values_7, $scope.columndisc);
+      
+    }
+    else{
+      $scope.myJsonTimer1 = timer_chart(Epoch_Inicio_test, parseInt(new Date(Math.max.apply(null, values_1)+parseInt(valor_maximo)).getHours())-parseInt(new Date(Math.min.apply(null, values_1)).getHours())+1, values_1, values_2, values_3, values_4, values_5, values_6, values_7, $scope.columndisc);
     }
 
 
+
+
+    /*var fechaInicio = new Date(parseInt(array_week[0].split("-")[2]), parseInt(array_week[0].split("-")[1])-1, parseInt(array_week[0].split("-")[0]), 8, 0, 0, 0);
+    
+
+    var Epoch_Inicio_test = fechaInicio.getTime();
+
+    var valor_maximo = Math.max.apply(null, values_2)+Math.max.apply(null, values_3)+Math.max.apply(null, values_4)+Math.max.apply(null, values_5)+Math.max.apply(null, values_6)+Math.max.apply(null, values_7)
+
     var Epoch_Inicio = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"07:00:00"))*1000
     var Epoch_Final = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"17:00:00"))*1000
-    $scope.myJsonTimer1 = timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7, $scope.columndisc);
-    
+    $scope.myJsonTimer1 = timer_chart(Epoch_Inicio_test, parseInt(new Date(Math.max.apply(null, values_1)+parseInt(valor_maximo)).getHours())-parseInt(new Date(Math.min.apply(null, values_1)).getHours())+1, values_1, values_2, values_3, values_4, values_5, values_6, values_7, $scope.columndisc);
+    */
 
 
 
@@ -2572,7 +2604,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     $scope.pautadiariatotalnoco = []
 
     for(a=0 ; a < local_data_pauta_diaria.length; a++){
-      console.log(local_data_pauta_diaria[a].Fecha)
       if(local_data_pauta_diaria[a].Fecha.toString() == $scope.fecha_universal.toString()){
         $scope.pautadiariatotal.push(local_data_pauta_diaria[a])
       }
@@ -2783,6 +2814,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     
     $scope.nueva_fecha_2  = angular.copy($scope.fecha_universal)
     nueva_fecha = new Date($scope.nueva_fecha_2.split("-")[2]+"-"+$scope.nueva_fecha_2.split("-")[1]+"-"+$scope.nueva_fecha_2.split("-")[0]);
+
+    
     var name_visited = [];
     var meta = [];
     var exact_days = get_day_numbers(nueva_fecha);
@@ -2892,7 +2925,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     var values_7=[0];
 
     
-    converted_date = nueva_fecha.toISOString().split('T')[0];
+    $scope.aux_fecha = angular.copy($scope.fecha_universal)
+    var nueva_fecha_3 = new Date($scope.aux_fecha.split("-")[2]+"-"+$scope.aux_fecha.split("-")[1]+"-"+$scope.aux_fecha.split("-")[0]);
+    converted_date = nueva_fecha_3.toISOString().split('T')[0];
     fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
 
 
@@ -2902,7 +2937,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
         fecha_split = local_data_disciplina[a].Fecha.split("-")
         fecha_invertida = fecha_split[2]+"-"+fecha_split[1]+"-"+fecha_split[0];
         if(local_data_disciplina[a].Llegada_Instalacion!="0:0"){
-          values_1[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Llegada_Instalacion.split(":")[1])*60+Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"08:00:00")))*1000;
+          //values_1[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Llegada_Instalacion.split(":")[1])*60+Epoch(new Date(array_week[0].split("-")[2]+"-"+array_week[0].split("-")[1]+"-"+array_week[0].split("-")[0]+" "+"08:00:00")))*1000;
+          values_1[array_week.indexOf(local_data_disciplina[a].Fecha)] = new Date(array_week[0].split("-")[2]+"-"+array_week[0].split("-")[1]+"-"+array_week[0].split("-")[0]+ "T" + completar_fecha(local_data_disciplina[a].Llegada_Instalacion)+ ":00").getTime()
           values_2[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Tiempo_Instalacion.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Instalacion.split(":")[1]))*60*1000
           values_3[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Traslado_Postura.split(":")[0])*60+parseInt(local_data_disciplina[a].Traslado_Postura.split(":")[1]))*60*1000
           values_4[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[1]))*60*1000
@@ -2913,15 +2949,108 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
         
       }
     }
+    var fechaInicio = new Date(parseInt(array_week[0].split("-")[2]), parseInt(array_week[0].split("-")[1])-1, parseInt(array_week[0].split("-")[0]), new Date(Math.min.apply(null, values_1)).getHours(), 0, 0, 0);
+    
+
+    var Epoch_Inicio_test = fechaInicio.getTime();
+    var valor_maximo = Math.max.apply(null, values_2)+Math.max.apply(null, values_3)+Math.max.apply(null, values_4)+Math.max.apply(null, values_5)+Math.max.apply(null, values_6)+Math.max.apply(null, values_7)
 
 
-    var Epoch_Inicio = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"07:00:00"))*1000
-    var Epoch_Final = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"17:00:00"))*1000
-    $scope.myJsonTimer1 = timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7, $scope.columndisc);
+    //console.log(new Date(Math.max.apply(null, values_1)+parseInt(valor_maximo)).getHours())
+    if(new Date(Math.max.apply(null, values_1)).getHours() > new Date(Math.max.apply(null, values_1)+parseInt(valor_maximo)).getHours()){
+      $scope.myJsonTimer1 = timer_chart(Epoch_Inicio_test, parseInt(new Date(Math.max.apply(null, values_1)+parseInt(valor_maximo)).getHours())-parseInt(new Date(Math.min.apply(null, values_1)).getHours())+1+24-Math.max.apply(null, values_1).getHours, values_1, values_2, values_3, values_4, values_5, values_6, values_7, $scope.columndisc);
+      console.log(parseInt(new Date(Math.max.apply(null, values_1)+parseInt(valor_maximo)).getHours())-parseInt(new Date(Math.min.apply(null, values_1)).getHours())+1+24-Math.max.apply(null, values_1).getHours)
+    }
+    else{
+      $scope.myJsonTimer1 = timer_chart(Epoch_Inicio_test, parseInt(new Date(Math.max.apply(null, values_1)+parseInt(valor_maximo)).getHours())-parseInt(new Date(Math.min.apply(null, values_1)).getHours())+1, values_1, values_2, values_3, values_4, values_5, values_6, values_7, $scope.columndisc);
+    }
+    
+
+    
+  }
+
+  $scope.modaldisciplina = function(){
+    
+
+    var values_1=[0];
+    var values_2=[0];
+    var values_3=[0];
+    var values_4=[0];
+    var values_5=[0];
+    var values_6=[0];
+    var values_7=[0];
+    $scope.fecha_today = angular.copy($scope.fecha_universal);
+    $scope.fecha_today = new Date($scope.fecha_today.split("-")[2]+"-"+$scope.fecha_today.split("-")[1]+"-"+$scope.fecha_today.split("-")[0])
+    var exact_days_2 = get_day_numbers($scope.fecha_today);
+    var array_week_2 = [];
+    var week_day_2 = 0;
+    
+    for (a=0; a<get_day_numbers($scope.fecha_today).length; a++){
+      nueva_fecha_2 = new Date(exact_days_2[a] - $scope.dateselected.getTimezoneOffset()*60000);
+      converted_date_2 = nueva_fecha_2.toISOString().split('T')[0];
+      fecha_2 = converted_date_2.split("-")[2]+"-"+converted_date_2.split("-")[1]+"-"+converted_date_2.split("-")[0];
+      array_week_2.push(fecha_2);
+      if(fecha_2==fecha){
+        week_day_2=a;
+      }
+    }
+
+    for(a = 0; a < local_data_disciplina.length; a++){
+      if(local_data_disciplina[a].Area == $scope.columndisc && array_week_2.indexOf(local_data_disciplina[a].Fecha)!=-1  ){
+        fecha_split = local_data_disciplina[a].Fecha.split("-")
+        fecha_invertida = fecha_split[2]+"-"+fecha_split[1]+"-"+fecha_split[0];
+        if(local_data_disciplina[a].Llegada_Instalacion!="0:0"){
+          //values_1[array_week_2.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Llegada_Instalacion.split(":")[1])*60+Epoch(new Date(array_week_2[0].split("-")[2]+"-"+array_week_2[0].split("-")[1]+"-"+array_week_2[0].split("-")[0]+" "+"07:00:00")))*1000;
+          values_1[array_week_2.indexOf(local_data_disciplina[a].Fecha)] = new Date(array_week_2[0].split("-")[2]+"-"+array_week_2[0].split("-")[1]+"-"+array_week_2[0].split("-")[0]+ "T" + completar_fecha(local_data_disciplina[a].Llegada_Instalacion)+ ":00").getTime()
+          
+          values_2[array_week_2.indexOf(local_data_disciplina[a].Fecha)] = values_1[array_week_2.indexOf(local_data_disciplina[a].Fecha)] + (parseInt(local_data_disciplina[a].Tiempo_Instalacion.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Instalacion.split(":")[1]))*60*1000
+          values_3[array_week_2.indexOf(local_data_disciplina[a].Fecha)] = values_2[array_week_2.indexOf(local_data_disciplina[a].Fecha)]+ (parseInt(local_data_disciplina[a].Traslado_Postura.split(":")[0])*60+parseInt(local_data_disciplina[a].Traslado_Postura.split(":")[1]))*60*1000
+          values_4[array_week_2.indexOf(local_data_disciplina[a].Fecha)] = values_3[array_week_2.indexOf(local_data_disciplina[a].Fecha)]+ (parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[1]))*60*1000
+          values_5[array_week_2.indexOf(local_data_disciplina[a].Fecha)] = values_4[array_week_2.indexOf(local_data_disciplina[a].Fecha)] + (parseInt(local_data_disciplina[a].Traslado_Colacion.split(":")[0])*60+parseInt(local_data_disciplina[a].Traslado_Colacion.split(":")[1]))*60*1000
+          values_6[array_week_2.indexOf(local_data_disciplina[a].Fecha)] = values_5[array_week_2.indexOf(local_data_disciplina[a].Fecha)] + (parseInt(local_data_disciplina[a].Almuerzo_2.split(":")[0])*60+parseInt(local_data_disciplina[a].Almuerzo_2.split(":")[1]))*60*1000
+          values_7[array_week_2.indexOf(local_data_disciplina[a].Fecha)] = values_6[array_week_2.indexOf(local_data_disciplina[a].Fecha)] + (parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Pm.split(":")[1]))*60*1000
+        }
+        
+      }
+    }
+
     
 
 
+    var fechaInicio_1 = new Date(parseInt(array_week_2[0].split("-")[2]), parseInt(array_week_2[0].split("-")[1])-1, parseInt(array_week_2[0].split("-")[0]), new Date(Math.min.apply(null, values_1)).getHours(), 0, 0, 0);
+    var Epoch_Inicio_test_1 = fechaInicio_1.getTime();
+
+    var fechaInicio_11 = new Date(parseInt(array_week_2[0].split("-")[2]), parseInt(array_week_2[0].split("-")[1])-1, parseInt(array_week_2[0].split("-")[0]), new Date(Math.min.apply(null, values_2)).getHours(), 0, 0, 0);
+    var Epoch_Inicio_test_11 = fechaInicio_11.getTime();
+
+    var fechaInicio_2 = new Date(parseInt(array_week_2[0].split("-")[2]), parseInt(array_week_2[0].split("-")[1])-1, parseInt(array_week_2[0].split("-")[0]), new Date(Math.min.apply(null, values_3)).getHours() , 0, 0, 0);
+    var Epoch_Inicio_test_2 = fechaInicio_2.getTime();
+
+    var fechaInicio_3 = new Date(parseInt(array_week_2[0].split("-")[2]), parseInt(array_week_2[0].split("-")[1])-1, parseInt(array_week_2[0].split("-")[0]), new Date(Math.min.apply(null, values_4)).getHours() , 0, 0, 0);
+    var Epoch_Inicio_test_3 = fechaInicio_3.getTime();
+
+    var fechaInicio_4 = new Date(parseInt(array_week_2[0].split("-")[2]), parseInt(array_week_2[0].split("-")[1])-1, parseInt(array_week_2[0].split("-")[0]), new Date(Math.min.apply(null, values_5)).getHours() , 0, 0, 0);
+    var Epoch_Inicio_test_4 = fechaInicio_4.getTime();
+
+    var fechaInicio_5 = new Date(parseInt(array_week_2[0].split("-")[2]), parseInt(array_week_2[0].split("-")[1])-1, parseInt(array_week_2[0].split("-")[0]), new Date(Math.min.apply(null, values_6)).getHours() , 0, 0, 0);
+    var Epoch_Inicio_test_5 = fechaInicio_5.getTime();
+
+    var fechaInicio_6 = new Date(parseInt(array_week_2[0].split("-")[2]), parseInt(array_week_2[0].split("-")[1])-1, parseInt(array_week_2[0].split("-")[0]), new Date(Math.min.apply(null, values_7)).getHours() , 0, 0, 0);
+    var Epoch_Inicio_test_6 = fechaInicio_6.getTime();
+
     
+    
+    $scope.myJsonLlegada = timer_chart_detalle(Epoch_Inicio_test_1, Epoch_Inicio_test_1, values_1, "Llegada a instalación", parseInt(new Date(Math.max.apply(null, values_1)).getHours()) - parseInt(new Date(Math.min.apply(null, values_1)).getHours()))
+    $scope.myJsonSalida = timer_chart_detalle(Epoch_Inicio_test_11, Epoch_Inicio_test_11, values_2, "Salida Instalación", parseInt(new Date(Math.max.apply(null, values_2)).getHours()) - parseInt(new Date(Math.min.apply(null, values_2)).getHours()))
+    $scope.myJsonInicioAm = timer_chart_detalle(Epoch_Inicio_test_2, Epoch_Inicio_test_2, values_3, "Inicio Actividades AM", parseInt(new Date(Math.max.apply(null, values_3)).getHours()) - parseInt(new Date(Math.min.apply(null, values_3)).getHours()))
+    $scope.myJsonTerminoAm = timer_chart_detalle(Epoch_Inicio_test_3, Epoch_Inicio_test_3, values_4, "Termino Actividades AM", parseInt(new Date(Math.max.apply(null, values_4)).getHours()) - parseInt(new Date(Math.min.apply(null, values_4)).getHours()))
+    $scope.myJsonAlmuerzo = timer_chart_detalle(Epoch_Inicio_test_4, Epoch_Inicio_test_4, values_5, "Almuerzo", parseInt(new Date(Math.max.apply(null, values_5)).getHours()) - parseInt(new Date(Math.min.apply(null, values_5)).getHours()))
+    $scope.myJsonInicioPm = timer_chart_detalle(Epoch_Inicio_test_5, Epoch_Inicio_test_5, values_6, "Inicio Actividades Pm", parseInt(new Date(Math.max.apply(null, values_6)).getHours()) - parseInt(new Date(Math.min.apply(null, values_6)).getHours()))
+    $scope.myJsonTerminoPm = timer_chart_detalle(Epoch_Inicio_test_6, Epoch_Inicio_test_6, values_7, "Termino Actividades Pm", parseInt(new Date(Math.max.apply(null, values_7)).getHours()) - parseInt(new Date(Math.min.apply(null, values_7)).getHours()))
+    var Modaldisciplina = new bootstrap.Modal(document.getElementById('Modaldisciplinagraph'), {
+      keyboard: false
+    })
+    Modaldisciplina.toggle()
   }
 
 
@@ -2959,7 +3088,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
         if(local_data_disciplina[a].Llegada_Instalacion !="0:0"){
           llegada = local_data_disciplina[a].Llegada_Instalacion
           var hora_llegada = parseInt(llegada.split(":")[0]);
-          values_1[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Llegada_Instalacion.split(":")[1])*60+Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+hora_llegada.toString()+":00:00")))*1000;
+          //values_1[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Llegada_Instalacion.split(":")[1])*60+Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+hora_llegada.toString()+":00:00")))*1000;
+          values_1[array_week.indexOf(local_data_disciplina[a].Fecha)] = new Date(array_week[0].split("-")[2]+"-"+array_week[0].split("-")[1]+"-"+array_week[0].split("-")[0]+ "T" + completar_fecha(local_data_disciplina[a].Llegada_Instalacion)+ ":00").getTime()
           values_2[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Tiempo_Instalacion.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Instalacion.split(":")[1]))*60*1000
           values_3[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Traslado_Postura.split(":")[0])*60+parseInt(local_data_disciplina[a].Traslado_Postura.split(":")[1]))*60*1000
           values_4[array_week.indexOf(local_data_disciplina[a].Fecha)] = (parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[0])*60+parseInt(local_data_disciplina[a].Tiempo_Disponible_Am.split(":")[1]))*60*1000
@@ -2970,11 +3100,12 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
         
       }
     }
-    var hora_llegada = parseInt(llegada.split(":")[0])-1;
-    var Epoch_Inicio = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+hora_llegada.toString()+":00:00"))*1000
-    var Epoch_Final = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"17:00:00"))*1000
-    
-    $scope.myJsonTimer1 = timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7, $scope.columndisc);
+    //var hora_llegada = parseInt(llegada.split(":")[0])-1;
+    //var Epoch_Inicio = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+hora_llegada.toString()+":00:00"))*1000
+    //var Epoch_Final = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"17:00:00"))*1000
+    var fechaInicio_1 = new Date(parseInt(array_week[0].split("-")[2]), parseInt(array_week[0].split("-")[1])-1, parseInt(array_week[0].split("-")[0]), new Date(Math.min.apply(null, values_1)).getHours(), 0, 0, 0);
+    var Epoch_Inicio_test_1 = fechaInicio_1.getTime();
+    $scope.myJsonTimer1 = timer_chart(Epoch_Inicio_test_1, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7, $scope.columndisc);
   }
 
   $scope.changegraphtimertraspaso = function(name){
@@ -3368,7 +3499,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
 
     }
-    console.log(nomen_values)
     $scope.myJsonasistenciaworker = line_creator(dias_trabajados,$scope.name_worker,[0,1])
     //$scope.myJsonasistenciaworkerturn = Pie_Asistencia(Total_dias_trabajo, Asistencia_al_trabajo, $scope.name_worker);
     $scope.myJsonasistenciaworkerturn = pie3d_asistencia(nomen_values[0],nomen_values[1],nomen_values[2],nomen_values[3],nomen_values[4],nomen_values[5],nomen_values[6],nomen_values[7],nomen_values[8],nomen_values[9],nomen_values[10],nomen_values[11], $scope.name_worker)
@@ -3503,7 +3633,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
   $scope.cargarVistaExterna = function(ruta) {
     $http.get(ruta).then(function(response) {
-      console.log(response.data);
       angular.element('#Tablaexterna').html(response.data);
     });
   };
@@ -3543,7 +3672,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   
   
   else if(local_ingreso.length!=0){
-    //console.log(local_ingreso)
     $scope.contadoringreso+=1;
 
     
@@ -3647,7 +3775,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
     /*$scope.brocalesContent = angular.element(document.querySelector('#tablebrocales')).html();
     $scope.trustedHtmlContent = $sce.trustAsHtml($scope.brocalesContent);
-    console.log($scope.Totalbrocales)*/
+    */
 
   }
 
@@ -4265,9 +4393,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
       $scope.myJsonAsistenciaReport = line_asistenciar_report($scope.sitios_visitados[0],$scope.array_sitios_visitados[0].asistenciafecha, fechas_visitadas_report)
     }
 
-    console.log($scope.sitios_visitados[0])
-    console.log($scope.array_sitios_visitados[0].asistenciafecha)
-    console.log(fechas_visitadas_report)
+    
 
     $scope.primersector = $scope.sitios_visitados[0]
 
@@ -5084,15 +5210,15 @@ function bar_puertas_report(correctivos, estados){
   return grafico
 }
 
-function timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7, nombre){
-  var grafico = {};
-  grafico = {
+function timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7, nombre) {
+  
+  var grafico = {
     type: 'bar',
-    "title" : {
-      "text" : "Disciplina operacional "+nombre.toString()
+    title: {
+      text: 'Disciplina operacional ' + nombre.toString()
     },
     utc: true,
-    timezone: -4, 
+    timezone: -4,
     plot: {
       barWidth: '50%',
       stacked: true,
@@ -5105,17 +5231,13 @@ function timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, va
       }
     },
     scaleX: {
-      labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"],
-      label: {
-      },
-      item: {
-        fontSize: 10
-      },
+      labels: ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"],
+      label: {}
     },
     scaleY: {
-      minValue: Epoch_Inicio, 
-      maxValue: Epoch_Inicio+36000000, 
-      step: 600000, 
+      minValue: Epoch_Inicio,
+      maxValue: Epoch_Inicio + Epoch_Final*3600000,
+      step: 600000,
       transform: {
         type: 'date',
         all: '%g:%i %a'
@@ -5142,12 +5264,12 @@ function timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, va
       },
       {
         values: values_3,
-        text: 'Inicio Act. Am',
+        text: 'Inicio Act. AM',
         backgroundColor: '#42A5F5'
       },
       {
         values: values_4,
-        text: 'Termino Act. Am',
+        text: 'Término Act. AM',
         backgroundColor: '#90CAF9'
       },
       {
@@ -5157,18 +5279,108 @@ function timer_chart(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, va
       },
       {
         values: values_6,
-        text: 'Inicio Act. Pm',
+        text: 'Inicio Act. PM',
         backgroundColor: '#9FB2D5'
       },
       {
         values: values_7,
-        text: 'Termino Act. Pm',
+        text: 'Término Act. PM',
         backgroundColor: '#353F52'
       }
-    ]
+    ],
+    legend: {
+      layout: 'x1',
+      x: '2%',
+      y: '5%',
+      backgroundColor: 'none',
+      borderColor: 'none',
+      marker: {
+        borderRadius: 3,
+        borderWidth: 1
+      },
+      shadow: false,
+      borderWidth: 0,
+      item: {
+        fontSize: 10,
+        cursor: 'pointer'
+      },
+      tooltip: {
+        text: '%text'
+      },
+      series: [
+        'Término Act. PM',
+        'Inicio Act. PM',
+        'Almuerzo',
+        'Término Act. AM',
+        'Inicio Act. AM',
+        'Salida instalación',
+        'Llegada a instalación'
+      ],
+      item: {
+        onClick: function() {
+          var seriesIndex = this.index;
+          zingchart.exec('myChart', 'seriestoggle', {
+            plotindex: seriesIndex
+          });
+        }
+      }
+    }
   };
 
-  
+  return grafico;
+}
+
+function timer_chart_detalle(Epoch_Inicio, Epoch_Final, values_1, nombre, suma) {
+
+  var sumando = suma*3600000 + 3600000
+  var grafico = {
+    type: 'line',
+    title: {
+      text: nombre.toString()
+    },
+    utc: true,
+    timezone: -4,
+    plot: {
+      barWidth: '50%',
+      stacked: true,
+      tooltip: {
+        text: '%plot-text : %scale-value-value',
+        transform: {
+          type: 'date',
+          all: '%g:%i %A'
+        }
+      }
+    },
+    scaleX: {
+      labels: ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"],
+      label: {}
+    },
+    scaleY: {
+      minValue: Epoch_Inicio,
+      maxValue: Epoch_Inicio+sumando,
+      step: 600000,
+      transform: {
+        type: 'date',
+        all: '%g:%i %a'
+      },
+      item: {
+        fontSize: 10
+      },
+      guide: {
+        lineStyle: 'dotted'
+      }
+    },
+    plotarea: {
+      marginLeft: '5%',
+    },
+    series: [{
+        values: values_1,
+        text: nombre,
+        backgroundColor: '#1565C0',
+      }
+    ],
+  };
+
   return grafico;
 }
 
@@ -5214,7 +5426,7 @@ function timer_chart_traspaso_1(Epoch_Inicio, Epoch_Final, values_1, values_2, v
       }
     },
     plotarea: {
-      marginLeft: '15%',
+      marginLeft: '5%',
     },
     series: [{
         values: values_1,
@@ -7738,6 +7950,22 @@ function getDates (startDate, endDate) {
     currentDate = addDays.call(currentDate, 1)
   }
   return dates
+}
+
+function completar_fecha(fe){
+  var fecha_regresada = fe
+  if (fe.length==5){
+    return fe
+  }
+  else{
+    if(fe.split(":")[0].length!=2){
+      fecha_regresada = "0"+fecha_regresada.split(":")[0]+":"+fecha_regresada.split(":")[1]
+    }
+    if(fe.split(":")[1].length!=2){
+      fecha_regresada = fecha_regresada.split(":")[0]+":"+"0"+fecha_regresada.split(":")[1]
+    }
+  }
+  return fecha_regresada
 }
 
 

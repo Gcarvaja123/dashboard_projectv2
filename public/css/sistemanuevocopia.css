@@ -487,6 +487,15 @@ button{
   padding: 0px
 }
 
+#Modaldisciplinagraph .modal-dialog{
+  max-width: 1400px;
+  width: 1400px;
+}
+
+#Modaldisciplinagraph .grid-container{
+  padding: 0px
+}
+
 #ModalInformacionBrocal .modal-dialog{
   max-width: 1400px;
   width: 1400px;
@@ -696,6 +705,14 @@ button{
 .graphfooter div{
   text-align: right;
   padding: 15px 30px;
+  display: inline-block;
+  margin-left: 600px;
+
+}
+
+.graphfooter2 div{
+  text-align: right;
+  padding: 10px 30px;
   display: inline-block;
   margin-left: 600px;
 
