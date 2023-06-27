@@ -538,7 +538,8 @@ module.exports = {
                   Idingreso : random_id_asistencia_multiple,
                   Fechaingreso : Fecha_hoy,
                   Infoingresada : "Asistencia",
-                  Nombrearchivo : file.name.toString()
+                  Nombrearchivo : file.name.toString(),
+                  Usuario : req.session.user_id.Usuario 
                 })
 
                 for(mes=0; mes<meses_array.length; mes++){
@@ -674,7 +675,8 @@ module.exports = {
                 Idingreso : random_id_asistencia_single,
                 Fechaingreso : Fecha_hoy,
                 Infoingresada : "Asistencia",
-                Nombrearchivo : file.name.toString()
+                Nombrearchivo : file.name.toString(),
+                Usuario : req.session.user_id.Usuario 
               })
               //Fechaingreso = Object.keys(datos[0])[0].replace(/\s+/g,' ').trim().toUpperCase().split(" ")[Object.keys(datos[0])[0].replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1];
               //Fechaingreso = (file.name).toString().replace(/\s+/g,' ').trim().toUpperCase().split(" ")[(file.name).toString().replace(/\s+/g,' ').trim().toUpperCase().split(" ").length-1];
@@ -767,7 +769,8 @@ module.exports = {
             Idingreso : 3,
             Fechaingreso : Fecha_hoy,
             Infoingresada : "asistencianueva",
-            Nombrearchivo : file.name.toString()
+            Nombrearchivo : file.name.toString(),
+            Usuario : req.session.user_id.Usuario 
           })
           
           for( a=6 ; a < datos.length ; a++ ){
@@ -834,7 +837,8 @@ module.exports = {
                   Idingreso : random_id_brocales5_multiple,
                   Fechaingreso : Fecha_hoy,
                   Infoingresada : "Limpieza de brocales",
-                  Nombrearchivo : file.name.toString()
+                  Nombrearchivo : file.name.toString(),
+                  Usuario : req.session.user_id.Usuario 
                 })
                 for(a=1; a < Object.keys(datos).length; a++){
                   let keys = Object.keys(datos[a]);
@@ -1003,7 +1007,8 @@ module.exports = {
                 Idingreso : random_id_brocales5_single,
                 Fechaingreso : Fecha_hoy,
                 Infoingresada : "Limpieza de brocales",
-                Nombrearchivo : file.name.toString()
+                Nombrearchivo : file.name.toString(),
+                Usuario : req.session.user_id.Usuario 
               })
               for(a=1; a < Object.keys(datos).length; a++){
                 let keys = Object.keys(datos[a]);
@@ -1186,7 +1191,8 @@ module.exports = {
                   Idingreso : random_id_brocales6_multiple,
                   Fechaingreso : Fecha_hoy,
                   Infoingresada : "Limpieza de brocales",
-                  Nombrearchivo : file.name.toString()
+                  Nombrearchivo : file.name.toString(),
+                  Usuario : req.session.user_id.Usuario 
                 })
                 for(a=1; a < Object.keys(datos).length; a++){
                   let keys = Object.keys(datos[a]);
@@ -1379,7 +1385,8 @@ module.exports = {
                 Idingreso : random_id_brocales6_single,
                 Fechaingreso : Fecha_hoy,
                 Infoingresada : "Limpieza de brocales",
-                Nombrearchivo : file.name.toString()
+                Nombrearchivo : file.name.toString(),
+                Usuario : req.session.user_id.Usuario 
               })
               for(a=1; a < Object.keys(datos).length; a++){
                 let keys = Object.keys(datos[a]);
@@ -1552,7 +1559,8 @@ module.exports = {
                     Idingreso : random_id_matriz_multiple,
                     Fechaingreso : Fecha_hoy,
                     Infoingresada : "Puertas vimo",
-                    Nombrearchivo : file.name.toString()
+                    Nombrearchivo : file.name.toString(),
+                    Usuario : req.session.user_id.Usuario 
                   })
                 }
                 else{
@@ -1562,7 +1570,8 @@ module.exports = {
                     Idingreso : random_id_matriz_multiple,
                     Fechaingreso : Fecha_hoy,
                     Infoingresada : "Plan matriz",
-                    Nombrearchivo : file.name.toString()
+                    Nombrearchivo : file.name.toString(),
+                    Usuario : req.session.user_id.Usuario 
                   })
                 }
                 if(area == "vimo"){
@@ -1734,7 +1743,8 @@ module.exports = {
                   Idingreso : random_id_matriz_vimo_single,
                   Fechaingreso : Fecha_hoy,
                   Infoingresada : "Puertas vimo",
-                  Nombrearchivo : file.name.toString()
+                  Nombrearchivo : file.name.toString(),
+                  Usuario : req.session.user_id.Usuario 
                 })
               }
               else{
@@ -1744,7 +1754,8 @@ module.exports = {
                   Idingreso : random_id_matriz_single,
                   Fechaingreso : Fecha_hoy,
                   Infoingresada : "Plan matriz",
-                  Nombrearchivo : file.name.toString()
+                  Nombrearchivo : file.name.toString(),
+                  Usuario : req.session.user_id.Usuario 
                 })
               }
               
@@ -1914,7 +1925,8 @@ module.exports = {
                   Idingreso : random_id_disciplina_multiple,
                   Fechaingreso : Fecha_hoy,
                   Infoingresada : "Tiempos de la disciplina operacional",
-                  Nombrearchivo : file.name.toString()
+                  Nombrearchivo : file.name.toString(),
+                  Usuario : req.session.user_id.Usuario 
                 })
                 //[0,1,2,3,4,5,6,7,8,9,10,11,12,13]
                 var datos_aux = leerExcelDisciplina(file.name, [0,1,2,3,4,5,6,7,8,9,10,11,12,13])
@@ -1986,7 +1998,8 @@ module.exports = {
                   Idingreso : random_id_disciplina_single,
                   Fechaingreso : Fecha_hoy,
                   Infoingresada : "Tiempos de la disciplina operacional",
-                  Nombrearchivo : file.name.toString()
+                  Nombrearchivo : file.name.toString(),
+                  Usuario : req.session.user_id.Usuario 
                 })
 
                 await file.mv(savePath);
@@ -2068,7 +2081,8 @@ module.exports = {
                 Idingreso : random_id_equipos_single,
                 Fechaingreso : Fecha_hoy,
                 Infoingresada : "Información equipos",
-                Nombrearchivo : file.name.toString()
+                Nombrearchivo : file.name.toString(),
+                Usuario : req.session.user_id.Usuario 
               })
 
               for(a = 0; a < datos[0].length; a++ ){
@@ -2181,7 +2195,8 @@ module.exports = {
                 Idingreso : random_id_conductores_single,
                 Fechaingreso : Fecha_hoy,
                 Infoingresada : "Información conductores",
-                Nombrearchivo : file.name.toString()
+                Nombrearchivo : file.name.toString(),
+                Usuario : req.session.user_id.Usuario 
               })
               for(a=0 ; a < datos[1].length ; a++){
                 await modelo.conductores.findAll({
@@ -2256,7 +2271,8 @@ module.exports = {
                   Idingreso : random_id_vimosap_multiple,
                   Fechaingreso : Fecha_hoy,
                   Infoingresada : "Planificacion de puertas vimo" ,
-                  Nombrearchivo : file.name.toString()
+                  Nombrearchivo : file.name.toString(),
+                  Usuario : req.session.user_id.Usuario 
                 })
                 var datos = leerExcelSap(file.name)[0];
                 var mes = leerExcelSap(file.name)[1];
@@ -2383,7 +2399,8 @@ module.exports = {
                 Idingreso : random_id_vimosap_single,
                 Fechaingreso : Fecha_hoy,
                 Infoingresada : "Planificacion de puertas vimo",
-                Nombrearchivo : file.name.toString() 
+                Nombrearchivo : file.name.toString(),
+                Usuario : req.session.user_id.Usuario  
               })
               for(a=1; a < datos.length ; a++){
                 var numpuerta ="";
@@ -2496,7 +2513,8 @@ module.exports = {
               Fechaingreso : Fecha_hoy,
               Infoingresada : "Trabajos realizados",
               Nombrearchivo : file.name.toString(),
-              Usuario : req.session.user_id.Usuario 
+              Usuario : req.session.user_id.Usuario,
+              
             })
             var Fecha = ""
             var Turno = ""
@@ -2638,7 +2656,8 @@ module.exports = {
               Idingreso : random_id_workpad_single,
               Fechaingreso : Fecha_hoy,
               Infoingresada : "Workpad",
-              Nombrearchivo : file.name.toString() 
+              Nombrearchivo : file.name.toString(),
+              Usuario : req.session.user_id.Usuario 
             })
             var Tipo = "";
             for(a=6;a < datos.length; a++){
@@ -3427,7 +3446,8 @@ module.exports = {
               Idingreso : random_id_puertasvimo_single,
               Fechaingreso : Fecha_hoy,
               Infoingresada : "archivo puertas vimo",
-              Nombrearchivo : file.name.toString()
+              Nombrearchivo : file.name.toString(),
+              Usuario : req.session.user_id.Usuario 
             })
             
             for(a=0; a < datos.length; a++){
