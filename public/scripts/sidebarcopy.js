@@ -2959,7 +2959,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     //console.log(new Date(Math.max.apply(null, values_1)+parseInt(valor_maximo)).getHours())
     if(new Date(Math.max.apply(null, values_1)).getHours() > new Date(Math.max.apply(null, values_1)+parseInt(valor_maximo)).getHours()){
       $scope.myJsonTimer1 = timer_chart(Epoch_Inicio_test, parseInt(new Date(Math.max.apply(null, values_1)+parseInt(valor_maximo)).getHours())-parseInt(new Date(Math.min.apply(null, values_1)).getHours())+1+24-Math.max.apply(null, values_1).getHours, values_1, values_2, values_3, values_4, values_5, values_6, values_7, $scope.columndisc);
-      console.log(parseInt(new Date(Math.max.apply(null, values_1)+parseInt(valor_maximo)).getHours())-parseInt(new Date(Math.min.apply(null, values_1)).getHours())+1+24-Math.max.apply(null, values_1).getHours)
+      
     }
     else{
       $scope.myJsonTimer1 = timer_chart(Epoch_Inicio_test, parseInt(new Date(Math.max.apply(null, values_1)+parseInt(valor_maximo)).getHours())-parseInt(new Date(Math.min.apply(null, values_1)).getHours())+1, values_1, values_2, values_3, values_4, values_5, values_6, values_7, $scope.columndisc);
@@ -3047,6 +3047,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     $scope.myJsonAlmuerzo = timer_chart_detalle(Epoch_Inicio_test_4, Epoch_Inicio_test_4, values_5, "Almuerzo", parseInt(new Date(Math.max.apply(null, values_5)).getHours()) - parseInt(new Date(Math.min.apply(null, values_5)).getHours()))
     $scope.myJsonInicioPm = timer_chart_detalle(Epoch_Inicio_test_5, Epoch_Inicio_test_5, values_6, "Inicio Actividades Pm", parseInt(new Date(Math.max.apply(null, values_6)).getHours()) - parseInt(new Date(Math.min.apply(null, values_6)).getHours()))
     $scope.myJsonTerminoPm = timer_chart_detalle(Epoch_Inicio_test_6, Epoch_Inicio_test_6, values_7, "Termino Actividades Pm", parseInt(new Date(Math.max.apply(null, values_7)).getHours()) - parseInt(new Date(Math.min.apply(null, values_7)).getHours()))
+    
+    
     var Modaldisciplina = new bootstrap.Modal(document.getElementById('Modaldisciplinagraph'), {
       keyboard: false
     })
@@ -5379,6 +5381,35 @@ function timer_chart_detalle(Epoch_Inicio, Epoch_Final, values_1, nombre, suma) 
         backgroundColor: '#1565C0',
       }
     ],
+    shapes: [],
+    hooks: {
+      beforeDraw: function(chart) {
+        var series = chart.getSeries(0);
+        var scale = chart.getScale();
+        var shapes = [];
+
+        for (var i = 0; i < series.length; i++) {
+          var points = series[i].points;
+
+          for (var j = 0; j < points.length; j++) {
+            var point = points[j];
+            var value = scale.y.getTransformedValue(point.value);
+            var shape = {
+              type: 'text',
+              text: point.value.toString(),
+              x: point.x,
+              y: value - 10, // Ajusta la posición vertical según sea necesario
+              fontColor: '#000',
+              fontSize: 12,
+              offsetY: -20
+            };
+            shapes.push(shape);
+          }
+        }
+
+        chart.config.shapes = shapes;
+      }
+    }
   };
 
   return grafico;
