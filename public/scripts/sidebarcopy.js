@@ -209,8 +209,16 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   }
 
   $scope.equipostotal=[];
+  $scope.nombreequipos = []
+  //$scope.fechas
   for(a=0; a< local_data_equipo.length; a++){
-    $scope.equipostotal.push(local_data_equipo[a])
+    if ($scope.nombreequipos.indexOf(local_data_equipo[a].Patente) == -1){
+      $scope.nombreequipos.push(local_data_equipo[a].Patente)
+    }
+    if(local_data_equipo[a].Idingreso == local_data_equipo[local_data_equipo.length-1].Idingreso){
+      $scope.equipostotal.push(local_data_equipo[a])
+    }
+    
   }
   
 

@@ -2075,7 +2075,13 @@ module.exports = {
             var datos = leerExcelEquipos(file.name);
             try{
               var random_id_equipos_single = guid()
-              var columnas = ["CONTRATO", "TIPO DE EQUIPO", "PATENTE", "NÚMERO INTERNO", "CARTOLA", "NOMBRE RESPONSABLE", "RUT RESPONSABLE", "RÉGIMEN DE MANTENCIÓN", "ÚLTIMA FECHA MANTENCIÓN", "PRÓXIMA FECHA DE MANTENCIÓN", "ÚLTIMA MANT KMS", "PRÓXIMA MANT KMS", "KILOMETRAJE ACTUAL", "KILOMETRAJE FALTANTE", "ESTADO ACTUAL", "FECHA CHEQUEO DE GASES", "COMENTARIOS"]
+              var Nomfile = file.name.split(".xlsx")[0]
+              var restando = 1
+              while(Nomfile.split(" ")[Nomfile.split(" ").length-restando].split("-").length<3){
+                restando+=1
+              }
+              //var columnas = ["CONTRATO", "TIPO DE EQUIPO", "PATENTE", "NÚMERO INTERNO", "CARTOLA", "NOMBRE RESPONSABLE", "RUT RESPONSABLE", "RÉGIMEN DE MANTENCIÓN", "ÚLTIMA FECHA MANTENCIÓN", "PRÓXIMA FECHA DE MANTENCIÓN", "ÚLTIMA MANT KMS", "PRÓXIMA MANT KMS", "KILOMETRAJE ACTUAL", "KILOMETRAJE FALTANTE", "ESTADO ACTUAL", "FECHA CHEQUEO DE GASES", "COMENTARIOS"]
+              var columnas = ["CONTRATO", "TIPO DE EQUIPO", "PATENTE", "NUMERO INTERNO", "CARTOLA", "NOMBRE RESPONSABLE", "RUT RESPONSABLE", "REGIMEN DE MANTENCIÓN", "ULTIMA FECHA MANTENCION ", "PROXIMA FECHA DE MANTENCIÓN", "ULTIMA MANT KMS", "PROXIMA MANT KMS", "KILOMETRAJE ACTUAL", "KILOMETRAJE FALTANTE", "ESTADO ACTUAL", "FECHA CHEQUEO DE GASES", "COMENTARIOS"]
               await modelo.archivos.create({
                 Tabla : "equipos",
                 Idingreso : random_id_equipos_single,
@@ -2113,7 +2119,8 @@ module.exports = {
                   Estado : datos[0][a][columnas[14]],
                   Fechagas : datos[0][a][columnas[15]],
                   Comentarios : datos[0][a][columnas[16]],
-                  Idingreso : random_id_equipos_single
+                  Idingreso : random_id_equipos_single,
+                  Fechaingreso : Nomfile.split(" ")[Nomfile.split(" ").length-restando]
                 })
                 /*await modelo.equipos.findAll({
                   where:{
