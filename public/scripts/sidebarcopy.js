@@ -89,6 +89,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
   $scope.archivosingresados = local_ingreso
 
+  $scope.progress = 70;
+  
+
 
   document.getElementById("buttoncrear").disabled = true
   document.getElementById("aceptarusuario").disabled = true
@@ -210,15 +213,33 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
   $scope.equipostotal=[];
   $scope.nombreequipos = []
-  //$scope.fechas
+  $scope.fechas_visitadas_equipos = []
+  $scope.datosprogreso = []
   for(a=0; a< local_data_equipo.length; a++){
     if ($scope.nombreequipos.indexOf(local_data_equipo[a].Patente) == -1){
       $scope.nombreequipos.push(local_data_equipo[a].Patente)
+      if(local_data_equipo[a].Estado!=null && local_data_equipo[a].Estado.toUpperCase()=="OPERATIVO"){
+        $scope.datosprogreso.push(1)
+      }
+      else{
+        $scope.datosprogreso.push(0)
+      }
+    }
+    else{
+      if(local_data_equipo[a].Estado!=null && local_data_equipo[a].Estado.toUpperCase()=="OPERATIVO"){
+        $scope.datosprogreso[$scope.nombreequipos.indexOf(local_data_equipo[a].Patente)]+=1
+      }
     }
     if(local_data_equipo[a].Idingreso == local_data_equipo[local_data_equipo.length-1].Idingreso){
       $scope.equipostotal.push(local_data_equipo[a])
     }
-    
+    if($scope.fechas_visitadas_equipos.indexOf(local_data_equipo[a].Fechaingreso) == -1){
+      $scope.fechas_visitadas_equipos.push(local_data_equipo[a].Fechaingreso)
+    }
+  }
+
+  for(b=0 ; b < local_data_equipo.length ; b++){
+    local_data_equipo[b].progreso = (parseFloat($scope.datosprogreso[$scope.nombreequipos.indexOf(local_data_equipo[b].Patente)])/$scope.fechas_visitadas_equipos.length)*100
   }
   
 
@@ -2788,6 +2809,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
   $scope.Asistenciatotal =[];
 
+  //$scope.detallesequipos = function(){
+
+  //}
 
   $scope.non_completionmatriz = function(){
     $scope.Totalmatrices = []

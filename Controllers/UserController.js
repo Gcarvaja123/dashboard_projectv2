@@ -960,7 +960,7 @@ module.exports = {
                     })
                   }
                 }
-                req.flash('ingreso', random_id_brocales6_multiple);
+                req.flash('ingreso', random_id_brocales5_multiple);
               }catch(err){
                 req.flash('error', file.name.toString());
                 await modelo.brocales.destroy({

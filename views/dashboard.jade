@@ -2160,7 +2160,7 @@ html
                 p
                 #tableequipos.grid-container
                   div.tabla.item1
-                    table.Asistencia.table.caption-top
+                    table.Asistencia.Equipostable.table.caption-top
                               thead
                                 tr
                                   th(data-type="text")
@@ -2199,6 +2199,12 @@ html
                                   th(data-type='text-long')
                                     | Fecha Cheq. gas
                                     span.resize-handle
+                                  th(data-type='text-long')
+                                    | Rendimiento
+                                    span.resize-handle
+                                  th(data-type='text-long')
+                                    | Ver detalles
+                                    span.resize-handle
                               tbody
                                 tr(ng-repeat="equipo in equipostotal|filter:searchtxtx")
                                   td
@@ -2225,6 +2231,12 @@ html
                                     label {{equipo.Estado}}
                                   td 
                                     label {{equipo.Fechagas}}
+                                  td
+                                    .progress-bar(ng-style="{'width': {{equipo.progreso}} + '%'}")
+                                      span.progress-label {{equipo.progreso}}%
+                                  //td
+                                    button.btn.btn-secondary.archivobutton(type='button' ng-click="detallesequipos($index)" )
+                                      i.bi.bi-card-text
 
             
             //#Bargraphbrocales.grid-container

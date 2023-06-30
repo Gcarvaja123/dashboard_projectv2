@@ -267,6 +267,11 @@ table {
   width: 90%;
   background-color: white;
 }
+
+.Equipostable{
+ margin-left: 0px;
+ width: 100%;
+}
 .Planificaciontte8{
   margin-left: 0px;
   width: 100%;
@@ -1772,4 +1777,20 @@ table.matriz td{
 
 .pauta-terminada{
   opacity: .5;
+}
+
+
+
+.progress-bar {
+  height: 20px;
+  background-color: #5856f5;
+  position: relative;
+}
+
+.progress-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
 }
