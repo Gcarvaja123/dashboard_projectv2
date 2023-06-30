@@ -2809,9 +2809,30 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
   $scope.Asistenciatotal =[];
 
-  //$scope.detallesequipos = function(){
+  $scope.detallesequipos = function(indexpatente){
+    $scope.Patenteequipo = $scope.equipostotal[indexpatente].Patente
 
-  //}
+    $scope.nombreequipo = $scope.equipostotal[indexpatente].Equipo
+    $scope.numinterno = $scope.equipostotal[indexpatente].Numinterno
+    $scope.cartola = $scope.equipostotal[indexpatente].Cartola
+    $scope.nomresp = $scope.equipostotal[indexpatente].Nomresp
+    $scope.rutresp = $scope.equipostotal[indexpatente].Rutresp
+    $scope.regimen = $scope.equipostotal[indexpatente].Regimen
+    $scope.ultimamantencion = $scope.equipostotal[indexpatente].Ultimamantencion
+    $scope.proxmant = $scope.equipostotal[indexpatente].Proxmant
+    $scope.ultimokms = $scope.equipostotal[indexpatente].Ultimokms
+    $scope.proximakms = $scope.equipostotal[indexpatente].Proximakms
+    $scope.kilometrajeactual = $scope.equipostotal[indexpatente].Kilometrajeactual
+    $scope.kilometrajefaltante = $scope.equipostotal[indexpatente].Kilometrajefaltante
+    $scope.estado = $scope.equipostotal[indexpatente].Estado
+    $scope.fechagas = $scope.equipostotal[indexpatente].Fechagas
+
+    var Modaldetalles = new bootstrap.Modal(document.getElementById('ModalDetallesEquipo'), {
+      keyboard: false
+    })
+    Modaldetalles.toggle()
+    
+  }
 
   $scope.non_completionmatriz = function(){
     $scope.Totalmatrices = []

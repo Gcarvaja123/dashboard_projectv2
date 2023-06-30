@@ -1463,6 +1463,61 @@ html
             #chart124(zingchart='' zc-json='myJsonAlmuerzo' zc-width='1400px' zc-height='300px' visibility="hidden" )
             #chart125(zingchart='' zc-json='myJsonInicioPm' zc-width='1400px' zc-height='300px' visibility="hidden" )
             #chart126(zingchart='' zc-json='myJsonTerminoPm' zc-width='1400px' zc-height='300px' visibility="hidden" )
+    #ModalDetallesEquipo.modal.fade( aria-labelledby='Modaltutorial' )
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    h5#exampleModalLabel.modal-title Detalles {{Patenteequipo}}
+                    button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                  .popup-content.modal-body
+                      .info-row
+                        span.info-label Equipo:
+                        span.info-value {{nombreequipo}}
+                      .info-row
+                        span.info-label Patente:
+                        span.info-value {{Patenteequipo}}
+                      .info-row
+                        span.info-label N° interno:
+                        span.info-value {{numinterno}}
+                      .info-row
+                        span.info-label Cartola:
+                        span.info-value {{cartola}}
+                      .info-row
+                        span.info-label Nombre Responsable:
+                        span.info-value {{nomresp}}
+                      .info-row
+                        span.info-label Rut Responsable:
+                        span.info-value {{rutresp}}
+                      .info-row
+                        span.info-label Regimen:
+                        span.info-value {{regimen}}
+                      .info-row
+                        span.info-label Última mantención:
+                        span.info-value {{ultimamantencion}}
+                      .info-row
+                        span.info-label Próxima mantención:
+                        span.info-value {{proxmant}}
+                      .info-row
+                        span.info-label Última mantención Kms:
+                        span.info-value {{ultimokms}}
+                      .info-row
+                        span.info-label Próxima mantención Kms:
+                        span.info-value {{proximakms}}
+                      .info-row
+                        span.info-label Kilometraje actual:
+                        span.info-value {{kilometrajeactual}}
+                      .info-row
+                        span.info-label Kilometraje faltante:
+                        span.info-value {{kilometrajefaltante}}
+                      .info-row
+                        span.info-label Estado actual:
+                        span.info-value {{estado}}
+                      .info-row
+                        span.info-label Fecha chequeo de gases:
+                        span.info-value {{fechagas}}
+                  .modal-footer
+                    button.btnn(type='button' data-bs-dismiss='modal' ) Cerrar 
+                    button.btnn(name="probando3" value="probando4" ng-click="openTutorial()" data-bs-dismiss='modal') Aceptar
 
     .sidenav#sidenav1
       .sidenav-header
@@ -2234,7 +2289,7 @@ html
                                   td
                                     .progress-bar(ng-style="{'width': {{equipo.progreso}} + '%'}")
                                       span.progress-label {{equipo.progreso}}%
-                                  //td
+                                  td
                                     button.btn.btn-secondary.archivobutton(type='button' ng-click="detallesequipos($index)" )
                                       i.bi.bi-card-text
 

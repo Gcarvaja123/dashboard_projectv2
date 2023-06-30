@@ -1794,3 +1794,33 @@ table.matriz td{
   transform: translate(-50%, -50%);
   color: #fff;
 }
+
+
+
+
+
+
+
+
+
+
+.popup-content {
+  background-color: #fff;
+  width: 400px;
+  max-width: 90%;
+  margin: 100px auto;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.info-row {
+  margin-bottom: 10px;
+}
+
+.info-label {
+  font-weight: bold;
+}
+
+.info-value {
+  margin-left: 10px;
+}
