@@ -215,19 +215,28 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   $scope.nombreequipos = []
   $scope.fechas_visitadas_equipos = []
   $scope.datosprogreso = []
+  $scope.datosprogresototal = []
   for(a=0; a< local_data_equipo.length; a++){
     if ($scope.nombreequipos.indexOf(local_data_equipo[a].Patente) == -1){
       $scope.nombreequipos.push(local_data_equipo[a].Patente)
       if(local_data_equipo[a].Estado!=null && local_data_equipo[a].Estado.toUpperCase()=="OPERATIVO"){
         $scope.datosprogreso.push(1)
+        var aux_datos=[1]
+        $scope.datosprogresototal.push(aux_datos)
       }
       else{
         $scope.datosprogreso.push(0)
+        var aux_datos=[0]
+        $scope.datosprogresototal.push(aux_datos)
       }
     }
     else{
       if(local_data_equipo[a].Estado!=null && local_data_equipo[a].Estado.toUpperCase()=="OPERATIVO"){
         $scope.datosprogreso[$scope.nombreequipos.indexOf(local_data_equipo[a].Patente)]+=1
+        $scope.datosprogresototal[$scope.nombreequipos.indexOf(local_data_equipo[a].Patente)].push(1)
+      }
+      else{
+        $scope.datosprogresototal[$scope.nombreequipos.indexOf(local_data_equipo[a].Patente)].push(0)
       }
     }
     if(local_data_equipo[a].Idingreso == local_data_equipo[local_data_equipo.length-1].Idingreso){
@@ -237,6 +246,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
       $scope.fechas_visitadas_equipos.push(local_data_equipo[a].Fechaingreso)
     }
   }
+
+  
+
 
   for(b=0 ; b < local_data_equipo.length ; b++){
     local_data_equipo[b].progreso = (parseFloat($scope.datosprogreso[$scope.nombreequipos.indexOf(local_data_equipo[b].Patente)])/$scope.fechas_visitadas_equipos.length)*100
@@ -2811,7 +2823,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
   $scope.detallesequipos = function(indexpatente){
     $scope.Patenteequipo = $scope.equipostotal[indexpatente].Patente
-
     $scope.nombreequipo = $scope.equipostotal[indexpatente].Equipo
     $scope.numinterno = $scope.equipostotal[indexpatente].Numinterno
     $scope.cartola = $scope.equipostotal[indexpatente].Cartola
@@ -2827,10 +2838,23 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     $scope.estado = $scope.equipostotal[indexpatente].Estado
     $scope.fechagas = $scope.equipostotal[indexpatente].Fechagas
 
+
+    
+    $scope.myJsonEquiposPie = Pie_Cumplimiento_Equipo($scope.fechas_visitadas_equipos.length, $scope.datosprogreso[$scope.nombreequipos.indexOf($scope.equipostotal[indexpatente].Patente)], $scope.nombreequipo+" "+$scope.Patenteequipo )
+    $scope.myJsonEquiposLine = line_equipo_report($scope.nombreequipo+" "+$scope.Patenteequipo,   $scope.datosprogresototal[$scope.nombreequipos.indexOf($scope.equipostotal[indexpatente].Patente)], $scope.fechas_visitadas_equipos)
+    console.log($scope.datosprogresototal)
+    console.log($scope.fechas_visitadas_equipos)
+
+
+    
     var Modaldetalles = new bootstrap.Modal(document.getElementById('ModalDetallesEquipo'), {
       keyboard: false
     })
     Modaldetalles.toggle()
+
+
+
+
     
   }
 
@@ -6629,6 +6653,41 @@ function Pie_Cumplimiento(values_total, values_completed, nombre){
   return grafico
 }
 
+
+function Pie_Cumplimiento_Equipo(values_total, values_completed, nombre){
+  var grafico = {};
+  grafico = {
+    "type": "pie3d",
+    plot: {
+      slice: 0,
+      'value-box': {
+        'font-size':13,
+        'font-weight': "normal",
+        "font-color":"black",
+      } //to make a donut
+      
+    },
+    "title": {
+      "text": "Cumplimiento "+ nombre
+    },
+    "series": [{
+        "values": [values_total-values_completed],
+        "text" : "No Operativo",
+        backgroundColor :"#ededed",
+        fontColor :"black"
+      },
+      {
+        "values": [values_completed],
+        "text" : "Operativo",
+        backgroundColor :"#4DC0CF",
+        fontColor: "black"
+
+      },
+    ]
+  };
+  return grafico
+}
+
 function line_chart(values, nombres, titulo){
   var grafico = {};
   grafico = {
@@ -7467,6 +7526,33 @@ function line_asistenciar_report(nombre_sector, x_values, dias){
     type : "line",
     "title" :{
       "text": "Asistencia sector "+nombre_sector
+    },
+    "plotarea":{
+        "margin":"40 40 80 40"
+    },
+    scaleX : {
+      values : dias,
+      item: {
+        fontAngle: 90,
+        fontSize : "10px"
+      },
+      "max-items":9999,
+      "items-overlap" : true,
+    },
+    series :[{
+      values : x_values
+    }]
+  }
+  return grafico
+  
+}
+
+function line_equipo_report(nombre, x_values, dias){
+  grafico = {};
+  grafico = {
+    type : "line",
+    "title" :{
+      "text": "Estado "+nombre
     },
     "plotarea":{
         "margin":"40 40 80 40"

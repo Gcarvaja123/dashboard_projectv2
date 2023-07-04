@@ -1469,52 +1469,57 @@ html
                   .modal-header
                     h5#exampleModalLabel.modal-title Detalles {{Patenteequipo}}
                     button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
-                  .popup-content.modal-body
-                      .info-row
-                        span.info-label Equipo:
-                        span.info-value {{nombreequipo}}
-                      .info-row
-                        span.info-label Patente:
-                        span.info-value {{Patenteequipo}}
-                      .info-row
-                        span.info-label N° interno:
-                        span.info-value {{numinterno}}
-                      .info-row
-                        span.info-label Cartola:
-                        span.info-value {{cartola}}
-                      .info-row
-                        span.info-label Nombre Responsable:
-                        span.info-value {{nomresp}}
-                      .info-row
-                        span.info-label Rut Responsable:
-                        span.info-value {{rutresp}}
-                      .info-row
-                        span.info-label Regimen:
-                        span.info-value {{regimen}}
-                      .info-row
-                        span.info-label Última mantención:
-                        span.info-value {{ultimamantencion}}
-                      .info-row
-                        span.info-label Próxima mantención:
-                        span.info-value {{proxmant}}
-                      .info-row
-                        span.info-label Última mantención Kms:
-                        span.info-value {{ultimokms}}
-                      .info-row
-                        span.info-label Próxima mantención Kms:
-                        span.info-value {{proximakms}}
-                      .info-row
-                        span.info-label Kilometraje actual:
-                        span.info-value {{kilometrajeactual}}
-                      .info-row
-                        span.info-label Kilometraje faltante:
-                        span.info-value {{kilometrajefaltante}}
-                      .info-row
-                        span.info-label Estado actual:
-                        span.info-value {{estado}}
-                      .info-row
-                        span.info-label Fecha chequeo de gases:
-                        span.info-value {{fechagas}}
+                  .modal-body
+                    #equiposgrid.grid-container
+                      div
+                        .info-row
+                          span.info-label Equipo:
+                          span.info-value {{nombreequipo}}
+                        .info-row
+                          span.info-label Patente:
+                          span.info-value {{Patenteequipo}}
+                        .info-row
+                          span.info-label N° interno:
+                          span.info-value {{numinterno}}
+                        .info-row
+                          span.info-label Cartola:
+                          span.info-value {{cartola}}
+                        .info-row
+                          span.info-label Nombre Responsable:
+                          span.info-value {{nomresp}}
+                        .info-row
+                          span.info-label Rut Responsable:
+                          span.info-value {{rutresp}}
+                        .info-row
+                          span.info-label Regimen:
+                          span.info-value {{regimen}}
+                        .info-row
+                          span.info-label Última mantención:
+                          span.info-value {{ultimamantencion}}
+                        .info-row
+                          span.info-label Próxima mantención:
+                          span.info-value {{proxmant}}
+                        .info-row
+                          span.info-label Última mantención Kms:
+                          span.info-value {{ultimokms}}
+                        .info-row
+                          span.info-label Próxima mantención Kms:
+                          span.info-value {{proximakms}}
+                        .info-row
+                          span.info-label Kilometraje actual:
+                          span.info-value {{kilometrajeactual}}
+                        .info-row
+                          span.info-label Kilometraje faltante:
+                          span.info-value {{kilometrajefaltante}}
+                        .info-row
+                          span.info-label Estado actual:
+                          span.info-value {{estado}}
+                        .info-row
+                          span.info-label Fecha chequeo de gases:
+                          span.info-value {{fechagas}}
+                      #equiposchart.grid-container
+                        #chart-150(zingchart='' zc-json='myJsonEquiposPie' zc-width='100%' zc-height='100%' visibility="hidden" )
+                        #chart-151(zingchart='' zc-json='myJsonEquiposLine' zc-width='100%' zc-height='100%' visibility="hidden" )
                   .modal-footer
                     button.btnn(type='button' data-bs-dismiss='modal' ) Cerrar 
                     button.btnn(name="probando3" value="probando4" ng-click="openTutorial()" data-bs-dismiss='modal') Aceptar
