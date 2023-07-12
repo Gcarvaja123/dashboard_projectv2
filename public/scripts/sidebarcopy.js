@@ -2851,11 +2851,39 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
       keyboard: false
     })
     Modaldetalles.toggle()
+  }
 
+  $scope.detallesasistenciareporte = function(indextrabajador){
+    rut_trabajador = $scope.Totalreporteasistencia[indextrabajador].Rut
+    nombre_trabajador = $scope.Totalreporteasistencia[indextrabajador].Nombre
 
+    var Fecha_asistencia_ingreso = new Date($scope.dateselectedstart.getTime() - $scope.dateselectedstart.getTimezoneOffset()*60000);
+    converted_date_ingreso = Fecha_asistencia_ingreso.toISOString().split('T')[0];
+    Fecha_1_asistencia = converted_date_ingreso.split("-")[2]+"-"+converted_date_ingreso.split("-")[1]+"-"+converted_date_ingreso.split("-")[0];
 
-
+    var Fecha_asistencia_termino = new Date($scope.dateselectedfinish.getTime() - $scope.dateselectedfinish.getTimezoneOffset()*60000);
+    converted_date_termino = Fecha_asistencia_termino.toISOString().split('T')[0];
+    Fecha_2_asistencia = converted_date_termino.split("-")[2]+"-"+converted_date_termino.split("-")[1]+"-"+converted_date_termino.split("-")[0];
     
+    var nomenclatura = ["A", "B", "C", "CU", "EX", "TT", "FA", "LI", "AU", "VA", "PA", "PC"];
+    var nomen_values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+    Fechaaux1 = new Date(converted_date_ingreso+" "+"23:00:00")
+    Fechaaux2 = new Date(converted_date_termino+" "+"23:00:00")
+    for(a=0 ; a < local_data_asistencia.length ; a++ ){
+      fecha_asistencia = new Date(local_data_asistencia[a].Fechaingreso.split("-")[2].toString()+"-"+local_data_asistencia[a].Fechaingreso.split("-")[1].toString()+"-"+local_data_asistencia[a].Fechaingreso.split("-")[0].toString()+" "+"23:00:00")
+      if(local_data_asistencia[a].Rut == rut_trabajador && fecha_asistencia.getTime() >= Fechaaux1.getTime() && fecha_asistencia.getTime() <= Fechaaux2.getTime()){
+        nomen_values[nomenclatura.indexOf(local_data_asistencia[a].Turno.toUpperCase())] +=1
+      }
+    }
+
+    $scope.myJsonAsistenciaReportePie = pie3d_asistencia(nomen_values[0],nomen_values[1],nomen_values[2],nomen_values[3],nomen_values[4],nomen_values[5],nomen_values[6],nomen_values[7],nomen_values[8],nomen_values[9],nomen_values[10],nomen_values[11], nombre_trabajador)
+
+
+    var Modaldetalles = new bootstrap.Modal(document.getElementById('ModalDetallesAsistenciaReporte'), {
+      keyboard: false
+    })
+    Modaldetalles.toggle()
   }
 
   $scope.non_completionmatriz = function(){
@@ -3534,6 +3562,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
         $scope.Asistenciatotal.push(local_data_asistencia[a]);
       }
     }
+
+    document.getElementById("asistenciagrid2").scrollIntoView({behavior: 'smooth'});
   }
 
   $scope.searchWorker = function(index){
@@ -4248,7 +4278,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
       document.getElementById("Vistatotal").style.display = "block";
       document.getElementById("Vistatotal").classList.add("w3-red");
     }
-    
     document.getElementById("Asistencia").scrollIntoView({behavior: 'smooth'});
   }
   $scope.GotoPlanmatriz = function(){
@@ -5171,6 +5200,7 @@ function pie3d_asistencia(dato1, dato2, dato3, dato4, dato5, dato6, dato7, dato8
         placement: "out"
       }
     },
+    
     "legend": {
       align : "left",
       "vertical-align" : "bottom"

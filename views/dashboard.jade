@@ -1523,6 +1523,19 @@ html
                   .modal-footer
                     button.btnn(type='button' data-bs-dismiss='modal' ) Cerrar 
                     button.btnn(name="probando3" value="probando4" ng-click="openTutorial()" data-bs-dismiss='modal') Aceptar
+    #ModalDetallesAsistenciaReporte.modal.fade( aria-labelledby='Modaltutorial' )
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    h5#exampleModalLabel.modal-title Detalles {{Patenteequipo}}
+                    button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                  .modal-body
+                      
+                      #equiposchart.grid-container
+                        #chart-160(zingchart='' zc-json='myJsonAsistenciaReportePie' zc-width='300px' zc-height='300px' visibility="hidden" )
+                  .modal-footer
+                    button.btnn(type='button' data-bs-dismiss='modal' ) Cerrar 
+                    button.btnn(name="probando3" value="probando4" ng-click="openTutorial()" data-bs-dismiss='modal') Aceptar
 
     .sidenav#sidenav1
       .sidenav-header
@@ -3510,6 +3523,8 @@ html
           button.btnn(type='button' ng-click="CreateReport()") Crear Reporte
         p
         #divinvisible
+          .one
+              h1 Asistencia
           #tableasistenciarreport.grid-container
                 div.tabla.item1
                   table.vimo.table.caption-top
@@ -3530,6 +3545,9 @@ html
                         th(data-type='text')
                           | Rendimiento
                           span.resize-handle
+                        th(data-type='text')
+                          | Ver Detalles
+                          span.resize-handle
                       tbody
                         tr(ng-repeat="asistencia in Totalreporteasistencia")
                           td
@@ -3542,25 +3560,30 @@ html
                             label {{asistencia.Falta}}
                           td
                             progress#progressbar(value='{{asistencia.Rendimiento}}' max='100')
+                          td
+                            button.btn.btn-secondary.archivobutton(type='button' ng-click="detallesasistenciareporte($index)" )
+                              i.bi.bi-card-text
           p
           select.selectsitio.form-selectfilter( ng-model='columnsitio' ng-init='columnsitio="Fecha"' ng-options='e for e in headersitio' ng-change="Cambiositio()" )
           p
           #lineasistenciareport.grid-container2
-            #chart100(zingchart='' zc-json='myJsonAsistenciaReport' zc-width='360px' zc-height='300px')
-
+            #chart100(zingchart='' zc-json='myJsonAsistenciaReport' zc-width='100%' zc-height='300px')
+          .one
+              h1 Limpieza de brocales
           #gridbrocalesreport.grid-container
             div
-              #chart101(zingchart='' zc-json='myJsonBrocalesreport1' zc-width='360px' zc-height='300px')
+              #chart101(zingchart='' zc-json='myJsonBrocalesreport1' zc-width='100%' zc-height='300px')
             div
-              #chart102(zingchart='' zc-json='myJsonBrocalesreport2' zc-width='360px' zc-height='300px')
+              #chart102(zingchart='' zc-json='myJsonBrocalesreport2' zc-width='100%' zc-height='300px')
             
             div
-              #chart103(zingchart='' zc-json='myJsonBrocalesreportbar' zc-width='900px' zc-height='300px')
+              #chart103(zingchart='' zc-json='myJsonBrocalesreportbar' zc-width='100%' zc-height='300px')
+          
           #gridbrocalesreport2.grid-container
             div
-              #chart104(zingchart='' zc-json='myJsonBrocalesreport1v2' zc-width='360px' zc-height='300px')
+              #chart104(zingchart='' zc-json='myJsonBrocalesreport1v2' zc-width='100%' zc-height='300px')
             div
-              #chart105(zingchart='' zc-json='myJsonBrocalesreport2v2' zc-width='360px' zc-height='300px')
+              #chart105(zingchart='' zc-json='myJsonBrocalesreport2v2' zc-width='100%' zc-height='300px')
             div
               #tableabrocalesreport.grid-container
                 div.tabla.item1
@@ -3599,17 +3622,21 @@ html
                             label {{brocales.Cantidad}}
                           td
                             label {{brocales.Observacion}}
+          .one
+              h1 Plan matriz
           #gridmatrizreport.grid-container
             div
-              #chart107(zingchart='' zc-json='myJsonMatrizreport1' zc-width='460px' zc-height='300px')
+              #chart107(zingchart='' zc-json='myJsonMatrizreport1' zc-width='100%' zc-height='300px')
             div
-              #chart108(zingchart='' zc-json='myJsonMatrizreport2' zc-width='460px' zc-height='300px')
+              #chart108(zingchart='' zc-json='myJsonMatrizreport2' zc-width='100%' zc-height='300px')
             div
-              #chart109(zingchart='' zc-json='myJsonMatrizreport3' zc-width='460px' zc-height='300px')
+              #chart109(zingchart='' zc-json='myJsonMatrizreport3' zc-width='100%' zc-height='300px')
             div
-              #chart110(zingchart='' zc-json='myJsonMatrizreport4' zc-width='300px' zc-height='300px')
+              #chart110(zingchart='' zc-json='myJsonMatrizreport4' zc-width='100%' zc-height='300px')
+          .one
+              h1 Disciplina Operacional
           div.grid-container
-            #chart111(zingchart='' zc-json='myJsonDisciplinareport' zc-width='1700px' zc-height='300px')
+            #chart111(zingchart='' zc-json='myJsonDisciplinareport' zc-width='100%' zc-height='300px')
 
 
 
