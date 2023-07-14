@@ -1818,10 +1818,14 @@ html
               #planmatrizgrid1.grid-container
                 div
                   #chart71(ng-model="matrizcomp" zingchart='' zc-json='myJsonpieCumplimiento' zc-width='100%' zc-height='300px' ng-click="non_completionmatriz()")
+                  .buttoninnasistance
+                    button.buttoninassistance1(ng-model='inassistance1' ng-click="Rendimientoplanmatriz('mensual')") Mensual
+                    button.buttoninassistance2(ng-model='inassistance2' ng-click="Rendimientoplanmatriz('anual')") Anual                   
                 div(ng-controller='MainControllermatriz' class="border" )
                   button.airebutton(ng-model='aireselector' ng-click="changegraphview('Aire Acondicionado')") Aire
                   button.polvobutton(ng-model='polvoselector' ng-click="changegraphview('Colectores de polvo')") Polvo
                   button.ventilacionbutton(ng-model='ventilacionselector' ng-click="changegraphview('Ventilación')") Ventilación
+                  i.bi.bi-question-circle(data-bs-toggle="tooltip" data-bs-placement="top" title="Gráfico que muestra el plan matriz anual, cada botón irá cambiando el gráfico,  también se mostrará el gráfico de la izquierda para ver el cumplimiento tanto anual como mensual (siempre de acorde al mes que esté en el calendario)" style="float: right;")
                   #chart-matriz11(zingchart='' zc-json='myJsonAnualmatriz' zc-width='100%' zc-height='300px')
               #planmatrizgrid.grid-container
                 div(ng-controller='MainControllermatriz2' class="border" ng-model='openmodalsub7' ) 

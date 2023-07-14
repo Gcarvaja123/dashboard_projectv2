@@ -387,6 +387,14 @@ module.exports = {
       where : {
         turno : "EXAMEN "
       }
+    })
+
+    await modelo.asistencia.update({
+      Turno : "DE"
+    },{
+      where : {
+        turno : "De"
+      }
     })*/
 
     
@@ -533,6 +541,16 @@ module.exports = {
                 var indexmes = 0
                 var dia_mes = ""
 
+                var anho =""
+
+                var Nomfile = file.name.split(".xlsx")[0]
+                var restando = 1
+                while(Nomfile.split(" ")[Nomfile.split(" ").length-restando].split("-").length<3){
+                  restando+=1
+                }
+                indexmes = Nomfile.split(" ")[Nomfile.split(" ").length-restando].split("-")[1]
+                dia_mes = Nomfile.split(" ")[Nomfile.split(" ").length-restando].split("-")[0]
+                anho = Nomfile.split(" ")[Nomfile.split(" ").length-restando].split("-")[2]
                 await modelo.archivos.create({
                   Tabla : "asistencia",
                   Idingreso : random_id_asistencia_multiple,
@@ -542,7 +560,7 @@ module.exports = {
                   Usuario : req.session.user_id.Usuario 
                 })
 
-                for(mes=0; mes<meses_array.length; mes++){
+                /*for(mes=0; mes<meses_array.length; mes++){
                   //if(Object.keys(datos[0])[0].toUpperCase().includes(meses_array[mes])){
                   if(file.name.toUpperCase().includes(meses_array[mes])){  
                     indexmes = mes+1
@@ -557,7 +575,7 @@ module.exports = {
                     dia_mes = dias_array[dia]
                     break
                   }
-                }
+                }*/
 
                 Fechaingreso = Object.keys(datos[0])[0].split(" ")[Object.keys(datos[0])[0].split(" ").length-1];
                 for(a=1; a < Object.keys(datos).length; a++){
@@ -601,7 +619,7 @@ module.exports = {
                   }*/
                   await modelo.asistencia.findAll({
                       where : {
-                        Fechaingreso : dia_mes+"-"+indexmes+"-"+"2023",
+                        Fechaingreso : dia_mes+"-"+indexmes+"-"+anho,
                         Nombre : Nombre,
                       }
                     }).then(async function(rows){
@@ -612,7 +630,7 @@ module.exports = {
                           Rut : Rut,
                           Cargo : Cargo,
                           Turno : datos[a][parseInt(dia_mes).toString()+"-"+Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[1].toString()],
-                          Fechaingreso : dia_mes+"-"+indexmes+"-"+"2023",
+                          Fechaingreso : dia_mes+"-"+indexmes+"-"+anho,
                           Idingreso : random_id_asistencia_multiple
                         })
                       }
@@ -654,7 +672,17 @@ module.exports = {
               var dias_array = ["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","20","21","22","23","24","25","26","27","28","29","30","31"]
               var indexmes = 0
               var dia_mes = ""
-              for(mes=0; mes<meses_array.length; mes++){
+              var anho =""
+
+              var Nomfile = file.name.split(".xlsx")[0]
+              var restando = 1
+              while(Nomfile.split(" ")[Nomfile.split(" ").length-restando].split("-").length<3){
+                restando+=1
+              }
+              indexmes = Nomfile.split(" ")[Nomfile.split(" ").length-restando].split("-")[1]
+              dia_mes = Nomfile.split(" ")[Nomfile.split(" ").length-restando].split("-")[0]
+              anho = Nomfile.split(" ")[Nomfile.split(" ").length-restando].split("-")[2]
+              /*for(mes=0; mes<meses_array.length; mes++){
                 //if(Object.keys(datos[0])[0].toUpperCase().includes(meses_array[mes])){
                 if(file.name.toUpperCase().includes(meses_array[mes])){  
                   indexmes = mes+1
@@ -669,7 +697,7 @@ module.exports = {
                   dia_mes = dias_array[dia]
                   break
                 }
-              }
+              }*/
               await modelo.archivos.create({
                 Tabla : "asistencia",
                 Idingreso : random_id_asistencia_single,
@@ -723,7 +751,7 @@ module.exports = {
                 }*/
                 await modelo.asistencia.findAll({
                     where : {
-                      Fechaingreso : dia_mes+"-"+indexmes+"-"+"2023",
+                      Fechaingreso : dia_mes+"-"+indexmes+"-"+anho,
                       Nombre : Nombre,
                     }
                   }).then(async function(rows){
@@ -734,7 +762,7 @@ module.exports = {
                         Rut : Rut,
                         Cargo : Cargo,
                         Turno : datos[a][parseInt(dia_mes).toString()+"-"+Object.keys(datos[2])[Object.keys(datos[2]).length-7].split("-")[1].toString()],
-                        Fechaingreso : dia_mes+"-"+indexmes+"-"+"2023",
+                        Fechaingreso : dia_mes+"-"+indexmes+"-"+anho,
                         Idingreso : random_id_asistencia_single
                       })
                     }

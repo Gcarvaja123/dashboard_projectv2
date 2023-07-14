@@ -566,7 +566,10 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
       }
     }
   }
-  $scope.myJsonpieCumplimiento = Pie_Cumplimiento(total_deseadas[parseInt(fecha.split("-")[1])-1], total_completadas[parseInt(fecha.split("-")[1])-1], "Aire Acondicionado" )
+  if(total_deseadas[parseInt(fecha.split("-")[1])-1] != 0 && total_completadas[parseInt(fecha.split("-")[1])-1] !=0){
+    $scope.myJsonpieCumplimiento = Pie_Cumplimiento(total_deseadas[parseInt(fecha.split("-")[1])-1], total_completadas[parseInt(fecha.split("-")[1])-1], "Aire Acondicionado" , "mensual")
+  }
+  
 
 
 
@@ -1708,7 +1711,50 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
       }
     }
     $scope.myJsonAnualmatriz = mixed_creator(total_deseadas,total_completadas, name);
-    $scope.myJsonpieCumplimiento = Pie_Cumplimiento(total_deseadas[parseInt(fecha.split("-")[1])-1], total_completadas[parseInt(fecha.split("-")[1])-1], name )
+    if(total_deseadas[parseInt(fecha.split("-")[1])-1] != 0 && total_completadas[parseInt(fecha.split("-")[1])-1]!=0 ){
+      $scope.myJsonpieCumplimiento = Pie_Cumplimiento(total_deseadas[parseInt(fecha.split("-")[1])-1], total_completadas[parseInt(fecha.split("-")[1])-1], name, "mensual" )
+    }
+    
+  }
+
+  $scope.rendpmname = ""
+
+  $scope.Rendimientoplanmatriz = function(name){
+
+    fecha = $scope.fecha_universal
+
+    if(name == "mensual"){
+      $scope.rendpmname = "mensual"
+      var total_deseadas = 0
+      var total_completadas = 0
+      for(e=0; e < local_data_matriz.length; e++){
+        if(local_data_matriz[e].Area == $scope.graphviewvalue && local_data_matriz[e].Fecha.split("-")[1] == fecha.split("-")[1] && local_data_matriz[e].Fecha.split("-")[2] == fecha.split("-")[2]){
+          total_deseadas+=1
+          if(local_data_matriz[e].Observaciones == null){
+            total_completadas+=1;
+          }
+        }
+      }
+      if(total_deseadas!=0 && total_completadas!=0){
+        $scope.myJsonpieCumplimiento = Pie_Cumplimiento(total_deseadas, total_completadas, $scope.graphviewvalue, "mensual")
+      }
+    }
+    else{
+      $scope.rendpmname = "anual"
+      var total_deseadas = 0
+      var total_completadas = 0
+      for(e=0; e < local_data_matriz.length; e++){
+        if(local_data_matriz[e].Area.toUpperCase() == $scope.graphviewvalue.toUpperCase() && local_data_matriz[e].Fecha.split("-")[2]==fecha.split("-")[2]){
+          total_deseadas+=1;
+          if(local_data_matriz[e].Observaciones == null){
+            total_completadas+=1;
+          }
+        }
+      }
+      if(total_deseadas != 0 && total_completadas !=0 ){
+        $scope.myJsonpieCumplimiento = Pie_Cumplimiento(total_deseadas, total_completadas, $scope.graphviewvalue, "anual" )
+      }
+    }
   }
 
 
@@ -2865,8 +2911,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     converted_date_termino = Fecha_asistencia_termino.toISOString().split('T')[0];
     Fecha_2_asistencia = converted_date_termino.split("-")[2]+"-"+converted_date_termino.split("-")[1]+"-"+converted_date_termino.split("-")[0];
     
-    var nomenclatura = ["A", "B", "C", "CU", "EX", "TT", "FA", "LI", "AU", "VA", "PA", "PC"];
-    var nomen_values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    var nomenclatura = ["A", "B", "C", "CU", "EX", "TT", "FA", "LI", "AU", "VA", "PA", "PC", "DE"];
+    var nomen_values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     Fechaaux1 = new Date(converted_date_ingreso+" "+"23:00:00")
     Fechaaux2 = new Date(converted_date_termino+" "+"23:00:00")
@@ -2877,7 +2923,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
       }
     }
 
-    $scope.myJsonAsistenciaReportePie = pie3d_asistencia(nomen_values[0],nomen_values[1],nomen_values[2],nomen_values[3],nomen_values[4],nomen_values[5],nomen_values[6],nomen_values[7],nomen_values[8],nomen_values[9],nomen_values[10],nomen_values[11], nombre_trabajador)
+    $scope.myJsonAsistenciaReportePie = pie3d_asistencia_reporte(nomen_values[0],nomen_values[1],nomen_values[2],nomen_values[3],nomen_values[4],nomen_values[5],nomen_values[6],nomen_values[7],nomen_values[8],nomen_values[9],nomen_values[10],nomen_values[11],nomen_values[12], nombre_trabajador)
 
 
     var Modaldetalles = new bootstrap.Modal(document.getElementById('ModalDetallesAsistenciaReporte'), {
@@ -3393,7 +3439,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     
     $scope.asistenciatotaltraspaso = []
     for(a=0; a < local_data_asistencia_traspaso.length; a++){
-      if(local_data_asistencia_traspaso[a].Cargo == name){
+      if(local_data_asistencia_traspaso[a].Cargo.toUpperCase().replace(/\s+/g,' ').trim().toUpperCase() == name.toUpperCase().replace(/\s+/g,' ').trim().toUpperCase()){
         $scope.asistenciatotaltraspaso.push(local_data_asistencia_traspaso[a])
       }
       if(parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[1]) == parseInt($scope.fecha_universal.split("-")[1])){
@@ -4450,7 +4496,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
           var dic_trabajadores = {}
           dic_trabajadores.Nombre = local_data_asistencia[a].Nombre
           dic_trabajadores.Rut = local_data_asistencia[a].Rut
-          if(local_data_asistencia[a].Turno != "A" && local_data_asistencia[a].Turno !="B" && local_data_asistencia[a].Turno != "VA" && local_data_asistencia[a].Turno != "TT" ){
+          if(local_data_asistencia[a].Turno != "A" && local_data_asistencia[a].Turno !="B" && local_data_asistencia[a].Turno != "VA" && local_data_asistencia[a].Turno != "TT" && local_data_asistencia[a].Turno !="DE"){
             dic_trabajadores.Falta = 1
           }
           else{
@@ -4464,7 +4510,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
         }
         else{
-          if(local_data_asistencia[a].Turno != "A" && local_data_asistencia[a].Turno !="B" && local_data_asistencia[a].Turno != "VA" && local_data_asistencia[a].Turno != "TT" ){
+          if(local_data_asistencia[a].Turno != "A" && local_data_asistencia[a].Turno !="B" && local_data_asistencia[a].Turno != "VA" && local_data_asistencia[a].Turno != "TT" && local_data_asistencia[a].Turno !="DE" ){
             array_trabajadores[trabajadores_visitados.indexOf(local_data_asistencia[a].Nombre.replace(/\s+/g,' ').trim().toUpperCase())].Falta+=1;
           }
           else{
@@ -4500,6 +4546,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     if($scope.array_sitios_visitados.length >0){
       $scope.myJsonAsistenciaReport = line_asistenciar_report($scope.sitios_visitados[0],$scope.array_sitios_visitados[0].asistenciafecha, fechas_visitadas_report)
     }
+
+    $scope.columnsitio = $scope.sitios_visitados[0]
 
     
 
@@ -4537,13 +4585,13 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
             if(parseInt(local_data_brocales[c].Cantidad)< parseInt(local_data_brocales[c].Demanda) ){
               incompletos_sub5+=1
             }
-            if(parseInt(local_data_brocales[c].Cantidad)==0 && parseInt(local_data_brocales[c].Demanda)== 0){
+            else if(parseInt(local_data_brocales[c].Cantidad)==0 && parseInt(local_data_brocales[c].Demanda)== 0){
               no_realizados_sub5+=1
             }
-            if(parseInt(local_data_brocales[c].Cantidad) == parseInt(local_data_brocales[c].Demanda)){
+            else if(parseInt(local_data_brocales[c].Cantidad) == parseInt(local_data_brocales[c].Demanda)){
               cumplidos_sub5+=1
             }
-            if((!isNaN(local_data_brocales[c].Demanda) && parseInt(local_data_brocales[c].Cantidad)>0 ) || parseInt(local_data_brocales[c].Cantidad) > parseInt(local_data_brocales[c].Demanda)){
+            else if((!isNaN(local_data_brocales[c].Demanda) && parseInt(local_data_brocales[c].Cantidad)>0 ) || parseInt(local_data_brocales[c].Cantidad) > parseInt(local_data_brocales[c].Demanda)){
               sobrepasado_sub5+=1
             }
           }
@@ -4554,16 +4602,16 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
             if(!isNaN(local_data_brocales[c].Cantidad)){
               cantidad_realizada_sub6+=parseInt(local_data_brocales[c].Cantidad)
             }
-            if(parseInt(local_data_brocales[c].Cantidad)< parseInt(local_data_brocales[c].Cantidad) ){
+            if(parseInt(local_data_brocales[c].Cantidad)< parseInt(local_data_brocales[c].Demanda) ){
               incompletos_sub6+=1
             }
-            if(parseInt(local_data_brocales[c].Cantidad)==0 && parseInt(local_data_brocales[c].Demanda)== 0){
+            else if(parseInt(local_data_brocales[c].Cantidad)==0 && parseInt(local_data_brocales[c].Demanda)== 0){
               no_realizados_sub6+=1
             }
-            if(parseInt(local_data_brocales[c].Cantidad) == parseInt(local_data_brocales[c].Demanda)){
+            else if(parseInt(local_data_brocales[c].Cantidad) == parseInt(local_data_brocales[c].Demanda)){
               cumplidos_sub6+=1
             }
-            if((!isNaN(local_data_brocales[c].Demanda) && parseInt(local_data_brocales[c].Cantidad)>0 ) || parseInt(local_data_brocales[c].Cantidad) > parseInt(local_data_brocales[c].Demanda)){
+            else if((!isNaN(local_data_brocales[c].Demanda) && parseInt(local_data_brocales[c].Cantidad)>0 ) || parseInt(local_data_brocales[c].Cantidad) > parseInt(local_data_brocales[c].Demanda)){
               sobrepasado_sub6+=1
             }
           }
@@ -5085,24 +5133,33 @@ function pie3d_brocales_report(dato1, dato2, dato3, dato5, sub){
       align : "left",
       "vertical-align" : "bottom"
     },
-    "series":[{
-      "values": [dato1],
-      "text" : "Bajo Demanda"
-      },
-      {
-        "values": [dato2],
-        "text" : "No Realizado"
-      },
-      {
-        "values": [dato3],
-        "text" : "Cumplido"
-      },
-      {
-        "values": [dato3],
-        "text": "Sobredemanda"
-      }
-    ]
+    "series":[]
   }
+  if (dato1 !== 0) {
+    grafico.series.push({
+      "values": [dato1],
+      "text": "Bajo Demanda"
+    });
+  }
+  if (dato2 !== 0) {
+    grafico.series.push({
+      "values": [dato2],
+      "text": "No Realizado"
+    });
+  }
+  if (dato3 !== 0) {
+    grafico.series.push({
+      "values": [dato3],
+      "text": "Cumplido"
+    });
+  }
+  if (dato5 !== 0) {
+    grafico.series.push({
+      "values": [dato5],
+      "text": "Sobredemanda"
+    });
+  }
+
   return grafico
 }
 
@@ -5285,6 +5342,124 @@ function pie3d_asistencia(dato1, dato2, dato3, dato4, dato5, dato6, dato7, dato8
     grafico.series.push({
       "values": [dato12],
       "text": "PC"
+    });
+  }
+  return grafico
+}
+
+function pie3d_asistencia_reporte(dato1, dato2, dato3, dato4, dato5, dato6, dato7, dato8, dato9, dato10, dato11, dato12, dato13, nombre){
+  var grafico = {}
+  grafico = {
+    "type": "pie3d", //"pie", "pie3d", "ring", or "ring3d"
+    "title": {
+      "text": "Asistencia "+ nombre,
+      'font-size' : 12
+    },
+    "scale": {
+        "size-factor": 0.6
+    },
+    plot: {
+      showZero: true,
+      'value-box': {
+        text: '%t\n%npv%',
+        'font-size':10,
+        'font-weight': "normal",
+        "font-color":"black",
+        placement: "out"
+      }
+    },
+    
+    "legend": {
+      align : "left",
+      "vertical-align" : "bottom"
+    },
+    "series":[],
+  }
+  if (dato1 !== 0) {
+    grafico.series.push({
+      "values": [dato1],
+      "text": "A"
+    });
+  }
+  
+  if (dato2 !== 0) {
+    grafico.series.push({
+      "values": [dato2],
+      "text": "B"
+    });
+  }
+  
+  if (dato3 !== 0) {
+    grafico.series.push({
+      "values": [dato3],
+      "text": "C"
+    });
+  }
+  if (dato4 !== 0) {
+    grafico.series.push({
+      "values": [dato4],
+      "text": "CU"
+    });
+  }
+  
+  if (dato5 !== 0) {
+    grafico.series.push({
+      "values": [dato5],
+      "text": "EX"
+    });
+  }
+  
+  if (dato6 !== 0) {
+    grafico.series.push({
+      "values": [dato6],
+      "text": "TT"
+    });
+  }
+  if (dato7 !== 0) {
+    grafico.series.push({
+      "values": [dato7],
+      "text": "FA"
+    });
+  }
+  
+  if (dato8 !== 0) {
+    grafico.series.push({
+      "values": [dato8],
+      "text": "LI"
+    });
+  }
+  
+  if (dato9 !== 0) {
+    grafico.series.push({
+      "values": [dato9],
+      "text": "AU"
+    });
+  }
+  if (dato10 !== 0) {
+    grafico.series.push({
+      "values": [dato10],
+      "text": "VA"
+    });
+  }
+  
+  if (dato11 !== 0) {
+    grafico.series.push({
+      "values": [dato11],
+      "text": "PA"
+    });
+  }
+  
+  if (dato12 !== 0) {
+    grafico.series.push({
+      "values": [dato12],
+      "text": "PC"
+    });
+  }
+
+  if (dato13 !== 0) {
+    grafico.series.push({
+      "values": [dato13],
+      "text": "DE"
     });
   }
   return grafico
@@ -6651,29 +6826,34 @@ function getColorByIndex(index) {
   return colors[index % colors.length];
 }*/
 
-function Pie_Cumplimiento(values_total, values_completed, nombre){
+function Pie_Cumplimiento(values_total, values_completed, nombre, modo){
   var grafico = {};
   grafico = {
     "type": "pie",
     plot: {
       slice: 0,
       'value-box': {
+        text: '%t\n%npv%\n%v',
         'font-size':13,
         'font-weight': "normal",
         "font-color":"black",
+        placement: "out"
       } //to make a donut
       
     },
+
     "title": {
-      "text": "Cumplimiento "+ nombre
+      "text": nombre + " "+modo
     },
     "series": [{
         "values": [values_total-values_completed],
+        "text" : "No Realizado",
         backgroundColor :"#ededed",
         fontColor :"black"
       },
       {
         "values": [values_completed],
+        "text" : "Realizado",
         backgroundColor :"#4DC0CF",
         fontColor: "black"
 
