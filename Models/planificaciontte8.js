@@ -19,7 +19,8 @@ module.exports = function(sequelize,DataTypes){
                 Fecha : Sequelize.TEXT,
                 Totalhrs : Sequelize.TEXT,
 				Seleccionado : Sequelize.TEXT,
-                Idingreso : Sequelize.TEXT
+                Idingreso : Sequelize.TEXT,
+				Comentario : Sequelize.TEXT
 			},{
 				tableName: 'planificaciontte8',
 				freezeTableName: true,

@@ -2706,7 +2706,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     var inasistencia_cargos_tte8 = []
     const turnosPermitidos_tte8 = ["A"]
     const turnosPermitidos_pie_tte8 = ["A", "B", "C", "De", "Pc", "V"]
-    $scope.asistenciatotaltte8 = []
+    //$scope.asistenciatotaltte8 = []
     var dias_trabajados_tte8 = 0
     var dias_no_trabajados_tte8 = 0
     for(a=0 ; a < local_data_asistencia_tte8.length ; a++){
@@ -2744,6 +2744,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
     var array_name_disciplina_tte8 = []
     var array_meta_tte8 = []
+    var array_values_tte8_v2 = [0,0,0,0,0];
     var array_values_tte8 = [];
     var values_1_tte8=[0,0,0,0,0];
     var values_2_tte8=[0,0,0,0,0];
@@ -2753,6 +2754,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     var values_6_tte8=[0,0,0,0,0];
     var values_7_tte8=[0,0,0,0,0];
     var values_8_tte8=[0,0,0,0,0];
+
     for(a=0 ; a < local_data_disciplina_tte8.length ; a++){
       if(array_week.includes(local_data_disciplina_tte8[a].Fecha)){
         if(array_name_disciplina_tte8.indexOf(local_data_disciplina_tte8[a].Area + " - " + local_data_disciplina_tte8[a].Cuadrilla) == -1){
@@ -2771,9 +2773,11 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
           array_values_tte8[array_name_disciplina_tte8.indexOf(local_data_disciplina_tte8[a].Area + " - " + local_data_disciplina_tte8[a].Cuadrilla)][array_week.indexOf(local_data_disciplina_tte8[a].Fecha)]= Math.round(100*(parseFloat(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[0])*60+parseFloat(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[1]))/(parseFloat(local_data_disciplina_tte8[a].Estandar_te.split(":")[0])*60+parseFloat(local_data_disciplina_tte8[a].Estandar_te.split(":")[1])))
         }
         if(array_name_disciplina_tte8[0]==(local_data_disciplina_tte8[a].Area + " - " + local_data_disciplina_tte8[a].Cuadrilla)){
+        //if(array_name_disciplina_tte8[0]==(local_data_disciplina_tte8[a].Area + " - " + local_data_disciplina_tte8[a].Cuadrilla)){
           llegada = local_data_disciplina_tte8[a].Llega_nivel
           var hora_llegada = parseInt(llegada.split(":")[0]);
-          values_1_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (parseInt(local_data_disciplina_tte8[a].Llega_nivel.split(":")[1])*60+Epoch(new Date($scope.fecha_universal.split("-")[2]+"-"+$scope.fecha_universal.split("-")[1]+"-"+$scope.fecha_universal.split("-")[0]+" "+hora_llegada+":00:00")))*1000;
+          //values_1_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (parseInt(local_data_disciplina_tte8[a].Llega_nivel.split(":")[1])*60+Epoch(new Date($scope.fecha_universal.split("-")[2]+"-"+$scope.fecha_universal.split("-")[1]+"-"+$scope.fecha_universal.split("-")[0]+" "+hora_llegada+":00:00")))*1000;
+          values_1_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = new Date(array_week[0].split("-")[2]+"-"+array_week[0].split("-")[1]+"-"+array_week[0].split("-")[0]+ "T" + completar_fecha(local_data_disciplina_tte8[a].Llega_nivel)+ ":00").getTime()
           values_2_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Llega_nivel,local_data_disciplina_tte8[a].Charla ))*60*1000
           values_3_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Charla,local_data_disciplina_tte8[a].Traslado_postura ))*60*1000
           values_4_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Traslado_postura,local_data_disciplina_tte8[a].Ingreso_postura ))*60*1000
@@ -2781,7 +2785,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
           values_6_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Colacion_inicio,local_data_disciplina_tte8[a].Colacion_termino ))*60*1000
           values_7_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Colacion_termino,local_data_disciplina_tte8[a].Trabajo_terreno ))*60*1000
           values_8_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Trabajo_terreno,local_data_disciplina_tte8[a].Retiro_postura ))*60*1000
-  
+          
+          array_values_tte8_v2[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = Math.round(100*(parseFloat(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[0])*60+parseFloat(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[1]))/(parseFloat(local_data_disciplina_tte8[a].Estandar_te.split(":")[0])*60+parseFloat(local_data_disciplina_tte8[a].Estandar_te.split(":")[1])))
         }
       }
       
@@ -2797,12 +2802,51 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     var Epoch_Inicio = Epoch(new Date($scope.fecha_universal.split("-")[2]+"-"+$scope.fecha_universal.split("-")[1]+"-"+$scope.fecha_universal.split("-")[0]+" "+hora_llegada.toString()+":00:00"))*1000
     var Epoch_Final = Epoch(new Date($scope.fecha_universal.split("-")[2]+"-"+$scope.fecha_universal.split("-")[1]+"-"+$scope.fecha_universal.split("-")[0]+" "+"15:00:00"))*1000
     
-    $scope.myJsonTimertte8 = timer_chart_tte8(Epoch_Inicio, Epoch_Final, values_1_tte8, values_2_tte8, values_3_tte8, values_4_tte8, values_5_tte8, values_6_tte8, values_7_tte8, values_8_tte8, array_name_disciplina_tte8[0]);
+    var fechaInicio_tte8 = new Date(parseInt(array_week[0].split("-")[2]), parseInt(array_week[0].split("-")[1])-1, parseInt(array_week[0].split("-")[0]), new Date(Math.min.apply(null, values_1_tte8)).getHours(), 0, 0, 0);
+    var Epoch_Inicio_test_tte8 = fechaInicio_tte8.getTime();
+    var valor_maximo_tte8 = Math.max.apply(null, values_2_tte8)+Math.max.apply(null, values_3_tte8)+Math.max.apply(null, values_4_tte8)+Math.max.apply(null, values_5_tte8)+Math.max.apply(null, values_6_tte8)+Math.max.apply(null, values_7_tte8)+Math.max.apply(null, values_8_tte8)
+    
+
+    console.log("fechaInicio_tte8 : " + fechaInicio_tte8.toString())
+    console.log("Epoch_Inicio_test_tte8 : " + Epoch_Inicio_test_tte8.toString())
+    console.log("valor_maximo_tte8 : " + valor_maximo_tte8.toString())
+    console.log("values_1_tte8 : "+ values_1_tte8.toString())
+    console.log("values_2_tte8 : "+ values_2_tte8.toString())
+    console.log("values_3_tte8 : "+ values_3_tte8.toString())
+    console.log("values_4_tte8 : "+ values_4_tte8.toString())
+    console.log("values_5_tte8 : "+ values_5_tte8.toString())
+    console.log("values_6_tte8 : "+ values_6_tte8.toString())
+    console.log("values_7_tte8 : "+ values_7_tte8.toString())
+    console.log("values_8_tte8 : "+ values_8_tte8.toString())
+    
+    
+    
+    
+    if(new Date(Math.max.apply(null, values_1_tte8)).getHours() > new Date(Math.max.apply(null, values_1_tte8)+parseInt(valor_maximo_tte8)).getHours()){
+      $scope.myJsonTimertte8 = timer_chart_tte8(Epoch_Inicio_test_tte8, parseInt(new Date(Math.max.apply(null, values_1_tte8)+parseInt(valor_maximo_tte8)).getHours())-parseInt(new Date(Math.min.apply(null, values_1_tte8)).getHours())+1+24-Math.max.apply(null, values_1_tte8).getHours, values_1_tte8, values_2_tte8, values_3_tte8, values_4_tte8, values_5_tte8, values_6_tte8, values_7_tte8, values_8_tte8, array_name_disciplina_tte8[0]);
+    
+    }
+    else{
+      $scope.myJsonTimertte8 = timer_chart_tte8(Epoch_Inicio_test_tte8, parseInt(new Date(Math.max.apply(null, values_1_tte8)+parseInt(valor_maximo_tte8)).getHours())-parseInt(new Date(Math.min.apply(null, values_1_tte8)).getHours())+1, values_1_tte8, values_2_tte8, values_3_tte8, values_4_tte8, values_5_tte8, values_6_tte8, values_7_tte8, values_8_tte8, array_name_disciplina_tte8[0]);
+    }
+    
+    //console.log(parseInt(new Date(Math.max.apply(null, values_1_tte8)+parseInt(valor_maximo_tte8)).getHours())-parseInt(new Date(Math.min.apply(null, values_1_tte8)).getHours())+1+24-Math.max.apply(null, values_1_tte8).getHours)  
+    /*if(new Date(Math.max.apply(null, values_1)).getHours() > new Date(Math.max.apply(null, values_1)+parseInt(valor_maximo)).getHours()){
+      $scope.myJsonTimer1 = timer_chart(Epoch_Inicio_test, parseInt(new Date(Math.max.apply(null, values_1)+parseInt(valor_maximo)).getHours())-parseInt(new Date(Math.min.apply(null, values_1)).getHours())+1+24-Math.max.apply(null, values_1).getHours, values_1, values_2, values_3, values_4, values_5, values_6, values_7, $scope.columndisc);
+      
+    }*/
+
+    //$scope.myJsonTimertte8 = timer_chart_tte8(Epoch_Inicio, Epoch_Final, values_1_tte8, values_2_tte8, values_3_tte8, values_4_tte8, values_5_tte8, values_6_tte8, values_7_tte8, values_8_tte8, array_name_disciplina_tte8[0]);
 
     $scope.myJsonhbartte8 = hbar_text_disciplina_tte8(array_prom_tte8, array_name_disciplina_tte8)
-    $scope.myJsonlinedisciplinatte8 = line_chart_tte8(array_values_tte8, array_name_disciplina_tte8)
+    $scope.myJsonlinedisciplinatte8 = line_chart_tte8_v2(array_values_tte8_v2, array_name_disciplina_tte8[0])
+
+    $scope.myJsonTimertte8 = timer_chart_tte8(Epoch_Inicio_test_tte8, parseInt(new Date(Math.max.apply(null, values_1_tte8)+parseInt(valor_maximo_tte8)).getHours())-parseInt(new Date(Math.min.apply(null, values_1_tte8)).getHours())+1+24-Math.max.apply(null, values_1_tte8).getHours, values_1_tte8, values_2_tte8, values_3_tte8, values_4_tte8, values_5_tte8, values_6_tte8, values_7_tte8, values_8_tte8, array_name_disciplina_tte8[0]);
     $scope.headersdisciplinatte8 = array_name_disciplina_tte8
     $scope.columndisctte8 = array_name_disciplina_tte8[0]
+
+    
+    
 
   //--------------------------------------------------------------------------------PLANIFICACIONTTE8------------------------------------------------------------
 
@@ -3207,6 +3251,171 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   }
 
 
+  $scope.modaldisciplinatte8 = function(){
+
+    var array_name_disciplina_tte8 = []
+    var array_meta_tte8 = []
+    var array_values_tte8_v2 = [0,0,0,0,0];
+    var array_values_tte8 = [];
+    var values_1_tte8=[0,0,0,0,0];
+    var values_2_tte8=[0,0,0,0,0];
+    var values_3_tte8=[0,0,0,0,0];
+    var values_4_tte8=[0,0,0,0,0];
+    var values_5_tte8=[0,0,0,0,0];
+    var values_6_tte8=[0,0,0,0,0];
+    var values_7_tte8=[0,0,0,0,0];
+    var values_8_tte8=[0,0,0,0,0];
+
+    $scope.fecha_today = angular.copy($scope.fecha_universal);
+    $scope.fecha_today = new Date($scope.fecha_today.split("-")[2]+"-"+$scope.fecha_today.split("-")[1]+"-"+$scope.fecha_today.split("-")[0])
+    var exact_days_2 = get_day_numbers($scope.fecha_today);
+    var array_week_2 = [];
+    var week_day_2 = 0;
+
+    for (a=0; a<get_day_numbers($scope.fecha_today).length; a++){
+      nueva_fecha_2 = new Date(exact_days_2[a] - $scope.dateselected.getTimezoneOffset()*60000);
+      converted_date_2 = nueva_fecha_2.toISOString().split('T')[0];
+      fecha_2 = converted_date_2.split("-")[2]+"-"+converted_date_2.split("-")[1]+"-"+converted_date_2.split("-")[0];
+      array_week_2.push(fecha_2);
+      if(fecha_2==fecha){
+        week_day_2=a;
+      }
+    }
+
+    for(a=0 ; a < local_data_disciplina_tte8.length ; a++){
+      if(array_week_2.includes(local_data_disciplina_tte8[a].Fecha)){
+        if($scope.columndisctte8 == (local_data_disciplina_tte8[a].Area + " - " + local_data_disciplina_tte8[a].Cuadrilla)){
+          llegada = local_data_disciplina_tte8[a].Llega_nivel
+          //var hora_llegada = parseInt(llegada.split(":")[0]);
+          //values_1_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (parseInt(local_data_disciplina_tte8[a].Llega_nivel.split(":")[1])*60+Epoch(new Date($scope.fecha_universal.split("-")[2]+"-"+$scope.fecha_universal.split("-")[1]+"-"+$scope.fecha_universal.split("-")[0]+" "+hora_llegada+":00:00")))*1000;
+          values_1_tte8[array_week_2.indexOf(local_data_disciplina_tte8[a].Fecha)] = new Date(array_week_2[0].split("-")[2]+"-"+array_week_2[0].split("-")[1]+"-"+array_week_2[0].split("-")[0]+ "T" + completar_fecha(local_data_disciplina_tte8[a].Llega_nivel)+ ":00").getTime()
+          values_2_tte8[array_week_2.indexOf(local_data_disciplina_tte8[a].Fecha)] = values_1_tte8[array_week_2.indexOf(local_data_disciplina_tte8[a].Fecha)] + (restar_horas(local_data_disciplina_tte8[a].Llega_nivel,local_data_disciplina_tte8[a].Charla ))*60*1000
+          values_3_tte8[array_week_2.indexOf(local_data_disciplina_tte8[a].Fecha)] = values_2_tte8[array_week_2.indexOf(local_data_disciplina_tte8[a].Fecha)] + (restar_horas(local_data_disciplina_tte8[a].Charla,local_data_disciplina_tte8[a].Traslado_postura ))*60*1000
+          values_4_tte8[array_week_2.indexOf(local_data_disciplina_tte8[a].Fecha)] = values_3_tte8[array_week_2.indexOf(local_data_disciplina_tte8[a].Fecha)] + (restar_horas(local_data_disciplina_tte8[a].Traslado_postura,local_data_disciplina_tte8[a].Ingreso_postura ))*60*1000
+          values_5_tte8[array_week_2.indexOf(local_data_disciplina_tte8[a].Fecha)] = values_4_tte8[array_week_2.indexOf(local_data_disciplina_tte8[a].Fecha)] + (restar_horas(local_data_disciplina_tte8[a].Ingreso_postura,local_data_disciplina_tte8[a].Colacion_inicio ))*60*1000
+          values_6_tte8[array_week_2.indexOf(local_data_disciplina_tte8[a].Fecha)] = values_5_tte8[array_week_2.indexOf(local_data_disciplina_tte8[a].Fecha)] + (restar_horas(local_data_disciplina_tte8[a].Colacion_inicio,local_data_disciplina_tte8[a].Colacion_termino ))*60*1000
+          values_7_tte8[array_week_2.indexOf(local_data_disciplina_tte8[a].Fecha)] = values_6_tte8[array_week_2.indexOf(local_data_disciplina_tte8[a].Fecha)] + (restar_horas(local_data_disciplina_tte8[a].Colacion_termino,local_data_disciplina_tte8[a].Trabajo_terreno ))*60*1000
+          values_8_tte8[array_week_2.indexOf(local_data_disciplina_tte8[a].Fecha)] = values_7_tte8[array_week_2.indexOf(local_data_disciplina_tte8[a].Fecha)] + (restar_horas(local_data_disciplina_tte8[a].Trabajo_terreno,local_data_disciplina_tte8[a].Retiro_postura ))*60*1000           
+        }
+      }          
+    }
+
+
+    var fechaInicio_1_tte8 = new Date(parseInt(array_week_2[0].split("-")[2]), parseInt(array_week_2[0].split("-")[1])-1, parseInt(array_week_2[0].split("-")[0]), new Date(Math.min.apply(null, values_1_tte8)).getHours(), 0, 0, 0);
+    var Epoch_Inicio_test_1_tte8 = fechaInicio_1_tte8.getTime();
+
+    var fechaInicio_2_tte8 = new Date(parseInt(array_week_2[0].split("-")[2]), parseInt(array_week_2[0].split("-")[1])-1, parseInt(array_week_2[0].split("-")[0]), new Date(Math.min.apply(null, values_2_tte8)).getHours(), 0, 0, 0);
+    var Epoch_Inicio_test_2_tte8 = fechaInicio_2_tte8.getTime();
+
+    var fechaInicio_3_tte8 = new Date(parseInt(array_week_2[0].split("-")[2]), parseInt(array_week_2[0].split("-")[1])-1, parseInt(array_week_2[0].split("-")[0]), new Date(Math.min.apply(null, values_3_tte8)).getHours(), 0, 0, 0);
+    var Epoch_Inicio_test_3_tte8 = fechaInicio_3_tte8.getTime();
+
+    var fechaInicio_4_tte8 = new Date(parseInt(array_week_2[0].split("-")[2]), parseInt(array_week_2[0].split("-")[1])-1, parseInt(array_week_2[0].split("-")[0]), new Date(Math.min.apply(null, values_4_tte8)).getHours(), 0, 0, 0);
+    var Epoch_Inicio_test_4_tte8 = fechaInicio_4_tte8.getTime();
+
+    var fechaInicio_5_tte8 = new Date(parseInt(array_week_2[0].split("-")[2]), parseInt(array_week_2[0].split("-")[1])-1, parseInt(array_week_2[0].split("-")[0]), new Date(Math.min.apply(null, values_5_tte8)).getHours(), 0, 0, 0);
+    var Epoch_Inicio_test_5_tte8 = fechaInicio_5_tte8.getTime();
+
+    var fechaInicio_6_tte8 = new Date(parseInt(array_week_2[0].split("-")[2]), parseInt(array_week_2[0].split("-")[1])-1, parseInt(array_week_2[0].split("-")[0]), new Date(Math.min.apply(null, values_6_tte8)).getHours(), 0, 0, 0);
+    var Epoch_Inicio_test_6_tte8 = fechaInicio_6_tte8.getTime();
+
+    var fechaInicio_7_tte8 = new Date(parseInt(array_week_2[0].split("-")[2]), parseInt(array_week_2[0].split("-")[1])-1, parseInt(array_week_2[0].split("-")[0]), new Date(Math.min.apply(null, values_7_tte8)).getHours(), 0, 0, 0);
+    var Epoch_Inicio_test_7_tte8 = fechaInicio_7_tte8.getTime();
+
+    var fechaInicio_8_tte8 = new Date(parseInt(array_week_2[0].split("-")[2]), parseInt(array_week_2[0].split("-")[1])-1, parseInt(array_week_2[0].split("-")[0]), new Date(Math.min.apply(null, values_8_tte8)).getHours(), 0, 0, 0);
+    var Epoch_Inicio_test_8_tte8 = fechaInicio_8_tte8.getTime();
+
+    if(parseInt(new Date(Math.max.apply(null, values_1_tte8)).getHours()) - parseInt(new Date(Math.min.apply(null, values_1_tte8)).getHours()) >=0){
+      $scope.myJsonLlegadatte8 = timer_chart_detalle_tte8(Epoch_Inicio_test_1_tte8, Epoch_Inicio_test_1_tte8, values_1_tte8, "Llegada a nivel", parseInt(new Date(Math.max.apply(null, values_1_tte8)).getHours()) - parseInt(new Date(Math.min.apply(null, values_1_tte8)).getHours()))
+    }
+    if(parseInt(new Date(Math.max.apply(null, values_2_tte8)).getHours()) - parseInt(new Date(Math.min.apply(null, values_2_tte8)).getHours()) >=0){
+      $scope.myJsonCharlatte8 = timer_chart_detalle_tte8(Epoch_Inicio_test_2_tte8, Epoch_Inicio_test_2_tte8, values_2_tte8, "Charla, Coordinaciones", parseInt(new Date(Math.max.apply(null, values_2_tte8)).getHours()) - parseInt(new Date(Math.min.apply(null, values_2_tte8)).getHours()))
+    }
+    if(parseInt(new Date(Math.max.apply(null, values_3_tte8)).getHours()) - parseInt(new Date(Math.min.apply(null, values_3_tte8)).getHours()) >=0){
+      $scope.myJsonTraslado = timer_chart_detalle_tte8(Epoch_Inicio_test_3_tte8, Epoch_Inicio_test_3_tte8, values_3_tte8, "Traslado postura", parseInt(new Date(Math.max.apply(null, values_3_tte8)).getHours()) - parseInt(new Date(Math.min.apply(null, values_3_tte8)).getHours()))
+    
+    }
+    if(parseInt(new Date(Math.max.apply(null, values_4_tte8)).getHours()) - parseInt(new Date(Math.min.apply(null, values_4_tte8)).getHours()) >=0){
+      $scope.myJsonIngreso = timer_chart_detalle_tte8(Epoch_Inicio_test_4_tte8, Epoch_Inicio_test_4_tte8, values_4_tte8, "Ingreso a postura", parseInt(new Date(Math.max.apply(null, values_4_tte8)).getHours()) - parseInt(new Date(Math.min.apply(null, values_4_tte8)).getHours()))
+    
+    }
+    if(parseInt(new Date(Math.max.apply(null, values_5_tte8)).getHours()) - parseInt(new Date(Math.min.apply(null, values_5_tte8)).getHours()) >=0){
+      $scope.myJsonColacion = timer_chart_detalle_tte8(Epoch_Inicio_test_5_tte8, Epoch_Inicio_test_5_tte8, values_5_tte8, "Inicio colación", parseInt(new Date(Math.max.apply(null, values_5_tte8)).getHours()) - parseInt(new Date(Math.min.apply(null, values_5_tte8)).getHours()))
+    
+    }
+    if(parseInt(new Date(Math.max.apply(null, values_6_tte8)).getHours()) - parseInt(new Date(Math.min.apply(null, values_6_tte8)).getHours()) >=0){
+      $scope.myJsonColacionTermino = timer_chart_detalle_tte8(Epoch_Inicio_test_6_tte8, Epoch_Inicio_test_6_tte8, values_6_tte8, "Inicio trabajo terreno", parseInt(new Date(Math.max.apply(null, values_6_tte8)).getHours()) - parseInt(new Date(Math.min.apply(null, values_6_tte8)).getHours()))
+    
+    }
+    if(parseInt(new Date(Math.max.apply(null, values_7_tte8)).getHours()) - parseInt(new Date(Math.min.apply(null, values_7_tte8)).getHours()) >=0){
+      $scope.myJsonTrabajoTerreno = timer_chart_detalle_tte8(Epoch_Inicio_test_7_tte8, Epoch_Inicio_test_7_tte8, values_7_tte8, "Termino trabajo terreno", parseInt(new Date(Math.max.apply(null, values_7_tte8)).getHours()) - parseInt(new Date(Math.min.apply(null, values_7_tte8)).getHours()))
+    
+    }
+    if(parseInt(new Date(Math.max.apply(null, values_8_tte8)).getHours()) - parseInt(new Date(Math.min.apply(null, values_8_tte8)).getHours()) >=0){
+      $scope.myJsonRetiroPostura = timer_chart_detalle_tte8(Epoch_Inicio_test_8_tte8, Epoch_Inicio_test_8_tte8, values_8_tte8, "Retiro postura", parseInt(new Date(Math.max.apply(null, values_8_tte8)).getHours()) - parseInt(new Date(Math.min.apply(null, values_8_tte8)).getHours()))
+    
+    }
+    //asd
+    
+
+
+    /*console.log("fechaInicio_2_tte8 : " + fechaInicio_2_tte8.toString())
+    console.log("Epoch_Inicio_test_2_tte8 : " + Epoch_Inicio_test_2_tte8.toString())
+    console.log("values_2_tte8 : " + values_2_tte8.toString())
+    */
+
+    var Modaldisciplina = new bootstrap.Modal(document.getElementById('Modaldisciplinagraphtte8'), {
+      keyboard: false
+    })
+    Modaldisciplina.toggle()
+
+
+
+
+
+  }
+
+  $scope.Actividad=""
+
+  $scope.ActualizarComentarioRealizadas = function(index){
+    $scope.ActividadRealizada = $scope.planificaciontotaltte8[index]
+    $scope.comentarioarea = $scope.planificaciontotaltte8[index].Comentario 
+    var ModalComentarios = new bootstrap.Modal(document.getElementById('Modalcomentarios'), {
+      keyboard: false
+    })
+    ModalComentarios.toggle()
+
+
+  
+
+  }
+
+  $scope.ActualizarComentarioNoRealizadas = function(index){
+    $scope.ActividadRealizada = $scope.planificaciontotaltte8noco[index]
+    $scope.comentarioarea = $scope.planificaciontotaltte8noco[index].Comentario 
+    var ModalComentarios = new bootstrap.Modal(document.getElementById('Modalcomentarios'), {
+      keyboard: false
+    })
+    ModalComentarios.toggle()
+
+
+  }
+
+  $scope.enviarcomentario = function(){
+    $scope.ActividadRealizada.Comentario = $scope.comentarioarea
+    $http({
+      method : 'POST',
+      url : '/postenviarcomentario',
+      data : JSON.stringify($scope.ActividadRealizada)
+    })
+
+
+
+    //comentarioarea
+
+  }
+
+
   $scope.changegraphtimer = function(name){
     $scope.nueva_fecha_2  = angular.copy($scope.fecha_universal)
     nueva_fecha = new Date($scope.nueva_fecha_2.split("-")[2]+"-"+$scope.nueva_fecha_2.split("-")[1]+"-"+$scope.nueva_fecha_2.split("-")[0]);
@@ -3365,7 +3574,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     var llegada = "";
     var array_name_disciplina_tte8 = []
     var array_meta_tte8 = []
-    var array_values_tte8 = [];
+    var array_values_tte8 = [0,0,0,0,0];
     var values_1_tte8=[0,0,0,0,0];
     var values_2_tte8=[0,0,0,0,0];
     var values_3_tte8=[0,0,0,0,0];
@@ -3385,7 +3594,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
           array_meta_tte8.push(array_aux)
           array_values_aux_tte8 = [0,0,0,0,0]
           array_values_aux_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = Math.round(100*(parseFloat(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[0])*60+parseFloat(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[1]))/(parseFloat(local_data_disciplina_tte8[a].Estandar_te.split(":")[0])*60+parseFloat(local_data_disciplina_tte8[a].Estandar_te.split(":")[1])))
-          array_values_tte8.push(array_values_aux_tte8)
+          //array_values_tte8.push(array_values_aux_tte8)
         }
         else{
           array_meta_tte8[array_name_disciplina_tte8.indexOf(local_data_disciplina_tte8[a].Area + " - " + local_data_disciplina_tte8[a].Cuadrilla)].push(parseInt(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[0])*60+parseInt(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[1]))
@@ -3394,7 +3603,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
         if(name==(local_data_disciplina_tte8[a].Area + " - " + local_data_disciplina_tte8[a].Cuadrilla)){
           llegada = local_data_disciplina_tte8[a].Llega_nivel
           var hora_llegada = parseInt(llegada.split(":")[0]);
-          values_1_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (parseInt(local_data_disciplina_tte8[a].Llega_nivel.split(":")[1])*60+Epoch(new Date($scope.fecha_universal.split("-")[2]+"-"+$scope.fecha_universal.split("-")[1]+"-"+$scope.fecha_universal.split("-")[0]+" "+hora_llegada+":00:00")))*1000;
+          //values_1_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (parseInt(local_data_disciplina_tte8[a].Llega_nivel.split(":")[1])*60+Epoch(new Date($scope.fecha_universal.split("-")[2]+"-"+$scope.fecha_universal.split("-")[1]+"-"+$scope.fecha_universal.split("-")[0]+" "+hora_llegada+":00:00")))*1000;
+          values_1_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = new Date(array_week[0].split("-")[2]+"-"+array_week[0].split("-")[1]+"-"+array_week[0].split("-")[0]+ "T" + completar_fecha(local_data_disciplina_tte8[a].Llega_nivel)+ ":00").getTime()
           values_2_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Llega_nivel,local_data_disciplina_tte8[a].Charla ))*60*1000
           values_3_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Charla,local_data_disciplina_tte8[a].Traslado_postura ))*60*1000
           values_4_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Traslado_postura,local_data_disciplina_tte8[a].Ingreso_postura ))*60*1000
@@ -3402,6 +3612,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
           values_6_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Colacion_inicio,local_data_disciplina_tte8[a].Colacion_termino ))*60*1000
           values_7_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Colacion_termino,local_data_disciplina_tte8[a].Trabajo_terreno ))*60*1000
           values_8_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = (restar_horas(local_data_disciplina_tte8[a].Trabajo_terreno,local_data_disciplina_tte8[a].Retiro_postura ))*60*1000
+
+          array_values_tte8[array_week.indexOf(local_data_disciplina_tte8[a].Fecha)] = Math.round(100*(parseFloat(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[0])*60+parseFloat(local_data_disciplina_tte8[a].Tiempo_efectivo.split(":")[1]))/(parseFloat(local_data_disciplina_tte8[a].Estandar_te.split(":")[0])*60+parseFloat(local_data_disciplina_tte8[a].Estandar_te.split(":")[1])))
+
   
         }
       }
@@ -3418,12 +3631,26 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     var Epoch_Inicio = Epoch(new Date($scope.fecha_universal.split("-")[2]+"-"+$scope.fecha_universal.split("-")[1]+"-"+$scope.fecha_universal.split("-")[0]+" "+hora_llegada.toString()+":00:00"))*1000
     var Epoch_Final = Epoch(new Date($scope.fecha_universal.split("-")[2]+"-"+$scope.fecha_universal.split("-")[1]+"-"+$scope.fecha_universal.split("-")[0]+" "+"15:00:00"))*1000
     
-    $scope.myJsonTimertte8 = timer_chart_tte8(Epoch_Inicio, Epoch_Final, values_1_tte8, values_2_tte8, values_3_tte8, values_4_tte8, values_5_tte8, values_6_tte8, values_7_tte8, values_8_tte8, name);
+    var fechaInicio_tte8 = new Date(parseInt(array_week[0].split("-")[2]), parseInt(array_week[0].split("-")[1])-1, parseInt(array_week[0].split("-")[0]), new Date(Math.min.apply(null, values_1_tte8)).getHours(), 0, 0, 0);
+    var Epoch_Inicio_test_tte8 = fechaInicio_tte8.getTime();
+    var valor_maximo_tte8 = Math.max.apply(null, values_2_tte8)+Math.max.apply(null, values_3_tte8)+Math.max.apply(null, values_4_tte8)+Math.max.apply(null, values_5_tte8)+Math.max.apply(null, values_6_tte8)+Math.max.apply(null, values_7_tte8)+Math.max.apply(null, values_8_tte8)
+    if(new Date(Math.max.apply(null, values_1_tte8)).getHours() > new Date(Math.max.apply(null, values_1_tte8)+parseInt(valor_maximo_tte8)).getHours()){
+      $scope.myJsonTimertte8 = timer_chart_tte8(Epoch_Inicio_test_tte8, parseInt(new Date(Math.max.apply(null, values_1_tte8)+parseInt(valor_maximo_tte8)).getHours())-parseInt(new Date(Math.min.apply(null, values_1_tte8)).getHours())+1+24-Math.max.apply(null, values_1_tte8).getHours, values_1_tte8, values_2_tte8, values_3_tte8, values_4_tte8, values_5_tte8, values_6_tte8, values_7_tte8, values_8_tte8, name);  
+    }
+    else{
+      $scope.myJsonTimertte8 = timer_chart_tte8(Epoch_Inicio_test_tte8, parseInt(new Date(Math.max.apply(null, values_1_tte8)+parseInt(valor_maximo_tte8)).getHours())-parseInt(new Date(Math.min.apply(null, values_1_tte8)).getHours())+1, values_1_tte8, values_2_tte8, values_3_tte8, values_4_tte8, values_5_tte8, values_6_tte8, values_7_tte8, values_8_tte8, name);
+    }
 
+
+
+
+
+    //$scope.myJsonTimertte8 = timer_chart_tte8(Epoch_Inicio, Epoch_Final, values_1_tte8, values_2_tte8, values_3_tte8, values_4_tte8, values_5_tte8, values_6_tte8, values_7_tte8, values_8_tte8, name);
     //$scope.myJsonhbartte8 = hbar_text_disciplina_tte8(array_prom_tte8, array_name_disciplina_tte8)
     //$scope.myJsonlinedisciplinatte8 = line_chart_tte8(array_values_tte8, array_name_disciplina_tte8)
+    $scope.myJsonlinedisciplinatte8 = line_chart_tte8_v2(array_values_tte8, name)
     $scope.headersdisciplinatte8 = array_name_disciplina_tte8
-    $scope.columndisctte8 = array_name_disciplina_tte8[0]
+    //$scope.columndisctte8 = array_name_disciplina_tte8[0]
   }
 
 
@@ -3523,35 +3750,46 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   }
 
   $scope.changeinassitancette82 = function(name){
-    const turnosPermitidos_pie_tte8 = ["A", "B", "C", "De", "Pc", "V"]
+    var turnosPermitidos_pie_tte8 = ["A", "Fa", "Pc", "Cn", "Lm", "Au", "Va", "Ad"]
+    var turnosasistidos =[0,0,0,0,0,0,0,0]
     var nombre_tte8 = ""
     var dias_asistidos_tte8 = 0
     var dias_no_asistidos_tte8 = 0
     for(a=0; a < local_data_asistencia_tte8.length; a++){
       if(name == "mensual"){
         if(local_data_asistencia_tte8[a].Rut == $scope.ruttte8 && parseInt(local_data_asistencia_tte8[a].Fecha.split("-")[1]) == parseInt($scope.fecha_universal.split("-")[1]) ){
+          
           nombre_tte8 = local_data_asistencia_tte8[a].Nombre
-          if(turnosPermitidos_pie_tte8.includes(local_data_asistencia_tte8[a].Tur)){
+          turnosasistidos[turnosPermitidos_pie_tte8.indexOf(local_data_asistencia_tte8[a].Tur)]+=1
+          /*if(turnosPermitidos_pie_tte8.includes(local_data_asistencia_tte8[a].Tur)){
             dias_asistidos_tte8+=1
           }
           else{
             dias_no_asistidos_tte8+=1
-          }
+          }*/
         }
       }
       if(name == "anual"){
         if(local_data_asistencia_tte8[a].Rut == $scope.ruttte8 && parseInt(local_data_asistencia_tte8[a].Fecha.split("-")[2]) == parseInt($scope.fecha_universal.split("-")[2]) ){
+          
           nombre_tte8 = local_data_asistencia_tte8[a].Nombre
-          if(turnosPermitidos_pie_tte8.includes(local_data_asistencia_tte8[a].Tur)){
+          turnosasistidos[turnosPermitidos_pie_tte8.indexOf(local_data_asistencia_tte8[a].Tur)]+=1
+          /*if(turnosPermitidos_pie_tte8.includes(local_data_asistencia_tte8[a].Tur)){
             dias_asistidos_tte8+=1
           }
           else{
             dias_no_asistidos_tte8+=1
-          }
+          }*/
         }
       }
     }
-    $scope.myJsonAsistenciatrabajadortte8 = Pie_Asistencia_tte8(dias_asistidos_tte8+dias_no_asistidos_tte8, dias_asistidos_tte8, nombre_tte8)
+    if(name=="mensual"){
+      $scope.myJsonAsistenciatrabajadortte8 = pie3d_asistencia_tte8(turnosasistidos[0],turnosasistidos[1],turnosasistidos[2],turnosasistidos[3],turnosasistidos[4],turnosasistidos[5],turnosasistidos[6],turnosasistidos[7],"mensual " +nombre_tte8)
+    }
+    if(name=="anual"){
+      $scope.myJsonAsistenciatrabajadortte8 = pie3d_asistencia_tte8(turnosasistidos[0],turnosasistidos[1],turnosasistidos[2],turnosasistidos[3],turnosasistidos[4],turnosasistidos[5],turnosasistidos[6],turnosasistidos[7],"anual " +nombre_tte8)
+    }
+    //$scope.myJsonAsistenciatrabajadortte8 = Pie_Asistencia_tte8(dias_asistidos_tte8+dias_no_asistidos_tte8, dias_asistidos_tte8, nombre_tte8)
   }
 
   $scope.searchWorkerTraspaso = function(index){
@@ -3575,22 +3813,25 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   }
 
   $scope.searchWorkerTte8 = function(index){
-    const turnosPermitidos_pie_tte8 = ["A", "B", "C", "De", "Pc", "V"]
+    var turnosPermitidos_pie_tte8 = ["A","Fa", "Pc", "Cn", "Lm", "Au", "Va", "Ad"]
+    var turnosasistidos = [0,0,0,0,0,0,0,0]
     var dias_trabajados_tte8_trabajador = 0
     var dias_no_trabajados_tte8_trabajador = 0
     $scope.ruttte8 = $scope.asistenciatotaltte8[index].Rut
+    $scope.nombrette8 = $scope.asistenciatotaltte8[index].Nombre
     for(a=0; a < local_data_asistencia_tte8.length; a++){
       if(local_data_asistencia_tte8[a].Rut == $scope.asistenciatotaltte8[index].Rut && parseInt(local_data_asistencia_tte8[a].Fecha.split("-")[1]) == parseInt($scope.fecha_universal.split("-")[1])){
-        if(turnosPermitidos_pie_tte8.includes(local_data_asistencia_tte8[a].Tur)){
+        turnosasistidos[turnosPermitidos_pie_tte8.indexOf(local_data_asistencia_tte8[a].Tur)]+=1
+        /*if(turnosPermitidos_pie_tte8.includes(local_data_asistencia_tte8[a].Tur)){
           dias_trabajados_tte8_trabajador+=1
         }
         else{
           dias_no_trabajados_tte8_trabajador+=1
-        }
+        }*/
       }
     }
-
-    $scope.myJsonAsistenciatrabajadortte8 = Pie_Asistencia_tte8(dias_trabajados_tte8_trabajador+dias_no_trabajados_tte8_trabajador, dias_trabajados_tte8_trabajador, $scope.asistenciatotaltte8[index].Nombre)
+    $scope.myJsonAsistenciatrabajadortte8 = pie3d_asistencia_tte8(turnosasistidos[0],turnosasistidos[1],turnosasistidos[2],turnosasistidos[3],turnosasistidos[4],turnosasistidos[5],turnosasistidos[6], turnosasistidos[7], "mensual "+$scope.nombrette8  )
+    //$scope.myJsonAsistenciatrabajadortte8 = Pie_Asistencia_tte8(dias_trabajados_tte8_trabajador+dias_no_trabajados_tte8_trabajador, dias_trabajados_tte8_trabajador, $scope.asistenciatotaltte8[index].Nombre)
 
   }
 
@@ -5347,6 +5588,91 @@ function pie3d_asistencia(dato1, dato2, dato3, dato4, dato5, dato6, dato7, dato8
   return grafico
 }
 
+function pie3d_asistencia_tte8(dato1, dato2, dato3, dato4, dato5, dato6, dato7, dato8,  nombre){
+  var grafico = {}
+  grafico = {
+    "type": "pie3d", //"pie", "pie3d", "ring", or "ring3d"
+    "title": {
+      "text": "Asistencia "+ nombre,
+      'font-size' : 12
+    },
+    "scale": {
+        "size-factor": 0.6
+    },
+    plot: {
+      showZero: true,
+      'value-box': {
+        text: '%t-%v',
+        'font-size':10,
+        'font-weight': "normal",
+        "font-color":"black",
+        placement: "out"
+      }
+    },
+    
+    "legend": {
+      align : "left",
+      "vertical-align" : "bottom"
+    },
+    "series":[],
+  }
+  if (dato1 !== 0) {
+    grafico.series.push({
+      "values": [dato1],
+      "text": "A"
+    });
+  }
+  
+  if (dato2 !== 0) {
+    grafico.series.push({
+      "values": [dato2],
+      "text": "Fa"
+    });
+  }
+  
+  if (dato3 !== 0) {
+    grafico.series.push({
+      "values": [dato3],
+      "text": "Pc"
+    });
+  }
+  if (dato4 !== 0) {
+    grafico.series.push({
+      "values": [dato4],
+      "text": "Cn"
+    });
+  }
+  
+  if (dato5 !== 0) {
+    grafico.series.push({
+      "values": [dato5],
+      "text": "Lm"
+    });
+  }
+  
+  if (dato6 !== 0) {
+    grafico.series.push({
+      "values": [dato6],
+      "text": "Au"
+    });
+  }
+  if (dato7 !== 0) {
+    grafico.series.push({
+      "values": [dato7],
+      "text": "Va"
+    });
+  }
+  if (dato8 !== 0) {
+    grafico.series.push({
+      "values": [dato7],
+      "text": "Ad"
+    });
+  }
+  
+  
+  return grafico
+}
+
 function pie3d_asistencia_reporte(dato1, dato2, dato3, dato4, dato5, dato6, dato7, dato8, dato9, dato10, dato11, dato12, dato13, nombre){
   var grafico = {}
   grafico = {
@@ -5624,6 +5950,89 @@ function timer_chart_detalle(Epoch_Inicio, Epoch_Final, values_1, nombre, suma) 
     },
     utc: true,
     timezone: -4,
+    plot: {
+      barWidth: '50%',
+      stacked: true,
+      tooltip: {
+        text: '%plot-text : %scale-value-value',
+        transform: {
+          type: 'date',
+          all: '%g:%i %A'
+        }
+      }
+    },
+    scaleX: {
+      labels: ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"],
+      label: {}
+    },
+    scaleY: {
+      minValue: Epoch_Inicio,
+      maxValue: Epoch_Inicio+sumando,
+      step: 600000,
+      transform: {
+        type: 'date',
+        all: '%g:%i %a'
+      },
+      item: {
+        fontSize: 10
+      },
+      guide: {
+        lineStyle: 'dotted'
+      }
+    },
+    plotarea: {
+      marginLeft: '5%',
+    },
+    series: [{
+        values: values_1,
+        text: nombre,
+        backgroundColor: '#1565C0',
+      }
+    ],
+    shapes: [],
+    hooks: {
+      beforeDraw: function(chart) {
+        var series = chart.getSeries(0);
+        var scale = chart.getScale();
+        var shapes = [];
+
+        for (var i = 0; i < series.length; i++) {
+          var points = series[i].points;
+
+          for (var j = 0; j < points.length; j++) {
+            var point = points[j];
+            var value = scale.y.getTransformedValue(point.value);
+            var shape = {
+              type: 'text',
+              text: point.value.toString(),
+              x: point.x,
+              y: value - 10, // Ajusta la posición vertical según sea necesario
+              fontColor: '#000',
+              fontSize: 12,
+              offsetY: -20
+            };
+            shapes.push(shape);
+          }
+        }
+
+        chart.config.shapes = shapes;
+      }
+    }
+  };
+
+  return grafico;
+}
+
+function timer_chart_detalle_tte8(Epoch_Inicio, Epoch_Final, values_1, nombre, suma) {
+
+  var sumando = suma*3600000 + 3600000
+  var grafico = {
+    type: 'line',
+    title: {
+      text: nombre.toString()
+    },
+    utc: true,
+    timezone: -3,
     plot: {
       barWidth: '50%',
       stacked: true,
@@ -5988,9 +6397,9 @@ function timer_chart_tte8(Epoch_Inicio, Epoch_Final, values_1, values_2, values_
       },
     },
     scaleY: {
-      minValue: Epoch_Inicio, 
-      maxValue: Epoch_Inicio+54000000, 
-      step: 600000, 
+      minValue: Epoch_Inicio,
+      maxValue: Epoch_Inicio + Epoch_Final*3600000,
+      step: 600000,
       transform: {
         type: 'date',
         all: '%g:%i %a'
@@ -7374,6 +7783,94 @@ function line_chart_tte8(values, nombres){
 
 }
 
+function line_chart_tte8_v2(values, nombres){
+  var grafico = {};
+  grafico = {
+    type: 'line',
+    scaleY:{
+      minValue : 80,
+      maxValue : 180,
+    },
+    title :{
+      text : "Disciplina Operacional "+nombres,
+      "adjust-layout":true
+    },
+    scaleX:{
+      labels: [
+      'Lunes',
+      'Martes',
+      'Miercoles',
+      'Jueves',
+      'Viernes'
+      ],
+    },
+    "tooltip": {
+      "visible": false
+    },
+    "crosshair-x": {
+      "line-color": "#efefef",
+      "plot-label": {
+        "border-radius": "5px",
+        "border-width": "1px",
+        "border-color": "#f6f7f8",
+        "padding": "10px",
+        "font-weight": "bold"
+      },
+      "scale-label": {
+        "font-color": "#000",
+        "background-color": "#f6f7f8",
+        "border-radius": "5px"
+      }
+    },
+    "plot": {
+      "highlight": true,
+      "tooltip-text": "%t views: %v<br>%k",
+      "shadow": 0,
+      "line-width": "2px",
+      "marker": {
+        "type": "circle",
+        "size": 3
+      },
+      "highlight-state": {
+        "line-width": 3
+      },
+      "animation": {
+        "effect": 1,
+        "sequence": 2,
+        "speed": 100,
+      }
+    },
+    series: [
+      { 
+        values: values,
+        "text": nombres,
+        "line-color": "#007790",
+        "legend-item": {
+          "background-color": "#007790",
+          "borderRadius": 5,
+          "font-color": "white",
+        },
+        "legend-marker": {
+          "visible": false
+        },
+        "marker": {
+          "background-color": "#007790",
+          "border-width": 1,
+          "shadow": 0,
+          "border-color": "#69dbf1"
+        },
+        "highlight-marker": {
+          "size": 5,
+          "background-color": "#007790",
+        }
+      },  
+    ]
+ }
+
+ return grafico
+
+}
+
 function mixed_creator_test(){
   var grafico = {};
   grafico = {
@@ -8361,6 +8858,13 @@ function restar_horas(hora_1, hora_2){
     min_1 = parseInt(hora_1.split(":")[0]*60)+parseInt(hora_1.split(":")[1])
     min_2 = parseInt(hora_2.split(":")[0]*60)+parseInt(hora_2.split(":")[1])
   }
+
+
+
+  if(min_2-min_1 < 0 ){
+    return 0
+  }
+  //console.log(min_2-min_1)
   return min_2-min_1
   
 }

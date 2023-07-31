@@ -50,6 +50,7 @@ router.post("/Cambiarplanificaciontte8", controllers.UserController.postCambiarp
 router.post("/Cambiarseleccionadotraspaso", controllers.UserController.postCambiarSelecciontraspaso)
 router.post("/Changeasistencia", controllers.UserController.postChangeasistencia)
 router.post("/postdeletefilemodal", controllers.UserController.postDeleteFileModal)
+router.post("/postenviarcomentario", controllers.UserController.postEnviarComentario)
 
 
 

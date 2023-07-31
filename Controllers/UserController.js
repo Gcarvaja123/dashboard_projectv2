@@ -155,19 +155,23 @@ function leerExcelPautaTraspaso(ruta){
   return dataExcel; 
 }
 
-function leerExcelAsistenciaTte8(ruta){
+function leerExcelAsistenciaTte8(ruta, nombre){
   const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
   //const sheet  = workbooksheet[workbooksheet.length-11];
   const workbooksheet = workbook.SheetNames;
+  const sheet  = workbooksheet[parseInt(nombre.split("-")[1])-1];
+  const dataExcel = reader.utils.sheet_to_json(workbook.Sheets[sheet]);
   var Asistenciatte8_sheets=[];
   var array_name = [];
   var nombres = [];
-  for(a=0; a< workbooksheet.length ; a++){
+  return dataExcel
+
+  /*for(a=0; a< workbooksheet.length ; a++){
     const sheet  = workbooksheet[a];
     const dataExcel = reader.utils.sheet_to_json(workbook.Sheets[sheet]);
     Asistenciatte8_sheets.push(dataExcel);
   }
-  return Asistenciatte8_sheets; 
+  return Asistenciatte8_sheets;*/
 }
 
 function leerExcelPlanificacionTte8(ruta){
@@ -1109,11 +1113,18 @@ module.exports = {
                 if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-2]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                   levante = "";
                 }
-                if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-10]] != undefined){
+                /*if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-10]] != undefined){
                     Actividad = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-10]];
                 }
                 if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-10]] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
                   Actividad = "";
+                }*/
+
+                if(datos[a]["__EMPTY_12"] != undefined){
+                  Actividad = datos[a]["__EMPTY_12"]
+                }
+                if(datos[a]["__EMPTY_12"] == undefined && datos[a][Object.keys(datos[0])[0]] != undefined){
+                  Actividad = ""
                 }
                 if(datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]] != undefined){
                   Observaciones = datos[a][Object.keys(datos[0])[Object.keys(datos[0]).length-1]];
@@ -3213,12 +3224,27 @@ module.exports = {
             file = req.files["Asistenciatte8"];
             const savePath = path.join(__dirname,"../",'public','uploads',file.name);
             await file.mv(savePath);
-            var datos = leerExcelAsistenciaTte8(file.name);
+
+            var Nomfile = file.name.split(".xlsx")[0]
+            var restando = 1
+            
+            while(Nomfile.split(" ")[Nomfile.split(" ").length-restando].split("-").length<3){
+              restando+=1
+            }
+            var datos = leerExcelAsistenciaTte8(file.name, Nomfile.split(" ")[Nomfile.split(" ").length-restando].toString());
             const date = new Date();
             let day = date.getDate();
             let month = date.getMonth() + 1;
             let year = date.getFullYear();
             var random_id_asistencia_tte8_single = guid();
+            var indexmes = 0
+            var dia_mes = ""
+            var anho =""
+            var Hnar = ""
+            var Turar = ""
+            var emptys = []
+            var fechas_asistencia = []
+
             await modelo.archivos.create({
               Tabla : "asistencia_tte8",
               Idingreso : random_id_asistencia_tte8_single,
@@ -3226,65 +3252,79 @@ module.exports = {
               Infoingresada : "archivos asistencia tte8",
               Nombrearchivo : file.name.toString()
             })
-            if(month<10){
-              month = "0"+month.toString()
-            }
-            let currentDate_today = `${day}-${month}-${year}`;
-            await modelo.asistencia_tte8.findAll({
-            }).then(async function(rows_asistencia){
-              for(a = 0 ; a < datos.length; a++){
-                var array_keys_date = []
-                var arrays_date = []
-                for(b=0; b < Object.keys(datos[a][2]).length; b++ ){
-                  if(Number.isInteger(datos[a][2][Object.keys(datos[a][2])[b]])){
-                    array_keys_date.push(Object.keys(datos[a][2])[b])
-                    var date = ExcelDateToJSDate(datos[a][2][Object.keys(datos[a][2])[b]]);
-                    var converted_date = date.toISOString().split('T')[0];
-                    var Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
-                    arrays_date.push(Fecha)
-                  }
-                }
-                if(rows_asistencia.length > 0 && arrays_date[arrays_date.length-1].split("-")[2] == rows_asistencia[rows_asistencia.length-1].Fecha.split("-")[2] && parseInt(arrays_date[arrays_date.length-1].split("-")[1]) >= parseInt(rows_asistencia[rows_asistencia.length-1].Fecha.split("-")[1]) ){
-                  for(c=5; c < datos[a].length; c++){
-                    var stop = false
-                    if(Object.keys(datos[a][c]).length < 12){
-                      stop=true
-                      console.log("pa fuera")
-                      break
-                    }
-                    //arrays_date.indexOf(rows_asistencia[rows_asistencia.length-1].Fecha)
-                    for(d=0; d < array_keys_date.length; d++){         
-                      if(Object.keys(datos[a][c]).includes(array_keys_date[d]) && comparar_fechas(currentDate_today, arrays_date[d])){
-                        await modelo.asistencia_tte8.findAll({
-                          where :{
-                            Fecha : arrays_date[d],
-                            Nombre : datos[a][c]["__EMPTY_4"],
-                            Rut : datos[a][c]["__EMPTY_5"],
-                          }
-                        }).then(async function(rows_asistencia_repetida){
-                          if(rows_asistencia_repetida.length==0 && stop==false && datos[a][c][array_keys_date[d]] != undefined &&  datos[a][c][Object.keys(datos[a][c])[Object.keys(datos[a][c]).indexOf(array_keys_date[d])+1]]!=undefined){
-                            await modelo.asistencia_tte8.create({
-                              Fecha : arrays_date[d],
-                              Nombre : datos[a][c]["__EMPTY_4"],
-                              ApellidoP : datos[a][c]["__EMPTY_2"],
-                              ApellidoM : datos[a][c]["__EMPTY_3"],
-                              Rut : datos[a][c]["__EMPTY_5"],
-                              Cargo : datos[a][c]["__EMPTY_6"],
-                              Turno : datos[a][c]["__EMPTY_7"],
-                              Hn : datos[a][c][array_keys_date[d]],
-                              Tur : datos[a][c][Object.keys(datos[a][c])[Object.keys(datos[a][c]).indexOf(array_keys_date[d])+1]],
-                              Idingreso : random_id_asistencia_tte8_single
-                            })
-                          }
-                        })
-                        
-                      }
-                    }
-                  }
-                }
-                
+
+            
+            indexmes = Nomfile.split(" ")[Nomfile.split(" ").length-restando].split("-")[1]
+            dia_mes = Nomfile.split(" ")[Nomfile.split(" ").length-restando].split("-")[0]
+            anho = Nomfile.split(" ")[Nomfile.split(" ").length-restando].split("-")[2]
+
+            
+
+            for(a = 1 ; a < Object.keys(datos[2]).length ; a++){
+              var date2 = ExcelDateToJSDate(datos[2][Object.keys(datos[2])[a]]);
+              var converted_date = date2.toISOString().split('T')[0];
+              var Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
+              
+              if(Fecha.toString() == Nomfile.split(" ")[Nomfile.split(" ").length-restando].toString()){
+                Hnar = Object.keys(datos[2])[a]
               }
-            })
+            }
+
+
+            for(b = 5 ; b < datos.length ; b++){
+              if(datos[b]["__EMPTY_1"] == undefined){
+                break
+              }
+
+              await modelo.asistencia_tte8.create({
+                Fecha : Nomfile.split(" ")[Nomfile.split(" ").length-restando].toString(),
+                Nombre : datos[b]["__EMPTY_4"],
+                ApellidoP : datos[b]["__EMPTY_2"],
+                ApellidoM : datos[b]["__EMPTY_3"],
+                Rut : datos[b]["__EMPTY_5"],
+                Cargo : datos[b]["__EMPTY_6"],
+                Turno : datos[b]["__EMPTY_7"],
+                Hn : datos[b][Hnar],
+                Tur : datos[b]["__EMPTY_"+(parseInt(Hnar.toString().split("_")[Hnar.toString().split("_").length-1])+1).toString()],
+                Idingreso : random_id_asistencia_tte8_single
+              })
+            }
+
+            /*for(a = 1 ; a < Object.keys(datos[2]).length ; a++){
+              var date3 = ExcelDateToJSDate(datos[2][Object.keys(datos[2])[a]]);
+              var converted_date_2 = date3.toISOString().split('T')[0];
+              var Fecha_2 = converted_date_2.split("-")[2]+"-"+converted_date_2.split("-")[1]+"-"+converted_date_2.split("-")[0]
+              
+              if(esFinDeSemana(converted_date_2+"T08:00:00")==false){
+                emptys.push(Object.keys(datos[2])[a])
+                fechas_asistencia.push(Fecha_2)
+              }
+            }
+
+            for(b = 5 ; b < datos.length ; b++){
+              if(datos[b]["__EMPTY_1"] == undefined){
+                break
+              }
+
+              for(d = 0 ; d < emptys.length ; d++){
+                await modelo.asistencia_tte8.create({
+                  Fecha : fechas_asistencia[d],
+                  Nombre : datos[b]["__EMPTY_4"],
+                  ApellidoP : datos[b]["__EMPTY_2"],
+                  ApellidoM : datos[b]["__EMPTY_3"],
+                  Rut : datos[b]["__EMPTY_5"],
+                  Cargo : datos[b]["__EMPTY_6"],
+                  Turno : datos[b]["__EMPTY_7"],
+                  Hn : datos[b][emptys[d]],
+                  Tur : datos[b]["__EMPTY_"+(parseInt(emptys[d].toString().split("_")[emptys[d].toString().split("_").length-1])+1).toString()],
+                  Idingreso : random_id_asistencia_tte8_single
+                })
+              }           
+            }*/
+
+            
+
+
           }catch(err){
             console.log(err)
             await modelo.archivos.destroy({
@@ -3916,6 +3956,18 @@ module.exports = {
     
   },
 
+  postEnviarComentario : async(req, res ,next)=>{
+    await modelo.planificaciontte8.update({
+      Comentario : req.body.Comentario
+    },{
+      where : {
+        Id : req.body.Id
+      }
+    }
+      
+    )
+  },
+
   postCambiarplanificaciontte8 : async(req, res, next)=>{
     await modelo.planificaciontte8.update({
       Seleccionado : req.body.Seleccionado
@@ -4165,4 +4217,15 @@ function eliminarTildes(texto) {
   return texto.replace(/[áéíóúÁÉÍÓÚüÜñÑ]/g, function(match) {
     return tildes[match];
   });
+}
+
+function esFinDeSemana(fechaStr) {
+  // Convertimos la cadena de fecha en un objeto Date
+  const fecha = new Date(fechaStr);
+  
+  // Obtenemos el número de día de la semana (domingo = 0, sábado = 6)
+  const numeroDiaSemana = fecha.getDay();
+  
+  // Comprobamos si el día de la semana es sábado (6) o domingo (0)
+  return numeroDiaSemana === 0 || numeroDiaSemana === 6;
 }

@@ -1463,6 +1463,21 @@ html
             #chart124(zingchart='' zc-json='myJsonAlmuerzo' zc-width='1400px' zc-height='300px' visibility="hidden" )
             #chart125(zingchart='' zc-json='myJsonInicioPm' zc-width='1400px' zc-height='300px' visibility="hidden" )
             #chart126(zingchart='' zc-json='myJsonTerminoPm' zc-width='1400px' zc-height='300px' visibility="hidden" )
+    #Modaldisciplinagraphtte8.modal.fade( aria-labelledby='Modaltutorial')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            h5#exampleModalLabel.modal-title Detalles de disciplina operacional tte8
+            button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+          .modal-body
+            #chart127(zingchart='' zc-json='myJsonLlegadatte8' zc-width='1400px' zc-height='300px' visibility="hidden" )
+            #chart128(zingchart='' zc-json='myJsonCharlatte8' zc-width='1400px' zc-height='300px' visibility="hidden" )
+            #chart129(zingchart='' zc-json='myJsonTraslado' zc-width='1400px' zc-height='300px' visibility="hidden" )
+            #chart130(zingchart='' zc-json='myJsonIngreso' zc-width='1400px' zc-height='300px' visibility="hidden" )
+            #chart131(zingchart='' zc-json='myJsonColacion' zc-width='1400px' zc-height='300px' visibility="hidden" )
+            #chart132(zingchart='' zc-json='myJsonColacionTermino' zc-width='1400px' zc-height='300px' visibility="hidden" )
+            #chart133(zingchart='' zc-json='myJsonTrabajoTerreno' zc-width='1400px' zc-height='300px' visibility="hidden" )
+            #chart134(zingchart='' zc-json='myJsonRetiroPostura' zc-width='1400px' zc-height='300px' visibility="hidden" )
     #ModalDetallesEquipo.modal.fade( aria-labelledby='Modaltutorial' )
               .modal-dialog
                 .modal-content
@@ -1536,6 +1551,19 @@ html
                   .modal-footer
                     button.btnn(type='button' data-bs-dismiss='modal' ) Cerrar 
                     button.btnn(name="probando3" value="probando4" ng-click="openTutorial()" data-bs-dismiss='modal') Aceptar
+    #Modalcomentarios.modal.fade( aria-labelledby='Modallogin' )
+          .modal-dialog
+            .modal-content
+              .modal-header
+                h5#exampleModalLabel.modal-title Ingresar comentario
+                button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+              .modal-body
+                .form-group
+                  label(for='exampleFormControlTextarea1') 
+                  textarea#exampleFormControlTextarea1.form-control(rows='3' ng-model="comentarioarea" )
+              .modal-footer
+                //button.btnn(type='button' data-bs-dismiss='modal') Cerrar
+                button.btnn#aceptarusuario(ng-model="aceptarcomentario" name="probando3" value="probando4" ng-click="enviarcomentario()" data-bs-dismiss='modal') Enviar
 
     .sidenav#sidenav1
       .sidenav-header
@@ -2555,7 +2583,7 @@ html
                   div
                     #chart65(zingchart='' zc-json='myJsonAsistenciatte81' zc-width='100%' zc-height='232px' visibility="hidden" )
                   div
-                    #chart66(zingchart='' zc-json='myJsonAsistenciatrabajadortte8' zc-width='100%' zc-height='232px' visibility="hidden" ng-click="modaltte8asistencia()")
+                    #chart66(zingchart='' zc-json='myJsonAsistenciatrabajadortte8' zc-width='100%' zc-height='300px' visibility="hidden" ng-click="modaltte8asistencia()")
                     .buttoninnasistance
                       button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancette82('mensual')") Mensual
                       button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancette82('anual')") Anual
@@ -2571,6 +2599,9 @@ html
                   #timer-tte8.grid-container
                     div
                       #chart69(zingchart='' zc-json='myJsonTimertte8' zc-width='100%' zc-height='300px' visibility="hidden" )
+                      hr.graphr
+                      .graphfooter2(ng-model='openmodaldisciplina' ng-click="modaldisciplinatte8()" type='button' data-bs-toggle='modal')
+                        div Ver detalles
                     div
                       #chart68(zingchart='' zc-json='myJsonlinedisciplinatte8' zc-width='100%' zc-height='440px' visibility="hidden" )
             #Disciplinatte8
@@ -2578,6 +2609,7 @@ html
                 h1 Planificación Tte8 
 
               #Planificaciontte8.grid-container
+                .headertable Actividades de la semana
                 div.tabla.item1
                   //table.table.table-striped.custom-table
                   table.Planificaciontte8.tablette8.table.caption-top
@@ -2591,6 +2623,12 @@ html
                             span.resize-handle
                         th(data-type='text')
                             | Actividad
+                            span.resize-handle
+                        th(data-type='text')
+                            | Realizado
+                            span.resize-handle
+                        th(data-type='text')
+                            | Comentarios
                             span.resize-handle
                         
                         th(scope='col')
@@ -2606,9 +2644,12 @@ html
                             label.custom-control.ios-switch
                               input.ios-switch-control-input(type='checkbox' ng-checked="planificacion.Seleccionado == '1' " ng-model="planificaciones" ng-click="actualizarSeleccionado(planificacion)"  )
                               span.ios-switch-control-indicator
+                          td(ng-model="comentariomods"  ng-click="ActualizarComentarioRealizadas($index)")
+                            i.bi.bi-chat-right-text
               p 
-
+              
               #Planificaciontte8.grid-container
+                .headertable Actividades no realizadas
                 div.tabla.item1
                   //table.table.table-striped.custom-table
                   table.Planificaciontte8.tablette8.table.caption-top
@@ -2622,6 +2663,12 @@ html
                             span.resize-handle
                         th(data-type='text')
                             | Actividad
+                            span.resize-handle
+                        th(data-type='text')
+                            | Realizado
+                            span.resize-handle
+                        th(data-type='text')
+                            | Comentarios
                             span.resize-handle
                         
                         th(scope='col')
@@ -2637,6 +2684,8 @@ html
                             label.custom-control.ios-switch
                               input.ios-switch-control-input(type='checkbox' ng-checked="planificacion.Seleccionado == '1' " ng-model="planificaciones" ng-click="actualizarSeleccionado(planificacion)"  )
                               span.ios-switch-control-indicator
+                          td(ng-model="comentariomod"  ng-click="ActualizarComentarioNoRealizadas($index)")
+                            i.bi.bi-chat-right-text
 
 
       
