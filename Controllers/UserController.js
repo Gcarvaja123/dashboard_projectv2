@@ -1878,6 +1878,7 @@ module.exports = {
 
               }
               else{
+                
                 if (Object.keys(datos[0])[0].toString().toUpperCase().includes("AIRE")){
                   area = "Aire Acondicionado";
                 }
@@ -1904,8 +1905,9 @@ module.exports = {
                     if(keys.length==1 || (datos[a]["__EMPTY_1"] == undefined && datos[a]["__EMPTY_2"] == undefined)){
                       await modelo.planmatriz.create({
                         Fecha : fecha,
-                        Realizado : datos[a]["__EMPTY"],
-                        Observaciones : datos[a]["__EMPTY_1"],
+                        Pauta : datos[a]["__EMPTY"],
+                        Realizado : datos[a]["__EMPTY_1"],
+                        Observaciones : observacion,
                         Area : area,
                         Idingreso : random_id_matriz_single
                       })
@@ -1913,12 +1915,18 @@ module.exports = {
                     else{
                       await modelo.planmatriz.create({
                         Fecha : fecha,
-                        Realizado : datos[a]["__EMPTY"],
-                        Observaciones : datos[a]["__EMPTY_1"],
+                        Pauta : datos[a]["__EMPTY"],
+                        Realizado : datos[a]["__EMPTY_1"],
+                        Observaciones : datos[a]["__EMPTY_2"],
                         Area : area,
                         Idingreso : random_id_matriz_single
                       })
                     }
+                    if(datos[a]["__EMPTY_2"] != undefined){
+                      observacion =  datos[a]["__EMPTY_2"]
+                    }
+                  }
+                  else{
                     observacion =  datos[a]["__EMPTY_2"]
                   }
                 }

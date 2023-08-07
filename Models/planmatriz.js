@@ -10,6 +10,7 @@ module.exports = function(sequelize,DataTypes){
 		        	autoIncrement:true
 		    	},
 		    	Fecha: Sequelize.TEXT,
+				Pauta : Sequelize.TEXT,
 				Realizado : Sequelize.TEXT,
 				Observaciones : Sequelize.TEXT,
 				Area : Sequelize.TEXT,

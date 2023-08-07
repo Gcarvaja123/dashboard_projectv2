@@ -768,7 +768,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     
   }
   $scope.myJsonasistenciabartte8 = asistencia_chart_tte8(asistencia_cargos_tte8, inasistencia_cargos_tte8, nombre_cargos_tte8, $scope.fecha_universal)
-  $scope.myJsonAsistenciatte81 = Pie_Asistencia_tte8(dias_trabajados_tte8+dias_no_trabajados_tte8, dias_trabajados_tte8, "mensual")
+  //$scope.myJsonAsistenciatte81 = Pie_Asistencia_tte8(dias_trabajados_tte8+dias_no_trabajados_tte8, dias_trabajados_tte8, "mensual")
+
+  
 
 
   //------------------------------------------------------PLANIFICACION TTE8------------------------------------------------------------//
@@ -2737,7 +2739,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
       
     }
     $scope.myJsonasistenciabartte8 = asistencia_chart_tte8(asistencia_cargos_tte8, inasistencia_cargos_tte8, nombre_cargos_tte8, $scope.fecha_universal)
-    $scope.myJsonAsistenciatte81 = Pie_Asistencia_tte8(dias_trabajados_tte8+dias_no_trabajados_tte8, dias_trabajados_tte8, "mensual")
+    //$scope.myJsonasistenciabartte8 = asistencia_chart_tte8_v2(asistencia_cargos_tte8, inasistencia_cargos_tte8, nombre_cargos_tte8, $scope.fecha_universal, $scope.myFunction)
+    //$scope.myJsonAsistenciatte81 = Pie_Asistencia_tte8(dias_trabajados_tte8+dias_no_trabajados_tte8, dias_trabajados_tte8, "mensual")
 
     //---------------------------------------------------------DISCIPLINA TTE8---------------------------------------------------------------------
 
@@ -2807,17 +2810,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     var valor_maximo_tte8 = Math.max.apply(null, values_2_tte8)+Math.max.apply(null, values_3_tte8)+Math.max.apply(null, values_4_tte8)+Math.max.apply(null, values_5_tte8)+Math.max.apply(null, values_6_tte8)+Math.max.apply(null, values_7_tte8)+Math.max.apply(null, values_8_tte8)
     
 
-    console.log("fechaInicio_tte8 : " + fechaInicio_tte8.toString())
-    console.log("Epoch_Inicio_test_tte8 : " + Epoch_Inicio_test_tte8.toString())
-    console.log("valor_maximo_tte8 : " + valor_maximo_tte8.toString())
-    console.log("values_1_tte8 : "+ values_1_tte8.toString())
-    console.log("values_2_tte8 : "+ values_2_tte8.toString())
-    console.log("values_3_tte8 : "+ values_3_tte8.toString())
-    console.log("values_4_tte8 : "+ values_4_tte8.toString())
-    console.log("values_5_tte8 : "+ values_5_tte8.toString())
-    console.log("values_6_tte8 : "+ values_6_tte8.toString())
-    console.log("values_7_tte8 : "+ values_7_tte8.toString())
-    console.log("values_8_tte8 : "+ values_8_tte8.toString())
+    
     
     
     
@@ -2896,7 +2889,32 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
 
   }
-
+  zingchart.bind('chart64', 'node_click', (e) => {
+    $scope.$apply(function() {
+        $scope.asistenciatotaltte8 = []
+        for(a=0 ; a < local_data_asistencia_tte8.length ; a++){
+          if(local_data_asistencia_tte8[a].Fecha == $scope.fecha_universal && local_data_asistencia_tte8[a].Cargo == e.scaletext){
+            $scope.asistenciatotaltte8.push(local_data_asistencia_tte8[a])      
+          }
+        }
+        console.log($scope.asistenciatotaltte8)
+    });
+  });
+  zingchart.bind('chart60', 'node_click', (e) => {
+    console.log(e)
+    $scope.$apply(function() {
+      console.log($scope.nombre_sectores_array)
+      $scope.Asistenciatotal =[];
+      for(a=0; a < local_data_asistencia.length; a++){
+        if(local_data_asistencia[a].Sector == $scope.nombre_sectores_array[$scope.nombre_sectores_array.indexOf(e.scaletext)] && local_data_asistencia[a].Fechaingreso == fecha ){
+          $scope.Asistenciatotal.push(local_data_asistencia[a]);
+        }
+      }
+    });
+  });
+ 
+  
+  
   
 
 
@@ -3005,8 +3023,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   }
   
   $scope.changegraphs = function(){
-
-    
     $scope.nueva_fecha_2  = angular.copy($scope.fecha_universal)
     nueva_fecha = new Date($scope.nueva_fecha_2.split("-")[2]+"-"+$scope.nueva_fecha_2.split("-")[1]+"-"+$scope.nueva_fecha_2.split("-")[0]);
 
@@ -3817,11 +3833,20 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     var turnosasistidos = [0,0,0,0,0,0,0,0]
     var dias_trabajados_tte8_trabajador = 0
     var dias_no_trabajados_tte8_trabajador = 0
+    var diasenmes = diasEnMes(parseInt($scope.fecha_universal.split("-")[2]), parseInt($scope.fecha_universal.split("-")[1]))
+    var array_dias = []
+    for(ex = 0 ; ex < diasenmes ; ex++){
+      array_dias.push(0)
+    }
     $scope.ruttte8 = $scope.asistenciatotaltte8[index].Rut
     $scope.nombrette8 = $scope.asistenciatotaltte8[index].Nombre
     for(a=0; a < local_data_asistencia_tte8.length; a++){
       if(local_data_asistencia_tte8[a].Rut == $scope.asistenciatotaltte8[index].Rut && parseInt(local_data_asistencia_tte8[a].Fecha.split("-")[1]) == parseInt($scope.fecha_universal.split("-")[1])){
         turnosasistidos[turnosPermitidos_pie_tte8.indexOf(local_data_asistencia_tte8[a].Tur)]+=1
+        if(local_data_asistencia_tte8[a].Tur =="A"){
+          array_dias[parseInt(local_data_asistencia_tte8[a].Fecha.split("-")[0])-1]=1
+        }
+        
         /*if(turnosPermitidos_pie_tte8.includes(local_data_asistencia_tte8[a].Tur)){
           dias_trabajados_tte8_trabajador+=1
         }
@@ -3832,7 +3857,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     }
     $scope.myJsonAsistenciatrabajadortte8 = pie3d_asistencia_tte8(turnosasistidos[0],turnosasistidos[1],turnosasistidos[2],turnosasistidos[3],turnosasistidos[4],turnosasistidos[5],turnosasistidos[6], turnosasistidos[7], "mensual "+$scope.nombrette8  )
     //$scope.myJsonAsistenciatrabajadortte8 = Pie_Asistencia_tte8(dias_trabajados_tte8_trabajador+dias_no_trabajados_tte8_trabajador, dias_trabajados_tte8_trabajador, $scope.asistenciatotaltte8[index].Nombre)
-
+    $scope.myJsonAsistenciatte81 = line_creator(array_dias,$scope.nombrette8, [0,1] )
   }
 
   $scope.modaltraspasoasistencia = function(){
@@ -8875,3 +8900,18 @@ function obtenerContenidoDiv(html) {
   return match ? match[1] : '';
 }
 
+function diasEnMes(año, mes) {
+  // Si el mes es febrero
+  if (mes === 2) {
+    // Verificar si el año es bisiesto
+    if ((año % 4 === 0 && año % 100 !== 0) || año % 400 === 0) {
+      return 29; // Febrero tiene 29 días en años bisiestos
+    } else {
+      return 28; // Febrero tiene 28 días en años no bisiestos
+    }
+  } else {
+    // Para los otros meses
+    const mesesCon30Dias = [4, 6, 9, 11];
+    return mesesCon30Dias.includes(mes) ? 30 : 31;
+  }
+}
