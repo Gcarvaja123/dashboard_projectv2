@@ -2435,12 +2435,12 @@ html
                 #asistenciatraspasograficos.grid-container
                   div
                     #chart62(zingchart='' zc-json='myJsonAsistenciatraspaso1' zc-width='100%' zc-height='232px' visibility="hidden" )
-                    .buttoninnasistance
+                    //.buttoninnasistance
                       button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancetraspaso('hoy')") Hoy
                       button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancetraspaso('mensual')") Mensual
                       button.buttoninassistance2(ng-model='inassistance2' ng-click="changeinassitancetraspaso('anual')") Anual
                   div()
-                    #chart63(zingchart='' zc-json='myJsonAsistenciatrabajadortraspaso' zc-width='100%' zc-height='232px' visibility="hidden" ng-click="modaltraspasoasistencia()")
+                    #chart63(zingchart='' zc-json='myJsonAsistenciatrabajadortraspaso' zc-width='100%' zc-height='300px' visibility="hidden" ng-click="modaltraspasoasistencia()")
                     .buttoninnasistance
                       button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancetraspaso2('mensual')") Mensual
                       button.buttoninassistance1(ng-model='inassistance1' ng-click="changeinassitancetraspaso2('anual')") Anual
@@ -2682,7 +2682,7 @@ html
                             label {{planificacion.Actividad}}
                           td
                             label.custom-control.ios-switch
-                              input.ios-switch-control-input(type='checkbox' ng-checked="planificacion.Seleccionado == '1' " ng-model="planificaciones" ng-click="actualizarSeleccionado(planificacion)"  )
+                              input.ios-switch-control-input(type='checkbox' ng-checked="planificacion.Seleccionado == '1' " ng-model="planificaciones" ng-click="actualizarSeleccionadonoco(planificacion)"  )
                               span.ios-switch-control-indicator
                           td(ng-model="comentariomod"  ng-click="ActualizarComentarioNoRealizadas($index)")
                             i.bi.bi-chat-right-text

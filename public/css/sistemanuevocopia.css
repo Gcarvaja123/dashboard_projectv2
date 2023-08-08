@@ -844,7 +844,7 @@ hr{
 
 #asistenciatraspasogrid{
   display: grid;
-  grid-template-columns: 75% auto;
+  grid-template-columns: 65% auto;
 }
 
 #asistenciatraspasograficos div{
@@ -1273,7 +1273,7 @@ table.matriz td{
 }
 
 #tablecompletedasistenciatraspaso.grid-container{
-  height: 540px;
+  height: 580px;
   border-radius: 10px;
   background-color: white;
   padding: 0px;

@@ -1783,6 +1783,24 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     
   };
 
+  $scope.actualizarSeleccionadonoco = function(dato) {
+    //dato.seleccionado = !dato.seleccionado;
+    if($scope.planificaciontotaltte8noco[$scope.planificaciontotaltte8noco.indexOf(dato)].Seleccionado == "0"){
+      $scope.planificaciontotaltte8noco.indexOf(dato).Seleccionado = "1"
+      dato.Seleccionado=1
+    }
+    else{
+      $scope.planificaciontotaltte8noco[$scope.planificaciontotaltte8noco.indexOf(dato)].Seleccionado = "0"
+      dato.Seleccionado=0
+    }
+    $http({
+      method : 'POST',
+      url : '/Cambiarplanificaciontte8',
+      data : JSON.stringify($scope.planificaciontotaltte8noco[$scope.planificaciontotaltte8noco.indexOf(dato)])
+    })
+    
+  };
+
   $scope.actualizarSeleccionadoPauta = function(dato){
     if(dato.Seleccionado=="0"){
       $scope.pautadiariatotal.indexOf(dato).Seleccionado = "1"
@@ -2900,6 +2918,17 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
         console.log($scope.asistenciatotaltte8)
     });
   });
+  zingchart.bind('chart61', 'node_click', (e) => {
+    console.log(e)
+    $scope.$apply(function() {
+        $scope.asistenciatotaltraspaso = []
+        for(a=0 ; a < local_data_asistencia_traspaso.length ; a++){
+          if(local_data_asistencia_traspaso[a].Fecha == $scope.fecha_universal && local_data_asistencia_traspaso[a].Cargo.replace(/\s+/g,' ').trim().toUpperCase() == e.scaletext.replace(/\s+/g,' ').trim().toUpperCase()){
+            $scope.asistenciatotaltraspaso.push(local_data_asistencia_traspaso[a])      
+          }
+        }
+    });
+  });
   zingchart.bind('chart60', 'node_click', (e) => {
     console.log(e)
     $scope.$apply(function() {
@@ -3700,7 +3729,33 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
 
   $scope.changeinassitancetraspaso = function(name){
-    const turnosPermitidos = ["A", "B", "C", "H", "B1", "A1", "H", "TT"];
+
+    const turnosPermitidos_traspaso = ["H", "A", "B", "A1", "B1", "TT", "De", "Va", "LM"];
+    var turnosasistidos_traspaso = [0,0,0,0,0,0,0,0,0]
+    $scope.asistenciatotaltraspasomodal = []
+    $scope.ruttraspaso = $scope.asistenciatotaltraspaso[index].Rut
+    if(name == "mensual"){
+      for(a = 0 ; a < local_data_asistencia_traspaso.length ; a++){
+        if(local_data_asistencia_traspaso[a].Rut == $scope.asistenciatotaltraspaso[index].Rut  && parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[1]) == parseInt($scope.fecha_universal.split("-")[1])){
+          turnosasistidos_traspaso[turnosPermitidos_traspaso.indexOf(local_data_asistencia_traspaso[a].Asistencia)]+=1
+        }
+      }
+
+    }
+    else{
+      for(a = 0 ; a < local_data_asistencia_traspaso.length ; a++){
+        if(local_data_asistencia_traspaso[a].Rut == $scope.asistenciatotaltraspaso[index].Rut  && parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[2]) == parseInt($scope.fecha_universal.split("-")[2])){
+          turnosasistidos_traspaso[turnosPermitidos_traspaso.indexOf(local_data_asistencia_traspaso[a].Asistencia)]+=1
+        }
+      }
+    }
+
+    
+
+
+    $scope.myJsonAsistenciatrabajadortraspaso = pie3d_asistencia_traspaso(turnosasistidos_traspaso[0],turnosasistidos_traspaso[1],turnosasistidos_traspaso[2],turnosasistidos_traspaso[3],turnosasistidos_traspaso[4],turnosasistidos_traspaso[5],turnosasistidos_traspaso[6],turnosasistidos_traspaso[7],turnosasistidos_traspaso[8], $scope.asistenciatotaltraspaso[index].Nombre) 
+    
+    /*const turnosPermitidos = ["A", "B", "C", "H", "B1", "A1", "H", "TT"];
     var dias_asistidos = 0;
     var dias_total = 0;
     
@@ -3731,11 +3786,35 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
         }
       }     
     }
-    $scope.myJsonAsistenciatraspaso1 = Pie_Asistencia_traspaso (dias_total, dias_asistidos, name)
+    $scope.myJsonAsistenciatraspaso1 = Pie_Asistencia_traspaso (dias_total, dias_asistidos, name)*/
   }
 
   $scope.changeinassitancetraspaso2 = function(name){
-    const turnosPermitidos = ["A", "B", "C", "H", "B1", "A1", "H", "TT"];
+    const turnosPermitidos_traspaso = ["H", "A", "B", "A1", "B1", "TT", "De", "Va", "LM"];
+    var turnosasistidos_traspaso = [0,0,0,0,0,0,0,0,0]
+    $scope.asistenciatotaltraspasomodal = []
+    if(name == "mensual"){
+      for(a = 0 ; a < local_data_asistencia_traspaso.length ; a++){
+        if(local_data_asistencia_traspaso[a].Rut == $scope.ruttraspaso  && parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[1]) == parseInt($scope.fecha_universal.split("-")[1])){
+          turnosasistidos_traspaso[turnosPermitidos_traspaso.indexOf(local_data_asistencia_traspaso[a].Asistencia)]+=1
+        }
+      }
+
+    }
+    else{
+      for(a = 0 ; a < local_data_asistencia_traspaso.length ; a++){
+        if(local_data_asistencia_traspaso[a].Rut == $scope.ruttraspaso  && parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[2]) == parseInt($scope.fecha_universal.split("-")[2])){
+          turnosasistidos_traspaso[turnosPermitidos_traspaso.indexOf(local_data_asistencia_traspaso[a].Asistencia)]+=1
+        }
+      }
+    }
+
+    
+
+
+    $scope.myJsonAsistenciatrabajadortraspaso = pie3d_asistencia_traspaso(turnosasistidos_traspaso[0],turnosasistidos_traspaso[1],turnosasistidos_traspaso[2],turnosasistidos_traspaso[3],turnosasistidos_traspaso[4],turnosasistidos_traspaso[5],turnosasistidos_traspaso[6],turnosasistidos_traspaso[7],turnosasistidos_traspaso[8], $scope.nombretraspaso) 
+    
+    /*const turnosPermitidos = ["A", "B", "C", "H", "B1", "A1", "H", "TT"];
     var dias_asistidos = 0;
     var dias_total = 0;
     var nombre_traspaso = ""
@@ -3762,7 +3841,7 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
         }
       }
     }
-    $scope.myJsonAsistenciatrabajadortraspaso = Pie_Asistencia_traspaso (dias_total, dias_asistidos, $scope.nombre_traspaso )
+    $scope.myJsonAsistenciatrabajadortraspaso = Pie_Asistencia_traspaso (dias_total, dias_asistidos, $scope.nombre_traspaso )*/
   }
 
   $scope.changeinassitancette82 = function(name){
@@ -3811,21 +3890,21 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   $scope.searchWorkerTraspaso = function(index){
     var dias_asistidos = 0;
     var dias_total = 0 ; 
-    const turnosPermitidos = ["A", "B", "C", "H", "B1", "A1", "H", "TT"];
+    const turnosPermitidos_traspaso = ["H", "A", "B", "A1", "B1", "TT", "De", "Va", "LM"];
+    var turnosasistidos_traspaso = [0,0,0,0,0,0,0,0,0]
     $scope.asistenciatotaltraspasomodal = []
     $scope.ruttraspaso = $scope.asistenciatotaltraspaso[index].Rut
+    $scope.nombretraspaso =  $scope.asistenciatotaltraspaso[index].Nombre
 
-    for(a=0 ; a < local_data_asistencia_traspaso.length; a++){
+    for(a = 0 ; a < local_data_asistencia_traspaso.length ; a++){
       if(local_data_asistencia_traspaso[a].Rut == $scope.asistenciatotaltraspaso[index].Rut  && parseInt(local_data_asistencia_traspaso[a].Fecha.split("-")[1]) == parseInt($scope.fecha_universal.split("-")[1])){
-        $scope.asistenciatotaltraspasomodal.push(local_data_asistencia_traspaso[a])
-        if(turnosPermitidos.includes(local_data_asistencia_traspaso[a].Asistencia)){
-          dias_asistidos+=1
-        }
-        dias_total+=1
+        turnosasistidos_traspaso[turnosPermitidos_traspaso.indexOf(local_data_asistencia_traspaso[a].Asistencia)]+=1
       }
     }
 
-    $scope.myJsonAsistenciatrabajadortraspaso = Pie_Asistencia_traspaso (dias_total, dias_asistidos, $scope.asistenciatotaltraspaso[index].Nombre )
+
+    $scope.myJsonAsistenciatrabajadortraspaso = pie3d_asistencia_traspaso(turnosasistidos_traspaso[0],turnosasistidos_traspaso[1],turnosasistidos_traspaso[2],turnosasistidos_traspaso[3],turnosasistidos_traspaso[4],turnosasistidos_traspaso[5],turnosasistidos_traspaso[6],turnosasistidos_traspaso[7],turnosasistidos_traspaso[8], $scope.asistenciatotaltraspaso[index].Nombre) 
+    
   }
 
   $scope.searchWorkerTte8 = function(index){
@@ -5613,6 +5692,97 @@ function pie3d_asistencia(dato1, dato2, dato3, dato4, dato5, dato6, dato7, dato8
   return grafico
 }
 
+function pie3d_asistencia_traspaso(dato1, dato2, dato3, dato4, dato5, dato6, dato7, dato8, dato9, nombre){
+  var grafico = {}
+  grafico = {
+    "type": "pie3d", //"pie", "pie3d", "ring", or "ring3d"
+    "title": {
+      "text": "Asistencia "+ nombre,
+      'font-size' : 12
+    },
+    "scale": {
+        "size-factor": 0.6
+    },
+    plot: {
+      showZero: true,
+      'value-box': {
+        text: '%t-%v',
+        'font-size':10,
+        'font-weight': "normal",
+        "font-color":"black",
+        placement: "out"
+      }
+    },
+    
+    "legend": {
+      align : "left",
+      "vertical-align" : "bottom"
+    },
+    "series":[],
+  }
+  if (dato1 !== 0) {
+    grafico.series.push({
+      "values": [dato1],
+      "text": "H"
+    });
+  }
+  
+  if (dato2 !== 0) {
+    grafico.series.push({
+      "values": [dato2],
+      "text": "A"
+    });
+  }
+  
+  if (dato3 !== 0) {
+    grafico.series.push({
+      "values": [dato3],
+      "text": "B"
+    });
+  }
+  if (dato4 !== 0) {
+    grafico.series.push({
+      "values": [dato4],
+      "text": "A1"
+    });
+  }
+  
+  if (dato5 !== 0) {
+    grafico.series.push({
+      "values": [dato5],
+      "text": "B1"
+    });
+  }
+  
+  if (dato6 !== 0) {
+    grafico.series.push({
+      "values": [dato6],
+      "text": "TT"
+    });
+  }
+  if (dato7 !== 0) {
+    grafico.series.push({
+      "values": [dato7],
+      "text": "De"
+    });
+  }
+  if (dato8 !== 0) {
+    grafico.series.push({
+      "values": [dato8],
+      "text": "Va"
+    });
+  }
+  if (dato9 !== 0) {
+    grafico.series.push({
+      "values": [dato9],
+      "text": "LM"
+    });
+  }
+  
+  
+  return grafico
+}
+
 function pie3d_asistencia_tte8(dato1, dato2, dato3, dato4, dato5, dato6, dato7, dato8,  nombre){
   var grafico = {}
   grafico = {
@@ -5689,7 +5859,7 @@ function pie3d_asistencia_tte8(dato1, dato2, dato3, dato4, dato5, dato6, dato7, 
   }
   if (dato8 !== 0) {
     grafico.series.push({
-      "values": [dato7],
+      "values": [dato8],
       "text": "Ad"
     });
   }

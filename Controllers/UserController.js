@@ -1718,21 +1718,28 @@ module.exports = {
                       if(keys.length==1 || (datos[a]["__EMPTY_1"] == undefined && datos[a]["__EMPTY_2"] == undefined)){
                         await modelo.planmatriz.create({
                           Fecha : fecha,
-                          Realizado : datos[a]["__EMPTY"],
-                          Observaciones : datos[a]["__EMPTY_1"],
+                          Pauta : datos[a]["__EMPTY"],
+                          Realizado : datos[a]["__EMPTY_1"],
+                          Observaciones : observacion,
                           Area : area,
-                          Idingreso : random_id_matriz_multiple
+                          Idingreso : random_id_matriz_single
                         })
                       }
                       else{
                         await modelo.planmatriz.create({
                           Fecha : fecha,
-                          Realizado : datos[a]["__EMPTY"],
-                          Observaciones : datos[a]["__EMPTY_1"],
+                          Pauta : datos[a]["__EMPTY"],
+                          Realizado : datos[a]["__EMPTY_1"],
+                          Observaciones : datos[a]["__EMPTY_2"],
                           Area : area,
-                          Idingreso : random_id_matriz_multiple
+                          Idingreso : random_id_matriz_single
                         })
                       }
+                      if(datos[a]["__EMPTY_2"] != undefined){
+                        observacion =  datos[a]["__EMPTY_2"]
+                      }
+                    }
+                    else{
                       observacion =  datos[a]["__EMPTY_2"]
                     }
                   }
@@ -1976,7 +1983,7 @@ module.exports = {
                   Usuario : req.session.user_id.Usuario 
                 })
                 //[0,1,2,3,4,5,6,7,8,9,10,11,12,13]
-                var datos_aux = leerExcelDisciplina(file.name, [0,1,2,3,4,5,6,7,8,9,10,11,12,13])
+                var datos_aux = leerExcelDisciplina(file.name, [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14])
                 var datos = datos_aux[0];
                 //console.log(datos);
                 for(a=0; a<datos.length; a++){
@@ -2050,7 +2057,7 @@ module.exports = {
                 })
 
                 await file.mv(savePath);
-                var datos_aux = leerExcelDisciplina(file.name, [0,1,2,3,4,5,6,7,8,9,10,11,12,13])
+                var datos_aux = leerExcelDisciplina(file.name, [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14])
                 var datos = datos_aux[0];
                 for(a=0; a<datos.length; a++){
                   for(b=1; b < 6 ; b++){
