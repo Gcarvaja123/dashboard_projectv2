@@ -9,24 +9,21 @@ module.exports = function(sequelize,DataTypes){
 		        	allowNull: false,
 		        	autoIncrement:true
 		    	},
-		    	Area: Sequelize.TEXT,
-		    	Dia : Sequelize.TEXT,
 		    	Fecha : Sequelize.TEXT,
-		    	Llegada_det : Sequelize.TEXT,
-		    	Traslado_postura : Sequelize.TEXT,
-		    	Ingreso_postura : Sequelize.TEXT,
-		    	Almuerzo : Sequelize.TEXT,
-		    	Salida_mina : Sequelize.TEXT,
-		    	Traslado_buses : Sequelize.TEXT,
-		    	Ingreso_pm : Sequelize.TEXT,
-		    	Ingreso_am : Sequelize.TEXT,
-		    	Cena : Sequelize.TEXT,
-		    	Salida_camarines : Sequelize.TEXT,
-		    	Salida_buses : Sequelize.TEXT,
-		    	Ingreso_postura_pm : Sequelize.TEXT,
-		    	Meta_dia : Sequelize.TEXT,
-		    	Meta : Sequelize.TEXT,
-		    	Cumplimiento : Sequelize.TEXT
+				Area : Sequelize.TEXT,
+				Capataz : Sequelize.TEXT,
+				Turno : Sequelize.TEXT,
+				Lleganivel : Sequelize.TEXT,
+				Charla : Sequelize.TEXT,
+				Trasladopostura : Sequelize.TEXT,
+				Ingresopostura : Sequelize.TEXT,
+				Colacioninicio : Sequelize.TEXT,
+				Colaciontermino : Sequelize.TEXT,
+				Trabajoterreno : Sequelize.TEXT,
+				Retiropostura : Sequelize.TEXT,
+				Coordinacionessiguiente : Sequelize.TEXT
+
+				
 
 			},{
 				tableName: 'disciplina_traspaso',

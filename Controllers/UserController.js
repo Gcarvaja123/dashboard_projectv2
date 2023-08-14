@@ -79,6 +79,15 @@ function leerExcelDisciplinatraspaso(ruta, archivos){
   return array_name;
 }
 
+function leerExcelDisciplinatraspasoV2(ruta){
+  const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
+  const workbooksheet = workbook.SheetNames;
+  const sheet  = workbooksheet[0];
+  const dataExcel = reader.utils.sheet_to_json(workbook.Sheets[sheet]);
+  return dataExcel;
+
+}
+
 function leerExcelBrocales(ruta){
   const workbook = reader.readFile(path.join(__dirname,"../",'public','uploads',ruta));
   const workbooksheet = workbook.SheetNames;
@@ -2872,6 +2881,8 @@ module.exports = {
             file = req.files["Disciplinatraspaso"];
             const savePath = path.join(__dirname,"../",'public','uploads',file.name);
 
+
+
             /*await modelo.archivos.create({
               Tabla : "disciplina",
               Idingreso : random_id_disciplina_single,
@@ -2880,112 +2891,24 @@ module.exports = {
               Nombrearchivo : file.name.toString()
             })*/
 
+
+
             await file.mv(savePath);
-            var datos_aux = leerExcelDisciplinatraspaso(file.name, [0,1,2,3,4])
-            var datos = datos_aux[0];
-            
-            
-            var index = 0 ;
-            for(a=0; a<datos.length; a++){
-              var start = false
-              var contador = 0 ;
-              var Meta_dia = 0;
-              var Meta = 0;
-              var Cumplimiento = 0;
-              for(c=0 ; c < Object.keys(datos[a][0]).length ; c++ ){
-                if( datos[a][0][Object.keys(datos[a][0])[c]] == "Comentarios" ){
-                  start= false
-                }
-                if(start == true){
-                  contador+=1;
-                }
-                if(datos[a][0][Object.keys(datos[a][0])[c]] =="FECHA"){
-                  var start = true
-                }
-              }
-              //console.log(contador)
-              index = 6
-              if(contador > 7){
-                index = 8
-              }
-              if(a==2){
-                index = 6
-              }
-              
-              for(b=1; b < index ; b++){
-                llaves = Object.keys(datos[a][b]);
-                var date = ExcelDateToJSDate(datos[a][b][llaves[2]]);
-                console.log(datos[a][b])
+            var datos= leerExcelDisciplinatraspasoV2(file.name)
+
+            for(a = 0; a < datos.length; a++){
+              if(datos[a]["Fecha"] != undefined){
+                var date = ExcelDateToJSDate(datos[a]["Fecha"])
                 var converted_date = date.toISOString().split('T')[0];
-                var Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0]
-
-                for(c=index ; c <datos[a].length; c++){
-                  if(datos[a][c][llaves[6]] == "Buzones" ){
-                    Meta_dia = datos[a][c+b][llaves[6]]
-                    Meta = datos[a][c+7][llaves[6]]
-                    Cumplimiento = Math.round(datos[a][c+8][llaves[6]]*100)
-                    break
-                  }
-                }
-
-                if(index == 6 && a!=2){
-                  await modelo.disciplina_traspaso.create({
-                    Area : datos_aux[1][a],
-                    Dia : datos[a][b][llaves[1]],
-                    Fecha : Fecha,
-                    Llegada_det : convertToHHMM(datos[a][b][llaves[3]]*24).toString(),
-                    Traslado_postura : convertToHHMM(datos[a][b][llaves[4]]*24).toString(),
-                    Ingreso_postura : convertToHHMM(datos[a][b][llaves[5]]*24).toString(),
-                    Almuerzo : convertToHHMM(datos[a][b][llaves[7]]*24).toString(),
-                    Salida_mina : convertToHHMM(datos[a][b][llaves[6]]*24).toString(),
-                    Traslado_buses : convertToHHMM(datos[a][b][llaves[8]]*24).toString() ,
-                    Salida_buses : convertToHHMM(datos[a][b][llaves[9]]*24).toString(),
-                    Meta_dia : convertToHHMM(Meta_dia*24).toString(),
-                    Meta : convertToHHMM(Meta*24).toString(),
-                    Cumplimiento : Cumplimiento.toString()
-
-                  })
-                }
-
-                else if(a==2){
-                  await modelo.disciplina_traspaso.create({
-                    Area : datos_aux[1][a],
-                    Dia : datos[a][b][llaves[1]],
-                    Fecha : Fecha,
-                    Llegada_det : convertToHHMM(datos[a][b][llaves[3]]*24).toString(),
-                    Traslado_postura : convertToHHMM(datos[a][b][llaves[4]]*24).toString(),
-                    Ingreso_postura : convertToHHMM(datos[a][b][llaves[5]]*24).toString(),
-                    Almuerzo : convertToHHMM(datos[a][b][llaves[6]]*24).toString(),
-                    Traslado_buses : convertToHHMM(datos[a][b][llaves[8]]*24).toString(),
-                    Ingreso_postura_pm : convertToHHMM(datos[a][b][llaves[7]]*24).toString(),
-                    Salida_buses : convertToHHMM(datos[a][b][llaves[9]]*24).toString() ,
-                    Meta_dia : convertToHHMM(Meta_dia*24).toString(),
-                    Meta : convertToHHMM(Meta*24).toString(),
-                    Cumplimiento : (Cumplimiento).toString()
-                  })
-                }
-
-                else if(index == 8){
-                  await modelo.disciplina_traspaso.create({
-                    Area : datos_aux[1][a],
-                    Dia : datos[a][b][llaves[1]],
-                    Fecha : Fecha,
-                    Llegada_det : convertToHHMM(datos[a][b][llaves[3]]*24).toString(),
-                    Traslado_postura : convertToHHMM(datos[a][b][llaves[4]]*24).toString(),
-                    Ingreso_postura : convertToHHMM(datos[a][b][llaves[5]]*24).toString(),
-                    Salida_mina : convertToHHMM(datos[a][b][llaves[6]]*24).toString(),
-                    Ingreso_am : convertToHHMM(datos[a][b][llaves[8]]*24).toString() ,
-                    Cena : convertToHHMM(datos[a][b][llaves[7]]*24).toString(),
-                    Salida_camarines : convertToHHMM(datos[a][b][llaves[9]]*24).toString(),
-                    Salida_buses : convertToHHMM(datos[a][b][llaves[10]]*24).toString() ,
-                    Meta_dia : convertToHHMM(Meta_dia*24).toString(),
-                    Meta : convertToHHMM(Meta*24).toString(),
-                    Cumplimiento : (Cumplimiento).toString()
-
-                  })
-                }
+                Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
               }
             }
+
+            
+            
+            
+            
+            
           }catch(err){
             console.log(err)
           }
