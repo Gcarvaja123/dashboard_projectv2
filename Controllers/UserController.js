@@ -410,6 +410,12 @@ module.exports = {
       }
     })*/
 
+    /*await modelo.disciplina_traspaso.destroy({
+      where : {
+        Area : "0:0"
+      }
+    })*/
+
     
 
     return res.render('login');
@@ -2922,16 +2928,11 @@ module.exports = {
                 Trabajoterreno : convertToHHMM(datos[a]["Trabajo en terreno Tarde"]*24).toString(),
                 Retiropostura : convertToHHMM(datos[a]["Retiro de Postura"]*24).toString(),
                 Coordinacionessiguiente : convertToHHMM(datos[a]["Coordinaciones dia Siguente"]*24).toString(),
+                Tiempoefectivo : convertToHHMM(datos[a]["Tiempo Efectivo"]*24).toString(),
               
 
               })
-            }
-
-            
-            
-            
-            
-            
+            }                                     
           }catch(err){
             console.log(err)
           }

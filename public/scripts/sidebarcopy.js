@@ -2701,10 +2701,36 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
     var hora_llegada = parseInt(llegada.split(":")[0])-1;
 
-
     var Epoch_Inicio = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+hora_llegada.toString()+":00:00"))*1000
     var Epoch_Final = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"17:00:00"))*1000
     $scope.myJsonTimertraspaso1 = timer_chart_traspaso_1(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7);
+
+    var array_name_disciplina_traspaso = []
+    var values_1_traspaso=[0,0,0,0,0];
+    var values_2_traspaso=[0,0,0,0,0];
+    var values_3_traspaso=[0,0,0,0,0];
+    var values_4_traspaso=[0,0,0,0,0];
+    var values_5_traspaso=[0,0,0,0,0];
+    var values_6_traspaso=[0,0,0,0,0];
+    var values_7_traspaso=[0,0,0,0,0];
+    var values_8_traspaso=[0,0,0,0,0];
+
+    for(a = 0 ; a < local_data_disciplina_traspaso.length ; a++){
+      if(array_week.includes(local_data_disciplina_traspaso[a].Fecha)){
+        if(array_name_disciplina_traspaso.indexOf(local_data_disciplina_traspaso[a].Area+" - "+local_data_disciplina_traspaso[a].Turno) == -1){
+          array_name_disciplina_traspaso.push(local_data_disciplina_traspaso[a].Area+" - "+local_data_disciplina_traspaso[a].Turno)
+        }
+
+        if(array_name_disciplina_traspaso == local_data_disciplina_traspaso[a].Area+" - "+local_data_disciplina_traspaso[a].Turno){
+          values_1_traspaso = []
+        }
+      }
+    }
+    
+
+
+
+
 
   //------------------------------------------------------------------ PAUTA DIARIA TRASPASO ------------------------------------------------------------------------------------
     
@@ -2776,6 +2802,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     var values_6_tte8=[0,0,0,0,0];
     var values_7_tte8=[0,0,0,0,0];
     var values_8_tte8=[0,0,0,0,0];
+
+
+  
 
     for(a=0 ; a < local_data_disciplina_tte8.length ; a++){
       if(array_week.includes(local_data_disciplina_tte8[a].Fecha)){

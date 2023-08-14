@@ -21,7 +21,8 @@ module.exports = function(sequelize,DataTypes){
 				Colaciontermino : Sequelize.TEXT,
 				Trabajoterreno : Sequelize.TEXT,
 				Retiropostura : Sequelize.TEXT,
-				Coordinacionessiguiente : Sequelize.TEXT
+				Coordinacionessiguiente : Sequelize.TEXT,
+				Tiempoefectivo : Sequelize.TEXT
 
 				
 
