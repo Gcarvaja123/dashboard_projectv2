@@ -2900,8 +2900,31 @@ module.exports = {
               if(datos[a]["Fecha"] != undefined){
                 var date = ExcelDateToJSDate(datos[a]["Fecha"])
                 var converted_date = date.toISOString().split('T')[0];
-                Fecha = converted_date.split("-")[2]+"-"+converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
+                Fecha = converted_date.split("-")[2]+"-"+
+                converted_date.split("-")[1]+"-"+converted_date.split("-")[0];
               }
+
+              if(datos[a]["Fecha"] == undefined && datos[a]["Turno"] == undefined && datos[a]["Area"] == undefined){
+                break
+              }
+
+              await modelo.disciplina_traspaso.create({
+                Fecha : Fecha,
+                Area : datos[a]["Area"],
+                Capataz : datos[a]["Capataz"],
+                Turno : datos[a]["Turno"],
+                Lleganivel : convertToHHMM(datos[a]["Llega a nivel"]*24).toString(),
+                Charla : convertToHHMM(datos[a]["Charla, Coordinaciones"]*24).toString(),
+                Trasladopostura : convertToHHMM(datos[a]["Traslado a Postura"]*24).toString(),
+                Ingresopostura : convertToHHMM(datos[a]["Ingreso a postura"]*24).toString(),
+                Colacioninicio : convertToHHMM(datos[a]["Horario de Colacion inicio"]*24).toString(),
+                Colaciontermino : convertToHHMM(datos[a]["Horario de Colacion Termino"]*24).toString(),
+                Trabajoterreno : convertToHHMM(datos[a]["Trabajo en terreno Tarde"]*24).toString(),
+                Retiropostura : convertToHHMM(datos[a]["Retiro de Postura"]*24).toString(),
+                Coordinacionessiguiente : convertToHHMM(datos[a]["Coordinaciones dia Siguente"]*24).toString(),
+              
+
+              })
             }
 
             
