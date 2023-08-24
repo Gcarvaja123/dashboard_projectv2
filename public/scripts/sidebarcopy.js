@@ -90,6 +90,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   $scope.archivosingresados = local_ingreso
 
   $scope.progress = 70;
+
+  console.log($scope.dateselected)
   
 
 
@@ -266,7 +268,11 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   //$scope.myJsonTest = mixed_creator_test();
   
   var fecha_hoy = new Date();
-  $scope.dateselected = fecha_hoy;
+  //$scope.dateselected = fecha_hoy;
+  $scope.dateselected = new Date("2023-08-09T08:00:00")
+  console.log($scope.dateselected)
+  //new Date(array_week_2[0].split("-")[2]+"-"+array_week_2[0].split("-")[1]+"-"+array_week_2[0].split("-")[0]+ "T" + completar_fecha(local_data_disciplina_tte8[a].Llega_nivel)+ ":00").getTime()
+  //$scope.dateselected = "2023-08-10"
   $scope.nombre_sectores_array =[];
   $scope.total_trabajadores_array = [];
   $scope.asistencia_total_trabajadores_array = [];
@@ -2481,8 +2487,15 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
     $scope.myJsonTest = line_chart(array_values[name_visited.indexOf($scope.columndisc)], name_visited[name_visited.indexOf($scope.columndisc)], $scope.columndisc)
     
     
+    
     if(array_values.length>1){
-      $scope.myJsonSemanalDisciplina1 = Bullet_creator([array_values[0][week_day],array_values[1][week_day], array_values[2][week_day], array_values[3][week_day], array_values[4][week_day], array_values[5][week_day], array_values[6][week_day], array_values[7][week_day], array_values[8][week_day], array_values[9][week_day], array_values[10][week_day], array_values[11][week_day], array_values[12][week_day], array_values[13][week_day], array_values[14][week_day]], [100,100,100,100, 100, 100, 100,100,100,100,100,100,100,100,100], [name_visited[0], name_visited[1], name_visited[2], name_visited[3], name_visited[4], name_visited[5], name_visited[6], name_visited[7], name_visited[8], name_visited[9], name_visited[10], name_visited[11], name_visited[12], name_visited[13], name_visited[14]])
+      if(array_values.length==15){
+        $scope.myJsonSemanalDisciplina1 = Bullet_creator([array_values[0][week_day],array_values[1][week_day], array_values[2][week_day], array_values[3][week_day], array_values[4][week_day], array_values[5][week_day], array_values[6][week_day], array_values[7][week_day], array_values[8][week_day], array_values[9][week_day], array_values[10][week_day], array_values[11][week_day], array_values[12][week_day], array_values[13][week_day], array_values[14][week_day]], [100,100,100,100, 100, 100, 100,100,100,100,100,100,100,100,100], [name_visited[0], name_visited[1], name_visited[2], name_visited[3], name_visited[4], name_visited[5], name_visited[6], name_visited[7], name_visited[8], name_visited[9], name_visited[10], name_visited[11], name_visited[12], name_visited[13], name_visited[14]])
+      }
+      else{
+        $scope.myJsonSemanalDisciplina1 = Bullet_creator([array_values[0][week_day],array_values[1][week_day], array_values[2][week_day], array_values[3][week_day], array_values[4][week_day], array_values[5][week_day], array_values[6][week_day], array_values[7][week_day], array_values[8][week_day], array_values[9][week_day], array_values[10][week_day], array_values[11][week_day], array_values[12][week_day], array_values[13][week_day]], [100,100,100,100, 100, 100, 100,100,100,100,100,100,100,100], [name_visited[0], name_visited[1], name_visited[2], name_visited[3], name_visited[4], name_visited[5], name_visited[6], name_visited[7], name_visited[8], name_visited[9], name_visited[10], name_visited[11], name_visited[12], name_visited[13]])
+      }
+      
     }
 
 
@@ -2631,101 +2644,78 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
     for(a=0 ; a <local_data_disciplina_traspaso.length ; a++){
       if(local_data_disciplina_traspaso[a].Fecha==array_week[0] || local_data_disciplina_traspaso[a].Fecha==array_week[1] || local_data_disciplina_traspaso[a].Fecha==array_week[2] || local_data_disciplina_traspaso[a].Fecha==array_week[3] || local_data_disciplina_traspaso[a].Fecha==array_week[4] ){
-        if(name_visited_traspaso.indexOf(local_data_disciplina_traspaso[a].Area) ==-1){
+        if(name_visited_traspaso.indexOf(local_data_disciplina_traspaso[a].Area+" - "+local_data_disciplina_traspaso[a].Turno) ==-1){
           var aux_traspaso = []
-          name_visited_traspaso.push(local_data_disciplina_traspaso[a].Area)
-          array_disciplina_traspaso.push(parseInt(local_data_disciplina_traspaso[a].Cumplimiento))
-          aux_traspaso.push(Math.round((100*(parseInt(local_data_disciplina_traspaso[a].Meta_dia.split(":")[0])*60+parseInt(local_data_disciplina_traspaso[a].Meta_dia.split(":")[1]))/(parseFloat(local_data_disciplina_traspaso[a].Meta.split(":")[0])*60)).toFixed(8)))
+          name_visited_traspaso.push(local_data_disciplina_traspaso[a].Area+" - "+local_data_disciplina_traspaso[a].Turno)
+          //array_disciplina_traspaso.push(parseInt(local_data_disciplina_traspaso[a].Cumplimiento))
+          aux_traspaso.push(Math.round((100*(parseInt(local_data_disciplina_traspaso[a].Tiempoefectivo.split(":")[0])*60+parseInt(local_data_disciplina_traspaso[a].Tiempoefectivo.split(":")[1]))/(parseFloat(360))).toFixed(8)))
           array_values_traspaso.push(aux_traspaso)
         }
         else{
-          array_values_traspaso[name_visited_traspaso.indexOf(local_data_disciplina_traspaso[a].Area)].push(Math.round((100*(parseInt(local_data_disciplina_traspaso[a].Meta_dia.split(":")[0])*60+parseInt(local_data_disciplina_traspaso[a].Meta_dia.split(":")[1]))/(parseFloat(local_data_disciplina_traspaso[a].Meta.split(":")[0])*60)).toFixed(8)))
+          array_values_traspaso[name_visited_traspaso.indexOf(local_data_disciplina_traspaso[a].Area+" - "+local_data_disciplina_traspaso[a].Turno)].push(Math.round((100*(parseInt(local_data_disciplina_traspaso[a].Tiempoefectivo.split(":")[0])*60+parseInt(local_data_disciplina_traspaso[a].Tiempoefectivo.split(":")[1]))/(parseFloat(360))).toFixed(8)))
         }
       }
     }
-  
-    for(a=0 ; a<array_disciplina_traspaso.length; a++){
-      var diccionario_aux = {};
-      diccionario_aux.name = name_visited_traspaso[a];
-      diccionario_aux.meta = array_disciplina_traspaso[a];
-      diccionario_aux.values = array_values_traspaso[a];
-      diccionario_values_traspaso.push(diccionario_aux)
 
+    console.log("array_values_traspaso : ")
+    console.log(array_values_traspaso)
+    console.log(name_visited_traspaso)
+
+    var array_prom_traspaso = []
+    for(c=0 ; c < array_values_traspaso.length; c++){
+      array_prom_traspaso.push(Math.round((parseFloat(array_values_traspaso[c].reduce((a, b) => a + b, 0))/parseFloat(array_values_traspaso[c].length))))
     }
-
-    var sorted_dictionary = diccionario_values_traspaso.sort(function(a,b){
-      return a.meta - b.meta
-    })
-
-    var array_disciplina_traspaso_bar = []
-    var array_name_traspaso = []
-
-    array_values_traspaso = []
-
-    for (a=0; a < sorted_dictionary.length; a++){
-      array_disciplina_traspaso_bar.push(sorted_dictionary[a].meta);
-      array_name_traspaso.push(sorted_dictionary[a].name);
-      array_values_traspaso.push(sorted_dictionary[a].values)
-
-    }
-    $scope.myJsonhbardisciplinatraspaso = hbar_text_disciplina_traspaso(array_disciplina_traspaso_bar, array_name_traspaso)
-    $scope.myJsonlinedisciplinatraspaso = line_chart_traspaso(array_values_traspaso, array_name_traspaso)
+    $scope.myJsonlinedisciplinatraspaso = line_chart_traspaso_v2(array_values_traspaso[1], name_visited_traspaso[1])
     
-
-
-    values_1=[];
-    values_2=[];
-    values_3=[];
-    values_4=[];
-    values_5=[];
-    values_6=[];
-    values_7=[];
-
-
-    var llegada =""
-    for(a=0 ; a < local_data_disciplina_traspaso.length; a++){
-      if(local_data_disciplina_traspaso[a].Area == "Buzones" && array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)!=-1 ){
-        fecha_split = local_data_disciplina[a].Fecha.split("-")
-        fecha_invertida = fecha_split[2]+"-"+fecha_split[1]+"-"+fecha_split[0];
-        llegada = local_data_disciplina_traspaso[a].Llegada_det
-        var hora_llegada = parseInt(llegada.split(":")[0]);
-        values_1[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (parseInt(local_data_disciplina_traspaso[a].Llegada_det.split(":")[1])*60+Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+hora_llegada+":00:00")))*1000;
-        values_2[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Llegada_det,local_data_disciplina_traspaso[a].Traslado_postura ))*60*1000
-        values_3[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Traslado_postura,local_data_disciplina_traspaso[a].Ingreso_postura ))*60*1000
-        values_4[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Ingreso_postura,local_data_disciplina_traspaso[a].Salida_mina ))*60*1000
-        values_5[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Salida_mina,local_data_disciplina_traspaso[a].Almuerzo ))*60*1000
-        values_6[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Almuerzo,local_data_disciplina_traspaso[a].Traslado_buses ))*60*1000
-        values_7[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Traslado_buses,local_data_disciplina_traspaso[a].Salida_buses ))*60*1000
-      }
-    }
-
-    var hora_llegada = parseInt(llegada.split(":")[0])-1;
-
-    var Epoch_Inicio = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+hora_llegada.toString()+":00:00"))*1000
-    var Epoch_Final = Epoch(new Date(fecha.split("-")[2]+"-"+fecha.split("-")[1]+"-"+fecha.split("-")[0]+" "+"17:00:00"))*1000
-    $scope.myJsonTimertraspaso1 = timer_chart_traspaso_1(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7);
+    
+    $scope.myJsonhbardisciplinatraspaso = hbar_text_disciplina_traspaso(array_prom_traspaso, name_visited_traspaso)
 
     var array_name_disciplina_traspaso = []
-    var values_1_traspaso=[0,0,0,0,0];
-    var values_2_traspaso=[0,0,0,0,0];
-    var values_3_traspaso=[0,0,0,0,0];
-    var values_4_traspaso=[0,0,0,0,0];
-    var values_5_traspaso=[0,0,0,0,0];
-    var values_6_traspaso=[0,0,0,0,0];
-    var values_7_traspaso=[0,0,0,0,0];
-    var values_8_traspaso=[0,0,0,0,0];
+    $scope.values_1_traspaso=[0,0,0,0,0];
+    $scope.values_2_traspaso=[0,0,0,0,0];
+    $scope.values_3_traspaso=[0,0,0,0,0];
+    $scope.values_4_traspaso=[0,0,0,0,0];
+    $scope.values_5_traspaso=[0,0,0,0,0];
+    $scope.values_6_traspaso=[0,0,0,0,0];
+    $scope.values_7_traspaso=[0,0,0,0,0];
+    $scope.values_8_traspaso=[0,0,0,0,0];
+    $scope.array_values_traspaso=[]
 
     for(a = 0 ; a < local_data_disciplina_traspaso.length ; a++){
       if(array_week.includes(local_data_disciplina_traspaso[a].Fecha)){
-        if(array_name_disciplina_traspaso.indexOf(local_data_disciplina_traspaso[a].Area+" - "+local_data_disciplina_traspaso[a].Turno) == -1){
-          array_name_disciplina_traspaso.push(local_data_disciplina_traspaso[a].Area+" - "+local_data_disciplina_traspaso[a].Turno)
-        }
-
-        if(array_name_disciplina_traspaso == local_data_disciplina_traspaso[a].Area+" - "+local_data_disciplina_traspaso[a].Turno){
-          values_1_traspaso = []
+        if(name_visited_traspaso[1] == local_data_disciplina_traspaso[a].Area+" - "+local_data_disciplina_traspaso[a].Turno){
+          $scope.values_1_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = new Date(array_week[0].split("-")[2]+"-"+array_week[0].split("-")[1]+"-"+array_week[0].split("-")[0]+ "T" + completar_fecha(local_data_disciplina_traspaso[a].Lleganivel)+ ":00").getTime()
+          $scope.values_2_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Lleganivel,local_data_disciplina_traspaso[a].Charla ))*60*1000
+          $scope.values_3_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Charla,local_data_disciplina_traspaso[a].Trasladopostura ))*60*1000
+          $scope.values_4_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Trasladopostura,local_data_disciplina_traspaso[a].Ingresopostura))*60*1000
+          $scope.values_5_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Ingresopostura,local_data_disciplina_traspaso[a].Colacioninicio ))*60*1000
+          $scope.values_6_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Colacioninicio,local_data_disciplina_traspaso[a].Colaciontermino))*60*1000
+          $scope.values_7_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Colaciontermino,local_data_disciplina_traspaso[a].Trabajoterreno ))*60*1000
+          $scope.values_8_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Trabajoterreno, local_data_disciplina_traspaso[a].Retiropostura ))*60*1000
         }
       }
     }
+
+    
+    var fechaInicio_traspaso = new Date(parseInt(array_week[0].split("-")[2]), parseInt(array_week[0].split("-")[1])-1, parseInt(array_week[0].split("-")[0]), new Date(Math.min.apply(null, $scope.values_1_traspaso)).getHours(), 0, 0, 0);
+    var Epoch_Inicio_test_traspaso = fechaInicio_traspaso.getTime();
+    var valor_maximo_traspaso = Math.max.apply(null, $scope.values_2_traspaso)+Math.max.apply(null, $scope.values_3_traspaso)+Math.max.apply(null, $scope.values_4_traspaso)+Math.max.apply(null, $scope.values_5_traspaso)+Math.max.apply(null, $scope.values_6_traspaso)+Math.max.apply(null, $scope.values_7_traspaso)+Math.max.apply(null, $scope.values_8_traspaso)
+    
+    if(new Date(Math.max.apply(null, $scope.values_1_traspaso)).getHours() > new Date(Math.max.apply(null, $scope.values_1_traspaso)+parseInt(valor_maximo_traspaso)).getHours()){
+      $scope.myJsonTimertraspaso1 = timer_chart_traspaso_v2(Epoch_Inicio_test_traspaso, parseInt(new Date(Math.max.apply(null, $scope.values_1_traspaso)+parseInt(valor_maximo_traspaso)).getHours())-parseInt(new Date(Math.min.apply(null, $scope.values_1_traspaso)).getHours())+1+24-Math.max.apply(null, $scope.values_1_traspaso).getHours, $scope.values_1_traspaso, $scope.values_2_traspaso, $scope.values_3_traspaso, $scope.values_4_traspaso, $scope.values_5_traspaso, $scope.values_6_traspaso, $scope.values_7_traspaso, $scope.values_8_traspaso, name_visited_traspaso[1]);
+    
+    }
+    else{
+      $scope.myJsonTimertraspaso1 = timer_chart_traspaso_v2(Epoch_Inicio_test_traspaso, parseInt(new Date(Math.max.apply(null, $scope.values_1_traspaso)+parseInt(valor_maximo_traspaso)).getHours())-parseInt(new Date(Math.min.apply(null, $scope.values_1_traspaso)).getHours())+1, $scope.values_1_traspaso, $scope.values_2_traspaso, $scope.values_3_traspaso, $scope.values_4_traspaso, $scope.values_5_traspaso, $scope.values_6_traspaso, $scope.values_7_traspaso, $scope.values_8_traspaso, name_visited_traspaso[1]);
+    }
+
+    $scope.headersdisciplinatraspaso = name_visited_traspaso
+    $scope.columndisctraspaso = name_visited_traspaso[1]
+
+
+
+
+    
     
 
 
@@ -2849,9 +2839,9 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
       array_prom_tte8.push(Math.round(100*(parseFloat(array_meta_tte8[c].reduce((a, b) => a + b, 0))/parseFloat(array_meta_tte8[c].length)/parseFloat(290))))
     }
 
-    var hora_llegada = parseInt(llegada.split(":")[0])-1;
-    var Epoch_Inicio = Epoch(new Date($scope.fecha_universal.split("-")[2]+"-"+$scope.fecha_universal.split("-")[1]+"-"+$scope.fecha_universal.split("-")[0]+" "+hora_llegada.toString()+":00:00"))*1000
-    var Epoch_Final = Epoch(new Date($scope.fecha_universal.split("-")[2]+"-"+$scope.fecha_universal.split("-")[1]+"-"+$scope.fecha_universal.split("-")[0]+" "+"15:00:00"))*1000
+    //var hora_llegada = parseInt(llegada.split(":")[0])-1;
+    //var Epoch_Inicio = Epoch(new Date($scope.fecha_universal.split("-")[2]+"-"+$scope.fecha_universal.split("-")[1]+"-"+$scope.fecha_universal.split("-")[0]+" "+hora_llegada.toString()+":00:00"))*1000
+    //var Epoch_Final = Epoch(new Date($scope.fecha_universal.split("-")[2]+"-"+$scope.fecha_universal.split("-")[1]+"-"+$scope.fecha_universal.split("-")[0]+" "+"15:00:00"))*1000
     
     var fechaInicio_tte8 = new Date(parseInt(array_week[0].split("-")[2]), parseInt(array_week[0].split("-")[1])-1, parseInt(array_week[0].split("-")[0]), new Date(Math.min.apply(null, values_1_tte8)).getHours(), 0, 0, 0);
     var Epoch_Inicio_test_tte8 = fechaInicio_tte8.getTime();
@@ -3241,7 +3231,6 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
 
   $scope.modaldisciplina = function(){
     
-
     var values_1=[0];
     var values_2=[0];
     var values_3=[0];
@@ -3323,6 +3312,26 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
       keyboard: false
     })
     Modaldisciplina.toggle()
+  }
+
+  $scope.modaldisciplinatraspaso = function(){
+    $scope.fecha_today = angular.copy($scope.fecha_universal);
+    $scope.fecha_today = new Date($scope.fecha_today.split("-")[2]+"-"+$scope.fecha_today.split("-")[1]+"-"+$scope.fecha_today.split("-")[0])
+    var exact_days_2 = get_day_numbers($scope.fecha_today);
+    var array_week_2 = [];
+    var week_day_2 = 0;
+
+    for (a=0; a<get_day_numbers($scope.fecha_today).length; a++){
+      nueva_fecha_2 = new Date(exact_days_2[a] - $scope.dateselected.getTimezoneOffset()*60000);
+      converted_date_2 = nueva_fecha_2.toISOString().split('T')[0];
+      fecha_2 = converted_date_2.split("-")[2]+"-"+converted_date_2.split("-")[1]+"-"+converted_date_2.split("-")[0];
+      array_week_2.push(fecha_2);
+      if(fecha_2==fecha){
+        week_day_2=a;
+      }
+    }
+
+
   }
 
 
@@ -3632,6 +3641,145 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
       $scope.myJsonTimertraspaso1 = timer_chart_traspaso_3(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7, values_8);
     }
 
+  }
+
+  $scope.filltimetraspaso = function(name){
+    $scope.nueva_fecha_2  = angular.copy($scope.fecha_universal)
+    nueva_fecha = new Date($scope.nueva_fecha_2.split("-")[2]+"-"+$scope.nueva_fecha_2.split("-")[1]+"-"+$scope.nueva_fecha_2.split("-")[0]);
+
+    var exact_days = get_day_numbers(nueva_fecha);
+    var array_week = [];
+    for (a=0; a<get_day_numbers(nueva_fecha).length; a++){
+      nueva_fecha_2 = new Date(exact_days[a] - nueva_fecha.getTimezoneOffset()*60000);
+      converted_date_2 = nueva_fecha_2.toISOString().split('T')[0];
+      fecha_2 = converted_date_2.split("-")[2]+"-"+converted_date_2.split("-")[1]+"-"+converted_date_2.split("-")[0];
+      array_week.push(fecha_2);
+    }
+
+    
+
+    var array_values_traspaso = [0,0,0,0,0]
+    var values_1_traspaso=[0,0,0,0,0];
+    var values_2_traspaso=[0,0,0,0,0];
+    var values_3_traspaso=[0,0,0,0,0];
+    var values_4_traspaso=[0,0,0,0,0];
+    var values_5_traspaso=[0,0,0,0,0];
+    var values_6_traspaso=[0,0,0,0,0];
+    var values_7_traspaso=[0,0,0,0,0];
+    var values_8_traspaso=[0,0,0,0,0];
+
+    var horas_traspaso_1 = []
+    var horas_traspaso_2 = []
+    var horas_traspaso_3 = []
+    var horas_traspaso_4 = []
+    var horas_traspaso_5 = []
+
+    var horas_traspaso = [horas_traspaso_1, horas_traspaso_2, horas_traspaso_3, horas_traspaso_4, horas_traspaso_5]
+    
+    var horas_restadas_1=[]
+    var horas_restadas_2=[]
+    var horas_restadas_3=[]
+    var horas_restadas_4=[]
+    var horas_restadas_5=[]
+    //var horas_restadas_7=[]
+    //var horas_restadas_8=[]
+
+    var horas_restadas = [horas_restadas_1, horas_restadas_2, horas_restadas_3, horas_restadas_4, horas_restadas_5]
+
+
+
+    for(a=0 ; a <local_data_disciplina_traspaso.length ; a++){
+      if(array_week.includes(local_data_disciplina_traspaso[a].Fecha)){
+        if(name == local_data_disciplina_traspaso[a].Area+" - "+local_data_disciplina_traspaso[a].Turno){
+          array_values_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)]=(Math.round((100*(parseInt(local_data_disciplina_traspaso[a].Tiempoefectivo.split(":")[0])*60+parseInt(local_data_disciplina_traspaso[a].Tiempoefectivo.split(":")[1]))/(parseFloat(360))).toFixed(8)))
+          values_1_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = new Date(array_week[0].split("-")[2]+"-"+array_week[0].split("-")[1]+"-"+array_week[0].split("-")[0]+ "T" + completar_fecha(local_data_disciplina_traspaso[a].Lleganivel)+ ":00").getTime()
+          //values_2_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Lleganivel, local_data_disciplina_traspaso[a].Charla ))*60*1000
+          //values_3_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Charla, local_data_disciplina_traspaso[a].Trasladopostura ))*60*1000
+          //values_4_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Trasladopostura, local_data_disciplina_traspaso[a].Ingresopostura))*60*1000
+          //values_5_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Ingresopostura, local_data_disciplina_traspaso[a].Colacioninicio ))*60*1000
+          //values_6_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Colacioninicio, local_data_disciplina_traspaso[a].Colaciontermino))*60*1000
+          //values_7_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Colaciontermino, local_data_disciplina_traspaso[a].Trabajoterreno ))*60*1000
+          //values_8_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)] = (restar_horas(local_data_disciplina_traspaso[a].Trabajoterreno, local_data_disciplina_traspaso[a].Retiropostura ))*60*1000
+          
+        
+          horas_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)].push(local_data_disciplina_traspaso[a].Lleganivel)
+          horas_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)].push(local_data_disciplina_traspaso[a].Charla)
+          horas_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)].push(local_data_disciplina_traspaso[a].Trasladopostura)
+          horas_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)].push(local_data_disciplina_traspaso[a].Ingresopostura)
+          horas_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)].push(local_data_disciplina_traspaso[a].Colacioninicio)
+          horas_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)].push(local_data_disciplina_traspaso[a].Colaciontermino)
+          horas_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)].push(local_data_disciplina_traspaso[a].Trabajoterreno)
+          horas_traspaso[array_week.indexOf(local_data_disciplina_traspaso[a].Fecha)].push(local_data_disciplina_traspaso[a].Retiropostura)
+        }
+      }
+    }
+
+    var salir = false
+    console.log(horas_traspaso)
+    
+    for(c=0 ; c < horas_traspaso.length ; c++){
+      for(d=0 ; d < horas_traspaso[c].length; d++){
+        salir = false
+        contador=1
+        if(d+1 == horas_traspaso[c].length){
+          break
+        }
+        if(horas_traspaso[c][d]=="0:0"){
+          horas_restadas[c].push(0)
+        }
+        else{
+          while(horas_traspaso[c][d+contador]=="0:0"){
+            horas_restadas[c].push(0)
+            contador+=1
+            
+            if(d+contador == horas_traspaso[c].length){
+              salir = true
+              d=d+contador-1
+              break
+            } 
+          }
+          if(salir != true){
+            horas_restadas[c].push(restar_horas(horas_traspaso[c][d], horas_traspaso[c][d+contador])*60*1000)
+            d=d+contador-1
+               
+          } 
+        }
+      }
+    }
+
+    console.log(horas_restadas)
+
+    values_2_traspaso = [horas_restadas[0][0], horas_restadas[1][0],horas_restadas[2][0], horas_restadas[3][0], horas_restadas[4][0]]
+    values_3_traspaso = [horas_restadas[0][1], horas_restadas[1][1],horas_restadas[2][1], horas_restadas[3][1], horas_restadas[4][1]]
+    values_4_traspaso = [horas_restadas[0][2], horas_restadas[1][2],horas_restadas[2][2], horas_restadas[3][2], horas_restadas[4][2]]
+    values_5_traspaso = [horas_restadas[0][3], horas_restadas[1][3],horas_restadas[2][3], horas_restadas[3][3], horas_restadas[4][3]]
+    values_6_traspaso = [horas_restadas[0][4], horas_restadas[1][4],horas_restadas[2][4], horas_restadas[3][4], horas_restadas[4][4]]
+    values_7_traspaso = [horas_restadas[0][5], horas_restadas[1][5],horas_restadas[2][5], horas_restadas[3][5], horas_restadas[4][5]]
+    values_8_traspaso = [horas_restadas[0][6], horas_restadas[1][6],horas_restadas[2][6], horas_restadas[3][6], horas_restadas[4][6]]
+
+    //console.log(horas_traspaso)
+    
+
+
+
+    
+
+    $scope.myJsonlinedisciplinatraspaso = line_chart_traspaso_v2(array_values_traspaso, name)
+    var fechaInicio_traspaso = new Date(parseInt(array_week[0].split("-")[2]), parseInt(array_week[0].split("-")[1])-1, parseInt(array_week[0].split("-")[0]), new Date(Math.min.apply(null, values_1_traspaso)).getHours(), 0, 0, 0);
+    var Epoch_Inicio_test_traspaso = fechaInicio_traspaso.getTime();
+    var valor_maximo_traspaso = Math.max.apply(null, values_2_traspaso)+Math.max.apply(null, values_3_traspaso)+Math.max.apply(null, values_4_traspaso)+Math.max.apply(null, values_5_traspaso)+Math.max.apply(null, values_6_traspaso)+Math.max.apply(null, values_7_traspaso)+Math.max.apply(null, values_8_traspaso)
+    
+    if(new Date(Math.max.apply(null, values_1_traspaso)).getHours() > new Date(Math.max.apply(null, values_1_traspaso)+parseInt(valor_maximo_traspaso)).getHours()){
+      $scope.myJsonTimertraspaso1 = timer_chart_traspaso_v2(Epoch_Inicio_test_traspaso, parseInt(new Date(Math.max.apply(null, values_1_traspaso)+parseInt(valor_maximo_traspaso)).getHours())-parseInt(new Date(Math.min.apply(null, values_1_traspaso)).getHours())+1+24-Math.max.apply(null, values_1_traspaso).getHours, values_1_traspaso, values_2_traspaso, values_3_traspaso, values_4_traspaso, values_5_traspaso, values_6_traspaso, values_7_traspaso, values_8_traspaso, name);
+    
+    }
+    else{
+      $scope.myJsonTimertraspaso1 = timer_chart_traspaso_v2(Epoch_Inicio_test_traspaso, parseInt(new Date(Math.max.apply(null, values_1_traspaso)+parseInt(valor_maximo_traspaso)).getHours())-parseInt(new Date(Math.min.apply(null, values_1_traspaso)).getHours())+1, values_1_traspaso, values_2_traspaso, values_3_traspaso, values_4_traspaso, values_5_traspaso, values_6_traspaso, values_7_traspaso, values_8_traspaso, name);
+    }
+    
+
+
+    
   }
 
   $scope.filltimette8 = function(name){
@@ -6685,6 +6833,100 @@ function timer_chart_tte8(Epoch_Inicio, Epoch_Final, values_1, values_2, values_
   
   return grafico;
 }
+
+function timer_chart_traspaso_v2(Epoch_Inicio, Epoch_Final, values_1, values_2, values_3, values_4, values_5, values_6, values_7, values_8, titulo){
+  var grafico = {};
+  grafico = {
+    type: 'bar',
+    utc: true,
+    timezone: -4, 
+    plot: {
+      barWidth: '50%',
+      stacked: true,
+      tooltip: {
+        text: '%plot-text : %scale-value-value',
+        transform: {
+          type: 'date',
+          all: '%g:%i %A'
+        }
+      }
+    },
+    title :{
+      text : "Disciplina "+titulo,
+      align : 'center'
+    },
+    scaleX: {
+      labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes","Sabado","Domingo"],
+      label: {
+      },
+      item: {
+        fontSize: 10
+      },
+    },
+    scaleY: {
+      minValue: Epoch_Inicio,
+      maxValue: Epoch_Inicio + Epoch_Final*3600000,
+      step: 600000,
+      transform: {
+        type: 'date',
+        all: '%g:%i %a'
+      },
+      item: {
+        fontSize: 10
+      },
+      guide: {
+        lineStyle: 'dotted'
+      }
+    },
+    plotarea: {
+      marginLeft: '15%',
+    },
+    series: [{
+        values: values_1,
+        text: 'Llegada a nivel',
+        backgroundColor: '#1565C0',
+      },
+      {
+        values: values_2,
+        text: 'Charla, coordinaciones',
+        backgroundColor: '#1E88E5'
+      },
+      {
+        values: values_3,
+        text: 'Traslado a Postura',
+        backgroundColor: '#42A5F5'
+      },
+      {
+        values: values_4,
+        text: 'Ingreso a postura',
+        backgroundColor: '#90CAF9'
+      },
+      {
+        values: values_5,
+        text: 'Horario colación inicio',
+        backgroundColor: '#42A5F5'
+      },
+      {
+        values: values_6,
+        text: 'Termino colación',
+        backgroundColor: '#9FB2D5'
+      },
+      {
+        values: values_7,
+        text: 'Trabajo en terreno tarde',
+        backgroundColor: '#353F52'
+      },
+      {
+        values: values_8,
+        text: 'Retiro de postura',
+        backgroundColor: 'blue'
+      }
+    ]
+  };
+
+  
+  return grafico;
+}
 function calendar_creator(fechas, año){
   var grafico = {};
   grafico = {
@@ -8009,6 +8251,94 @@ function line_chart_tte8(values, nombres){
 }
 
 function line_chart_tte8_v2(values, nombres){
+  var grafico = {};
+  grafico = {
+    type: 'line',
+    scaleY:{
+      minValue : 80,
+      maxValue : 180,
+    },
+    title :{
+      text : "Disciplina Operacional "+nombres,
+      "adjust-layout":true
+    },
+    scaleX:{
+      labels: [
+      'Lunes',
+      'Martes',
+      'Miercoles',
+      'Jueves',
+      'Viernes'
+      ],
+    },
+    "tooltip": {
+      "visible": false
+    },
+    "crosshair-x": {
+      "line-color": "#efefef",
+      "plot-label": {
+        "border-radius": "5px",
+        "border-width": "1px",
+        "border-color": "#f6f7f8",
+        "padding": "10px",
+        "font-weight": "bold"
+      },
+      "scale-label": {
+        "font-color": "#000",
+        "background-color": "#f6f7f8",
+        "border-radius": "5px"
+      }
+    },
+    "plot": {
+      "highlight": true,
+      "tooltip-text": "%t views: %v<br>%k",
+      "shadow": 0,
+      "line-width": "2px",
+      "marker": {
+        "type": "circle",
+        "size": 3
+      },
+      "highlight-state": {
+        "line-width": 3
+      },
+      "animation": {
+        "effect": 1,
+        "sequence": 2,
+        "speed": 100,
+      }
+    },
+    series: [
+      { 
+        values: values,
+        "text": nombres,
+        "line-color": "#007790",
+        "legend-item": {
+          "background-color": "#007790",
+          "borderRadius": 5,
+          "font-color": "white",
+        },
+        "legend-marker": {
+          "visible": false
+        },
+        "marker": {
+          "background-color": "#007790",
+          "border-width": 1,
+          "shadow": 0,
+          "border-color": "#69dbf1"
+        },
+        "highlight-marker": {
+          "size": 5,
+          "background-color": "#007790",
+        }
+      },  
+    ]
+ }
+
+ return grafico
+
+}
+
+function line_chart_traspaso_v2(values, nombres){
   var grafico = {};
   grafico = {
     type: 'line',

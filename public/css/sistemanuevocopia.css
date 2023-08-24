@@ -866,6 +866,10 @@ hr{
   padding-top: 6px;
 }
 
+#timer-traspaso div{
+  background-color: white;
+}
+
 /*.bodydiariosub5 div{
   height: 300px;
 }*/
@@ -1391,7 +1395,7 @@ table.matriz td{
 }
 
 .matrizitems .item1{
-  width: 50%;
+  width: 100%;
 }
 
 .matrizitems .item2{

@@ -1602,7 +1602,7 @@ html
                     a.tablink(ng-click="GotoDisciplina()")
                       span.fa.nb-link-icon
                       span.nb-link-text Disciplina 
-            if user.Sector == "traspaso" || user.Sector == "admin"
+            //if user.Sector == "traspaso" || user.Sector == "admin"
               li 
                 a.collapsed(data-toggle='collapse' href='#collapseTraspaso' aria-expanded='false' aria-controls='collapseTraspaso')
                   span.glyphicon.glyphicon-stats.nb-link-icon
@@ -1622,7 +1622,7 @@ html
                     a.tablink(ng-click="GotoDisciplinatraspaso()" )
                       span.fa.fa-history.nb-link-icon
                       span.nb-link-text Disciplina
-            if user.Sector == "tte8" || user.Sector == "admin" 
+            //if user.Sector == "tte8" || user.Sector == "admin" 
               li 
                 a.collapsed(data-toggle='collapse' href='#collapsett8' aria-expanded='false' aria-controls='collapsett8')
                   span.glyphicon.glyphicon-stats.nb-link-icon
@@ -2521,17 +2521,15 @@ html
               .one
                 h1 Disciplina Operacional Traspaso
               #Disciplinaubicaciones.grid-container
+                select.selectdisciplinatte8.form-selectfilter( ng-model='columndisctraspaso' ng-init='columnasist=""' ng-options='e for e in headersdisciplinatraspaso' ng-change="filltimetraspaso(columndisctraspaso)" )
                 #grid-disciplina.grid-container
                   #chart57(zingchart='' zc-json='myJsonhbardisciplinatraspaso' zc-width='200px' zc-height='300px')
                   #timer-traspaso.grid-container
                     div
-                      div.buttonstimer
-                        button.airebutton(ng-model='sub5selector' ng-click="changegraphtimertraspaso('Buzones')") Buzones
-                        button.polvobutton(ng-model='pipanselector' ng-click="changegraphtimertraspaso('Mant.Vias')") Mant. Vias 
-                        button.ventilacionbutton(ng-model='diabloselector' ng-click="changegraphtimertraspaso('Locos.Carros')") Locos Carros
-                        button.airebutton(ng-model='sub5selector' ng-click="changegraphtimertraspaso('A1')") A1
-                        button.polvobutton(ng-model='lajuntaselector' ng-click="changegraphtimertraspaso('B1')") A2
                       #chart59(zingchart='' zc-json='myJsonTimertraspaso1' zc-width='100%' zc-height='300px' visibility="hidden" )
+                      hr.graphr
+                      .graphfooter2(ng-model='openmodaldisciplina' ng-click="modaldisciplinatraspaso()" type='button' data-bs-toggle='modal')
+                        div Ver detalles
 
                     div
                       #chart58(zingchart='' zc-json='myJsonlinedisciplinatraspaso' zc-width='100%' zc-height='440px' visibility="hidden" )
