@@ -268,8 +268,8 @@ app.controller("myControllerAsistencia", function($scope,$filter,$http,$timeout,
   //$scope.myJsonTest = mixed_creator_test();
   
   var fecha_hoy = new Date();
-  //$scope.dateselected = fecha_hoy;
-  $scope.dateselected = new Date("2023-08-09T08:00:00")
+  $scope.dateselected = fecha_hoy;
+  //$scope.dateselected = new Date("2023-08-09T08:00:00")
   console.log($scope.dateselected)
   //new Date(array_week_2[0].split("-")[2]+"-"+array_week_2[0].split("-")[1]+"-"+array_week_2[0].split("-")[0]+ "T" + completar_fecha(local_data_disciplina_tte8[a].Llega_nivel)+ ":00").getTime()
   //$scope.dateselected = "2023-08-10"

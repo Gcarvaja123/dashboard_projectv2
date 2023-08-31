@@ -1602,7 +1602,7 @@ html
                     a.tablink(ng-click="GotoDisciplina()")
                       span.fa.nb-link-icon
                       span.nb-link-text Disciplina 
-            //if user.Sector == "traspaso" || user.Sector == "admin"
+            if user.Sector == "traspaso" || user.Sector == "admin"
               li 
                 a.collapsed(data-toggle='collapse' href='#collapseTraspaso' aria-expanded='false' aria-controls='collapseTraspaso')
                   span.glyphicon.glyphicon-stats.nb-link-icon
@@ -1622,7 +1622,7 @@ html
                     a.tablink(ng-click="GotoDisciplinatraspaso()" )
                       span.fa.fa-history.nb-link-icon
                       span.nb-link-text Disciplina
-            //if user.Sector == "tte8" || user.Sector == "admin" 
+            if user.Sector == "tte8" || user.Sector == "admin" 
               li 
                 a.collapsed(data-toggle='collapse' href='#collapsett8' aria-expanded='false' aria-controls='collapsett8')
                   span.glyphicon.glyphicon-stats.nb-link-icon
