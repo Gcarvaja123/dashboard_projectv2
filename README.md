@@ -4,9 +4,11 @@ Existe una base de datos creadas para los siguientes archivos :
   - Asistencia
   - Plan matriz
   - Limpieza de brocales
-  - Disciplina Operacional
+  - Disciplina Operacional (infra, traspaso, tte8)
   - Trabajos diarios de pilar norte
   - Equipos y camionetas
+  - Workpad traspaso
+  - Planificación semanal (tte8)
 
 Funcionalidades del sistema :
   - Ingreso de archivos de los datos antes mencionados
@@ -14,7 +16,7 @@ Funcionalidades del sistema :
   - Creación de cuenta
   - Modificación de archivos
   - Borrado de archivos
-  - Creación de reportes en base a 2 fechas
+  - Creación de reportes en base a 2 fechas (solo información de traspaso)
 
 
 Consideraciones : 
