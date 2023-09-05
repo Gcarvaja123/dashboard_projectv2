@@ -21,5 +21,6 @@ Funcionalidades del sistema :
 
 Consideraciones : 
  - Existe una cuenta general para entrar al sistema, username : admin / password : 1234
+ - Los datos del sistema están en la carpeta de datos
     
 
