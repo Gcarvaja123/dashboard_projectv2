@@ -2,6 +2,6 @@
 
 ![Descripción de la imagen](./Imagenes_git/Panel.png)
 ![Descripción de la imagen](./Imagenes_git/Ingreso.png)
-![Descripción de la imagen](./Imagenes_git/Información.png)
+![Descripción de la imagen](./Imagenes_git/Graficos.png)
     
 
