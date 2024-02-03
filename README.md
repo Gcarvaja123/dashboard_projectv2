@@ -13,9 +13,13 @@ Sistema web desarrollado para recibir datos de procesos a través de archivos ex
 
 ## Imágenes de muestra
 
-
+- Panel principal del sistema web, en la parte izquierda existe un menú de opciones para diferentes secciones del sistema
 ![Panel Principal](./Imagenes_git/Panel.png)
+
+- Panel para ingresar archivos al sistema
 ![Ingreso de datos](./Imagenes_git/Ingreso.png)
+
+- Algunos gráficos que son ilustrados en el sistema
 ![Graficos ](./Imagenes_git/Graficos.png)
     
 
