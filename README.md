@@ -11,6 +11,13 @@ Sistema web desarrollado para recibir datos de procesos a través de archivos ex
 - Angular js
 - Mysql
 
+## Diagrama de flujo del sistema
+
+![Panel Principal](./Imagenes_git/Diagrama.png)
+
+- Este sistema utiliza AngularJS en el front-end para crear una interfaz dinámica, mientras que Node.js con Express gestiona el back-end, conectándose a una base de datos MySQL. Además, emplea bibliotecas de gráficos como es zingchartjs para visualizar datos obtenidos de MySQL, permitiendo una representación gráfica de la información almacenada.
+
+
 ## Imágenes de muestra
 
 - Panel principal del sistema web, en la parte izquierda existe un menú de opciones para diferentes secciones del sistema
